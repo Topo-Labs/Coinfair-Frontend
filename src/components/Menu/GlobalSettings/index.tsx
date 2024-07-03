@@ -14,18 +14,19 @@ export const GlobalSettings = ({ color, mr = '8px', mode }: Props) => {
     <Flex>
       <IconButton
         onClick={onPresentSettingsModal}
-        variant="text"
+        variant='text'
         scale="sm"
         mr={mr}
+        mt={'-1px'}
         id={`open-settings-dialog-button-${mode}`}
       >
-        <CogIcon height={20} width={20} color={color} />
+        <CogIcon height={18} width={18} color={color} />
       </IconButton>
     </Flex>
   )
 }
 
-export const GlobalSettings2 = ({ color, mr = '8px', mode }: Props) => {
+export const GlobalSettings2 = ({ color, mr = '0', mode }: Props) => {
   const [onPresentSettingsModal] = useModal(<SettingsModal mode={mode} />)
 
   return (
@@ -37,7 +38,7 @@ export const GlobalSettings2 = ({ color, mr = '8px', mode }: Props) => {
         mr={mr}
         id={`open-settings-dialog-button-${mode}`}
       >
-        <CogIcon2 height={24} width={24} color={color} />
+        <CogIcon2 height={18} width={18} color={color} />
       </IconButton>
     </Flex>
   )

@@ -356,7 +356,7 @@ const UserNameSkeleton = styled.div`
 const SecondPageTopBar = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 14px 24px 6px;
+  padding: 14px 0 6px;
   @media screen and (max-width: 576px) {
     padding: 14px 0px 6px;
   }

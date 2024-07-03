@@ -1,0 +1,3 @@
+# Typescript
+*.env
+node_modules

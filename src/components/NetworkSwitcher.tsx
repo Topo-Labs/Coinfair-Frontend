@@ -23,7 +23,8 @@ export const NetworkSelect = () => {
       <Box px="16px" py="8px">
         <Text>{t('Select a Network')}</Text>
       </Box>
-      <UserMenuDivider />
+      {/* <UserMenuDivider /> */}
+      {SUPPORTED_CHAINS.length ? <UserMenuDivider /> : null}
       {SUPPORTED_CHAINS.map((chain) => (
         <UserMenuItem key={chain} style={{ justifyContent: 'flex-start' }} onClick={() => setupNetwork(parseInt(chain))}>
           <Image width={24} height={24} src={`/images/chains/${chain}.png`} unoptimized />

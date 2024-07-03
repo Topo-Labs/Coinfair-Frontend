@@ -21,7 +21,7 @@ const ConnectWalletButton = ({ children, ...props }: ButtonProps) => {
   }
 
   return (
-    <Button onClick={handleClick} {...props} style={{ background: 'linear-gradient(90deg,#EB3DFF 0%,#5C53D3 100%)', borderRadius: '28px' }}>
+    <Button onClick={handleClick} {...props} style={{ boxShadow: 'none', background: 'linear-gradient(90deg,#EB3DFF 0%,#5C53D3 100%)', borderRadius: '28px' }}>
       {children || <Trans>Connect Wallet</Trans>}
     </Button>
   )

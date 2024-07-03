@@ -12,18 +12,18 @@ import { UserMenuItem } from "./styles";
 
 export const StyledUserMenu = styled(Flex)`
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.tertiary};
+  background-color: #e9e9e9;
   border-radius: 16px;
-  box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
+  // box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: inline-flex;
   height: 32px;
   padding-left: 24px;
   padding-right: 4px;
   position: relative;
-
+  transition: opacity .3s;
   &:hover {
-    opacity: 0.65;
+    opacity: 0.6;
   }
 `;
 
@@ -35,13 +35,13 @@ export const LabelText = styled.div`
   ${({ theme }) => theme.mediaQueries.sm} {
     display: block;
     margin-left: 8px;
-    margin-right: 4px;
+    // margin-right: 4px;
   }
 `;
 
 const Menu = styled.div<{ isOpen: boolean }>`
   background-color: ${({ theme }) => theme.card.background};
-  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  // border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   border-radius: 16px;
   padding-bottom: 4px;
   padding-top: 4px;
@@ -135,7 +135,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <LabelText title={bnbName || text || account}>
           {bnbName || text || accountEllipsis}
         </LabelText>
-        <ChevronDownIcon color="text" width="24px" />
+        <ChevronDownIcon color="text" width="18px" />
       </StyledUserMenu>
       <Menu style={styles.popper} ref={setTooltipRef} {...attributes.popper} isOpen={isOpen}>
         <Box onClick={() => setIsOpen(false)}> {children?.({ isOpen })}</Box>

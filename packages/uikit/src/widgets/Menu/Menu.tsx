@@ -21,14 +21,14 @@ const Wrapper = styled.div`
 
 const StyledNav = styled.nav`
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: ${MENU_HEIGHT}px;
   background-color: ${({ theme }) => theme.nav.background};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  box-shadow: 2px 2px 10px #eeeeee;
   transform: translate3d(0, 0, 0);
-
   padding-left: 16px;
   padding-right: 16px;
 `;
@@ -137,15 +137,17 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           <StyledNav>
             <Flex>
               <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
+            </Flex>
+            <Flex>
               {isDesktop ? <SubMenuItems items={subLinksWithoutMobile} activeItem={activeSubItem} /> : null}
             </Flex>
-            <Flex alignItems="center" height="100%">
-              <Box mt="4px">
+            <Flex alignItems="center" justifyContent={'center'} height="100%">
+              <Box>
                 <LangSelector
                   currentLang={currentLang}
                   langs={langs}
                   setLang={setLang}
-                  buttonScale="xs"
+                  buttonScale='xs'
                   color="textSubtle"
                   hideLanguage
                 />

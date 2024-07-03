@@ -60,7 +60,7 @@ const Container = styled.div<{ zapStyle?: ZapStyle; error?: boolean; isDark?: bo
   /*background-color: ${({ theme }) => theme.colors.input};*/
   border: ${({ isDark }) => isDark ? '1px solid #372F47' : '1px solid #f6f5fe'};
   background-color: ${({ isDark }) => isDark ? '#372F47' : '#f6f5fe'};
-  box-shadow: ${({ theme, error }) => theme.shadows[error ? 'warning' : 'inset']};
+  /* box-shadow: ${({ theme, error }) => theme.shadows[error ? 'warning' : 'inset']}; */
 `
 
 const StyledText = styled(Text)`

@@ -141,7 +141,7 @@ export const BUSD: Record<ChainId, Token> = {
     6,
     'USDT',
     'USDT',
-    '',
+    ''
   ),
   [ChainId.opBNB]: new Token(
     ChainId.opBNB,
@@ -149,7 +149,7 @@ export const BUSD: Record<ChainId, Token> = {
     6,
     'USDT',
     'USDT',
-    '',
+    ''
   ),
   [ChainId.BSC]: BUSD_MAINNET,
   [ChainId.BSC_TESTNET]: BUSD_TESTNET,
@@ -159,8 +159,13 @@ export const BUSD: Record<ChainId, Token> = {
     18,
     'BUSD',
     'Binance USD',
-    'https://www.paxos.com/busd/',
+    'https://www.paxos.com/busd/'
   ),
+  [ChainId.ETHEREUM]: undefined,
+  [ChainId.ARB]: undefined,
+  [ChainId.ZKSYNC]: undefined,
+  [ChainId.ZKSYNC_TESTNET]: undefined,
+  [ChainId.SCROLL_TESTNET]: undefined
 }
 
 export const bscTokens = {

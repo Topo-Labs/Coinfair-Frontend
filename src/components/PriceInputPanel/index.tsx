@@ -59,6 +59,7 @@ overflow: hidden;
 `
 const Container = styled.div<{ zapStyle?: ZapStyle; error?: boolean; isDark?: boolean }>`
 border - radius: 16px;
+width: 100%;
 /*background-color: ${({ theme }) => theme.colors.input};*/
 /* box - shadow: ${({ theme, error }) => theme.shadows[error ? 'warning' : 'inset']}; */
   border: ${({ isDark }) => isDark ? '1px solid #372F47' : '1px solid #f6f5fe'};
@@ -66,7 +67,7 @@ border - radius: 16px;
   ${({ zapStyle }) =>
     !!zapStyle &&
     css`
-      border-radius: 0px 16px 16px 16px;
+      border-radius: 16px 16px 16px 16px;
     `};
 `
 

@@ -17,7 +17,7 @@ export const StyledUserMenu = styled(Flex)`
   // box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: inline-flex;
-  height: 32px;
+  height: 28px;
   padding-left: 24px;
   padding-right: 4px;
   position: relative;

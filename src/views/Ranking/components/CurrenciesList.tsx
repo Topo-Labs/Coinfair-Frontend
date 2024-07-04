@@ -9,6 +9,10 @@ import { useMatchBreakpointsContext, useOnClickOutside } from "@pancakeswap/uiki
 import useRankingInfo from "../../../hooks/useRankingInfo";
 import PageBtnList from "./PageBtnList";
 
+const ListBody = styled.div`
+  width: 100%;
+`
+
 const TopBar = styled.div`
   margin: 14px 0;
   display: flex;
@@ -584,7 +588,7 @@ export default function CurrenciesList({ type, setIsShowMenu }) {
   }, [timeList])
 
   return (
-    <>
+    <ListBody>
       <TopBar />
       {
         tokenAddress !== '0' ?
@@ -742,6 +746,6 @@ export default function CurrenciesList({ type, setIsShowMenu }) {
           <PageBtnList page={secondPage} currentPage={page2CurrentPage} setCurrentPage={setPage2CurrentPage} />
         </Right>
       </ListWrapper>
-    </>
+    </ListBody>
   )
 }

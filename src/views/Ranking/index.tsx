@@ -8,6 +8,9 @@ import CurrenciesList from './components/CurrenciesList'
 
 const RankPage = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 const ReferenceElement = styled.div`
@@ -81,11 +84,24 @@ const MenuItem = styled.div`
   }
 `
 
+const RankBody = styled.div`
+  background: #fff;
+  border-radius: 16px;
+`
 
 const TopBar = styled.div`
   margin: 14px 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+`
+
+const FilterBox = styled.div`
+  background: #fff;
+  display: flex;
+  padding-left: 50px;
+  padding-right: 20px;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
 `
 
 const SubTab = styled.div`
@@ -393,7 +409,8 @@ export default function Ranking() {
                     fontSize: 16,
                     fontWeight: 400,
                     flex: 0,
-                    marginRight: '40px'
+                    marginRight: '20px',
+                    marginLeft: '20px'
                   }}
                   onClick={() => {
                   setListType('Wealth')
@@ -405,7 +422,8 @@ export default function Ranking() {
                     fontSize: 16,
                     fontWeight: 400,
                     flex: 0,
-                    marginRight: '40px'
+                    marginRight: '20px',
+                    marginLeft: '20px'
                   }}
                   onClick={() => {
                   setListType('Trending')
@@ -417,7 +435,8 @@ export default function Ranking() {
                     fontSize: 16,
                     fontWeight: 400,
                     flex: 0,
-                    marginRight: '40px'
+                    marginRight: '20px',
+                    marginLeft: '20px'
                   }}
                   onClick={() => {
                   setListType('Currencies')
@@ -432,52 +451,58 @@ export default function Ranking() {
                   <SubTab>
                     {subTab}
                   </SubTab>
-                  <FilterTimeWrapper ref={node as any} onClick={(e) => {
-                    e.preventDefault()
-                    setVisible(!visible);
-                  }}>
-                    <FilterTime>{timeType.value}</FilterTime>
-                    <span className={visible ? 'active' : ''} />
-                    {
-                      visible ? menu : null
-                    }
-                  </FilterTimeWrapper>
-                </TopBar> : null
-            }
-          </> :
-          <>
-            {
-              isShowMenu ? <TopBar>
-                <Menu>
-                  <MenuItem className={listType === 'Wealth' ? 'active left' : 'left'} onClick={() => {
-                    setListType('Wealth')
-                    setType('recommend')
-                  }}>{t('dcsEarnings')}</MenuItem>
-                  <MenuItem className={listType === 'Trending' ? 'active' : ''} onClick={() => {
-                    setListType('Trending')
-                    setType('income')
-                  }}>{t('dcsTrendingKOL')}</MenuItem>
-                  <MenuItem className={listType === 'Currencies' ? 'active right' : 'right'} onClick={() => {
-                    setListType('Currencies')
-                    setType('')
-                  }}>{t('dcsToken')}</MenuItem>
-                </Menu>
-                {
-                  listType !== 'Currencies' ?
-                    <FilterTimeWrapper onClick={(e) => {
+                  <FilterBox>
+                    <FilterTimeWrapper ref={node as any} onClick={(e) => {
                       e.preventDefault()
-                      if (!visible) {
-                        setVisible(true)
-                      }
+                      setVisible(!visible);
                     }}>
                       <FilterTime>{timeType.value}</FilterTime>
                       <span className={visible ? 'active' : ''} />
                       {
                         visible ? menu : null
                       }
-                    </FilterTimeWrapper> : <div />
-                }
-              </TopBar> : null
+                    </FilterTimeWrapper>
+                  </FilterBox>
+                </TopBar> : null
+            }
+          </> :
+          <>
+            {
+              isShowMenu ? 
+              <RankBody>
+                <TopBar>
+                  <Menu>
+                    <MenuItem className={listType === 'Wealth' ? 'active left' : 'left'} onClick={() => {
+                      setListType('Wealth')
+                      setType('recommend')
+                    }}>{t('dcsEarnings')}</MenuItem>
+                    <MenuItem className={listType === 'Trending' ? 'active' : ''} onClick={() => {
+                      setListType('Trending')
+                      setType('income')
+                    }}>{t('dcsTrendingKOL')}</MenuItem>
+                    <MenuItem className={listType === 'Currencies' ? 'active right' : 'right'} onClick={() => {
+                      setListType('Currencies')
+                      setType('')
+                    }}>{t('dcsToken')}</MenuItem>
+                  </Menu>
+                  {
+                    listType !== 'Currencies' ?
+                      <FilterTimeWrapper onClick={(e) => {
+                        e.preventDefault()
+                        if (!visible) {
+                          setVisible(true)
+                        }
+                      }}>
+                        <FilterTime>{timeType.value}</FilterTime>
+                        <span className={visible ? 'active' : ''} />
+                        {
+                          visible ? menu : null
+                        }
+                      </FilterTimeWrapper> : <div />
+                  }
+                </TopBar> 
+              </RankBody>
+              : null
             }
             {
               isShowMenu ? <Line /> : null

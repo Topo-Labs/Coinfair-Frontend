@@ -31,7 +31,18 @@ const StyledNav = styled.nav`
   transform: translate3d(0, 0, 0);
   padding-left: 16px;
   padding-right: 16px;
+  position: relative;
 `;
+
+const HeaderNav = styled.div`
+  width: fit-content;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+`
 
 const FixedContainer = styled.div<{ showMenu: boolean; height: number }>`
   position: fixed;
@@ -138,9 +149,11 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             <Flex>
               <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
             </Flex>
-            <Flex>
-              {isDesktop ? <SubMenuItems items={subLinksWithoutMobile} activeItem={activeSubItem} /> : null}
-            </Flex>
+            <HeaderNav>
+              <Flex>
+                {isDesktop ? <SubMenuItems style={{marginTop: 8}} items={subLinksWithoutMobile} activeItem={activeSubItem} /> : null}
+              </Flex>
+            </HeaderNav>
             <Flex alignItems="center" justifyContent={'center'} height="100%">
               <Box>
                 <LangSelector

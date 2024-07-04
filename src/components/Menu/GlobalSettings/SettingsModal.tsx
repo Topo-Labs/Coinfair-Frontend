@@ -85,10 +85,10 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
               >
                 {t('Global')}
               </Text>
-              <Flex justifyContent="space-between" mb="24px">
+              {/* <Flex justifyContent="space-between" mb="24px">
                 <Text style={{ fontSize: '14px' }}>{t('Dark mode')}</Text>
                 <ThemeSwitcher isDark={isDark} toggleTheme={() => setTheme(isDark ? 'light' : 'dark')} />
-              </Flex>
+              </Flex> */}
               <Flex justifyContent="space-between" alignItems="center" mb="24px">
                 <Flex alignItems="center">
                   <Text>{t('Subgraph Health Indicator')}</Text>

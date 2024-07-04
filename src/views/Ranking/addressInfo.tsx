@@ -413,9 +413,7 @@ const DetailsPage: React.FC<React.PropsWithChildren<{ address: string }>> = ({ a
           <TopBarLeft>
             <Avatar
               src={info?.icon}
-
             />
-
             <InfoWrapper>
               <NickName>{info?.name}</NickName>
               <Address>

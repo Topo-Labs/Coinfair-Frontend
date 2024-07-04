@@ -27,7 +27,7 @@ const AppHeader: React.FC<React.PropsWithChildren<Props>> = ({ title, subtitle, 
 
   return (
     <AppHeaderContainer>
-      <Flex alignItems="center" width="100%" style={{ gap: '0' }}>
+      <Flex width="100%" style={{ gap: '0' }}>
         {backTo &&
           (typeof backTo === 'string' ? (
             <Link passHref href={backTo}>

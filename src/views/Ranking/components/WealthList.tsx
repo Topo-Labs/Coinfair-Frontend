@@ -28,8 +28,8 @@ const ListItem = styled.div`
 `
 
 const Avatar = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   margin: 0px;
   @media screen and (max-width: 852px) {

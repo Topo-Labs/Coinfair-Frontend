@@ -32,7 +32,7 @@ const Airdop: React.FC<React.PropsWithChildren> = () => {
         {
           isSupportChain ?
               <Wrapper onClick={onAirdopModal}>
-                {t('airdop_click_claim_test_coins')}
+                {/* {t('airdop_click_claim_test_coins')} */}
               </Wrapper> : null
         }
       </>

@@ -79,7 +79,7 @@ const ResetCSS = createGlobalStyle`
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar {
+  /* ::-webkit-scrollbar {
     width: 8px;
   }
   ::-webkit-scrollbar-thumb {
@@ -89,7 +89,7 @@ const ResetCSS = createGlobalStyle`
   ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px ${({ theme }) => theme.colors.input}; 
     border-radius: 10px;
-  }
+  } */
 
   /* Slider */ 
   input[type=range] {

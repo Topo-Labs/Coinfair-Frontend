@@ -192,7 +192,7 @@ export default function WealthList({ timeType, type, pageName }) {
         <Index>
           <Skeleton width={20} />
         </Index>
-        <Skeleton width={48} height={48} circle style={!isDesktop ? { marginLeft: '12px' } : {}} />
+        <Skeleton width={36} height={36} circle style={!isDesktop ? { marginLeft: '12px' } : {}} />
         {
           !isDesktop ?
             <>

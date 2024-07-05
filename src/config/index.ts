@@ -23,37 +23,37 @@ export enum ChainId {
 export const BSC_BLOCK_TIME = 3
 
 export const NETWORK_CONFIG = {
-  [ChainId.GOERLI]: {
-    name: 'Goerli',
-    network: 'Goerli',
-    scanURL: 'https://goerli.etherscan.io',
-    rpcUrls: ['https://goerli.infura.io/v3/'],
-    scan: 'ETHScan',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '0xd8855b79656E023F1D14E3697aBF1222d61ddD5d',
-      blockCreated: 9105236,
-    },
-    testnet: true,
-  },
+  // [ChainId.GOERLI]: {
+  //   name: 'Goerli',
+  //   network: 'Goerli',
+  //   scanURL: 'https://goerli.etherscan.io',
+  //   rpcUrls: ['https://goerli.infura.io/v3/'],
+  //   scan: 'ETHScan',
+  //   decimals: 18,
+  //   tokenName: 'ETH',
+  //   symbol: 'ETH',
+  //   multicall: {
+  //     address: '0xd8855b79656E023F1D14E3697aBF1222d61ddD5d',
+  //     blockCreated: 9105236,
+  //   },
+  //   testnet: true,
+  // },
 
-  [ChainId.ETHEREUM]: {
-    name: 'Ethereum',
-    network: 'ether',
-    scanURL: 'https://etherscan.io',
-    rpcUrls: ['https://mainnet.infura.io/v3/'],
-    scan: 'ETHScan',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '0xd8855b79656E023F1D14E3697aBF1222d61ddD5d',
-      blockCreated: 9105236,
-    },
-    testnet: false,
-  },
+  // [ChainId.ETHEREUM]: {
+  //   name: 'Ethereum',
+  //   network: 'ether',
+  //   scanURL: 'https://etherscan.io',
+  //   rpcUrls: ['https://mainnet.infura.io/v3/'],
+  //   scan: 'ETHScan',
+  //   decimals: 18,
+  //   tokenName: 'ETH',
+  //   symbol: 'ETH',
+  //   multicall: {
+  //     address: '0xd8855b79656E023F1D14E3697aBF1222d61ddD5d',
+  //     blockCreated: 9105236,
+  //   },
+  //   testnet: false,
+  // },
 
   [ChainId.BSC]: {
     name: 'BNB Smart Chain',
@@ -116,77 +116,77 @@ export const NETWORK_CONFIG = {
     },
     testnet: true,
   },
-  [ChainId.ARB_TESTNET]: {
-    name: 'ARB Smart Chain Testnet',
-    network: 'arb-testnet',
-    scanURL: 'https://goerli.arbiscan.io',
-    rpcUrls: [
-      'https://goerli-rollup.arbitrum.io/rpc'
-    ],
-    scan: 'ARBScan',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '0x654dfDf027386296591b21b8d7E61977cD5571Ee',
-      blockCreated: 20503403,
-    },
-    testnet: true,
-  },
-  [ChainId.ARB]: {
-    name: 'ARB Smart Chain',
-    network: 'arb mainnet',
-    scanURL: 'https://arbiscan.io/',
-    rpcUrls: [
-      'https://arbitrum.public-rpc.com'
-    ],
-    scan: 'ARBScan',
-    nativeCurrency: {
-      decimals: 18,
-      name: 'ETH',
-      symbol: 'ETH',
-    },
-    decimals: 18,
-    multicall: {
-      address: '0x654dfDf027386296591b21b8d7E61977cD5571Ee',
-      blockCreated: 20503403,
-    },
-    testnet: false,
-  },
-  [ChainId.ZKSYNC]: {
-    name: 'zkSync EAR',
-    network: 'zkSyncera-mainnet',
-    scanURL: 'https://explorer.zksync.io/',
-    rpcUrls: [
-      'https://mainnet.era.zksync.io'
-    ],
-    scan: 'explorer',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '',
-      blockCreated: 0,
-    },
-    testnet: false,
-  },
-  [ChainId.ZKSYNC_TESTNET]: {
-    name: 'zkSync EAR Testnet',
-    network: 'zkSyncera-testnet',
-    scanURL: 'https://goerli.explorer.zksync.io/',
-    rpcUrls: [
-      'https://testnet.era.zksync.dev'
-    ],
-    scan: 'explorer',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '',
-      blockCreated: 0,
-    },
-    testnet: true,
-  },
+  // [ChainId.ARB_TESTNET]: {
+  //   name: 'ARB Smart Chain Testnet',
+  //   network: 'arb-testnet',
+  //   scanURL: 'https://goerli.arbiscan.io',
+  //   rpcUrls: [
+  //     'https://goerli-rollup.arbitrum.io/rpc'
+  //   ],
+  //   scan: 'ARBScan',
+  //   decimals: 18,
+  //   tokenName: 'ETH',
+  //   symbol: 'ETH',
+  //   multicall: {
+  //     address: '0x654dfDf027386296591b21b8d7E61977cD5571Ee',
+  //     blockCreated: 20503403,
+  //   },
+  //   testnet: true,
+  // },
+  // [ChainId.ARB]: {
+  //   name: 'ARB Smart Chain',
+  //   network: 'arb mainnet',
+  //   scanURL: 'https://arbiscan.io/',
+  //   rpcUrls: [
+  //     'https://arbitrum.public-rpc.com'
+  //   ],
+  //   scan: 'ARBScan',
+  //   nativeCurrency: {
+  //     decimals: 18,
+  //     name: 'ETH',
+  //     symbol: 'ETH',
+  //   },
+  //   decimals: 18,
+  //   multicall: {
+  //     address: '0x654dfDf027386296591b21b8d7E61977cD5571Ee',
+  //     blockCreated: 20503403,
+  //   },
+  //   testnet: false,
+  // },
+  // [ChainId.ZKSYNC]: {
+  //   name: 'zkSync EAR',
+  //   network: 'zkSyncera-mainnet',
+  //   scanURL: 'https://explorer.zksync.io/',
+  //   rpcUrls: [
+  //     'https://mainnet.era.zksync.io'
+  //   ],
+  //   scan: 'explorer',
+  //   decimals: 18,
+  //   tokenName: 'ETH',
+  //   symbol: 'ETH',
+  //   multicall: {
+  //     address: '',
+  //     blockCreated: 0,
+  //   },
+  //   testnet: false,
+  // },
+  // [ChainId.ZKSYNC_TESTNET]: {
+  //   name: 'zkSync EAR Testnet',
+  //   network: 'zkSyncera-testnet',
+  //   scanURL: 'https://goerli.explorer.zksync.io/',
+  //   rpcUrls: [
+  //     'https://testnet.era.zksync.dev'
+  //   ],
+  //   scan: 'explorer',
+  //   decimals: 18,
+  //   tokenName: 'ETH',
+  //   symbol: 'ETH',
+  //   multicall: {
+  //     address: '',
+  //     blockCreated: 0,
+  //   },
+  //   testnet: true,
+  // },
   [ChainId.SCROLL_TESTNET]: {
     name: 'Scroll Sepolia',
     network: 'Scroll Sepolia',

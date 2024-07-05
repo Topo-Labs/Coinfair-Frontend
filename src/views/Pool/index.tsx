@@ -106,7 +106,7 @@ export default function Pool() {
     <Page>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle="" />
-        <Text color={theme.colors.contrast} p={[0, 17]} fontSize="12px">
+        {/* <Text color={theme.colors.contrast} p={[0, 17]} fontSize="12px">
           <TextCenter>{t('liquidityTitle')}</TextCenter>
           {t('liquidityText1')}
           <br />
@@ -127,7 +127,7 @@ export default function Pool() {
               </> : null
           }
           <div role="button" tabIndex="0" onKeyDown={() => { setMore(!isMore) }} style={{ zoom: '0.96', color: '#5c53d3', cursor: 'pointer', textAlign: 'right' }} onClick={() => { setMore(!isMore) }}>{isMore ? t('hide') : t('more')}</div>
-        </Text>
+        </Text> */}
         <Body
         >
           {renderBody()}
@@ -182,7 +182,7 @@ export default function Pool() {
               <ArrowBackIcon width="22px" />
             </IconButton>
           </div>
-          <div
+          {/* <div
             style={{
               fontFamily: 'Inter',
               fontSize: '12px',
@@ -211,7 +211,7 @@ export default function Pool() {
                 </> : null
             }
             <div role="button" tabIndex="0" onKeyDown={() => { setMore(!isMore) }} style={{ zoom: '0.96', color: '#5c53d3', cursor: 'pointer', textAlign: 'right' }} onClick={() => { setMore(!isMore) }}>{isMore ? t('hide') : t('more')}</div>
-          </div>
+          </div> */}
         </div>
         <div
           style={{

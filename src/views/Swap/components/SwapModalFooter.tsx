@@ -99,7 +99,7 @@ export default function SwapModalFooter({
             </Text>
           </RowFixed>
         </RowBetween>
-        <RowBetween>
+        {/* <RowBetween>
           <RowFixed>
             <Text fontSize="14px">{t('Price Impact')}</Text>
             <QuestionHelper
@@ -108,7 +108,7 @@ export default function SwapModalFooter({
             />
           </RowFixed>
           <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
-        </RowBetween>
+        </RowBetween> */}
         <RowBetween>
           <RowFixed>
             <Text fontSize="14px">{t('Liquidity Provider Fee')}</Text>

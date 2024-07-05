@@ -220,7 +220,7 @@ export default function AddWhiteList() {
             {/* <Text color="dark" fontSize="12px">
               {t('whiteListText')}
             </Text> */}
-            <Text color="dark" fontSize="12px">
+            {/* <Text color="dark" fontSize="12px">
               <TextCenter>{t('liquidityTitle')}</TextCenter>
               {t('liquidityText1')}
               <br />
@@ -241,7 +241,7 @@ export default function AddWhiteList() {
                   </> : null
               }
               <div role="button" tabIndex={0} onKeyDown={() => { setMore(!isMore) }} style={{ zoom: '0.96', color: '#5c53d3', cursor: 'pointer', textAlign: 'right' }} onClick={() => { setMore(!isMore) }}>{isMore ? t('hide') : t('more')}</div>
-            </Text>
+            </Text> */}
             <AutoColumn gap="10px">
               <Subtitle>{t('accountAddress')}</Subtitle>
               <AddressInputArea

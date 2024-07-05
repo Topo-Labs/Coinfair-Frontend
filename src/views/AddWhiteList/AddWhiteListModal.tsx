@@ -80,7 +80,7 @@ const AddWhiteListModal: React.FC<
       <Flex style={{ color: isDark ? "#FFFFFF" : "#000000" }} flexDirection="column" alignItems="baseline" justifyContent="center" maxWidth="320px">
         <StyledTitle >{title}</StyledTitle>
         {/* <StyledText>{t('whiteListText')}</StyledText> */}
-        <StyledText >
+        {/* <StyledText >
           <TextCenter >{t('liquidityTitle')}</TextCenter>
           {t('liquidityText1')}
           <br />
@@ -101,7 +101,7 @@ const AddWhiteListModal: React.FC<
               </> : null
           }
           <div role="button" tabIndex="0" onKeyDown={() => { setMore(!isMore) }} style={{ zoom: '0.96', color: '#5c53d3', cursor: 'pointer', textAlign: 'right' }} onClick={() => { setMore(!isMore) }}>{isMore ? t('hide') : t('more')}</div>
-        </StyledText>
+        </StyledText> */}
         <StyledSubTitle >
           <span>
             {t('accountAddress')}

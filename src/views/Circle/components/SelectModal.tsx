@@ -20,7 +20,6 @@ const ProjectPriceValue = styled.div`
 const ProjectInfo = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
   cursor: pointer;
 `
 
@@ -86,9 +85,9 @@ const SelectModal: React.FC<React.PropsWithChildren<ModalProps>> = ({ onDismiss,
                           <ProjectTokenName>{project?.symbol}</ProjectTokenName>
                         </ProjectToken>
                       </ProjectInfo>
-                      <ProjectPrice>
+                      {/* <ProjectPrice>
                         <ProjectPriceValue>{new BigNumber(project?.price).toFixed(2)}</ProjectPriceValue>
-                      </ProjectPrice>
+                      </ProjectPrice> */}
                     </CurrentProject>
                 )) : null
           }

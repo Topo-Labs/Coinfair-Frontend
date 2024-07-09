@@ -679,7 +679,9 @@ export default function CurrenciesList({ type, setIsShowMenu }) {
                             item?.symbol ?
                               <>
                                 <ValueLeft>
-                                  <Price>{`${toStringAmt(item.price)} ${item.unit}`}</Price>
+                                  <Price>
+                                    {/* {`${toStringAmt(item.price)} ${item.unit}`} */}
+                                  </Price>
                                   <Vol>{`Vol ${toStringAmt(item.vol)}`}</Vol>
                                 </ValueLeft>
                                 {/* <Rate>{`+${item.rate}%`}</Rate> */}

@@ -20,15 +20,18 @@ import { isAddress } from '../utils'
 import { useBytes32TokenContract, useTokenContract } from './useContract'
 import { PE } from "../config/constants/tokens";
 
-const mapWithoutUrls = (tokenMap: TokenAddressMap, chainId: number) =>
-  Object.keys(tokenMap[chainId]).reduce<{ [address: string]: Token }>((newMap, address) => {
+const mapWithoutUrls = (tokenMap: TokenAddressMap, chainId: number) => {
+  console.log(tokenMap, chainId, 456456)
+  return Object.keys(tokenMap[chainId]).reduce<{ [address: string]: Token }>((newMap, address) => {
     newMap[address] = tokenMap[chainId][address].token
     return newMap
   }, {})
+}
 
-const allTokenSelector = (chainId: number) =>
 
-  createSelector(
+const allTokenSelector = (chainId: number) => {
+  console.log(chainId)
+  return createSelector(
     [combinedTokenMapFromActiveUrlsSelector, userAddedTokenSelector(chainId)],
     (tokenMap, userAddedTokens) => {
       return (
@@ -46,6 +49,8 @@ const allTokenSelector = (chainId: number) =>
       )
     },
   )
+}
+  
 
 const allOfficialsAndUserAddedTokensSelector = (chainId: number) =>
   createSelector(

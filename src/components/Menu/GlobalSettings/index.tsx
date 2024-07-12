@@ -17,7 +17,7 @@ export const GlobalSettings = ({ color, mr = '8px', mode }: Props) => {
         variant='text'
         scale="sm"
         mr={mr}
-        mt={'-1px'}
+        mt='-1px'
         id={`open-settings-dialog-button-${mode}`}
       >
         <CogIcon height={18} width={18} color={color} />

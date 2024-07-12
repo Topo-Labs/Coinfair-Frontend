@@ -86,12 +86,12 @@ export const swapFormulaList = [
   {
     label: 'ES I',
     value: 'P=4Y/X',
-    alias: 'New Listings',
+    alias: 'EQswap Air',
   },
   {
     label: 'ES II',
     value: 'P=32Y/X',
-    alias: 'Top Coins',
+    alias: 'EQswap Pro',
   },
   {
     label: 'ES III',

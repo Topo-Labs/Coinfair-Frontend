@@ -15,6 +15,7 @@ export const SUPPORTED_CHAINS = chainsIdList.filter((chain) => {
   return false
 })
 
+
 export const NetworkSelect = () => {
   const { t } = useTranslation()
 

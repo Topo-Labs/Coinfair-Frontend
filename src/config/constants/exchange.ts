@@ -1,15 +1,16 @@
 import { ChainId, JSBI, Percent, Token } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
-import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken } from './tokens'
+import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken } from './tokens'
 import { ChainTokenList } from './types'
 
 export const ROUTER_ADDRESS = {
   [ChainId.GOERLI]: '0x76155E29e441559B7b047d75E079F13b8F9179b9',
   [ChainId.BSC]: '0x85C47Fe0aD03e09E87fe1987b04aff01861e6e04',
-  [ChainId.BSC_TESTNET]: '0xdB2A57d8d01F2B9E44e9B20d31bca6875cF58BEa',
+  [ChainId.BSC_TESTNET]: '0x66378b7abED49802798923998a8239f6f57cF39D',
   [ChainId.ARB_TESTNET]: '0x0B0c953Ac2DB11c469aA90D780594A3B6B87F7e3',
   [ChainId.opBNB]: '0x45500361eAEe1030a4e76f59396F10f1C5374Fb6',
   [ChainId.SCROLL_TESTNET]: '0xDC80625F25C2d78082F78610eEAC7dc28b5259F2',
+  [ChainId.SCROLL]: '0x95074bFCC3bF400E6De39cd553e3b51Bd7619925'
 }
 
 export const AIRDOP_ADDRESS = {
@@ -45,7 +46,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
-  [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.USDT, scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3]
+  [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.USDT, scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
+  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
 }
 
 /**
@@ -76,7 +78,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
-  [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3]
+  [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
+  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -90,7 +93,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
-  [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3]
+  [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
+  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

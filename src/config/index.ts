@@ -18,6 +18,7 @@ export enum ChainId {
   ZKSYNC = 324,
   ZKSYNC_TESTNET = 280,
   SCROLL_TESTNET = 534351,
+  SCROLL = 534352,
 }
 
 export const BSC_BLOCK_TIME = 3
@@ -74,28 +75,28 @@ export const NETWORK_CONFIG = {
     },
     testnet: false,
   },
-  [ChainId.BSC_TESTNET]: {
-    name: 'BNB Smart Chain Testnet',
-    network: 'bsc-testnet',
-    scanURL: 'https://testnet.bscscan.com',
-    rpcUrls: [
-      'https://bsc-testnet.publicnode.com',
-      'https://data-seed-prebsc-1-s1.binance.org:8545',
-      'https://data-seed-prebsc-2-s1.binance.org:8545'
-    ],
-    scan: 'BSCTestScan',
-    tokenName: 'BNB',
-    symbol: 'BNB',
-    decimals: 18,
-    blockExplorers: {
-      default: { name: 'BscScan', url: 'https://testnet.bscscan.com' },
-    },
-    multicall: {
-      address: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
-      blockCreated: 9759845,
-    },
-    testnet: true,
-  },
+//   [ChainId.BSC_TESTNET]: {
+//     name: 'BNB Smart Chain Testnet',
+//     network: 'bsc-testnet',
+//     scanURL: 'https://testnet.bscscan.com',
+//     rpcUrls: [
+//       'https://bsc-testnet.publicnode.com',
+//       'https://data-seed-prebsc-1-s1.binance.org:8545',
+//       'https://data-seed-prebsc-2-s1.binance.org:8545'
+//     ],
+//     scan: 'BSCTestScan',
+//     tokenName: 'BNB',
+//     symbol: 'BNB',
+//     decimals: 18,
+//     blockExplorers: {
+//       default: { name: 'BscScan', url: 'https://testnet.bscscan.com' },
+//     },
+//     multicall: {
+//       address: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
+//       blockCreated: 9759845,
+//     },
+//     testnet: true,
+//   },
   [ChainId.opBNB]: {
     name: 'opBNB Mainnet',
     network: 'opBNB-Mainnet',
@@ -203,6 +204,23 @@ export const NETWORK_CONFIG = {
       blockCreated: 0,
     },
     testnet: true,
+  },
+  [ChainId.SCROLL]: {
+    name: 'Scroll',
+    network: 'Scroll',
+    scanURL: 'https://scrollscan.com/',
+    rpcUrls: [
+      'https://go.getblock.io/caf7aeb78b4447feb91173da91d22ca2'
+    ],
+    scan: 'explorer',
+    decimals: 18,
+    tokenName: 'ETH',
+    symbol: 'ETH',
+    multicall: {
+      address: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
+      blockCreated: 7162653,
+    },
+    testnet: false,
   },
 }
 

@@ -36,7 +36,7 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
 import { parsePoolData, fetchPoolData, FormattedPoolFields } from '../info/queries/pools/poolData'
-import { PE, PV, USDT, opBNBTokens } from "../../config/constants/tokens";
+import { PE, PV, USDT, opBNBTokens, scrollToken } from "../../config/constants/tokens";
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -215,6 +215,11 @@ export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: st
     case "204":
       inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || opBNBTokens.PV001.address
       outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || opBNBTokens.PV002.address
+      break;
+
+    case "534352":
+      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.WBTC.address
+      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.USDT.address
       break;
     default:
       // console.log();

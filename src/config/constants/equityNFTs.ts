@@ -12,4 +12,9 @@ export const NFTsInfo = {
     NFTsContract: "0x8339B2aCCd521a0641C1De51f76AaD20303fea96",
     MintPrice: 0.00022,
   },
+  [ChainId.BSC_TESTNET]: {
+    BatchMintContract: "0xccED5AC4739abbE5af4f04dc1d73826357Ba93b2",
+    NFTsContract: "0x4F4df07c8e937F81655da8c6144CD3b49bFe1Db2",
+    MintPrice: 0.00022,
+  },
 }

@@ -130,6 +130,22 @@ export const WBNB = {
     'WBNB',
     ''
   ),
+  [ChainId.SCROLL]: new Token(
+    ChainId.SCROLL,
+    '0x3C1BCa5a656e69edCD0D4E36BEbb3FcDAcA60Cf1',
+    18,
+    'WBTC',
+    'WBTC',
+    ''
+  ),
+  [ChainId.SCROLL]: new Token(
+    ChainId.SCROLL,
+    '0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df',
+    18,
+    'USDT',
+    'USDT',
+    ''
+  ),
 }
 
 export const WNATIVE = {
@@ -140,5 +156,7 @@ export const WNATIVE = {
   [ChainId.BSC_TESTNET]: WBNB[ChainId.BSC_TESTNET],
   [ChainId.ARB_TESTNET]: WBNB[ChainId.ARB_TESTNET],
   [ChainId.opBNB]: WBNB[ChainId.opBNB],
-  [ChainId.SCROLL_TESTNET]: WBNB[ChainId.SCROLL_TESTNET]
+  [ChainId.SCROLL_TESTNET]: WBNB[ChainId.SCROLL_TESTNET],
+  [ChainId.SCROLL]: WBNB[ChainId.SCROLL]
+
 }

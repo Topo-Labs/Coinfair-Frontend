@@ -46,7 +46,7 @@ const CurrentProject = styled.div`
   align-items: center;
 `
 
-const ProjectAvatar = styled(Image)`
+const ProjectAvatar = styled.img`
   margin-right: 10px;
   width: 32px;
   height: 32px;

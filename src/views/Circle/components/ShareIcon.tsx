@@ -32,7 +32,7 @@ export const ShareIcon: React.FC<LinkInfo> = ({ projectAddr, leaderAddr, claimRa
     <>
       {claimRatio ? (
         <CopyToClipboard
-          text={`https://www.egswap.io/circle/claim/${projectAddr}/${leaderAddr}`}
+          text={`https://www.eqswap.io/circle/claim/${projectAddr}/${leaderAddr}`}
           onCopy={handleCopy}
         >
           <ShareBtn claimRatio={claimRatio} src="/images/sharelink.png" />

@@ -94,10 +94,10 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
           <NotificationDot show={expertMode}>
             <GlobalSettings color={getStrokeColor()} mr="0" mode={SettingsMode.SWAP_LIQUIDITY} />
           </NotificationDot>
-          <IconButton mt={'-1px'} onClick={onPresentTransactionsModal} variant="text" scale="sm">
+          <IconButton mt='-1px' onClick={onPresentTransactionsModal} variant="text" scale="sm">
             <HistoryIcon width="18px" stroke={getStrokeColor()} />
           </IconButton>
-          <IconButton mt={'-1px'} variant="text" scale="sm" onClick={handleOnClick}>
+          <IconButton mt='-1px' variant="text" scale="sm" onClick={handleOnClick}>
             <RefreshIcon disabled={!hasAmount} width="20px" stroke={getStrokeColor()} />
           </IconButton>
         </Flex >

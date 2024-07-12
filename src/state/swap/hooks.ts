@@ -218,7 +218,7 @@ export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: st
       break;
 
     case "534352":
-      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.WBTC.address
+      // inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.WBTC.address
       outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.USDT.address
       break;
     default:

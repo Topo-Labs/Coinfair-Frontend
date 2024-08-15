@@ -25,6 +25,7 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import shouldShowSwapWarning from 'utils/shouldShowSwapWarning'
 import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 import useGoogleAnalysis from 'hooks/useGoogleAnalysis'
+import { useCurrencyBalance } from 'state/wallet/hooks'
 import useRefreshBlockNumberID from './hooks/useRefreshBlockNumber'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
@@ -164,6 +165,8 @@ export default function Swap() {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
 
+  const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currencies[Field.INPUT] ?? undefined)
+  
   const parsedAmounts = showWrap
     ? {
       [Field.INPUT]: parsedAmount,
@@ -239,7 +242,6 @@ export default function Swap() {
   const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
   const [singleHopOnly] = useUserSingleHopOnly()
-
   const handleSwap = useCallback(() => {
     if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
       return
@@ -316,7 +318,7 @@ export default function Swap() {
 
   const handleMaxInput = useCallback(() => {
     if (maxAmountInput) {
-      onUserInput(Field.INPUT, maxAmountInput.toExact())
+      onUserInput(Field.INPUT, selectedCurrencyBalance?.toSignificant(6))
     }
   }, [maxAmountInput, onUserInput])
 
@@ -377,19 +379,14 @@ export default function Swap() {
       switch (Number(v2TradeOne?.route?.pairs?.[0]?.exponent0) / Number(v2TradeOne?.route?.pairs?.[0]?.exponent1)) {
         case 1:
           return 3
-          break;
         case 32:
           return 2
-          break;
         case 0.03125:
           return 2
-          break;
         case 4:
           return 1
-          break;
         case 0.25:
           return 1
-          break;
         default:
           return null
       }
@@ -413,7 +410,7 @@ export default function Swap() {
                   onRefreshPrice={onRefreshPrice}
                 />
                 <Wrapper id="swap-page" style={{ minHeight: '325px' }}>
-                  <AutoColumn gap="sm">
+                  <AutoColumn style={{ display: 'block' }}>
                     {
                       ammType ?
                         (
@@ -496,7 +493,7 @@ export default function Swap() {
                     ) : null}
 
                     {showWrap ? null : (
-                      <AutoColumn gap="7px" style={{ padding: '0 16px' }}>
+                      <AutoColumn gap="7px">
                         <RowBetween align="center">
                           {Boolean(trade) && (
                             <>

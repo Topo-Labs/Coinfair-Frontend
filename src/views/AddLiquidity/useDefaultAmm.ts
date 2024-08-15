@@ -72,6 +72,7 @@ const useDefaultAmm = ({
 
   const exponentsResult = useMultipleContractSingleData(validPairAddresses, PAIR_INTERFACE, 'getExponents')
 
+
   exponentsResult.forEach((result, i) => {
     const { result: exponents, loading } = result
 
@@ -83,7 +84,9 @@ const useDefaultAmm = ({
       return
     }
 
-    const { exponent0, exponent1 } = exponents
+    // const { exponent0, exponent1 } = exponents
+    const exponent0 = Array.isArray(exponents) ? exponents[0] : exponents.exponent0
+    const exponent1 = Array.isArray(exponents) ? exponents[1] : exponents.exponent1
 
     const decimalExponent0 = parseInt(exponent0, 10)
     const decimalExponent1 = parseInt(exponent1, 10)

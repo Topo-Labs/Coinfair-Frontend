@@ -94,7 +94,9 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
       allPairs[i][1]?.setExponents('100', '100')
       return null
     }
-    const { exponent0, exponent1 } = exponents
+    const exponent0 = Array.isArray(exponents) ? exponents[0] : exponents.exponent0
+    const exponent1 = Array.isArray(exponents) ? exponents[1] : exponents.exponent1
+
     allPairs[i][1]?.setExponents(exponent0.toString(), exponent1.toString())
     return null
   })

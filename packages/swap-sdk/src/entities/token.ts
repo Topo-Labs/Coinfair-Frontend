@@ -116,7 +116,7 @@ export const WBNB = {
   ),
   [ChainId.opBNB]: new Token(
     ChainId.opBNB,
-    '0xa035710A5Ac6bcC8bc892C91EC73F49b540DfB1f',
+    '0x4200000000000000000000000000000000000006',
     18,
     'WBNB',
     'WBNB',
@@ -132,18 +132,10 @@ export const WBNB = {
   ),
   [ChainId.SCROLL]: new Token(
     ChainId.SCROLL,
-    '0x3C1BCa5a656e69edCD0D4E36BEbb3FcDAcA60Cf1',
+    '0x5300000000000000000000000000000000000004',
     18,
-    'WBTC',
-    'WBTC',
-    ''
-  ),
-  [ChainId.SCROLL]: new Token(
-    ChainId.SCROLL,
-    '0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df',
-    18,
-    'USDT',
-    'USDT',
+    'WETH',
+    'WETH',
     ''
   ),
 }

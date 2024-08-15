@@ -72,6 +72,7 @@ export const PairDistribution = ({
   currencyAValue,
   currencyBValue,
   tooltipTargetRef,
+  feeType
 }: {
   title: React.ReactNode
   percent?: number
@@ -80,6 +81,7 @@ export const PairDistribution = ({
   currencyAValue?: string
   currencyBValue?: string
   tooltipTargetRef?: any
+  feeType?: string | number
 }) => {
   return (
     <AutoColumn gap="8px">
@@ -110,6 +112,7 @@ export const PairDistribution = ({
                 <Text>{currencyA?.symbol}</Text>
               </AutoRow>
               <Text>{currencyAValue}</Text>
+              {feeType}
             </RowBetween>
           )}
 
@@ -128,6 +131,8 @@ interface AddLiquidityModalHeaderProps {
   allowedSlippage: number
   children: React.ReactNode
   noLiquidity?: boolean
+  feeType?: string | number
+  pair?: any
 }
 
 export const AddLiquidityModalHeader = ({
@@ -139,6 +144,8 @@ export const AddLiquidityModalHeader = ({
   allowedSlippage,
   noLiquidity,
   children,
+  feeType,
+  pair
 }: AddLiquidityModalHeaderProps) => {
   const { t } = useTranslation()
   const { tooltip, tooltipVisible, targetRef } = useTooltip(
@@ -164,6 +171,22 @@ export const AddLiquidityModalHeader = ({
   }
 
   const isReserve = (currencies?.CURRENCY_A?.address - currencies?.CURRENCY_B?.address) > 0
+
+  const renderFeeTiers = () => {
+    switch (feeType) {
+      case 3:
+        return '(Fee Tier: 0.30%)'
+
+      case 5:
+        return '(Fee Tier: 0.50%)'
+
+      case 1:
+        return '(Fee Tier: 1.00%)'
+    
+      default:
+        return '(Fee Tier: 0.30%)'
+    }
+  }
 
   return (
     <AutoColumn gap="24px">
@@ -217,6 +240,7 @@ export const AddLiquidityModalHeader = ({
       <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0px' }}>
         <Text style={{ marginRight: '20px' }}>{swapFormulaList[ammType - 1].label}</Text>
         <Text>{swapFormulaList[ammType - 1].value}</Text>
+        {!pair && <Text>&nbsp;&nbsp;{renderFeeTiers()}</Text>}
       </div>
     </AutoColumn>
   )

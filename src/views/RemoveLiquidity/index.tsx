@@ -763,7 +763,7 @@ export default function RemoveLiquidity() {
               />
             </Box>
           )}
-          {pair && (
+          {/* {pair && (
             <AutoColumn gap="10px" style={{ marginTop: '16px' }}>
               <Text bold color="secondary" fontSize="12px" textTransform="uppercase">
                 {t('Prices')}
@@ -787,7 +787,7 @@ export default function RemoveLiquidity() {
                 </Flex>
               </LightGreyCard>
             </AutoColumn>
-          )}
+          )} */}
           <RowBetween mt="16px">
             <Text bold color="secondary" fontSize="12px">
               {t('Slippage Tolerance')}

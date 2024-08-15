@@ -166,7 +166,15 @@ export const BUSD: Record<ChainId, Token> = {
   [ChainId.ZKSYNC]: undefined,
   [ChainId.ZKSYNC_TESTNET]: undefined,
   [ChainId.SCROLL_TESTNET]: undefined,
-  [ChainId.SCROLL]: undefined,
+  // [ChainId.SCROLL]: undefined,
+  [ChainId.SCROLL]: new Token(
+    ChainId.SCROLL,
+    '0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df',
+    6,
+    'USDT',
+    'USDT',
+    ''
+  ),
 }
 
 export const bscTokens = {
@@ -2648,7 +2656,7 @@ export const scrollToken = {
   USDT: new Token(
     ChainId.SCROLL,
     '0xf55BEC9cafDbE8730f096Aa55dad6D22d44099Df',
-    18,
+    6,
     'USDT',
     'usdt',
     ''

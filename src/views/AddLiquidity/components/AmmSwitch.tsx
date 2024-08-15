@@ -129,7 +129,7 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
         <NotificationDot show={expertMode}>
           <GlobalSettings mode={SettingsMode.SWAP_LIQUIDITY} />
         </NotificationDot>
-        <Transactions />
+        {/* <Transactions /> */}
       </div>
     </div>
   )

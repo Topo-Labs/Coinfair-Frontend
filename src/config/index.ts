@@ -75,32 +75,32 @@ export const NETWORK_CONFIG = {
     },
     testnet: false,
   },
-//   [ChainId.BSC_TESTNET]: {
-//     name: 'BNB Smart Chain Testnet',
-//     network: 'bsc-testnet',
-//     scanURL: 'https://testnet.bscscan.com',
-//     rpcUrls: [
-//       'https://bsc-testnet.publicnode.com',
-//       'https://data-seed-prebsc-1-s1.binance.org:8545',
-//       'https://data-seed-prebsc-2-s1.binance.org:8545'
-//     ],
-//     scan: 'BSCTestScan',
-//     tokenName: 'BNB',
-//     symbol: 'BNB',
-//     decimals: 18,
-//     blockExplorers: {
-//       default: { name: 'BscScan', url: 'https://testnet.bscscan.com' },
-//     },
-//     multicall: {
-//       address: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
-//       blockCreated: 9759845,
-//     },
-//     testnet: true,
-//   },
+  [ChainId.BSC_TESTNET]: {
+    name: 'BNB Smart Chain Testnet',
+    network: 'bsc-testnet',
+    scanURL: 'https://testnet.bscscan.com',
+    rpcUrls: [
+      'https://bsc-testnet.publicnode.com',
+      'https://data-seed-prebsc-1-s1.binance.org:8545',
+      'https://data-seed-prebsc-2-s1.binance.org:8545'
+    ],
+    scan: 'BSCTestScan',
+    tokenName: 'BNB',
+    symbol: 'BNB',
+    decimals: 18,
+    blockExplorers: {
+      default: { name: 'BscScan', url: 'https://testnet.bscscan.com' },
+    },
+    multicall: {
+      address: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
+      blockCreated: 9759845,
+    },
+    testnet: true,
+  },
   [ChainId.opBNB]: {
     name: 'opBNB Mainnet',
     network: 'opBNB-Mainnet',
-    scanURL: 'https://mainnet.opbnbscan.com/',
+    scanURL: 'https://mainnet.opbnbscan.com',
     rpcUrls: [
       'https://opbnb-mainnet-rpc.bnbchain.org'
     ],
@@ -109,7 +109,7 @@ export const NETWORK_CONFIG = {
     symbol: 'BNB',
     decimals: 18,
     blockExplorers: {
-      default: { name: 'opbnbscan', url: 'https://mainnet.opbnbscan.com/' },
+      default: { name: 'opbnbscan', url: 'https://mainnet.opbnbscan.com' },
     },
     multicall: {
       address: '0x9C63ADb6C88F33317e7405c7a0c1c15cC752f093',
@@ -188,23 +188,23 @@ export const NETWORK_CONFIG = {
   //   },
   //   testnet: true,
   // },
-  [ChainId.SCROLL_TESTNET]: {
-    name: 'Scroll Sepolia',
-    network: 'Scroll Sepolia',
-    scanURL: 'https://scroll-sepolia.l2scan.co',
-    rpcUrls: [
-      'https://sepolia-rpc.scroll.io'
-    ],
-    scan: 'explorer',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '',
-      blockCreated: 0,
-    },
-    testnet: true,
-  },
+//   [ChainId.SCROLL_TESTNET]: {
+//     name: 'Scroll Sepolia',
+//     network: 'Scroll Sepolia',
+//     scanURL: 'https://scroll-sepolia.l2scan.co',
+//     rpcUrls: [
+//       'https://sepolia-rpc.scroll.io'
+//     ],
+//     scan: 'explorer',
+//     decimals: 18,
+//     tokenName: 'ETH',
+//     symbol: 'ETH',
+//     multicall: {
+//       address: '',
+//       blockCreated: 0,
+//     },
+//     testnet: true,
+//   },
   [ChainId.SCROLL]: {
     name: 'Scroll',
     network: 'Scroll',
@@ -217,8 +217,8 @@ export const NETWORK_CONFIG = {
     tokenName: 'ETH',
     symbol: 'ETH',
     multicall: {
-      address: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
-      blockCreated: 7162653,
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      blockCreated: 14,
     },
     testnet: false,
   },

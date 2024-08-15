@@ -98,6 +98,9 @@ export function useDerivedMintInfo(
 
   const { independentField, typedValue, otherTypedValue, customPrice } = useMintState()
 
+  const parsedPrice = parseFloat(customPrice);
+  const validPrice = Number.isNaN(parsedPrice) || parsedPrice <= 0 ? null : parsedPrice;
+  
   const dependentField = independentField === Field.CURRENCY_A ? Field.CURRENCY_B : Field.CURRENCY_A
 
   const ammType = useAmmType()
@@ -148,54 +151,72 @@ export function useDerivedMintInfo(
   // dependentAmount： 依赖修改的代币，自动调节的另一个代币的数量
   // amounts
   const independentAmount: CurrencyAmount | undefined = tryParseAmount(typedValue, currencies[independentField])
+
   const dependentAmount: CurrencyAmount | undefined = useMemo(() => {
     if (noLiquidity) {
-      if (independentAmount && +customPrice * 1000000000 >= 1) {
-        const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId)
-        const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
+      if (independentAmount && !Number.isNaN(customPrice) && +customPrice > 0 && +customPrice * 1000000000 >= 1) {
+        const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId);
+        const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)];
+  
         if (tokenA && tokenB && wrappedIndependentAmount) {
-          const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
-          // exp diff
-          const dependentTokenAmount =
-            dependentField === Field.CURRENCY_B
+          const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA;
+  
+          try {
+            const dependentTokenAmount = dependentField === Field.CURRENCY_B
               ? new TokenAmount(
-                tokenB,
-                wrappedIndependentAmount
-                  .multiply(multiply)
-                  .divide(divide)
-                  .multiply(+customPrice * 10 ** tokenB.decimals).quotient,
-              )
+                  tokenB,
+                  wrappedIndependentAmount
+                    .multiply(multiply)
+                    .divide(divide)
+                    .multiply(+customPrice * 10 ** tokenB.decimals).quotient,
+                )
               : new TokenAmount(
-                tokenA,
-                wrappedIndependentAmount
-                  .multiply(Number(divide) * 10 ** (tokenA.decimals + 9))
-                  .divide(multiply)
-                  .divide(+customPrice * 1000000000).quotient,
-              )
-          return dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
+                  tokenA,
+                  wrappedIndependentAmount
+                    .multiply(Number(divide) * 10 ** (tokenA.decimals + 9))
+                    .divide(multiply)
+                    .divide(+customPrice * 1000000000).quotient,
+                );
+  
+            if (Number(dependentTokenAmount.raw) === 0 || Number(dependentTokenAmount.raw) < 0) {
+              console.warn("Dependent amount calculation resulted in a zero or negative value.");
+              return undefined;
+            }
+  
+            return dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount;
+          } catch (error) {
+            console.error("Error during dependent amount calculation:", error);
+            return undefined; // 在出现错误时跳过计算
+          }
         }
       }
+  
       if (otherTypedValue && currencies[dependentField]) {
-        return tryParseAmount(otherTypedValue, currencies[dependentField])
+        return tryParseAmount(otherTypedValue, currencies[dependentField]);
       }
-      return undefined
+      return undefined;
     }
+
     if (independentAmount) {
-      // we wrap the currencies just to get the price in terms of the other token
-      const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId)
-      const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
+      const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId);
+      const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)];
+      
       if (tokenA && tokenB && wrappedIndependentAmount && pair) {
-        const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA
-        const dependentTokenAmount =
-          dependentField === Field.CURRENCY_B
-            ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-            : pair.priceOf(tokenB).quote(wrappedIndependentAmount)
-        const outAmount = dependentCurrency === ETHER ? CurrencyAmount.ether(dependentTokenAmount.raw) : dependentTokenAmount
-        return tryParseAmount(outAmount?.toFixed(currencies[dependentField]?.decimals), currencies[dependentField])
+        const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA;
+        const dependentTokenAmount = dependentField === Field.CURRENCY_B
+          ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
+          : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
+  
+        if (Number(dependentTokenAmount.raw) === 0 || Number(dependentTokenAmount.raw) < 0) {
+          console.warn("Out amount calculation resulted in a zero or negative value.");
+          return undefined;
+        }
+  
+        return tryParseAmount(dependentTokenAmount.raw.toString(), currencies[dependentField]);
       }
-      return undefined
     }
-    return undefined
+  
+    return undefined;
   }, [
     noLiquidity,
     otherTypedValue,
@@ -209,7 +230,7 @@ export function useDerivedMintInfo(
     customPrice,
     divide,
     multiply
-  ])
+  ]);
 
   const parsedAmounts: { [field in Field]: CurrencyAmount | undefined } = useMemo(
     () => ({

@@ -21,8 +21,10 @@ export default createReducer<MintState>(initialState, (builder) =>
     .addCase(typeInput, (state, { payload: { field, typedValue, noLiquidity } }) => {
       if (field === Field.PRICE) {
         return {
-          ...state,
+          independentField: state.independentField,
+          otherTypedValue: state.otherTypedValue,
           customPrice: typedValue,
+          typedValue: state.typedValue
         }
       }
       // 这次修改的代币都作为独立的代币，另一个代币都作为依赖的代币
@@ -46,6 +48,7 @@ export default createReducer<MintState>(initialState, (builder) =>
           otherTypedValue: state.typedValue,
         }
       }
+
       // 如果已经有流动性了，只需要记录当前修改了哪个代币，以及修改后的金额，另一个代币的数量就可以通过公式直接算出来
       return {
         ...state,

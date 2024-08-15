@@ -52,6 +52,7 @@ export class Fraction {
   public constructor(numerator: BigintIsh, denominator: BigintIsh = ONE) {
     this.numerator = parseBigintIsh(numerator)
     this.denominator = parseBigintIsh(denominator)
+    invariant(!JSBI.equal(this.denominator, JSBI.BigInt(0)), 'Denominator cannot be zero')
   }
 
   // performs floor division
@@ -70,17 +71,23 @@ export class Fraction {
 
   public add(other: Fraction | BigintIsh): Fraction {
     const otherParsed = other instanceof Fraction ? other : new Fraction(parseBigintIsh(other))
+
+    invariant(!JSBI.equal(this.denominator, JSBI.BigInt(0)), 'Denominator of this fraction cannot be zero')
+    invariant(!JSBI.equal(otherParsed.denominator, JSBI.BigInt(0)), 'Denominator of other fraction cannot be zero')
+
     if (JSBI.equal(this.denominator, otherParsed.denominator)) {
-      return new Fraction(JSBI.add(this.numerator, otherParsed.numerator), this.denominator)
+        return new Fraction(JSBI.add(this.numerator, otherParsed.numerator), this.denominator)
     }
+
     return new Fraction(
-      JSBI.add(
-        JSBI.multiply(this.numerator, otherParsed.denominator),
-        JSBI.multiply(otherParsed.numerator, this.denominator)
-      ),
-      JSBI.multiply(this.denominator, otherParsed.denominator)
+        JSBI.add(
+            JSBI.multiply(this.numerator, otherParsed.denominator),
+            JSBI.multiply(otherParsed.numerator, this.denominator)
+        ),
+        JSBI.multiply(this.denominator, otherParsed.denominator)
     )
   }
+
 
   public subtract(other: Fraction | BigintIsh): Fraction {
     const otherParsed = other instanceof Fraction ? other : new Fraction(parseBigintIsh(other))

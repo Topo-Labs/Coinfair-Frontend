@@ -19,17 +19,18 @@ const InputRow = styled.div<{ selected: boolean }>`
   align-items: center;
   justify-content: flex-end;
   padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
-  padding-bottom: 0px;
+  padding-bottom: 5px;
   padding-top: 8px;
 `
 
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' }) <{ zapStyle?: ZapStyle }>`
 padding: 0 0.5rem;
+padding-left: 0;
 
   ${({ zapStyle, theme }) =>
     zapStyle &&
     css`
-      padding: 8px;
+      padding: 8px 0;
       // background: ${theme.colors.background};
       // border: 1px solid ${theme.colors.cardBorder};
       border-radius: ${zapStyle === 'zap' ? '0px' : '8px'} 8px 0px 0px;
@@ -184,7 +185,7 @@ export default function PriceInputPanel({
   return (
     <Box position="relative" id={id}>
       <Flex alignItems="center" justifyContent="space-between">
-        <Flex justifyContent="space-between" width="100%">
+        <Flex justifyContent="space-between" mb='5px' ml='15px' width="100%">
           {beforeButton}
           {/* <CurrencySelectButton
             zapStyle={zapStyle}

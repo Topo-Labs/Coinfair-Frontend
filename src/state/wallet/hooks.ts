@@ -108,7 +108,7 @@ export function useCurrencyBalances(
   const containsBNB: boolean = useMemo(() => currencies?.some((currency) => currency === ETHER) ?? false, [currencies])
   const uncheckedAddresses = useMemo(() => (containsBNB ? [account] : []), [containsBNB, account])
   const bnbBalance = useBNBBalances(uncheckedAddresses)
-
+  
   return useMemo(
     () =>
       currencies?.map((currency) => {

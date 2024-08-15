@@ -121,6 +121,11 @@ export function useSwapCallback(
           gasEstimate,
         } = successfulEstimation
 
+        console.log(['Method:'], methodName);
+        // console.log(['Args:'], args);
+        // console.log(['Value:'], value);
+        // console.log(['Gas Estimate:'], gasEstimate.toString());
+
         return contract[methodName](...args, {
           gasLimit: calculateGasMargin(gasEstimate),
           gasPrice,

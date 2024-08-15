@@ -81,7 +81,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   const [bnbName, setBnbName] = useState<string | null>(null);
   const { chainId } = useWeb3React()
   const nameService = useENSName(account ? [account] : []);
-  console.info("fetch name service on menu:\n", nameService)
 
   useGoogleAnalysis(account, { "account": account?.toString() }, account ? account.startsWith("0x") : false)
   useEffect(() => {

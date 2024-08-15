@@ -26,6 +26,8 @@ const InputRow = styled.div<{ selected: boolean }>`
 `
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' }) <{ zapStyle?: ZapStyle }>`
   padding: 0 0.5rem;
+  padding-right: 0;
+  margin-right: -0.3rem;
 
   ${({ zapStyle, theme }) =>
     zapStyle &&
@@ -44,7 +46,7 @@ const LabelRow = styled.div`
   color: ${({ theme }) => theme.colors.text};
   font-size: 0.75rem;
   line-height: 1rem;
-  padding: 0.75rem 1rem 0 1rem;
+  padding: 0.75rem 0.75rem 0 0.75rem;
   padding-top: 8px;
 `
 const InputPanel = styled.div`
@@ -154,11 +156,11 @@ export default function CurrencyInputPanel({
   return (
     <Box position="relative" id={id}>
       {noLiquidity ? (
-        <StyledText style={{ fontSize: '12px', marginBottom: '2px' }}>
+        <StyledText style={{ fontSize: '12px', marginBottom: '2px', marginLeft: '15px' }}>
           {label === 'X' ? t('tokensIssued') : label === 'Y' ? t('tokensRaised') : ''}
         </StyledText>
       ) :
-        <StyledText style={{ fontSize: '12px', marginBottom: '2px' }}>
+        <StyledText style={{ fontSize: '12px', marginBottom: '2px', marginLeft: '15px' }}>
           {' '}
         </StyledText>
       }

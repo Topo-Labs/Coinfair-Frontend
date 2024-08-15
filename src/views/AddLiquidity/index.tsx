@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
+import { ethers } from 'ethers'
 import { currencyEquals, ETHER, JSBI, TokenAmount, WNATIVE, MINIMUM_LIQUIDITY } from '@pancakeswap/sdk'
 import styled, { useTheme } from 'styled-components'
 import {
@@ -31,6 +32,7 @@ import { ROUTER_ADDRESS } from 'config/constants/exchange'
 import { PE } from 'config/constants/tokens'
 import { LightCard } from '../../components/Card'
 import AmmSwitch from './components/AmmSwitch'
+import FeeRate from './components/FeeRate'
 import Column, { AutoColumn, ColumnCenter } from '../../components/Layout/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import PriceInputPanel from '../../components/PriceInputPanel'
@@ -102,7 +104,8 @@ export default function AddLiquidity() {
   const [temporarilyZapMode, setTemporarilyZapMode] = useState(true)
   const [currencyIdA, currencyIdB] = router.query.currency || [PE[chainId]?.address, '']
   const [steps, setSteps] = useState(Steps.Choose)
-
+  const [feeType, setFeeType] = useState<number | string>(3)
+  
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
   const gasPrice = useGasPrice()
@@ -267,7 +270,7 @@ export default function AddLiquidity() {
   async function onAdd() {
     if (!chainId || !library || !account) return
     const routerContract = getRouterContract(chainId, library, account)
-    const { [Field.CURRENCY_A]: parsedAmountA, [Field.CURRENCY_B]: parsedAmountB } = mintParsedAmounts
+    const { [Field.CURRENCY_A]: parsedAmountA, [Field.CURRENCY_B]: parsedAmountB } = parsedAmounts
     if (!parsedAmountA || !parsedAmountB || !currencyA || !currencyB || !deadline) {
       return
     }
@@ -281,6 +284,17 @@ export default function AddLiquidity() {
     let method: (...args: any) => Promise<TransactionResponse>
     let args: Array<string | string[] | number>
     let value: BigNumber | null
+    const types = ['uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256'];
+    const values = [
+      parsedAmountA.raw.toString(),
+      parsedAmountB.raw.toString(),
+      amountsMin[Field.CURRENCY_A].toString(),
+      amountsMin[Field.CURRENCY_B].toString(),
+      contractMirrorMap[ammType],
+      feeType
+    ]
+
+    const encoded = ethers.utils.defaultAbiCoder.encode(types, values);
     if (currencyA === ETHER || currencyB === ETHER) {
       const tokenBIsBNB = currencyB === ETHER
       estimate = routerContract.estimateGas.addLiquidityETH
@@ -294,26 +308,21 @@ export default function AddLiquidity() {
         tokenBIsBNB ? 0 : 1,
         account,
         deadline.toHexString(),
+        feeType,
       ]
       value = BigNumber.from((tokenBIsBNB ? parsedAmountB : parsedAmountA).raw.toString())
-      console.info(args)
     } else {
       estimate = routerContract.estimateGas.addLiquidity
       method = routerContract.addLiquidity
       args = [
         wrappedCurrency(currencyA, chainId)?.address ?? '',
         wrappedCurrency(currencyB, chainId)?.address ?? '',
-        parsedAmountA.raw.toString(),
-        parsedAmountB.raw.toString(),
-        amountsMin[Field.CURRENCY_A].toString(),
-        amountsMin[Field.CURRENCY_B].toString(),
-        contractMirrorMap[ammType],
+        encoded,
         account,
         deadline.toHexString(),
       ]
       value = null
     }
-    console.info(args)
     setLiquidityState({ attemptingTxn: true, liquidityErrorMessage: undefined, txHash: undefined })
     await estimate(...args, value ? { value } : {})
       .then((estimatedGasLimit) =>
@@ -334,7 +343,6 @@ export default function AddLiquidity() {
       .catch((err) => {
         if (err && err.code !== 4001) {
           logError(err)
-          console.error(`Add Liquidity failed`, err, args, value)
         }
         setLiquidityState({
           attemptingTxn: false,
@@ -379,6 +387,7 @@ export default function AddLiquidity() {
       customOnDismiss={handleDismissConfirmation}
       attemptingTxn={attemptingTxn}
       hash={txHash}
+      pair={pair}
       pendingText={pendingText}
       currencyToAdd={pair?.liquidityToken}
       allowedSlippage={allowedSlippage}
@@ -391,6 +400,7 @@ export default function AddLiquidity() {
       noLiquidity={noLiquidity}
       poolTokenPercentage={poolTokenPercentage}
       liquidityMinted={liquidityMinted}
+      feeType={feeType}
     />,
     true,
     true,
@@ -470,7 +480,6 @@ export default function AddLiquidity() {
       .catch((err) => {
         if (err && err.code !== 4001) {
           logError(err)
-          console.error(`Add Liquidity failed`, err, args, value)
         }
         setLiquidityState({
           attemptingTxn: false,
@@ -581,6 +590,7 @@ export default function AddLiquidity() {
     )
 
   const isExactIn: boolean = independentField === Field.INPUT
+  
   return (
     <Page>
       <AppBody>
@@ -605,6 +615,7 @@ export default function AddLiquidity() {
                     </div> : null
                 }
               </Text>
+              {!pair && !poolData && <FeeRate feeType={feeType} setFeeType={setFeeType} />}
               <AutoColumn gap="20px">
                 {noLiquidity && (
                   <PriceInputPanel
@@ -619,9 +630,6 @@ export default function AddLiquidity() {
                     zapStyle={canZap ? 'zap' : 'noZap'}
                     value={myPrice}
                     onUserInput={onFieldPrice}
-                    onMax={() => {
-                      console.log('onMax')
-                    }}
                     showMaxButton={false}
                     currency={currencies[Field.CURRENCY_A]}
                     otherCurrency={currencies[Field.CURRENCY_B]}

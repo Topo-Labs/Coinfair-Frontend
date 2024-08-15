@@ -3,9 +3,9 @@ import { ContextApi } from '@pancakeswap/localization'
 import { PageMeta } from './types'
 
 export const DEFAULT_META: PageMeta = {
-  title: 'EquitySwap',
+  title: 'EQswap',
   description:
-    'EquitySwap offers three pricing models suitable for companies of varying sizes, boosting liquidity and preventing market-cap inflation.',
+    'EQswap offers three pricing models suitable for companies of varying sizes, boosting liquidity and preventing market-cap inflation.',
   image: 'https://pancakeswap.finance/images/hero.png',
 }
 
@@ -38,16 +38,16 @@ const getPathList = (t: ContextApi['t']): PathList => {
       '/voting': { basePath: true, title: t('Voting') },
       '/voting/proposal': { title: t('Proposals') },
       '/voting/proposal/create': { title: t('Make a Proposal') },
-      '/info': { title: t('Overview'), description: 'View statistics for EquitySwap exchanges.' },
-      '/info/pools': { title: t('Pools'), description: 'View statistics for EquitySwap exchanges.' },
-      '/info/tokens': { title: t('Tokens'), description: 'View statistics for EquitySwap exchanges.' },
+      '/info': { title: t('Overview'), description: 'View statistics for EQswap exchanges.' },
+      '/info/pools': { title: t('Pools'), description: 'View statistics for EQswap exchanges.' },
+      '/info/tokens': { title: t('Tokens'), description: 'View statistics for EQswap exchanges.' },
       '/nfts/collections': { basePath: true, title: t('Collections') },
       '/nfts/activity': { title: t('Activity') },
       '/profile': { basePath: true, title: t('Profile') },
       '/pancake-squad': { basePath: true, title: t('Pancake Squad') },
       '/pottery': { basePath: true, title: t('Pottery') },
     },
-    defaultTitleSuffix: t('EquitySwap'),
+    defaultTitleSuffix: t('EQswap'),
   }
 }
 

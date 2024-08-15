@@ -29,6 +29,8 @@ interface ConfirmAddLiquidityModalProps {
   poolTokenPercentage: Percent
   liquidityMinted: TokenAmount
   currencyToAdd: Token
+  feeType: number | string
+  pair?: any
 }
 
 const StyledButton = styled(Button)`
@@ -56,6 +58,8 @@ const ConfirmAddLiquidityModal: React.FC<
   poolTokenPercentage,
   liquidityMinted,
   currencyToAdd,
+  feeType,
+  pair
 }) => {
     const { t } = useTranslation()
 
@@ -84,6 +88,8 @@ const ConfirmAddLiquidityModal: React.FC<
           price={price}
           myPrice={myPrice}
           noLiquidity={noLiquidity}
+          feeType={feeType}
+          pair={pair}
         >
           <PairDistribution
             title={t('Input')}

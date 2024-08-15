@@ -46,7 +46,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
           </Text>
         </RowFixed>
       </RowBetween>
-      <RowBetween>
+      {/* <RowBetween>
         <RowFixed>
           <Text fontSize="14px" color="textSubtle">
             {t('Price Impact')}
@@ -58,7 +58,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
           />
         </RowFixed>
         <FormattedPriceImpact priceImpact={priceImpactWithoutFee} />
-      </RowBetween>
+      </RowBetween> */}
 
       <RowBetween>
         <RowFixed>

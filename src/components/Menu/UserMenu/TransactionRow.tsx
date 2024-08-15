@@ -4,6 +4,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { TransactionDetails } from 'state/transactions/reducer'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { getBscScanLink } from 'utils'
+import { useEffect } from 'react'
 
 interface TransactionRowProps {
   txn: TransactionDetails
@@ -18,6 +19,9 @@ const TxnIcon = styled(Flex)`
 const Summary = styled.div`
   flex: 1;
   padding: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const TxnLink = styled(Link)`
@@ -51,11 +55,15 @@ const TransactionRow: React.FC<React.PropsWithChildren<TransactionRowProps>> = (
   if (!txn) {
     return null
   }
-
+ 
   return (
     <TxnLink href={getBscScanLink(txn.hash, 'transaction', chainId)} external>
       <TxnIcon>{renderIcon(txn)}</TxnIcon>
-      <Summary>
+      <Summary
+        title={txn.translatableSummary
+          ? t(txn.translatableSummary.text, txn.translatableSummary.data)
+          : txn.summary ?? txn.hash}
+      >
         {txn.translatableSummary
           ? t(txn.translatableSummary.text, txn.translatableSummary.data)
           : txn.summary ?? txn.hash}

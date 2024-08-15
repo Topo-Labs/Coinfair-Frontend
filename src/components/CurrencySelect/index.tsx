@@ -80,6 +80,7 @@ export const CurrencySelect = ({
 
   const price = useBUSDPrice(selectedCurrencyBalance && selectedCurrency ? selectedCurrency : undefined)
   const quoted = selectedCurrencyBalance && price?.quote(selectedCurrencyBalance)
+  
 
   return (
     <Box width="100%" {...props}>

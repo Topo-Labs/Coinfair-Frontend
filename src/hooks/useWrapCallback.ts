@@ -59,7 +59,7 @@ export default function useWrapCallback(
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : t('Insufficient BNB balance'),
+        inputError: sufficientBalance ? undefined : t('Insufficient balance'),
       }
     }
     if (currencyEquals(WNATIVE[chainId], inputCurrency) && outputCurrency === ETHER) {
@@ -78,7 +78,7 @@ export default function useWrapCallback(
                 }
               }
             : undefined,
-        inputError: sufficientBalance ? undefined : t('Insufficient WBNB balance'),
+        inputError: sufficientBalance ? undefined : t('Insufficient balance'),
       }
     }
     return NOT_APPLICABLE

@@ -257,18 +257,10 @@ export class Pair {
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
       throw new InsufficientReservesError()
     }
-    console.info("inputAmount:", inputAmount)
     const inputReserve = this.reserveOf(inputAmount.token)
     const outputReserve = this.reserveOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
     const inputExponent = this.exponentOf(inputAmount.token)
     const outputExponent = this.exponentOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
-    console.log('----------------------')
-    console.log('outputToken:', JSBI.toNumber(outputReserve.raw))
-    console.log('inputReserve:', JSBI.toNumber(inputReserve.raw))
-    console.log('outputReserve:', JSBI.toNumber(outputReserve.raw))
-    console.log('inputExponent:', inputExponent)
-    console.log('outputExponent:', outputExponent)
-    console.log('inputAmount', JSBI.toNumber(inputAmount.raw))
 
     // Fees I*F_N/F_D  
     const inputAmountWithFee = JSBI.divide(JSBI.multiply(inputAmount.raw, FEES_NUMERATOR), FEES_DENOMINATOR)
@@ -310,11 +302,7 @@ export class Pair {
     const inputReserve = this.reserveOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
     const outputExponent = this.exponentOf(outputAmount.token)
     const inputExponent = this.exponentOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
-    // console.log('inputReserve:', JSBI.toNumber(inputReserve.raw))
-    // console.log('outputReserve:', JSBI.toNumber(outputReserve.raw))
-    // console.log('inputExponent:', inputExponent)
-    // console.log('outputExponent:', outputExponent)
-    // console.log('outputAmount', JSBI.toNumber(outputAmount.raw))
+
     const inputDecimals = outputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
     const K = JSBI.multiply(
       this.exp(inputReserve.raw, +inputExponent, 32, inputDecimals),
@@ -337,15 +325,15 @@ export class Pair {
         FEES_NUMERATOR
       )
     )
-    console.log(
-      'result:',
-      JSBI.toNumber(
-        JSBI.divide(
-          JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
-          FEES_NUMERATOR
-        )
-      )
-    )
+    // console.log(
+    //   'result:',
+    //   JSBI.toNumber(
+    //     JSBI.divide(
+    //       JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
+    //       FEES_NUMERATOR
+    //     )
+    //   )
+    // )
     return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
   }
 

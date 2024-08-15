@@ -116,7 +116,7 @@ const ConfirmRemoveLiquidityModal: React.FC<
             <Text>{parsedAmounts[Field.LIQUIDITY]?.toSignificant(6)}</Text>
           </RowFixed>
         </RowBetween>
-        {pair && (
+        {/* {pair && (
           <>
             <RowBetween>
               <Text>{t('Price')}</Text>
@@ -131,7 +131,7 @@ const ConfirmRemoveLiquidityModal: React.FC<
               </Text>
             </RowBetween>
           </>
-        )}
+        )} */}
         <Button
           width="100%"
           mt="20px"

@@ -8,29 +8,10 @@ import type { IPancakePair, IPancakePairInterface } from "../IPancakePair";
 
 const _abi = [
   {
-    constant: true,
     inputs: [],
-    name: "getExponents",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "exponent0",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "exponent1",
-        type: "uint256",
-      },
-      {
-        internalType: "uint32",
-        name: "blockTimestampLast",
-        type: "uint32",
-      },
-    ],
     payable: false,
-    stateMutability: "view",
-    type: "function",
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
     anonymous: false,
@@ -201,6 +182,7 @@ const _abi = [
     type: "event",
   },
   {
+    constant: true,
     inputs: [],
     name: "DOMAIN_SEPARATOR",
     outputs: [
@@ -210,10 +192,12 @@ const _abi = [
         type: "bytes32",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "MINIMUM_LIQUIDITY",
     outputs: [
@@ -223,10 +207,12 @@ const _abi = [
         type: "uint256",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "PERMIT_TYPEHASH",
     outputs: [
@@ -236,19 +222,21 @@ const _abi = [
         type: "bytes32",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
       {
         internalType: "address",
-        name: "spender",
+        name: "",
         type: "address",
       },
     ],
@@ -260,10 +248,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -284,14 +274,16 @@ const _abi = [
         type: "bool",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
     ],
@@ -303,10 +295,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -327,10 +321,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "decimals",
     outputs: [
@@ -340,10 +336,73 @@ const _abi = [
         type: "uint8",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "n",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "a",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "b",
+        type: "uint256",
+      },
+    ],
+    name: "exp",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "exponent0",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "exponent1",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
     inputs: [],
     name: "factory",
     outputs: [
@@ -353,51 +412,127 @@ const _abi = [
         type: "address",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
+    inputs: [],
+    name: "fee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "getExponents",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "_exponent0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_exponent1",
+        type: "uint256",
+      },
+      {
+        internalType: "uint32",
+        name: "_blockTimestampLast",
+        type: "uint32",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "getFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
     inputs: [],
     name: "getReserves",
     outputs: [
       {
         internalType: "uint112",
-        name: "reserve0",
+        name: "_reserve0",
         type: "uint112",
       },
       {
         internalType: "uint112",
-        name: "reserve1",
+        name: "_reserve1",
         type: "uint112",
       },
       {
         internalType: "uint32",
-        name: "blockTimestampLast",
+        name: "_blockTimestampLast",
         type: "uint32",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "_token0",
         type: "address",
       },
       {
         internalType: "address",
-        name: "",
+        name: "_token1",
         type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_exponent0",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_exponent1",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_fee",
+        type: "uint256",
       },
     ],
     name: "initialize",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "kLast",
     outputs: [
@@ -407,10 +542,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -426,10 +563,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "name",
     outputs: [
@@ -439,14 +578,16 @@ const _abi = [
         type: "string",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [
       {
         internalType: "address",
-        name: "owner",
+        name: "",
         type: "address",
       },
     ],
@@ -458,10 +599,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -501,10 +644,12 @@ const _abi = [
     ],
     name: "permit",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "price0CumulativeLast",
     outputs: [
@@ -514,10 +659,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "price1CumulativeLast",
     outputs: [
@@ -527,10 +674,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -540,10 +689,12 @@ const _abi = [
     ],
     name: "skim",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "uint256",
@@ -553,6 +704,11 @@ const _abi = [
       {
         internalType: "uint256",
         name: "amount1Out",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "fee_",
         type: "uint256",
       },
       {
@@ -568,10 +724,12 @@ const _abi = [
     ],
     name: "swap",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "symbol",
     outputs: [
@@ -581,17 +739,21 @@ const _abi = [
         type: "string",
       },
     ],
-    stateMutability: "pure",
+    payable: false,
+    stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [],
     name: "sync",
     outputs: [],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "token0",
     outputs: [
@@ -601,10 +763,12 @@ const _abi = [
         type: "address",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "token1",
     outputs: [
@@ -614,10 +778,12 @@ const _abi = [
         type: "address",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: true,
     inputs: [],
     name: "totalSupply",
     outputs: [
@@ -627,10 +793,12 @@ const _abi = [
         type: "uint256",
       },
     ],
+    payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -651,10 +819,12 @@ const _abi = [
         type: "bool",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
+    constant: false,
     inputs: [
       {
         internalType: "address",
@@ -680,6 +850,7 @@ const _abi = [
         type: "bool",
       },
     ],
+    payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },

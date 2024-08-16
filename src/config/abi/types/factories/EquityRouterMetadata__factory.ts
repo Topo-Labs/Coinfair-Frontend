@@ -35,32 +35,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "WUSDC",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "WUSDT",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -73,29 +47,9 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "uint256",
-        name: "amountADesired",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amountBDesired",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amountAMin",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "amountBMin",
-        type: "uint256",
-      },
-      {
-        internalType: "uint8",
-        name: "swapN",
-        type: "uint8",
+        internalType: "bytes",
+        name: "cmd",
+        type: "bytes",
       },
       {
         internalType: "address",
@@ -171,6 +125,11 @@ const _abi = [
         name: "deadline",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "fee",
+        type: "uint256",
+      },
     ],
     name: "addLiquidityETH",
     outputs: [
@@ -214,6 +173,114 @@ const _abi = [
         type: "uint256",
       },
       {
+        internalType: "uint256",
+        name: "reserveIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "exponentIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "exponentOut",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenB",
+        type: "address",
+      },
+    ],
+    name: "getAmountIn",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amountFee",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amountIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "reserveOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "exponentIn",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "exponentOut",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "tokenA",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenB",
+        type: "address",
+      },
+    ],
+    name: "getAmountOut",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "amountOut",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "amountFee",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amountOut",
+        type: "uint256",
+      },
+      {
         internalType: "address[]",
         name: "path",
         type: "address[]",
@@ -224,6 +291,11 @@ const _abi = [
       {
         internalType: "uint256[]",
         name: "amounts",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "amountFees",
         type: "uint256[]",
       },
     ],
@@ -248,6 +320,11 @@ const _abi = [
       {
         internalType: "uint256[]",
         name: "amounts",
+        type: "uint256[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "amountFees",
         type: "uint256[]",
       },
     ],

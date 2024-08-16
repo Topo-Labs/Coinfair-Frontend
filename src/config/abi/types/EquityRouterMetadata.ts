@@ -21,11 +21,11 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface EquityRouterMetadataInterface extends utils.Interface {
   functions: {
     "WETH()": FunctionFragment;
-    "WUSDC()": FunctionFragment;
-    "WUSDT()": FunctionFragment;
-    "addLiquidity(address,address,uint256,uint256,uint256,uint256,uint8,address,uint256)": FunctionFragment;
-    "addLiquidityETH(address,uint256,uint256,uint256,uint8,uint8,address,uint256)": FunctionFragment;
+    "addLiquidity(address,address,bytes,address,uint256)": FunctionFragment;
+    "addLiquidityETH(address,uint256,uint256,uint256,uint8,uint8,address,uint256,uint256)": FunctionFragment;
     "factory()": FunctionFragment;
+    "getAmountIn(uint256,uint256,uint256,uint256,uint256,address,address)": FunctionFragment;
+    "getAmountOut(uint256,uint256,uint256,uint256,uint256,address,address)": FunctionFragment;
     "getAmountsIn(uint256,address[])": FunctionFragment;
     "getAmountsOut(uint256,address[])": FunctionFragment;
     "quote(uint256,uint256,uint256)": FunctionFragment;
@@ -47,21 +47,9 @@ export interface EquityRouterMetadataInterface extends utils.Interface {
   };
 
   encodeFunctionData(functionFragment: "WETH", values?: undefined): string;
-  encodeFunctionData(functionFragment: "WUSDC", values?: undefined): string;
-  encodeFunctionData(functionFragment: "WUSDT", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "addLiquidity",
-    values: [
-      string,
-      string,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      string,
-      BigNumberish
-    ]
+    values: [string, string, BytesLike, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "addLiquidityETH",
@@ -73,10 +61,35 @@ export interface EquityRouterMetadataInterface extends utils.Interface {
       BigNumberish,
       BigNumberish,
       string,
+      BigNumberish,
       BigNumberish
     ]
   ): string;
   encodeFunctionData(functionFragment: "factory", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getAmountIn",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      string
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getAmountOut",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      string
+    ]
+  ): string;
   encodeFunctionData(
     functionFragment: "getAmountsIn",
     values: [BigNumberish, string[]]
@@ -207,8 +220,6 @@ export interface EquityRouterMetadataInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "WETH", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "WUSDC", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "WUSDT", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "addLiquidity",
     data: BytesLike
@@ -218,6 +229,14 @@ export interface EquityRouterMetadataInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getAmountIn",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getAmountOut",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getAmountsIn",
     data: BytesLike
@@ -320,18 +339,10 @@ export interface EquityRouterMetadata extends BaseContract {
   functions: {
     WETH(overrides?: CallOverrides): Promise<[string]>;
 
-    WUSDC(overrides?: CallOverrides): Promise<[string]>;
-
-    WUSDT(overrides?: CallOverrides): Promise<[string]>;
-
     addLiquidity(
       tokenA: string,
       tokenB: string,
-      amountADesired: BigNumberish,
-      amountBDesired: BigNumberish,
-      amountAMin: BigNumberish,
-      amountBMin: BigNumberish,
-      swapN: BigNumberish,
+      cmd: BytesLike,
       to: string,
       deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -346,22 +357,59 @@ export interface EquityRouterMetadata extends BaseContract {
       sequence: BigNumberish,
       to: string,
       deadline: BigNumberish,
+      fee: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     factory(overrides?: CallOverrides): Promise<[string]>;
 
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountIn: BigNumber; amountFee: BigNumber }
+    >;
+
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountOut: BigNumber; amountFee: BigNumber }
+    >;
+
     getAmountsIn(
       amountOut: BigNumberish,
       path: string[],
       overrides?: CallOverrides
-    ): Promise<[BigNumber[]] & { amounts: BigNumber[] }>;
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
 
     getAmountsOut(
       amountIn: BigNumberish,
       path: string[],
       overrides?: CallOverrides
-    ): Promise<[BigNumber[]] & { amounts: BigNumber[] }>;
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
 
     quote(
       amountA: BigNumberish,
@@ -525,18 +573,10 @@ export interface EquityRouterMetadata extends BaseContract {
 
   WETH(overrides?: CallOverrides): Promise<string>;
 
-  WUSDC(overrides?: CallOverrides): Promise<string>;
-
-  WUSDT(overrides?: CallOverrides): Promise<string>;
-
   addLiquidity(
     tokenA: string,
     tokenB: string,
-    amountADesired: BigNumberish,
-    amountBDesired: BigNumberish,
-    amountAMin: BigNumberish,
-    amountBMin: BigNumberish,
-    swapN: BigNumberish,
+    cmd: BytesLike,
     to: string,
     deadline: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -551,22 +591,59 @@ export interface EquityRouterMetadata extends BaseContract {
     sequence: BigNumberish,
     to: string,
     deadline: BigNumberish,
+    fee: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   factory(overrides?: CallOverrides): Promise<string>;
 
+  getAmountIn(
+    amountOut: BigNumberish,
+    reserveIn: BigNumberish,
+    reserveOut: BigNumberish,
+    exponentIn: BigNumberish,
+    exponentOut: BigNumberish,
+    tokenA: string,
+    tokenB: string,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { amountIn: BigNumber; amountFee: BigNumber }
+  >;
+
+  getAmountOut(
+    amountIn: BigNumberish,
+    reserveIn: BigNumberish,
+    reserveOut: BigNumberish,
+    exponentIn: BigNumberish,
+    exponentOut: BigNumberish,
+    tokenA: string,
+    tokenB: string,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { amountOut: BigNumber; amountFee: BigNumber }
+  >;
+
   getAmountsIn(
     amountOut: BigNumberish,
     path: string[],
     overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
+  ): Promise<
+    [BigNumber[], BigNumber[]] & {
+      amounts: BigNumber[];
+      amountFees: BigNumber[];
+    }
+  >;
 
   getAmountsOut(
     amountIn: BigNumberish,
     path: string[],
     overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
+  ): Promise<
+    [BigNumber[], BigNumber[]] & {
+      amounts: BigNumber[];
+      amountFees: BigNumber[];
+    }
+  >;
 
   quote(
     amountA: BigNumberish,
@@ -730,18 +807,10 @@ export interface EquityRouterMetadata extends BaseContract {
   callStatic: {
     WETH(overrides?: CallOverrides): Promise<string>;
 
-    WUSDC(overrides?: CallOverrides): Promise<string>;
-
-    WUSDT(overrides?: CallOverrides): Promise<string>;
-
     addLiquidity(
       tokenA: string,
       tokenB: string,
-      amountADesired: BigNumberish,
-      amountBDesired: BigNumberish,
-      amountAMin: BigNumberish,
-      amountBMin: BigNumberish,
-      swapN: BigNumberish,
+      cmd: BytesLike,
       to: string,
       deadline: BigNumberish,
       overrides?: CallOverrides
@@ -762,6 +831,7 @@ export interface EquityRouterMetadata extends BaseContract {
       sequence: BigNumberish,
       to: string,
       deadline: BigNumberish,
+      fee: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, BigNumber] & {
@@ -773,17 +843,53 @@ export interface EquityRouterMetadata extends BaseContract {
 
     factory(overrides?: CallOverrides): Promise<string>;
 
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountIn: BigNumber; amountFee: BigNumber }
+    >;
+
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountOut: BigNumber; amountFee: BigNumber }
+    >;
+
     getAmountsIn(
       amountOut: BigNumberish,
       path: string[],
       overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
 
     getAmountsOut(
       amountIn: BigNumberish,
       path: string[],
       overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
 
     quote(
       amountA: BigNumberish,
@@ -958,18 +1064,10 @@ export interface EquityRouterMetadata extends BaseContract {
   estimateGas: {
     WETH(overrides?: CallOverrides): Promise<BigNumber>;
 
-    WUSDC(overrides?: CallOverrides): Promise<BigNumber>;
-
-    WUSDT(overrides?: CallOverrides): Promise<BigNumber>;
-
     addLiquidity(
       tokenA: string,
       tokenB: string,
-      amountADesired: BigNumberish,
-      amountBDesired: BigNumberish,
-      amountAMin: BigNumberish,
-      amountBMin: BigNumberish,
-      swapN: BigNumberish,
+      cmd: BytesLike,
       to: string,
       deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -984,10 +1082,33 @@ export interface EquityRouterMetadata extends BaseContract {
       sequence: BigNumberish,
       to: string,
       deadline: BigNumberish,
+      fee: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     factory(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getAmountsIn(
       amountOut: BigNumberish,
@@ -1164,18 +1285,10 @@ export interface EquityRouterMetadata extends BaseContract {
   populateTransaction: {
     WETH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    WUSDC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    WUSDT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     addLiquidity(
       tokenA: string,
       tokenB: string,
-      amountADesired: BigNumberish,
-      amountBDesired: BigNumberish,
-      amountAMin: BigNumberish,
-      amountBMin: BigNumberish,
-      swapN: BigNumberish,
+      cmd: BytesLike,
       to: string,
       deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1190,10 +1303,33 @@ export interface EquityRouterMetadata extends BaseContract {
       sequence: BigNumberish,
       to: string,
       deadline: BigNumberish,
+      fee: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     factory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getAmountsIn(
       amountOut: BigNumberish,

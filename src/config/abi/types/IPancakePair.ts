@@ -19,7 +19,6 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface IPancakePairInterface extends utils.Interface {
   functions: {
-    "getExponents()": FunctionFragment;
     "DOMAIN_SEPARATOR()": FunctionFragment;
     "MINIMUM_LIQUIDITY()": FunctionFragment;
     "PERMIT_TYPEHASH()": FunctionFragment;
@@ -28,9 +27,15 @@ export interface IPancakePairInterface extends utils.Interface {
     "balanceOf(address)": FunctionFragment;
     "burn(address)": FunctionFragment;
     "decimals()": FunctionFragment;
+    "exp(uint256,uint256,uint256)": FunctionFragment;
+    "exponent0()": FunctionFragment;
+    "exponent1()": FunctionFragment;
     "factory()": FunctionFragment;
+    "fee()": FunctionFragment;
+    "getExponents()": FunctionFragment;
+    "getFee()": FunctionFragment;
     "getReserves()": FunctionFragment;
-    "initialize(address,address)": FunctionFragment;
+    "initialize(address,address,uint256,uint256,uint256)": FunctionFragment;
     "kLast()": FunctionFragment;
     "mint(address)": FunctionFragment;
     "name()": FunctionFragment;
@@ -39,7 +44,7 @@ export interface IPancakePairInterface extends utils.Interface {
     "price0CumulativeLast()": FunctionFragment;
     "price1CumulativeLast()": FunctionFragment;
     "skim(address)": FunctionFragment;
-    "swap(uint256,uint256,address,bytes)": FunctionFragment;
+    "swap(uint256,uint256,uint256,address,bytes)": FunctionFragment;
     "symbol()": FunctionFragment;
     "sync()": FunctionFragment;
     "token0()": FunctionFragment;
@@ -49,10 +54,6 @@ export interface IPancakePairInterface extends utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "getExponents",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "DOMAIN_SEPARATOR",
     values?: undefined
@@ -76,14 +77,26 @@ export interface IPancakePairInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "burn", values: [string]): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "exp",
+    values: [BigNumberish, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "exponent0", values?: undefined): string;
+  encodeFunctionData(functionFragment: "exponent1", values?: undefined): string;
   encodeFunctionData(functionFragment: "factory", values?: undefined): string;
+  encodeFunctionData(functionFragment: "fee", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getExponents",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "getFee", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getReserves",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [string, string]
+    values: [string, string, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "kLast", values?: undefined): string;
   encodeFunctionData(functionFragment: "mint", values: [string]): string;
@@ -112,7 +125,7 @@ export interface IPancakePairInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "skim", values: [string]): string;
   encodeFunctionData(
     functionFragment: "swap",
-    values: [BigNumberish, BigNumberish, string, BytesLike]
+    values: [BigNumberish, BigNumberish, BigNumberish, string, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(functionFragment: "sync", values?: undefined): string;
@@ -132,10 +145,6 @@ export interface IPancakePairInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "getExponents",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "DOMAIN_SEPARATOR",
     data: BytesLike
   ): Result;
@@ -152,7 +161,16 @@ export interface IPancakePairInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "exp", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "exponent0", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "exponent1", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "fee", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getExponents",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getReserves",
     data: BytesLike
@@ -280,16 +298,6 @@ export interface IPancakePair extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    getExponents(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, number] & {
-        exponent0: BigNumber;
-        exponent1: BigNumber;
-        blockTimestampLast: number;
-      }
-    >;
-
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<[string]>;
 
     MINIMUM_LIQUIDITY(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -297,8 +305,8 @@ export interface IPancakePair extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<[string]>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -308,7 +316,7 @@ export interface IPancakePair extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     burn(
       to: string,
@@ -317,21 +325,49 @@ export interface IPancakePair extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
+    exp(
+      n: BigNumberish,
+      a: BigNumberish,
+      b: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    exponent0(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    exponent1(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     factory(overrides?: CallOverrides): Promise<[string]>;
+
+    fee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getExponents(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, number] & {
+        _exponent0: BigNumber;
+        _exponent1: BigNumber;
+        _blockTimestampLast: number;
+      }
+    >;
+
+    getFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getReserves(
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, number] & {
-        reserve0: BigNumber;
-        reserve1: BigNumber;
-        blockTimestampLast: number;
+        _reserve0: BigNumber;
+        _reserve1: BigNumber;
+        _blockTimestampLast: number;
       }
     >;
 
     initialize(
-      arg0: string,
-      arg1: string,
+      _token0: string,
+      _token1: string,
+      _exponent0: BigNumberish,
+      _exponent1: BigNumberish,
+      _fee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -344,7 +380,7 @@ export interface IPancakePair extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     permit(
       owner: string,
@@ -369,6 +405,7 @@ export interface IPancakePair extends BaseContract {
     swap(
       amount0Out: BigNumberish,
       amount1Out: BigNumberish,
+      fee_: BigNumberish,
       to: string,
       data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -400,16 +437,6 @@ export interface IPancakePair extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  getExponents(
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, number] & {
-      exponent0: BigNumber;
-      exponent1: BigNumber;
-      blockTimestampLast: number;
-    }
-  >;
-
   DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
   MINIMUM_LIQUIDITY(overrides?: CallOverrides): Promise<BigNumber>;
@@ -417,8 +444,8 @@ export interface IPancakePair extends BaseContract {
   PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
   allowance(
-    owner: string,
-    spender: string,
+    arg0: string,
+    arg1: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -428,7 +455,7 @@ export interface IPancakePair extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+  balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   burn(
     to: string,
@@ -437,21 +464,49 @@ export interface IPancakePair extends BaseContract {
 
   decimals(overrides?: CallOverrides): Promise<number>;
 
+  exp(
+    n: BigNumberish,
+    a: BigNumberish,
+    b: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  exponent0(overrides?: CallOverrides): Promise<BigNumber>;
+
+  exponent1(overrides?: CallOverrides): Promise<BigNumber>;
+
   factory(overrides?: CallOverrides): Promise<string>;
+
+  fee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getExponents(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, number] & {
+      _exponent0: BigNumber;
+      _exponent1: BigNumber;
+      _blockTimestampLast: number;
+    }
+  >;
+
+  getFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   getReserves(
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber, number] & {
-      reserve0: BigNumber;
-      reserve1: BigNumber;
-      blockTimestampLast: number;
+      _reserve0: BigNumber;
+      _reserve1: BigNumber;
+      _blockTimestampLast: number;
     }
   >;
 
   initialize(
-    arg0: string,
-    arg1: string,
+    _token0: string,
+    _token1: string,
+    _exponent0: BigNumberish,
+    _exponent1: BigNumberish,
+    _fee: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -464,7 +519,7 @@ export interface IPancakePair extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+  nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   permit(
     owner: string,
@@ -489,6 +544,7 @@ export interface IPancakePair extends BaseContract {
   swap(
     amount0Out: BigNumberish,
     amount1Out: BigNumberish,
+    fee_: BigNumberish,
     to: string,
     data: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -520,16 +576,6 @@ export interface IPancakePair extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    getExponents(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, number] & {
-        exponent0: BigNumber;
-        exponent1: BigNumber;
-        blockTimestampLast: number;
-      }
-    >;
-
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<string>;
 
     MINIMUM_LIQUIDITY(overrides?: CallOverrides): Promise<BigNumber>;
@@ -537,8 +583,8 @@ export interface IPancakePair extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<string>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -548,7 +594,7 @@ export interface IPancakePair extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
       to: string,
@@ -559,21 +605,49 @@ export interface IPancakePair extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<number>;
 
+    exp(
+      n: BigNumberish,
+      a: BigNumberish,
+      b: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    exponent0(overrides?: CallOverrides): Promise<BigNumber>;
+
+    exponent1(overrides?: CallOverrides): Promise<BigNumber>;
+
     factory(overrides?: CallOverrides): Promise<string>;
+
+    fee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getExponents(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, number] & {
+        _exponent0: BigNumber;
+        _exponent1: BigNumber;
+        _blockTimestampLast: number;
+      }
+    >;
+
+    getFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     getReserves(
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber, number] & {
-        reserve0: BigNumber;
-        reserve1: BigNumber;
-        blockTimestampLast: number;
+        _reserve0: BigNumber;
+        _reserve1: BigNumber;
+        _blockTimestampLast: number;
       }
     >;
 
     initialize(
-      arg0: string,
-      arg1: string,
+      _token0: string,
+      _token1: string,
+      _exponent0: BigNumberish,
+      _exponent1: BigNumberish,
+      _fee: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -583,7 +657,7 @@ export interface IPancakePair extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<string>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
       owner: string,
@@ -605,6 +679,7 @@ export interface IPancakePair extends BaseContract {
     swap(
       amount0Out: BigNumberish,
       amount1Out: BigNumberish,
+      fee_: BigNumberish,
       to: string,
       data: BytesLike,
       overrides?: CallOverrides
@@ -703,8 +778,6 @@ export interface IPancakePair extends BaseContract {
   };
 
   estimateGas: {
-    getExponents(overrides?: CallOverrides): Promise<BigNumber>;
-
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<BigNumber>;
 
     MINIMUM_LIQUIDITY(overrides?: CallOverrides): Promise<BigNumber>;
@@ -712,8 +785,8 @@ export interface IPancakePair extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<BigNumber>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -723,7 +796,7 @@ export interface IPancakePair extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    balanceOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(
       to: string,
@@ -732,13 +805,33 @@ export interface IPancakePair extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
+    exp(
+      n: BigNumberish,
+      a: BigNumberish,
+      b: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    exponent0(overrides?: CallOverrides): Promise<BigNumber>;
+
+    exponent1(overrides?: CallOverrides): Promise<BigNumber>;
+
     factory(overrides?: CallOverrides): Promise<BigNumber>;
+
+    fee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getExponents(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     getReserves(overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
-      arg0: string,
-      arg1: string,
+      _token0: string,
+      _token1: string,
+      _exponent0: BigNumberish,
+      _exponent1: BigNumberish,
+      _fee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -751,7 +844,7 @@ export interface IPancakePair extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    nonces(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
+    nonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     permit(
       owner: string,
@@ -776,6 +869,7 @@ export interface IPancakePair extends BaseContract {
     swap(
       amount0Out: BigNumberish,
       amount1Out: BigNumberish,
+      fee_: BigNumberish,
       to: string,
       data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -808,8 +902,6 @@ export interface IPancakePair extends BaseContract {
   };
 
   populateTransaction: {
-    getExponents(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     DOMAIN_SEPARATOR(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     MINIMUM_LIQUIDITY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -817,8 +909,8 @@ export interface IPancakePair extends BaseContract {
     PERMIT_TYPEHASH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     allowance(
-      owner: string,
-      spender: string,
+      arg0: string,
+      arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -829,7 +921,7 @@ export interface IPancakePair extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
-      owner: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -840,13 +932,33 @@ export interface IPancakePair extends BaseContract {
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    exp(
+      n: BigNumberish,
+      a: BigNumberish,
+      b: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    exponent0(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    exponent1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     factory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    fee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getExponents(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getReserves(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     initialize(
-      arg0: string,
-      arg1: string,
+      _token0: string,
+      _token1: string,
+      _exponent0: BigNumberish,
+      _exponent1: BigNumberish,
+      _fee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -860,7 +972,7 @@ export interface IPancakePair extends BaseContract {
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     nonces(
-      owner: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -891,6 +1003,7 @@ export interface IPancakePair extends BaseContract {
     swap(
       amount0Out: BigNumberish,
       amount1Out: BigNumberish,
+      fee_: BigNumberish,
       to: string,
       data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }

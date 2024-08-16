@@ -9,210 +9,306 @@ import {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
+import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface EquityFactoryMetadataInterface extends utils.Interface {
   functions: {
-    "INIT_CODE_PAIR_HASH()": FunctionFragment;
     "WETH()": FunctionFragment;
-    "WUSDC()": FunctionFragment;
-    "WUSDT()": FunctionFragment;
-    "addWhiteList(address,address,uint256)": FunctionFragment;
-    "allPairs(uint256)": FunctionFragment;
-    "allPairsLength()": FunctionFragment;
-    "createPair(address,address,uint256,uint256)": FunctionFragment;
-    "feeTo()": FunctionFragment;
-    "feeToSetter()": FunctionFragment;
-    "feeToWeight()": FunctionFragment;
-    "getPair(address,address)": FunctionFragment;
-    "isTokenwhite(address)": FunctionFragment;
-    "isWhite(address,address)": FunctionFragment;
-    "iswhite(address)": FunctionFragment;
-    "routerAddress()": FunctionFragment;
-    "setFeeTo(address)": FunctionFragment;
-    "setFeeToSetter(address)": FunctionFragment;
-    "setFeeToWeight(uint256)": FunctionFragment;
-    "setRouterAddress(address)": FunctionFragment;
-    "setwhite(address)": FunctionFragment;
-    "setwhiteAddress(address)": FunctionFragment;
-    "whiteAddress()": FunctionFragment;
-    "whiteList(address,address)": FunctionFragment;
+    "addLiquidity(address,address,bytes,address,uint256)": FunctionFragment;
+    "addLiquidityETH(address,uint256,uint256,uint256,uint8,uint8,address,uint256,uint256)": FunctionFragment;
+    "factory()": FunctionFragment;
+    "getAmountIn(uint256,uint256,uint256,uint256,uint256,address,address)": FunctionFragment;
+    "getAmountOut(uint256,uint256,uint256,uint256,uint256,address,address)": FunctionFragment;
+    "getAmountsIn(uint256,address[])": FunctionFragment;
+    "getAmountsOut(uint256,address[])": FunctionFragment;
+    "quote(uint256,uint256,uint256)": FunctionFragment;
+    "removeLiquidity(address,address,uint256,uint256,uint256,address,uint256)": FunctionFragment;
+    "removeLiquidityETH(address,uint256,uint256,uint256,address,uint256)": FunctionFragment;
+    "removeLiquidityETHSupportingFeeOnTransferTokens(address,uint256,uint256,uint256,address,uint256)": FunctionFragment;
+    "removeLiquidityETHWithPermit(address,uint256,uint256,uint256,address,uint256,bool,uint8,bytes32,bytes32)": FunctionFragment;
+    "removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(address,uint256,uint256,uint256,address,uint256,bool,uint8,bytes32,bytes32)": FunctionFragment;
+    "removeLiquidityWithPermit(address,address,uint256,uint256,uint256,address,uint256,bool,uint8,bytes32,bytes32)": FunctionFragment;
+    "swapETHForExactTokens(uint256,address[],address,uint256)": FunctionFragment;
+    "swapExactETHForTokens(uint256,address[],address,uint256)": FunctionFragment;
+    "swapExactETHForTokensSupportingFeeOnTransferTokens(uint256,address[],address,uint256)": FunctionFragment;
+    "swapExactTokensForETH(uint256,uint256,address[],address,uint256)": FunctionFragment;
+    "swapExactTokensForETHSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256)": FunctionFragment;
+    "swapExactTokensForTokens(uint256,uint256,address[],address,uint256)": FunctionFragment;
+    "swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256)": FunctionFragment;
+    "swapTokensForExactETH(uint256,uint256,address[],address,uint256)": FunctionFragment;
+    "swapTokensForExactTokens(uint256,uint256,address[],address,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "INIT_CODE_PAIR_HASH",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "WETH", values?: undefined): string;
-  encodeFunctionData(functionFragment: "WUSDC", values?: undefined): string;
-  encodeFunctionData(functionFragment: "WUSDT", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "addWhiteList",
-    values: [string, string, BigNumberish]
+    functionFragment: "addLiquidity",
+    values: [string, string, BytesLike, string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "allPairs",
-    values: [BigNumberish]
+    functionFragment: "addLiquidityETH",
+    values: [
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish,
+      BigNumberish
+    ]
+  ): string;
+  encodeFunctionData(functionFragment: "factory", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getAmountIn",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      string
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "allPairsLength",
-    values?: undefined
+    functionFragment: "getAmountOut",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      string
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "createPair",
-    values: [string, string, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "feeTo", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "feeToSetter",
-    values?: undefined
+    functionFragment: "getAmountsIn",
+    values: [BigNumberish, string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "feeToWeight",
-    values?: undefined
+    functionFragment: "getAmountsOut",
+    values: [BigNumberish, string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "getPair",
-    values: [string, string]
+    functionFragment: "quote",
+    values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "isTokenwhite",
-    values: [string]
+    functionFragment: "removeLiquidity",
+    values: [
+      string,
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "isWhite",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(functionFragment: "iswhite", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "routerAddress",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "setFeeTo", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "setFeeToSetter",
-    values: [string]
+    functionFragment: "removeLiquidityETH",
+    values: [
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "setFeeToWeight",
-    values: [BigNumberish]
+    functionFragment: "removeLiquidityETHSupportingFeeOnTransferTokens",
+    values: [
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "setRouterAddress",
-    values: [string]
+    functionFragment: "removeLiquidityETHWithPermit",
+    values: [
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish,
+      boolean,
+      BigNumberish,
+      BytesLike,
+      BytesLike
+    ]
   ): string;
-  encodeFunctionData(functionFragment: "setwhite", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "setwhiteAddress",
-    values: [string]
+    functionFragment: "removeLiquidityETHWithPermitSupportingFeeOnTransferTokens",
+    values: [
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish,
+      boolean,
+      BigNumberish,
+      BytesLike,
+      BytesLike
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "whiteAddress",
-    values?: undefined
+    functionFragment: "removeLiquidityWithPermit",
+    values: [
+      string,
+      string,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      string,
+      BigNumberish,
+      boolean,
+      BigNumberish,
+      BytesLike,
+      BytesLike
+    ]
   ): string;
   encodeFunctionData(
-    functionFragment: "whiteList",
-    values: [string, string]
+    functionFragment: "swapETHForExactTokens",
+    values: [BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapExactETHForTokens",
+    values: [BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapExactETHForTokensSupportingFeeOnTransferTokens",
+    values: [BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapExactTokensForETH",
+    values: [BigNumberish, BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapExactTokensForETHSupportingFeeOnTransferTokens",
+    values: [BigNumberish, BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapExactTokensForTokens",
+    values: [BigNumberish, BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapExactTokensForTokensSupportingFeeOnTransferTokens",
+    values: [BigNumberish, BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapTokensForExactETH",
+    values: [BigNumberish, BigNumberish, string[], string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "swapTokensForExactTokens",
+    values: [BigNumberish, BigNumberish, string[], string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "INIT_CODE_PAIR_HASH",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "WETH", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "WUSDC", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "WUSDT", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "addWhiteList",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "allPairs", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "allPairsLength",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "createPair", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "feeTo", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "feeToSetter",
+    functionFragment: "addLiquidity",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "feeToWeight",
+    functionFragment: "addLiquidityETH",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "getPair", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "isTokenwhite",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "isWhite", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "iswhite", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "routerAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setFeeTo", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setFeeToSetter",
+    functionFragment: "getAmountIn",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setFeeToWeight",
+    functionFragment: "getAmountOut",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setRouterAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setwhite", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setwhiteAddress",
+    functionFragment: "getAmountsIn",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "whiteAddress",
+    functionFragment: "getAmountsOut",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "whiteList", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "quote", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLiquidity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLiquidityETH",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLiquidityETHSupportingFeeOnTransferTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLiquidityETHWithPermit",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLiquidityETHWithPermitSupportingFeeOnTransferTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "removeLiquidityWithPermit",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapETHForExactTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapExactETHForTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapExactETHForTokensSupportingFeeOnTransferTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapExactTokensForETH",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapExactTokensForETHSupportingFeeOnTransferTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapExactTokensForTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapExactTokensForTokensSupportingFeeOnTransferTokens",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapTokensForExactETH",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "swapTokensForExactTokens",
+    data: BytesLike
+  ): Result;
 
-  events: {
-    "AddWhite(address,bool)": EventFragment;
-    "AddWhiteList(address,address,uint256)": EventFragment;
-    "PairCreated(address,address,address,uint256)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "AddWhite"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AddWhiteList"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PairCreated"): EventFragment;
+  events: {};
 }
-
-export type AddWhiteEvent = TypedEvent<
-  [string, boolean],
-  { token: string; value: boolean }
->;
-
-export type AddWhiteEventFilter = TypedEventFilter<AddWhiteEvent>;
-
-export type AddWhiteListEvent = TypedEvent<
-  [string, string, BigNumber],
-  { token: string; creator: string; value: BigNumber }
->;
-
-export type AddWhiteListEventFilter = TypedEventFilter<AddWhiteListEvent>;
-
-export type PairCreatedEvent = TypedEvent<
-  [string, string, string, BigNumber],
-  { token0: string; token1: string; pair: string; arg3: BigNumber }
->;
-
-export type PairCreatedEventFilter = TypedEventFilter<PairCreatedEvent>;
 
 export interface EquityFactoryMetadata extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -241,492 +337,1169 @@ export interface EquityFactoryMetadata extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    INIT_CODE_PAIR_HASH(overrides?: CallOverrides): Promise<[string]>;
-
     WETH(overrides?: CallOverrides): Promise<[string]>;
 
-    WUSDC(overrides?: CallOverrides): Promise<[string]>;
-
-    WUSDT(overrides?: CallOverrides): Promise<[string]>;
-
-    addWhiteList(
-      token: string,
-      creator: string,
-      value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    allPairs(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
-
-    allPairsLength(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    createPair(
+    addLiquidity(
       tokenA: string,
       tokenB: string,
-      exponentA: BigNumberish,
-      exponentB: BigNumberish,
+      cmd: BytesLike,
+      to: string,
+      deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    feeTo(overrides?: CallOverrides): Promise<[string]>;
-
-    feeToSetter(overrides?: CallOverrides): Promise<[string]>;
-
-    feeToWeight(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getPair(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    isTokenwhite(token: string, overrides?: CallOverrides): Promise<[boolean]>;
-
-    isWhite(
+    addLiquidityETH(
       token: string,
-      creator: string,
+      amountTokenDesired: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      swapN: BigNumberish,
+      sequence: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      fee: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    factory(overrides?: CallOverrides): Promise<[string]>;
+
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<
+      [BigNumber, BigNumber] & { amountIn: BigNumber; amountFee: BigNumber }
+    >;
 
-    iswhite(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
-
-    routerAddress(overrides?: CallOverrides): Promise<[string]>;
-
-    setFeeTo(
-      _feeTo: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setFeeToSetter(
-      _feeToSetter: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setFeeToWeight(
-      _feeToWeight: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setRouterAddress(
-      _routerAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setwhite(
-      contractAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setwhiteAddress(
-      newWhiteAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    whiteAddress(overrides?: CallOverrides): Promise<[string]>;
-
-    whiteList(
-      arg0: string,
-      arg1: string,
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
       overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    ): Promise<
+      [BigNumber, BigNumber] & { amountOut: BigNumber; amountFee: BigNumber }
+    >;
+
+    getAmountsIn(
+      amountOut: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
+
+    getAmountsOut(
+      amountIn: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
+
+    quote(
+      amountA: BigNumberish,
+      reserveA: BigNumberish,
+      reserveB: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { amountB: BigNumber }>;
+
+    removeLiquidity(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    removeLiquidityETH(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    removeLiquidityETHSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    removeLiquidityETHWithPermit(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    removeLiquidityWithPermit(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapETHForExactTokens(
+      amountOut: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapExactETHForTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapExactETHForTokensSupportingFeeOnTransferTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapExactTokensForETH(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapExactTokensForETHSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapExactTokensForTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapExactTokensForTokensSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapTokensForExactETH(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    swapTokensForExactTokens(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
-
-  INIT_CODE_PAIR_HASH(overrides?: CallOverrides): Promise<string>;
 
   WETH(overrides?: CallOverrides): Promise<string>;
 
-  WUSDC(overrides?: CallOverrides): Promise<string>;
-
-  WUSDT(overrides?: CallOverrides): Promise<string>;
-
-  addWhiteList(
-    token: string,
-    creator: string,
-    value: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  allPairs(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  allPairsLength(overrides?: CallOverrides): Promise<BigNumber>;
-
-  createPair(
+  addLiquidity(
     tokenA: string,
     tokenB: string,
-    exponentA: BigNumberish,
-    exponentB: BigNumberish,
+    cmd: BytesLike,
+    to: string,
+    deadline: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  feeTo(overrides?: CallOverrides): Promise<string>;
-
-  feeToSetter(overrides?: CallOverrides): Promise<string>;
-
-  feeToWeight(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getPair(
-    arg0: string,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  isTokenwhite(token: string, overrides?: CallOverrides): Promise<boolean>;
-
-  isWhite(
+  addLiquidityETH(
     token: string,
-    creator: string,
+    amountTokenDesired: BigNumberish,
+    amountTokenMin: BigNumberish,
+    amountETHMin: BigNumberish,
+    swapN: BigNumberish,
+    sequence: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
+    fee: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  factory(overrides?: CallOverrides): Promise<string>;
+
+  getAmountIn(
+    amountOut: BigNumberish,
+    reserveIn: BigNumberish,
+    reserveOut: BigNumberish,
+    exponentIn: BigNumberish,
+    exponentOut: BigNumberish,
+    tokenA: string,
+    tokenB: string,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { amountIn: BigNumber; amountFee: BigNumber }
+  >;
+
+  getAmountOut(
+    amountIn: BigNumberish,
+    reserveIn: BigNumberish,
+    reserveOut: BigNumberish,
+    exponentIn: BigNumberish,
+    exponentOut: BigNumberish,
+    tokenA: string,
+    tokenB: string,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { amountOut: BigNumber; amountFee: BigNumber }
+  >;
+
+  getAmountsIn(
+    amountOut: BigNumberish,
+    path: string[],
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber[], BigNumber[]] & {
+      amounts: BigNumber[];
+      amountFees: BigNumber[];
+    }
+  >;
+
+  getAmountsOut(
+    amountIn: BigNumberish,
+    path: string[],
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber[], BigNumber[]] & {
+      amounts: BigNumber[];
+      amountFees: BigNumber[];
+    }
+  >;
+
+  quote(
+    amountA: BigNumberish,
+    reserveA: BigNumberish,
+    reserveB: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  iswhite(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
-  routerAddress(overrides?: CallOverrides): Promise<string>;
-
-  setFeeTo(
-    _feeTo: string,
+  removeLiquidity(
+    tokenA: string,
+    tokenB: string,
+    liquidity: BigNumberish,
+    amountAMin: BigNumberish,
+    amountBMin: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setFeeToSetter(
-    _feeToSetter: string,
+  removeLiquidityETH(
+    token: string,
+    liquidity: BigNumberish,
+    amountTokenMin: BigNumberish,
+    amountETHMin: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setFeeToWeight(
-    _feeToWeight: BigNumberish,
+  removeLiquidityETHSupportingFeeOnTransferTokens(
+    token: string,
+    liquidity: BigNumberish,
+    amountTokenMin: BigNumberish,
+    amountETHMin: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setRouterAddress(
-    _routerAddress: string,
+  removeLiquidityETHWithPermit(
+    token: string,
+    liquidity: BigNumberish,
+    amountTokenMin: BigNumberish,
+    amountETHMin: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
+    approveMax: boolean,
+    v: BigNumberish,
+    r: BytesLike,
+    s: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setwhite(
-    contractAddress: string,
+  removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+    token: string,
+    liquidity: BigNumberish,
+    amountTokenMin: BigNumberish,
+    amountETHMin: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
+    approveMax: boolean,
+    v: BigNumberish,
+    r: BytesLike,
+    s: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setwhiteAddress(
-    newWhiteAddress: string,
+  removeLiquidityWithPermit(
+    tokenA: string,
+    tokenB: string,
+    liquidity: BigNumberish,
+    amountAMin: BigNumberish,
+    amountBMin: BigNumberish,
+    to: string,
+    deadline: BigNumberish,
+    approveMax: boolean,
+    v: BigNumberish,
+    r: BytesLike,
+    s: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  whiteAddress(overrides?: CallOverrides): Promise<string>;
+  swapETHForExactTokens(
+    amountOut: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  whiteList(
-    arg0: string,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  swapExactETHForTokens(
+    amountOutMin: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapExactETHForTokensSupportingFeeOnTransferTokens(
+    amountOutMin: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapExactTokensForETH(
+    amountIn: BigNumberish,
+    amountOutMin: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapExactTokensForETHSupportingFeeOnTransferTokens(
+    amountIn: BigNumberish,
+    amountOutMin: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapExactTokensForTokens(
+    amountIn: BigNumberish,
+    amountOutMin: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapExactTokensForTokensSupportingFeeOnTransferTokens(
+    amountIn: BigNumberish,
+    amountOutMin: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapTokensForExactETH(
+    amountOut: BigNumberish,
+    amountInMax: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  swapTokensForExactTokens(
+    amountOut: BigNumberish,
+    amountInMax: BigNumberish,
+    path: string[],
+    to: string,
+    deadline: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
-    INIT_CODE_PAIR_HASH(overrides?: CallOverrides): Promise<string>;
-
     WETH(overrides?: CallOverrides): Promise<string>;
 
-    WUSDC(overrides?: CallOverrides): Promise<string>;
-
-    WUSDT(overrides?: CallOverrides): Promise<string>;
-
-    addWhiteList(
-      token: string,
-      creator: string,
-      value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    allPairs(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    allPairsLength(overrides?: CallOverrides): Promise<BigNumber>;
-
-    createPair(
+    addLiquidity(
       tokenA: string,
       tokenB: string,
-      exponentA: BigNumberish,
-      exponentB: BigNumberish,
+      cmd: BytesLike,
+      to: string,
+      deadline: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        amountA: BigNumber;
+        amountB: BigNumber;
+        liquidity: BigNumber;
+      }
+    >;
 
-    feeTo(overrides?: CallOverrides): Promise<string>;
-
-    feeToSetter(overrides?: CallOverrides): Promise<string>;
-
-    feeToWeight(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getPair(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    isTokenwhite(token: string, overrides?: CallOverrides): Promise<boolean>;
-
-    isWhite(
+    addLiquidityETH(
       token: string,
-      creator: string,
+      amountTokenDesired: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      swapN: BigNumberish,
+      sequence: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      fee: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        amountToken: BigNumber;
+        amountETH: BigNumber;
+        liquidity: BigNumber;
+      }
+    >;
+
+    factory(overrides?: CallOverrides): Promise<string>;
+
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountIn: BigNumber; amountFee: BigNumber }
+    >;
+
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountOut: BigNumber; amountFee: BigNumber }
+    >;
+
+    getAmountsIn(
+      amountOut: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
+
+    getAmountsOut(
+      amountIn: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber[], BigNumber[]] & {
+        amounts: BigNumber[];
+        amountFees: BigNumber[];
+      }
+    >;
+
+    quote(
+      amountA: BigNumberish,
+      reserveA: BigNumberish,
+      reserveB: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    iswhite(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
-    routerAddress(overrides?: CallOverrides): Promise<string>;
-
-    setFeeTo(_feeTo: string, overrides?: CallOverrides): Promise<void>;
-
-    setFeeToSetter(
-      _feeToSetter: string,
+    removeLiquidity(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<
+      [BigNumber, BigNumber] & { amountA: BigNumber; amountB: BigNumber }
+    >;
 
-    setFeeToWeight(
-      _feeToWeight: BigNumberish,
+    removeLiquidityETH(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<
+      [BigNumber, BigNumber] & { amountToken: BigNumber; amountETH: BigNumber }
+    >;
 
-    setRouterAddress(
-      _routerAddress: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setwhite(contractAddress: string, overrides?: CallOverrides): Promise<void>;
-
-    setwhiteAddress(
-      newWhiteAddress: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    whiteAddress(overrides?: CallOverrides): Promise<string>;
-
-    whiteList(
-      arg0: string,
-      arg1: string,
+    removeLiquidityETHSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    removeLiquidityETHWithPermit(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountToken: BigNumber; amountETH: BigNumber }
+    >;
+
+    removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    removeLiquidityWithPermit(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { amountA: BigNumber; amountB: BigNumber }
+    >;
+
+    swapETHForExactTokens(
+      amountOut: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    swapExactETHForTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    swapExactETHForTokensSupportingFeeOnTransferTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    swapExactTokensForETH(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    swapExactTokensForETHSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    swapExactTokensForTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    swapExactTokensForTokensSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    swapTokensForExactETH(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    swapTokensForExactTokens(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
   };
 
-  filters: {
-    "AddWhite(address,bool)"(
-      token?: string | null,
-      value?: null
-    ): AddWhiteEventFilter;
-    AddWhite(token?: string | null, value?: null): AddWhiteEventFilter;
-
-    "AddWhiteList(address,address,uint256)"(
-      token?: string | null,
-      creator?: string | null,
-      value?: null
-    ): AddWhiteListEventFilter;
-    AddWhiteList(
-      token?: string | null,
-      creator?: string | null,
-      value?: null
-    ): AddWhiteListEventFilter;
-
-    "PairCreated(address,address,address,uint256)"(
-      token0?: string | null,
-      token1?: string | null,
-      pair?: null,
-      undefined?: null
-    ): PairCreatedEventFilter;
-    PairCreated(
-      token0?: string | null,
-      token1?: string | null,
-      pair?: null,
-      undefined?: null
-    ): PairCreatedEventFilter;
-  };
+  filters: {};
 
   estimateGas: {
-    INIT_CODE_PAIR_HASH(overrides?: CallOverrides): Promise<BigNumber>;
-
     WETH(overrides?: CallOverrides): Promise<BigNumber>;
 
-    WUSDC(overrides?: CallOverrides): Promise<BigNumber>;
-
-    WUSDT(overrides?: CallOverrides): Promise<BigNumber>;
-
-    addWhiteList(
-      token: string,
-      creator: string,
-      value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    allPairs(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    allPairsLength(overrides?: CallOverrides): Promise<BigNumber>;
-
-    createPair(
+    addLiquidity(
       tokenA: string,
       tokenB: string,
-      exponentA: BigNumberish,
-      exponentB: BigNumberish,
+      cmd: BytesLike,
+      to: string,
+      deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    feeTo(overrides?: CallOverrides): Promise<BigNumber>;
-
-    feeToSetter(overrides?: CallOverrides): Promise<BigNumber>;
-
-    feeToWeight(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getPair(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isTokenwhite(token: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    isWhite(
+    addLiquidityETH(
       token: string,
-      creator: string,
+      amountTokenDesired: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      swapN: BigNumberish,
+      sequence: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      fee: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    factory(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    iswhite(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    routerAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    setFeeTo(
-      _feeTo: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setFeeToSetter(
-      _feeToSetter: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setFeeToWeight(
-      _feeToWeight: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setRouterAddress(
-      _routerAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setwhite(
-      contractAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setwhiteAddress(
-      newWhiteAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    whiteAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    whiteList(
-      arg0: string,
-      arg1: string,
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountsIn(
+      amountOut: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getAmountsOut(
+      amountIn: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    quote(
+      amountA: BigNumberish,
+      reserveA: BigNumberish,
+      reserveB: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    removeLiquidity(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    removeLiquidityETH(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    removeLiquidityETHSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    removeLiquidityETHWithPermit(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    removeLiquidityWithPermit(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapETHForExactTokens(
+      amountOut: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapExactETHForTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapExactETHForTokensSupportingFeeOnTransferTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapExactTokensForETH(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapExactTokensForETHSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapExactTokensForTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapExactTokensForTokensSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapTokensForExactETH(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    swapTokensForExactTokens(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    INIT_CODE_PAIR_HASH(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     WETH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    WUSDC(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    WUSDT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    addWhiteList(
-      token: string,
-      creator: string,
-      value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    allPairs(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    allPairsLength(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    createPair(
+    addLiquidity(
       tokenA: string,
       tokenB: string,
-      exponentA: BigNumberish,
-      exponentB: BigNumberish,
+      cmd: BytesLike,
+      to: string,
+      deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    feeTo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    feeToSetter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    feeToWeight(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getPair(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isTokenwhite(
+    addLiquidityETH(
       token: string,
+      amountTokenDesired: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      swapN: BigNumberish,
+      sequence: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      fee: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    factory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getAmountIn(
+      amountOut: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    isWhite(
+    getAmountOut(
+      amountIn: BigNumberish,
+      reserveIn: BigNumberish,
+      reserveOut: BigNumberish,
+      exponentIn: BigNumberish,
+      exponentOut: BigNumberish,
+      tokenA: string,
+      tokenB: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAmountsIn(
+      amountOut: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getAmountsOut(
+      amountIn: BigNumberish,
+      path: string[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    quote(
+      amountA: BigNumberish,
+      reserveA: BigNumberish,
+      reserveB: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    removeLiquidity(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    removeLiquidityETH(
       token: string,
-      creator: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    iswhite(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    routerAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    setFeeTo(
-      _feeTo: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setFeeToSetter(
-      _feeToSetter: string,
+    removeLiquidityETHSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setFeeToWeight(
-      _feeToWeight: BigNumberish,
+    removeLiquidityETHWithPermit(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setRouterAddress(
-      _routerAddress: string,
+    removeLiquidityETHWithPermitSupportingFeeOnTransferTokens(
+      token: string,
+      liquidity: BigNumberish,
+      amountTokenMin: BigNumberish,
+      amountETHMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setwhite(
-      contractAddress: string,
+    removeLiquidityWithPermit(
+      tokenA: string,
+      tokenB: string,
+      liquidity: BigNumberish,
+      amountAMin: BigNumberish,
+      amountBMin: BigNumberish,
+      to: string,
+      deadline: BigNumberish,
+      approveMax: boolean,
+      v: BigNumberish,
+      r: BytesLike,
+      s: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setwhiteAddress(
-      newWhiteAddress: string,
+    swapETHForExactTokens(
+      amountOut: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapExactETHForTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapExactETHForTokensSupportingFeeOnTransferTokens(
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapExactTokensForETH(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    whiteAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    swapExactTokensForETHSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    whiteList(
-      arg0: string,
-      arg1: string,
-      overrides?: CallOverrides
+    swapExactTokensForTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapExactTokensForTokensSupportingFeeOnTransferTokens(
+      amountIn: BigNumberish,
+      amountOutMin: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapTokensForExactETH(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    swapTokensForExactTokens(
+      amountOut: BigNumberish,
+      amountInMax: BigNumberish,
+      path: string[],
+      to: string,
+      deadline: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

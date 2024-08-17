@@ -1,11 +1,10 @@
-import JSBI from 'jsbi'
+import JSBI from 'jsbi';
 
 // exports for external consumption
-export type BigintIsh = JSBI | number | string
+export type BigintIsh = JSBI | number | string;
 
 export enum ChainId {
   ETHEREUM = 1,
-  // RINKEBY = 4,
   GOERLI = 5,
   BSC = 56,
   opBNB = 204,
@@ -37,8 +36,8 @@ export const FACTORY_ADDRESS_MAP = {
   [ChainId.ZKSYNC]: '',
   [ChainId.opBNB]: '0xe2feC6354683D0f706ED7A9FD588fc706c9cA46e',
   [ChainId.SCROLL_TESTNET]: '0x4CDE53B04082CDAAaD1fCF4fF5e54693C7254D19',
-  [ChainId.SCROLL]:'0x11F174962dF86393faB25bf6EdB3d084e51FFAf9'
-}
+  [ChainId.SCROLL]: '0x11F174962dF86393faB25bf6EdB3d084e51FFAf9',
+};
 
 export const INIT_CODE_HASH_MAP = {
   [ChainId.GOERLI]: '0xbd6e9c8068984bfca91aed95f2f98658a71e81a7e6fdc3ee14a32e18282b6fd6',
@@ -47,28 +46,57 @@ export const INIT_CODE_HASH_MAP = {
   [ChainId.ARB_TESTNET]: '0xddb43bdccbba1a5f8ed99fdaccbafbcb4292989533b27066454dccc7f50ff467',
   [ChainId.opBNB]: '0xecc1735d72f6390c4be5f9728cd7b93512fd08fd61ead274e369530977ef7c9e',
   [ChainId.SCROLL_TESTNET]: '0x05ae4e582d3dfde23af089aea9c8b019647888cabcc2aa3cb68fcc5a472935e2',
-  [ChainId.SCROLL]:'0x6bf409838ed39aab678b3900f73838ac10e90eda0a1d325200da94cf79ead359'
+  [ChainId.SCROLL]: '0x6bf409838ed39aab678b3900f73838ac10e90eda0a1d325200da94cf79ead359',
+};
+
+export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000);
+
+// 动态更新 FEES_NUMERATOR 的函数
+let FEES_NUMERATOR = JSBI.BigInt(9970);
+
+function listenForFeeChanges(callback) {
+  if (typeof window !== 'undefined') {
+    const handleFeeChange = function (event) {
+      const fee = event.detail;
+      if (typeof callback === 'function') {
+        callback(fee);
+      }
+    };
+    window.addEventListener('onFee', handleFeeChange);
+  } else {
+    console.log('window is not available in this environment.');
+  }
 }
 
-export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000)
+function handleFeeUpdate(fee) {
+  try {
+    // FEES_NUMERATOR = 10000 - fee * 10
+    const feeBigInt = JSBI.BigInt(fee);
+    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10));
+    FEES_NUMERATOR = JSBI.subtract(JSBI.BigInt(10000), tenTimesFee);
+  } catch (error) {
+    console.error('Error updating FEES_NUMERATOR:', error);
+  }
+}
+listenForFeeChanges(handleFeeUpdate);
 
 // exports for internal consumption
-export const ZERO = JSBI.BigInt(0)
-export const ONE = JSBI.BigInt(1)
-export const TWO = JSBI.BigInt(2)
-export const THREE = JSBI.BigInt(3)
-export const FIVE = JSBI.BigInt(5)
-export const TEN = JSBI.BigInt(10)
-export const _100 = JSBI.BigInt(100)
-export const FEES_NUMERATOR = JSBI.BigInt(9970)
-export const FEES_DENOMINATOR = JSBI.BigInt(10000)
+export const ZERO = JSBI.BigInt(0);
+export const ONE = JSBI.BigInt(1);
+export const TWO = JSBI.BigInt(2);
+export const THREE = JSBI.BigInt(3);
+export const FIVE = JSBI.BigInt(5);
+export const TEN = JSBI.BigInt(10);
+export const _100 = JSBI.BigInt(100);
+export { FEES_NUMERATOR };
+export const FEES_DENOMINATOR = JSBI.BigInt(10000);
 
 export enum SolidityType {
   uint8 = 'uint8',
-  uint256 = 'uint256',
+  uint256,
 }
 
 export const SOLIDITY_TYPE_MAXIMA = {
   [SolidityType.uint8]: JSBI.BigInt('0xff'),
   [SolidityType.uint256]: JSBI.BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'),
-}
+};

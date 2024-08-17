@@ -2,9 +2,13 @@ import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 import { pack, keccak256 } from '@ethersproject/solidity'
 import { getCreate2Address } from '@ethersproject/address'
+import { Contract } from '@ethersproject/contracts'
+import { getNetwork } from '@ethersproject/networks'
+import { getDefaultProvider } from '@ethersproject/providers'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Price } from './fractions/price'
 import { TokenAmount } from './fractions/tokenAmount'
+import IPancakePair from '../abis/IPancakePair.json'
 
 import {
   BigintIsh,
@@ -252,6 +256,18 @@ export class Pair {
     return JSBI.divide(n, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt((48 * a) / b - decimal)))
   }
 
+  // async getToggleFee() {
+  //   try {
+  //     const contractFn = new Contract(Pair.getAddress(this.token0, this.token1), IPancakePair, getDefaultProvider())
+  //     // contractFn.getFee().then((res) => {
+  //     //   console.log(res)
+  //     // })
+  //     console.log(contractFn.getFee(), 12121212);
+  //   } catch (error) {
+  //     console.error('Error in getToggleFee:', error);
+  //   }
+  // }
+
   public getOutputAmount(inputAmount: TokenAmount): [TokenAmount, Pair] {
     invariant(this.involvesToken(inputAmount.token), 'TOKEN')
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
@@ -284,7 +300,7 @@ export class Pair {
       inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
       JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)
     )
-    console.info('result:', JSBI.toNumber(JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)))
+    // console.info('result:', JSBI.toNumber(JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)))
     return [outputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
   }
 

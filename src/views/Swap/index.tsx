@@ -107,6 +107,8 @@ export default function Swap() {
   const { isMobile } = useMatchBreakpointsContext()
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(userChartPreference)
+  const [current, setCurrent] = useState('')
+  const [fee, setFee] = useState('')
   const { refreshBlockNumber, isLoading } = useRefreshBlockNumberID()
   useGoogleAnalysis("swap", "")
 
@@ -164,6 +166,8 @@ export default function Swap() {
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
+
+  // console.log(currencies[Field.INPUT], currencies[Field.OUTPUT], [111111])
 
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currencies[Field.INPUT] ?? undefined)
   
@@ -374,6 +378,7 @@ export default function Swap() {
       refreshBlockNumber()
     }
   }, [hasAmount, refreshBlockNumber])
+
   const ammType = useMemo(() => {
     if (v2TradeOne?.route?.pairs?.[0]?.exponent0 && v2TradeOne?.route?.pairs?.[0]?.exponent1) {
       switch (Number(v2TradeOne?.route?.pairs?.[0]?.exponent0) / Number(v2TradeOne?.route?.pairs?.[0]?.exponent1)) {
@@ -393,6 +398,17 @@ export default function Swap() {
     }
     return null
   }, [v2TradeOne])
+
+  useEffect(() => {
+    if (currencies[Field.INPUT] && currencies[Field.OUTPUT]) {
+      const tokenA = currencies[Field.INPUT];
+      const tokenB = currencies[Field.OUTPUT];
+      const event = new CustomEvent('tokensUpdated', {
+        detail: { tokenA, tokenB }
+      });
+      window.dispatchEvent(event);
+    }
+  }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
   return (
     <Page>
@@ -427,6 +443,7 @@ export default function Swap() {
                         }
                         labelType="swap"
                         value={formattedAmounts[Field.INPUT]}
+                        // value={renderOnInput(currencies[Field.INPUT])}
                         showMaxButton={!atMaxAmountInput}
                         currency={currencies[Field.INPUT]}
                         onUserInput={handleTypeInput}
@@ -466,6 +483,7 @@ export default function Swap() {
                       </StyledAutoColumn>
                       <CurrencyInputPanel
                         value={formattedAmounts[Field.OUTPUT]}
+                        // value={renderOnInput()}
                         onUserInput={handleTypeOutput}
                         label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                         labelType="swap-balance"

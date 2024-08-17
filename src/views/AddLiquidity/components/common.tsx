@@ -87,16 +87,16 @@ export const PairDistribution = ({
     <AutoColumn gap="8px">
       <Subtitle>{title}</Subtitle>
       <Flex>
-        {typeof percent !== 'undefined' && (
+        {/* {typeof percent !== 'undefined' && (
           <div ref={tooltipTargetRef}>
             <CircleSvg percent={percent} mr="34px" />
           </div>
-        )}
+        )} */}
         <AutoColumn style={{ width: '100%' }}>
           {currencyB && (
             <RowBetween>
               <AutoRow gap="4px">
-                <Dot bg="secondary" />
+                {/* <Dot bg="secondary" /> */}
                 <CurrencyLogo currency={currencyB} />
                 <Text>{currencyB?.symbol}</Text>
               </AutoRow>
@@ -107,7 +107,7 @@ export const PairDistribution = ({
           {currencyA && (
             <RowBetween>
               <AutoRow gap="4px">
-                <Dot bg="primary" />
+                {/* <Dot bg="primary" /> */}
                 <CurrencyLogo currency={currencyA} />
                 <Text>{currencyA?.symbol}</Text>
               </AutoRow>

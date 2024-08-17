@@ -317,7 +317,6 @@ export class Trade {
         )
       }
     }
-    console.log("bestTrades", bestTrades)
     return bestTrades
   }
 

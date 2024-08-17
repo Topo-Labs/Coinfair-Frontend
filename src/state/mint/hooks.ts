@@ -212,7 +212,7 @@ export function useDerivedMintInfo(
           return undefined;
         }
   
-        return tryParseAmount(dependentTokenAmount.raw.toString(), currencies[dependentField]);
+        return dependentTokenAmount;
       }
     }
   

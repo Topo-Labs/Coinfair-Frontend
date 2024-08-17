@@ -72,7 +72,6 @@ const useDefaultAmm = ({
 
   const exponentsResult = useMultipleContractSingleData(validPairAddresses, PAIR_INTERFACE, 'getExponents')
 
-
   exponentsResult.forEach((result, i) => {
     const { result: exponents, loading } = result
 

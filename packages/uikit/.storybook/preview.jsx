@@ -23,11 +23,11 @@ const themes = [
     backgroundColor: light.colors.background,
     ...light,
   },
-  {
-    name: "Dark",
-    backgroundColor: dark.colors.background,
-    ...dark,
-  },
+  // {
+  //   name: "Dark",
+  //   backgroundColor: dark.colors.background,
+  //   ...dark,
+  // },
 ];
 
 export const decorators = [globalDecorator, withThemesProvider(themes)];

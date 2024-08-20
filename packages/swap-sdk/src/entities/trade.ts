@@ -276,7 +276,7 @@ export class Trade {
       // pair irrelevant
       if (!pair.token0.equals(amountIn.token) && !pair.token1.equals(amountIn.token)) continue
       if (pair.reserve0.equalTo(ZERO) || pair.reserve1.equalTo(ZERO)) continue
-
+      
       let amountOut: TokenAmount
       try {
         [amountOut] = pair.getOutputAmount(amountIn)

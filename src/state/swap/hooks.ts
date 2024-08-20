@@ -303,8 +303,6 @@ export const useFetchPairPrices = ({
   const derivedPairData = useSelector(derivedPairByDataIdSelector({ pairId, timeWindow }))
   const dispatch = useDispatch()
 
-  console.log(pairData, 'pairDatapairDatapairDatapairData')
-
   useEffect(() => {
     const fetchDerivedData = async () => {
       console.info(

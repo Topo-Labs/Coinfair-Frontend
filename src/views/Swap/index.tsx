@@ -167,8 +167,6 @@ export default function Swap() {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
 
-  // console.log(currencies[Field.INPUT], currencies[Field.OUTPUT], [111111])
-
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currencies[Field.INPUT] ?? undefined)
   
   const parsedAmounts = showWrap

@@ -26,12 +26,16 @@ export const NetworkSelect = () => {
       </Box>
       {/* <UserMenuDivider /> */}
       {SUPPORTED_CHAINS.length ? <UserMenuDivider /> : null}
-      {SUPPORTED_CHAINS.map((chain) => (
-        <UserMenuItem key={chain} style={{ justifyContent: 'flex-start' }} onClick={() => setupNetwork(parseInt(chain))}>
-          <Image width={24} height={24} src={`/images/chains/${chain}.png`} unoptimized />
-          <Text pl="12px">{NETWORK_CONFIG[chain].name}</Text>
-        </UserMenuItem>
-      ))}
+      {SUPPORTED_CHAINS.map((chain) => {
+        if (chain === '204') {
+          return (
+            <UserMenuItem key={chain} style={{ justifyContent: 'flex-start' }} onClick={() => setupNetwork(parseInt(chain))}>
+              <Image width={24} height={24} src={`/images/chains/${chain}.png`} unoptimized />
+              <Text pl="12px">{NETWORK_CONFIG[chain].name}</Text>
+            </UserMenuItem>
+          )
+        }
+      })}
     </>
   )
 }
@@ -39,13 +43,15 @@ export const NetworkSelect = () => {
 export const NetworkSwitcher = () => {
   const { chainId } = useActiveWeb3React()
 
+  const opChainId = 204
+
   return (
     chainId ?
       <UserMenu
         mr="8px"
-        avatarSrc={`/images/chains/${chainId}.png`}
+        avatarSrc={`/images/chains/${opChainId}.png`}
         account={
-          NETWORK_CONFIG[SUPPORTED_CHAINS.find(chain => (Number(chain) === Number(chainId)))]?.name
+          NETWORK_CONFIG[SUPPORTED_CHAINS.find(chain => (Number(chain) === Number(opChainId)))]?.name
         }
         ellipsis={false}
       >

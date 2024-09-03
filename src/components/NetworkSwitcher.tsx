@@ -35,6 +35,7 @@ export const NetworkSelect = () => {
             </UserMenuItem>
           )
         }
+        return ''
       })}
     </>
   )

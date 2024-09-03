@@ -172,7 +172,7 @@ export function useIsTransactionUnsupported(currencyIn?: Currency, currencyOut?:
 
   if (!unsupportedTokens || !tokenIn || !tokenOut) return false;
 
-  return unsupportedTokens[tokenIn.address] || unsupportedTokens[tokenOut.address] ? true : false;
+  return unsupportedTokens[tokenIn.address] || unsupportedTokens[tokenOut.address];
 }
 
 export function useIsTransactionWarning(currencyIn?: Currency, currencyOut?: Currency): boolean {
@@ -184,5 +184,5 @@ export function useIsTransactionWarning(currencyIn?: Currency, currencyOut?: Cur
 
   if (!warningTokens || !tokenIn || !tokenOut) return false;
 
-  return warningTokens[tokenIn.address] || warningTokens[tokenOut.address] ? true : false;
+  return warningTokens[tokenIn.address] || warningTokens[tokenOut.address];
 }

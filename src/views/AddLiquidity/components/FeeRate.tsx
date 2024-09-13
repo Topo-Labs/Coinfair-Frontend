@@ -67,7 +67,7 @@ const feeTypes: FeeTypesIF[] = [
     },
     {
         show: '1.00',
-        real: 10,
+        real: 1,
     }
 ]
 

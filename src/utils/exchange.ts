@@ -33,7 +33,7 @@ export function calculateSlippageAmount(value: CurrencyAmount, slippage: number)
 // account is optional
 export function getRouterContract(chainId: number, library: Web3Provider, account?: string) {
   return getContract(
-    ROUTER_ADDRESS[chainId],
+    ROUTER_ADDRESS[chainId].warm,
     EquityRouterABI,
     getProviderOrSigner(library, account),
   ) as EquityRouter

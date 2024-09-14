@@ -128,7 +128,7 @@ export function useApproveCallbackFromTrade(trade?: Trade, allowedSlippage = 0, 
     [trade, allowedSlippage],
   )
 
-  return useApproveCallback(amountToApprove, ROUTER_ADDRESS[chainId])
+  return useApproveCallback(amountToApprove, ROUTER_ADDRESS[chainId].hot)
 }
 
 // Wraps useApproveCallback in the context of a Gelato Limit Orders

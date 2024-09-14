@@ -48,6 +48,7 @@ export default function PoolFinder() {
       addPair(pair)
     }
   }, [pair, addPair])
+  console.log(pairState, pair)
 
   const validPairNoLiquidity: boolean =
     pairState === PairState.NOT_EXISTS ||

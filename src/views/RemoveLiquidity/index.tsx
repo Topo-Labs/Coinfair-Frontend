@@ -148,7 +148,7 @@ export default function RemoveLiquidity() {
   const [signatureData, setSignatureData] = useState<{ v: number; r: string; s: string; deadline: number } | null>(null)
   const [approval, approveCallback] = useApproveCallback(
     parsedAmounts[Field.LIQUIDITY],
-    isZap ? getZapAddress() : ROUTER_ADDRESS[chainId],
+    isZap ? getZapAddress() : ROUTER_ADDRESS[chainId].warm,
   )
 
   async function onAttemptToApprove() {
@@ -183,7 +183,7 @@ export default function RemoveLiquidity() {
     ]
     const message = {
       owner: account,
-      spender: ROUTER_ADDRESS[chainId],
+      spender: ROUTER_ADDRESS[chainId].warm,
       value: liquidityAmount.raw.toString(),
       nonce: nonce.toHexString(),
       deadline: deadline.toNumber(),

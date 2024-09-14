@@ -53,8 +53,6 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
       const tokenA = tokens[i][0];
       const tokenB = tokens[i][1];
 
-      const fee = feeResults[i].result ? feeResults[i].result[0].toString() : '0';
-
       if (loading) return [PairState.LOADING, null];
       if (!tokenA || !tokenB || tokenA.equals(tokenB)) return [PairState.INVALID, null];
       if (!reserves) return [PairState.NOT_EXISTS, null];
@@ -70,6 +68,8 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     });
   }, [results, tokens, feeResults]);
 
+  console.log(results, 'pairsDatapairsData')
+
   useEffect(() => {
     pairsData.forEach(([, pair], i) => {
       const fee = feeResults[i].result ? feeResults[i].result[0].toString() : '0';
@@ -82,7 +82,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     });
   }, [pairsData, feeResults]);
 
-  return pairsData;
+  return pairsData as any;
 }
 
 export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {

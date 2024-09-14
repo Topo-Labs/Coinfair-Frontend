@@ -55,6 +55,7 @@ import { calculateGasMargin, swapFormulaList } from '../../utils'
 import { getRouterContract, calculateSlippageAmount } from '../../utils/exchange'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
+import { ammTypeValues } from 'utils/ammTypeValue'
 import Dots from '../../components/Loader/Dots'
 import PoolPriceBar from './PoolPriceBar'
 import Page from '../Page'
@@ -256,11 +257,11 @@ export default function AddLiquidity() {
   // check whether the user has approved the router on the tokens
   const [approvalA, approveACallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_A],
-    preferZapInstead ? zapAddress : ROUTER_ADDRESS[chainId],
+    ROUTER_ADDRESS[chainId].warm,
   )
   const [approvalB, approveBCallback] = useApproveCallback(
     parsedAmounts[Field.CURRENCY_B],
-    preferZapInstead ? zapAddress : ROUTER_ADDRESS[chainId],
+    ROUTER_ADDRESS[chainId].warm,
   )
 
   const addTransaction = useTransactionAdder()
@@ -284,48 +285,52 @@ export default function AddLiquidity() {
     let method: (...args: any) => Promise<TransactionResponse>
     let args: Array<string | string[] | number>
     let value: BigNumber | null
-    const types = ['uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256'];
-    const values = [
-      parsedAmountA.raw.toString(),
-      parsedAmountB.raw.toString(),
-      amountsMin[Field.CURRENCY_A].toString(),
-      amountsMin[Field.CURRENCY_B].toString(),
-      contractMirrorMap[ammType],
-      feeType
-    ]
-
-    const encoded = ethers.utils.defaultAbiCoder.encode(types, values);
     if (currencyA === ETHER || currencyB === ETHER) {
       const tokenBIsBNB = currencyB === ETHER
       estimate = routerContract.estimateGas.addLiquidityETH
       method = routerContract.addLiquidityETH
+      const ETHTypes = ['uint256', 'uint256', 'uint256', 'uint8'];
+      const ETHValues = [
+        (tokenBIsBNB ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
+        amountsMin[tokenBIsBNB ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+        amountsMin[tokenBIsBNB ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+        ammTypeValues(contractMirrorMap[ammType], tokenBIsBNB),
+      ]
+      const encodedETH = ethers.utils.defaultAbiCoder.encode(ETHTypes, ETHValues)
       args = [
         wrappedCurrency(tokenBIsBNB ? currencyA : currencyB, chainId)?.address ?? '', // token
-        (tokenBIsBNB ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
-        amountsMin[tokenBIsBNB ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
-        amountsMin[tokenBIsBNB ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
-        contractMirrorMap[ammType],
-        tokenBIsBNB ? 0 : 1,
+        encodedETH,
         account,
         deadline.toHexString(),
         feeType,
       ]
       value = BigNumber.from((tokenBIsBNB ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
+      const types = ['uint256', 'uint256', 'uint256', 'uint256', 'uint256', 'uint256'];
+      const values = [
+        parsedAmountA.raw.toString(),
+        parsedAmountB.raw.toString(),
+        amountsMin[Field.CURRENCY_A].toString(),
+        amountsMin[Field.CURRENCY_B].toString(),
+        contractMirrorMap[ammType],
+        feeType
+      ]
+      const encoded = ethers.utils.defaultAbiCoder.encode(types, values);
       estimate = routerContract.estimateGas.addLiquidity
       method = routerContract.addLiquidity
+      console.log(routerContract)
       args = [
         wrappedCurrency(currencyA, chainId)?.address ?? '',
         wrappedCurrency(currencyB, chainId)?.address ?? '',
-        encoded,
         account,
         deadline.toHexString(),
+        encoded,
       ]
       value = null
     }
     setLiquidityState({ attemptingTxn: true, liquidityErrorMessage: undefined, txHash: undefined })
     await estimate(...args, value ? { value } : {})
-      .then((estimatedGasLimit) =>
+      .then((estimatedGasLimit) => 
         method(...args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit),

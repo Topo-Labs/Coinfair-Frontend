@@ -98,7 +98,7 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
             />
           </Flex>
           <Flex alignItems="center">
-            <ListTitle color="light">Copyright EQSwap All Rights Reserved.</ListTitle>
+            <ListTitle color="light">Copyright Coinfair All Rights Reserved.</ListTitle>
           </Flex>
         </StyledToolsContainer>
       </Flex>

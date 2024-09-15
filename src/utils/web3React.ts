@@ -44,7 +44,7 @@ export const connectorsByName = {
     return new WalletLinkConnector({
       url: 'https://equityswap.club',
       appName: 'EquitySwap',
-      appLogoUrl: 'https://equityswap.club/images/logo/logoText1.jpg',
+      appLogoUrl: 'https://equityswap.club/images/logo/logoText.svg',
       supportedChainIds: SUPPORTED_CHAINS_ID,
     })
   },

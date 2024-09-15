@@ -219,7 +219,7 @@ const BattleCta: React.FC<React.PropsWithChildren<CompetitionProps>> = ({
                   scale="sm"
                   variant="secondary"
                   onClick={() => {
-                    window.open('https://twitter.com/EQswap', '_blank', 'noopener noreferrer')
+                    window.open('https://x.com/CoinfairGlobal', '_blank', 'noopener noreferrer')
                   }}
                 >
                   <TwitterIcon color="textSubtle" fontSize="12px" mr="5px" />

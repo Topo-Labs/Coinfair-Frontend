@@ -58,7 +58,7 @@ const GalaxyNFTClaimModal: React.FC<React.PropsWithChildren<InjectedModalProps &
           mb="24px"
           scale="sm"
           as="a"
-          href="https://twitter.com/EQswap"
+          href="https://x.com/CoinfairGlobal"
           rel="noreferrer noopener"
           target="_blank"
         >

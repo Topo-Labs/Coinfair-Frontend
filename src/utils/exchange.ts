@@ -1,5 +1,6 @@
 import { Web3Provider } from '@ethersproject/providers'
-import EquityRouterABI from 'config/abi/EquityRouter_metadata.json'
+import CoinfairWarmABI from 'config/abi/Coinfair_warmRouter.json'
+import CoinfairHotABI from 'config/abi/Coinfair_hotRouter.json'
 import { EquityRouter } from 'config/types/EquityRouter_metadata'
 import { JSBI, Percent, CurrencyAmount, Trade, Fraction, TokenAmount } from '@pancakeswap/sdk'
 import {
@@ -31,12 +32,21 @@ export function calculateSlippageAmount(value: CurrencyAmount, slippage: number)
 }
 
 // account is optional
-export function getRouterContract(chainId: number, library: Web3Provider, account?: string) {
-  return getContract(
-    ROUTER_ADDRESS[chainId].warm,
-    EquityRouterABI,
-    getProviderOrSigner(library, account),
-  ) as EquityRouter
+export function getRouterContract(chainId: number, library: Web3Provider, account?: string, isSwap?: boolean | undefined) {
+  if (isSwap) {
+    return getContract(
+      ROUTER_ADDRESS[chainId].hot,
+      CoinfairHotABI,
+      getProviderOrSigner(library, account),
+    ) as EquityRouter
+  } else {
+    return getContract(
+      ROUTER_ADDRESS[chainId].warm,
+      CoinfairWarmABI,
+      getProviderOrSigner(library, account),
+    ) as EquityRouter
+  }
+  
 }
 
 // computes price breakdown for the trade

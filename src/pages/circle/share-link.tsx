@@ -80,7 +80,7 @@ const CircleShare: React.FC<React.PropsWithChildren<{ projectAddress: string, le
           </SuccessDiv>
           <>
             <CopyToClipboard
-              text={`https://www.eqswap.io/circle/claim/${projectAddress}/${leaderAddress}`}
+              text={`https://www.coinfair.xyz/circle/claim/${projectAddress}/${leaderAddress}`}
               onCopy={handleCopy}
             >
               <SelectButton

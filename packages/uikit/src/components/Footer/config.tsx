@@ -78,24 +78,24 @@ export const footerLinks: FooterLinkType[] = [
 
 export const socials = [
   {
-    label: "Twitter",
+    label: "X",
     icon: TwitterIcon,
-    href: "https://twitter.com/EQswap",
+    href: "https://x.com/CoinfairGlobal",
   },
   {
     label: "Telegram",
     icon: TelegramIcon,
-    href: "https://t.me/EQswapGlobal",
+    href: "https://t.me/Coinfair_Global",
   },
   {
     label: "Discord",
     icon: DiscordIcon,
-    href: "https://discord.gg/5yfrWq8H",
+    href: "https://discord.gg/2MScCYXVZm",
   },
   {
     label: "Medium",
     icon: MediumIcon,
-    href: "https://medium.com/@PeopleEquity",
+    href: "https://medium.com/@coinfair-global",
   },
 ];
 

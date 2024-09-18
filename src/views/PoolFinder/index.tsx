@@ -33,6 +33,19 @@ const StyledButton = styled(Button)`
   border-radius: 16px;
 `
 
+const AmmTypeBox = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const AmmItem = styled.div`
+  /* background: ; */
+  border: 1px solid #000;
+  cursor: pointer;
+`
+
+const ammType = ['ES I', 'ES II', 'ES III']
+
 export default function PoolFinder() {
   const { account } = useWeb3React()
   const { t } = useTranslation()
@@ -40,8 +53,13 @@ export default function PoolFinder() {
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
   const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
+  const [amm, setAmm] = useState<string>('ES I')
 
-  const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
+  const onAmmType = (type: string) => {
+    setAmm(type)
+  }
+
+  const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined, amm)
   const addPair = usePairAdder()
   useEffect(() => {
     if (pair) {
@@ -98,6 +116,13 @@ export default function PoolFinder() {
       <AppBody>
         <AppHeader title={t('Import Pool')} subtitle={t('Import an existing pool')} backTo="/liquidity" />
         <AutoColumn style={{ padding: '1rem' }} gap="md">
+          <AmmTypeBox>
+            {
+              ammType.map((type, i) =>
+                <AmmItem key={i} onClick={() => onAmmType(type)}>{type}</AmmItem>
+              )
+            }
+          </AmmTypeBox>
           <StyledButton
             endIcon={<ChevronDownIcon />}
             onClick={() => {

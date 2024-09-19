@@ -118,6 +118,8 @@ export function useDerivedSwapInfo(
   const bestTradeExactOut = useTradeExactOut(inputCurrency ?? undefined, isExactIn ? undefined : parsedAmount)
   const v2Trade = isExactIn ? bestTradeExactIn : bestTradeExactOut
 
+  console.log(v2Trade, 'v2Tradev2Trade')
+
   const parsedAmountBack = tryParseAmount('1', (isExactIn ? inputCurrency : outputCurrency) ?? undefined)
   const bestTradeExactInBack = useTradeExactIn(isExactIn ? parsedAmountBack : undefined, outputCurrency ?? undefined)
   const bestTradeExactOutBack = useTradeExactOut(inputCurrency ?? undefined, isExactIn ? undefined : parsedAmountBack)

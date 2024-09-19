@@ -17,7 +17,7 @@ export enum PairState {
   INVALID,
 }
 
-export function usePairs(currencies: [Currency | undefined, Currency | undefined][], amm: string): [PairState, Pair | null][] {
+export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
   const { chainId } = useActiveWeb3React();
 
   const tokens = useMemo(
@@ -46,8 +46,6 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     [tokens],
   );
 
-  console.log(pairAddresses, tokens)
-
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves');
   const feeResults = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getFee');
 
@@ -72,8 +70,6 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     });
   }, [results, tokens, feeResults]);
 
-  console.log(pairsData, results, 'pairsDatapairsData')
-
   useEffect(() => {
     pairsData.forEach(([, pair], i) => {
       const fee = feeResults[i].result ? feeResults[i].result[0].toString() : '0';
@@ -89,8 +85,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
   return pairsData as any;
 }
 
-export function usePair(tokenA?: Currency, tokenB?: Currency, amm?: string): [PairState, Pair | null] {
+export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
   const pairCurrencies = useMemo<[Currency, Currency][]>(() => [[tokenA, tokenB]], [tokenA, tokenB]);
-  console.log(pairCurrencies, 'pairCurrencies123123123')
-  return usePairs(pairCurrencies, amm)[0];
+  return usePairs(pairCurrencies)[0];
 }

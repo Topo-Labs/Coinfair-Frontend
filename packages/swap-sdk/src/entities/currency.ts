@@ -14,6 +14,7 @@ export class Currency {
   public name?: string
 
   private static instance?: Currency
+  address: any
 
   /**
    * Constructs an instance of the base class `Currency`. The only instance of the base class `Currency` is `Currency.ETHER`.

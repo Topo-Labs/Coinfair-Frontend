@@ -22,7 +22,7 @@ export const NetworkSelect = () => {
   return (
     <>
       <Box px="16px" py="8px">
-        <Text>{t('Select a Network')}</Text>
+        <Text fontWeight={600}>{t('Select a Network')}</Text>
       </Box>
       {/* <UserMenuDivider /> */}
       {SUPPORTED_CHAINS.length ? <UserMenuDivider /> : null}

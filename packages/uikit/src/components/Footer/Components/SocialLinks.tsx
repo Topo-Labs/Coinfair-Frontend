@@ -7,11 +7,11 @@ import Link from "../../Link/Link";
 import { socials } from "../config";
 
 const SocialLinks: React.FC<React.PropsWithChildren<FlexProps>> = ({ ...props }) => (
-  <Flex {...props}>
+  <Flex {...props} justifyContent='center'>
     {socials.map((social, index) => {
       const iconProps = {
         width: "20px",
-        color: darkColors.textSubtle,
+        color: '#434B34',
         style: { cursor: "pointer" },
       };
       const Icon = social.icon;

@@ -55,10 +55,10 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
             <ArrowBackIcon width="22px" />
           </IconButton>
         ))}
-      <div style={{ background: '#F6F5FE', display: 'flex', borderRadius: '30px' }}>
+      <div style={{ background: '#eee', display: 'flex', borderRadius: '30px' }}>
         <Button
           style={{
-            background: ammType === 1 ? '#4263EB' : 'transparent',
+            background: ammType === 1 ? '#000' : 'transparent',
             color: ammType === 1 ? 'white' : '#333',
             borderRadius: '30px',
             whiteSpace: 'nowrap',
@@ -79,7 +79,7 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
         >ES I</Button>
         <Button
           style={{
-            background: ammType === 2 ? '#4263EB' : 'transparent',
+            background: ammType === 2 ? '#000' : 'transparent',
             color: ammType === 2 ? 'white' : '#333',
             borderRadius: '30px',
             whiteSpace: 'nowrap',
@@ -100,7 +100,7 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
         >ES II</Button>
         <Button
           style={{
-            background: ammType === 3 ? '#4263EB' : 'transparent',
+            background: ammType === 3 ? '#000' : 'transparent',
             color: ammType === 3 ? 'white' : '#333',
             borderRadius: '30px',
             whiteSpace: 'nowrap',

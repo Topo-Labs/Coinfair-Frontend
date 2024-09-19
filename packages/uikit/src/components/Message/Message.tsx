@@ -19,7 +19,7 @@ const MessageContainer = styled.div<MessageProps>`
   background-color: gray;
   padding: 16px;
   border-radius: 16px;
-  border: solid 1px;
+  /* border: solid 1px; */
 
   ${space}
   ${systemVariant({

@@ -44,7 +44,7 @@ const CharIcon = styled.span`
 const CurrencyInputContainer = styled(Flex)`
   flex-direction: column;
   align-items: center;
-  padding: 24px;
+  padding: 24px 24px 0 24px;
   width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
 `

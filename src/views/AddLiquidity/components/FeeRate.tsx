@@ -22,7 +22,7 @@ const FeeRateItem = styled.div`
     border-radius: 20px;
     margin-right: 5px;
     cursor: pointer;
-    background: rgb(246, 245, 254);
+    background: #eee;
     position: relative;
     overflow: hidden;
     transition: all .3s ease;
@@ -33,7 +33,7 @@ const FeeRateItem = styled.div`
         left: -150%;
         width: 150%;
         height: 100%;
-        background: linear-gradient(90deg, rgba(66, 99, 235, 0) 0%, rgba(66, 99, 235, 0.5) 50%, rgba(107, 134, 255, 0) 100%);
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(107, 134, 255, 0) 100%);
         border-radius: 20px;
         transition: left 0.3s ease-in-out;
     }
@@ -79,7 +79,7 @@ const FeeRate: React.FC<React.PropsWithChildren<Props>> = ({ feeType, setFeeType
                 feeTypes.map(current => 
                     <FeeRateItem 
                         style={{ 
-                            background: current.real === feeType ? 'rgb(66, 99, 235)' : '#f6f5fe',
+                            background: current.real === feeType ? 'rgb(0, 0, 0)' : '#eee',
                             color: current.real === feeType ? '#fff' : '#000',
                             borderColor: current.real === feeType ? 'transparent' : '#ccc'
                         }}

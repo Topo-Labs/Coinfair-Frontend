@@ -19,7 +19,7 @@ const ListTitle = styled.div`
     line-height: 140%;
     display: flex;
     align-items: center;
-    color: white;
+    color: #000;
   `
 
 
@@ -43,8 +43,8 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
   }, [isMobile])
 
   return (
-    <StyledFooter p={["40px 16px", null, "56px 40px 32px 40px"]} {...props} justifyContent="center">
-      <Flex flexDirection="column" width={["100%", null, "1200px;"]}>
+    <StyledFooter p={isMobile ? ["25px 16px", null] : ["25px 16px 10px 16px", null]} {...props} justifyContent="center">
+      <Flex flexDirection="column" justifyContent='center' width={["100%", null, "1200px;"]}>
         {/* <StyledIconMobileContainer display={["block", null, "none"]}>
             <LogoWithTextIcon />
           </StyledIconMobileContainer> */}
@@ -81,23 +81,26 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
               <LogoWithTextIcon isDark width="160px" />
             </Box>
           </Flex> */}
-        <StyledSocialLinks order={[2]} pb={["42px", null, "32px"]} mb={["0", null, "32px"]} />
+        <StyledSocialLinks order={isMobile ? [0] : [2]} pb={["42px", null, "32px"]} mb={['0', null, "32px"]} />
         <StyledToolsContainer
-          order={[1, null, 3]}
+          order={isMobile ? [0] : [1, null, 3]}
           flexDirection={["column", null, "row"]}
-          justifyContent="space-between"
+          justifyContent="center"
+          alignItems={isMobile ? 'center' : 'none'}
+          width='100%'
+          style={{ paddingBottom: 0, marginBottom: 0 }}
         >
-          <Flex order={[2, null, 1]} alignItems="center">
+          {/* <Flex order={[2, null, 1]} alignItems="center"> */}
             {/* <ThemeSwitcher isDark={isDark} toggleTheme={toggleTheme} /> */}
-            <LangSelector
+            {/* <LangSelector
               currentLang={currentLang}
               langs={langs}
               setLang={setLang}
               color={darkColors.textSubtle as keyof Colors}
               dropdownPosition={position1}
-            />
-          </Flex>
-          <Flex alignItems="center">
+            /> */}
+          {/* </Flex> */}
+          <Flex style={{ marginTop: '-50px' }} alignItems="center">
             <ListTitle color="light">Copyright Coinfair All Rights Reserved.</ListTitle>
           </Flex>
         </StyledToolsContainer>

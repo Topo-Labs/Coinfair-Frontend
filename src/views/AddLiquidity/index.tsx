@@ -81,7 +81,7 @@ const StyledColumnCenter = styled(ColumnCenter)`
 `
 
 const StyledButton = styled(Button)`
-  background: linear-gradient(90deg, #EB3DFF 0%, #5C53D3 100%);
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
   border-radius: 28px;
 `
 
@@ -592,7 +592,7 @@ export default function AddLiquidity() {
   const isExactIn: boolean = independentField === Field.INPUT
   
   return (
-    <Page>
+    <Page style={{ marginTop: '100px' }}>
       <AppBody>
         {!showAddLiquidity && (
           <ChoosePair
@@ -610,8 +610,8 @@ export default function AddLiquidity() {
                 {
                   currencyA && currencyB ?
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0px' }}>
-                      <Text style={{ marginRight: '20px' }}>{swapFormulaList[ammType - 1].label}</Text>
-                      <Text>{swapFormulaList[ammType - 1].alias}</Text>
+                      <Text style={{ marginRight: '20px', fontWeight: 500 }}>{swapFormulaList[ammType - 1].label}</Text>
+                      <Text style={{ fontWeight: 500 }}>{swapFormulaList[ammType - 1].alias}</Text>
                     </div> : null
                 }
               </Text>
@@ -802,7 +802,7 @@ export default function AddLiquidity() {
                   </Text>
                 </div>
                 {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
-                  <LightCard padding="1rem" borderRadius="20px" backgroundColor="#F6F5FE !important" border='1px solid #f6f5fe !important'>
+                  <LightCard padding="1rem" borderRadius="20px" backgroundColor="#eee !important" border='1px solid #eee !important'>
                     <PoolPriceBar
                       currencies={currencies}
                       poolTokenPercentage={preferZapInstead ? zapIn.poolTokenPercentage : poolTokenPercentage}
@@ -864,13 +864,13 @@ export default function AddLiquidity() {
                     {noLiquidity && (
                       <ColumnCenter>
                         <div>
-                          <Text display="inline" fontSize="10px" color="#4263eb">
+                          <Text display="inline" fontSize="10px" color="#000">
                             {t('You are the first liquidity provider.')}
                           </Text>
-                          <Text display="inline" fontSize="10px" color="#4263eb">
+                          <Text display="inline" fontSize="10px" color="#000">
                             {t('The ratio of tokens you add will set the price of this pool.')}
                           </Text>
-                          <Text display="inline" fontSize="10px" color="#4263eb">
+                          <Text display="inline" fontSize="10px" color="#000">
                             {t('Once you are happy with the rate click supply to review.')}
                           </Text>
                         </div>

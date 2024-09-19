@@ -20,7 +20,7 @@ const TextCenter = styled.div`
 `
 
 const StyledButton = styled(Button)`
-  background: linear-gradient(90deg, #EB3DFF 0%, #5C53D3 100%);
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
   border-radius: 28px;
   margin-top: 20px;
   width: 100%;

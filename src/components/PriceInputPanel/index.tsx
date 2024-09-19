@@ -38,52 +38,52 @@ padding-left: 0;
     `};
 `
 const LabelRow = styled.div`
-display: flex; dinjia
-flex - flow: row nowrap;
-align - items: center;
-color: ${({ theme }) => theme.colors.text};
-font - size: 0.75rem;
-line - height: 1rem;
-padding: 0.75rem 1rem 0 1rem;
-padding - top: 8.5px;
+  display: flex; dinjia
+  flex - flow: row nowrap;
+  align - items: center;
+  color: ${({ theme }) => theme.colors.text};
+  font - size: 0.75rem;
+  line - height: 1rem;
+  padding: 0.75rem 1rem 0 1rem;
+  padding - top: 8.5px;
 `
 const InputPanel = styled.div`
-display: flex;
-flex - flow: column nowrap;
-position: relative;
-/*background-color: ${({ theme }) => theme.colors.backgroundAlt};*/
-z - index: 1;
-/*background: #e8f3ff;*/
-/*border: 1px solid ${({ theme }) => theme.colors.inputCat};*/
-border - radius: ${({ theme }) => theme.radii.default};
-overflow: hidden;
+  display: flex;
+  flex - flow: column nowrap;
+  position: relative;
+  /*background-color: ${({ theme }) => theme.colors.backgroundAlt};*/
+  z - index: 1;
+  /*background: #e8f3ff;*/
+  /*border: 1px solid ${({ theme }) => theme.colors.inputCat};*/
+  border - radius: ${({ theme }) => theme.radii.default};
+  overflow: hidden;
 `
 const Container = styled.div<{ zapStyle?: ZapStyle; error?: boolean; isDark?: boolean }>`
-border - radius: 16px;
-width: 100%;
-/*background-color: ${({ theme }) => theme.colors.input};*/
-/* box - shadow: ${({ theme, error }) => theme.shadows[error ? 'warning' : 'inset']}; */
-  border: ${({ isDark }) => isDark ? '1px solid #372F47' : '1px solid #f6f5fe'};
-  background-color: ${({ isDark }) => isDark ? '#372F47' : '#f6f5fe'};
-  ${({ zapStyle }) =>
-    !!zapStyle &&
-    css`
-      border-radius: 16px 16px 16px 16px;
-    `};
+  border - radius: 16px;
+  width: 100%;
+  /*background-color: ${({ theme }) => theme.colors.input};*/
+  /* box - shadow: ${({ theme, error }) => theme.shadows[error ? 'warning' : 'inset']}; */
+    border: ${({ isDark }) => isDark ? '1px solid #372F47' : '1px solid #eee'};
+    background-color: ${({ isDark }) => isDark ? '#372F47' : '#eee'};
+    ${({ zapStyle }) =>
+      !!zapStyle &&
+      css`
+        border-radius: 16px 16px 16px 16px;
+      `};
 `
 
 const Overlay = styled.div`
-position: absolute;
-inset: 0;
-opacity: 0.6;
-background - color: ${({ theme }) => theme.colors.backgroundAlt};
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+  background - color: ${({ theme }) => theme.colors.backgroundAlt};
 `
 
 const StyledFormulaList = styled.div`
-font - size: 12px;
-margin - bottom: 2px;
-font - weight: 400;
-line - height: 1.5;
+  font - size: 12px;
+  margin - bottom: 2px;
+  font - weight: 400;
+  line - height: 1.5;
 `
 
 type ZapStyle = 'noZap' | 'zap'
@@ -222,8 +222,8 @@ export default function PriceInputPanel({
               {!disableCurrencySelect && <ChevronDownIcon />}
             </Flex>
           </CurrencySelectButton> */}
-          <StyledFormulaList>{formulaList}</StyledFormulaList>
-          {token && tokenAddress ? (
+          <StyledFormulaList style={{ marginBottom: '10px', fontWeight: 500 }}>{formulaList}</StyledFormulaList>
+          {/* {token && tokenAddress ? (
             <Flex style={{ gap: '4px' }} ml="4px" mb="5px" alignItems="center">
               <CopyButton
                 width="16px"
@@ -245,7 +245,7 @@ export default function PriceInputPanel({
                 tokenLogo={token instanceof WrappedTokenInfo ? token.logoURI : undefined}
               />
             </Flex>
-          ) : null}
+          ) : null} */}
         </Flex>
       </Flex>
       <InputPanel>

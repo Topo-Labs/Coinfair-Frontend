@@ -52,7 +52,7 @@ const StyledNav = styled.nav`
 
 const HeaderNav = styled.div`
   width: fit-content;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;

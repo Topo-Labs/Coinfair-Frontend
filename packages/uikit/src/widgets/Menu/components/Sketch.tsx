@@ -128,7 +128,7 @@ const Sketch = () => {
 
         function display_particles() {
           p.strokeWeight(2);
-          p.stroke(67, 75, 52, 1);
+          p.stroke(67, 75, 52, 10);
           for (let prt of particles) {
             if (p5.Vector.dist(prt.prev, prt.pos) < 10) {
               p.line(prt.prev.x, prt.prev.y, prt.pos.x, prt.pos.y);
@@ -159,9 +159,6 @@ const Sketch = () => {
     <div
       ref={sketchRef}
       style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
         width: '100vw',
         height: '100vh',
         zIndex: -1,

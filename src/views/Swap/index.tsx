@@ -409,7 +409,7 @@ export default function Swap() {
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
   return (
-    <Page>
+    <Page style={{ marginTop: '100px' }}>
       <Flex width="100%" justifyContent="center" position="relative">
         <Flex flexDirection="column">
           <StyledSwapContainer $isChartExpanded={false}>

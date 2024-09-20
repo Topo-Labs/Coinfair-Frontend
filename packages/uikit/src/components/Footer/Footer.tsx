@@ -101,7 +101,7 @@ const MenuItem: React.FC<React.PropsWithChildren<FooterProps>> = ({
             /> */}
           {/* </Flex> */}
           <Flex style={{ marginTop: '-50px' }} alignItems="center">
-            <ListTitle color="light">Copyright Coinfair All Rights Reserved.</ListTitle>
+            <ListTitle color="light">© 2024 Coinfair. All Rights Reserved.</ListTitle>
           </Flex>
         </StyledToolsContainer>
       </Flex>

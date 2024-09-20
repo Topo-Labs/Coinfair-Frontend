@@ -592,7 +592,7 @@ export default function AddLiquidity() {
   const isExactIn: boolean = independentField === Field.INPUT
   
   return (
-    <Page style={{ marginTop: '100px' }}>
+    <Page>
       <AppBody>
         {!showAddLiquidity && (
           <ChoosePair

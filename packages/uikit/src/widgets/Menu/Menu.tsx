@@ -1,3 +1,4 @@
+// Menu.js
 import throttle from "lodash/throttle";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -16,11 +17,13 @@ import { MenuContext } from "./context";
 import { useMatchBreakpointsContext } from "../../contexts";
 
 const Wrapper = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
+  z-index: 1; /* 确保内容在 Vanta 之上 */
 `;
 
 // VantaWrapper 包裹 Vanta 组件，使其作为全局背景
@@ -32,6 +35,7 @@ const VantaWrapper = styled.div`
   height: 100vh;
   z-index: -1; /* 确保背景在最底层 */
   overflow: hidden;
+  pointer-events: none; /* 禁用鼠标事件，防止影响交互 */
 `;
 
 const StyledNav = styled.nav`
@@ -47,7 +51,7 @@ const StyledNav = styled.nav`
   padding-left: 16px;
   padding-right: 16px;
   position: relative;
-  z-index: 1;
+  z-index: 2; /* 使导航在 Vanta 之上 */
 `;
 
 const HeaderNav = styled.div`
@@ -58,7 +62,7 @@ const HeaderNav = styled.div`
   right: 0;
   bottom: 0;
   margin: auto;
-  z-index: 1;
+  z-index: 2; /* 保证显示在 Vanta 上方 */
 `;
 
 const FixedContainer = styled.div<{ showMenu: boolean; height: number }>`
@@ -76,20 +80,25 @@ const TopBannerContainer = styled.div<{ height: number }>`
   min-height: ${({ height }) => `${height}px`};
   max-height: ${({ height }) => `${height}px`};
   width: 100%;
-  z-index: 1; /* 保持顶部横幅显示在其他内容之上 */
+  z-index: 2; /* 保持顶部横幅显示在其他内容之上 */
 `;
 
 const BodyWrapper = styled(Box)`
   position: relative;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin-top: 56px;
   flex: 1;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const StyledWrapper = styled.div`
   height: 56px;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
 `;
 
 const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
@@ -160,12 +169,9 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
 
   return (
     <MenuContext.Provider value={{ linkComponent }}>
+      {/* 背景 Vanta 组件 */}
+      <Vanta />
       <Wrapper>
-        {/* 背景 Vanta 组件 */}
-        {/* <VantaWrapper>
-          <Vanta />
-        </VantaWrapper> */}
-
         <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
           <StyledNav>
@@ -198,7 +204,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         {!isDesktop ? (
           <>
             {subLinks && (
-              <Flex style={{ zIndex: 1 }} justifyContent="space-around">
+              <Flex style={{ zIndex: 2 }} justifyContent="space-around">
                 <SubMenuItems
                   items={subLinksWithoutMobile}
                   mt={`${totalTopMenuHeight + 1}px`}
@@ -222,7 +228,8 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
-            <Footer
+          </Inner>
+          <Footer
               items={footerLinks}
               isDark={isDark}
               toggleTheme={toggleTheme}
@@ -233,7 +240,6 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               buyCakeLabel={buyCakeLabel}
               mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
             />
-          </Inner>
         </BodyWrapper>
       </Wrapper>
     </MenuContext.Provider>

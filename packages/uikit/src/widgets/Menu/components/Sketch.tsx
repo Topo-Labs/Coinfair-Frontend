@@ -1,8 +1,20 @@
 // components/Sketch.js
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 const Sketch = () => {
   const sketchRef = useRef(null);
+  const [viewportSize, setViewportSize] = useState({ width: window.innerWidth, height: window.innerHeight });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const loadP5 = async () => {
@@ -13,19 +25,20 @@ const Sketch = () => {
       const sketch = (p) => {
         let flow_grid = [];
         let particles = [];
-        let number_of_particles = 4500;
+        let number_of_particles = 10000;
         let tick = 0;
         let offset = 100;
 
-        let flow_cell_size = 10;
-        let noise_size = 0.003;
-        let noise_radius = 0.1;
+        let flow_cell_size = 8;
+        let noise_size = 0.005;
+        let noise_radius = 0.2;
 
         let flow_width;
         let flow_height;
 
         p.setup = function () {
-          p.createCanvas(p.windowWidth, p.windowHeight);
+          // 使用获取的视口宽高创建画布
+          p.createCanvas(viewportSize.width, viewportSize.height);
           p.background('#fff');
           p.smooth();
           p.noStroke();
@@ -38,6 +51,7 @@ const Sketch = () => {
         };
 
         p.draw = function () {
+          p.background('#fff');
           p.translate(-offset, -offset);
           update_particles();
           display_particles();
@@ -45,7 +59,8 @@ const Sketch = () => {
         };
 
         p.windowResized = function () {
-          p.resizeCanvas(p.windowWidth, p.windowHeight);
+          // 在窗口大小变化时，手动调整画布尺寸
+          p.resizeCanvas(viewportSize.width, viewportSize.height);
           p.background('#fff');
 
           flow_width = (p.width + offset * 2) / flow_cell_size;
@@ -128,7 +143,7 @@ const Sketch = () => {
 
         function display_particles() {
           p.strokeWeight(2);
-          p.stroke(67, 75, 52, 10);
+          p.stroke(0, 0, 0, 10);
           for (let prt of particles) {
             if (p5.Vector.dist(prt.prev, prt.pos) < 10) {
               p.line(prt.prev.x, prt.prev.y, prt.pos.x, prt.pos.y);
@@ -153,15 +168,18 @@ const Sketch = () => {
     return () => {
       sketchRef.current = null;
     };
-  }, []);
+  }, [viewportSize]);
 
   return (
     <div
       ref={sketchRef}
       style={{
+        position: 'fixed', // 确保画布固定在视口内
+        top: 0,
+        left: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: -1,
+        zIndex: -1, // 设置为背景层
         overflow: 'hidden',
         margin: 0,
         padding: 0,

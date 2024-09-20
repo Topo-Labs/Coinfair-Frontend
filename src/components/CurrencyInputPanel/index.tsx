@@ -170,7 +170,7 @@ export default function CurrencyInputPanel({
           <Text
             onClick={!disabled && onMax}
             color="textSubtle"
-            fontSize="14px"
+            fontSize="12px"
             style={{ display: 'inline', cursor: 'pointer' }}
           >
             {!hideBalance && !!currency
@@ -188,7 +188,7 @@ export default function CurrencyInputPanel({
                 <Text
                   onClick={!disabled && onMax}
                   color="textSubtle"
-                  fontSize="14px"
+                  fontSize="12px"
                   title={!hideBalance && !!currency
                     ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
                     : ' -'}
@@ -202,13 +202,13 @@ export default function CurrencyInputPanel({
             </Flex>
           ) : labelType === 'swap-balance' ? (
             <Flex alignItems="center" justifyContent="space-between" style={{ padding: '0 12px', paddingTop: '10px' }}>
-              <Text style={{ fontSize: '14px' }}>{label}</Text>
+              <Text style={{ fontSize: '12px' }}>{label}</Text>
               {/* <Text>balance</Text> */}
               {account && (
                 <Text
                   onClick={!disabled && onMax}
                   color="textSubtle"
-                  fontSize="14px"
+                  fontSize="12px"
                   title={!hideBalance && !!currency
                     ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
                     : ' -'}

@@ -103,7 +103,7 @@ export default function Pool() {
   })
 
   return !isAddWhitelist ? (
-    <Page style={{ marginTop: '100px' }}>
+    <Page>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle="" />
         {/* <Text color={theme.colors.contrast} p={[0, 17]} fontSize="12px">

@@ -3,7 +3,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import styled, { useTheme } from 'styled-components';
 import { FiCopy } from 'react-icons/fi';
 import { Button, ChevronDownIcon, Text, useModal, Flex, Box, Image } from '@pancakeswap/uikit';
-import Snackbar from 'components/SnackBar/SnackbarComponent';
+// import Snackbar from 'components/SnackBar/SnackbarComponent';
 import ethers, { Contract, providers } from 'ethers';
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"

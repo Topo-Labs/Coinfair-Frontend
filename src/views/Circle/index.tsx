@@ -4,11 +4,10 @@ import { useRouter } from 'next/router'
 import { useTranslation } from '@pancakeswap/localization'
 import useGoogleAnalysis from 'hooks/useGoogleAnalysis'
 import Page from '../Page'
-
+import MintNft from './components/MintNft'
 
 const ListWrapper = styled.div`
   width: 100%;
-  max-width: 390px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -16,7 +15,10 @@ const ListWrapper = styled.div`
   background: #ffff;
   padding: 20px 20px 0 16px;
   background-color: ${({ theme }) => theme.colors.backgroundAlt};
-  border-radius: 20px
+  border-radius: 20px;
+  @media (min-width: 1200px) {
+        max-width: 560px;
+    }
 `
 
 const Line = styled.div`
@@ -79,17 +81,17 @@ export default function CircleList() {
   return (
     <Page>
       <ListWrapper>
-        <List onClick={() => router.push('/circle/link')}>
+        {/* <List onClick={() => router.push('/circle/link')}>
           <ListLeft>
-            <Icon width={20} height={20} src="/images/circle/link.png" alt="link" />
+             <Icon width={20} height={20} src="/images/circle/link.png" alt="link" />
             <ListTitle> {t('mintNFT_share')} </ListTitle>
           </ListLeft>
-          <ListRight>
+           <ListRight>
             <Arrow width={16} height={16} src="/images/circle/arrow.png" alt="to link" />
-          </ListRight>
-        </List>
-        <Line />
-        <List onClick={() => router.push('/circle/claim')}>
+          </ListRight> 
+        </List> */}
+        {/* <Line /> */}
+        {/* <List onClick={() => router.push('/circle/claim')}>
           <ListLeft>
             <Icon width={20} height={20} src="/images/circle/link.png" alt="link" />
             <ListTitle >{t('Claim_NFT')}</ListTitle>
@@ -97,8 +99,8 @@ export default function CircleList() {
           <ListRight>
             <Arrow width={16} height={16} src="/images/circle/arrow.png" alt="to link" />
           </ListRight>
-        </List>
-        <Line />
+        </List> */}
+        {/* <Line /> */}
 
         {/* <List onClick={() => router.push('/circle/whitelist')}>
             <ListLeft>
@@ -120,7 +122,9 @@ export default function CircleList() {
             </ListRight>
           </List>
           <Line /> */}
+        <MintNft/>
       </ListWrapper>
+    
     </Page>
   )
 }

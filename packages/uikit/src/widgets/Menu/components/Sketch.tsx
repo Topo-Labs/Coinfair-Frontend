@@ -25,21 +25,20 @@ const Sketch = () => {
       const sketch = (p) => {
         let flow_grid = [];
         let particles = [];
-        let number_of_particles = 10000;
+        let number_of_particles = 20000; // 设定适中的粒子数量以保证流畅运行
         let tick = 0;
         let offset = 100;
 
-        let flow_cell_size = 8;
-        let noise_size = 0.005;
-        let noise_radius = 0.2;
+        let flow_cell_size = 3; // 细化单元格以增加流动效果
+        let noise_size = 0.001; // 控制噪声参数来调整流动性和细节
+        let noise_radius = 0.06; // 调整噪声半径
 
         let flow_width;
         let flow_height;
 
         p.setup = function () {
-          // 使用获取的视口宽高创建画布
           p.createCanvas(viewportSize.width, viewportSize.height);
-          p.background('#fff');
+          p.background(255); // 设定为白色背景
           p.smooth();
           p.noStroke();
 
@@ -51,7 +50,7 @@ const Sketch = () => {
         };
 
         p.draw = function () {
-          p.background('#fff');
+          p.background(255); // 每帧都清除背景，保持白色底
           p.translate(-offset, -offset);
           update_particles();
           display_particles();
@@ -59,9 +58,8 @@ const Sketch = () => {
         };
 
         p.windowResized = function () {
-          // 在窗口大小变化时，手动调整画布尺寸
           p.resizeCanvas(viewportSize.width, viewportSize.height);
-          p.background('#fff');
+          p.background(255); // 保持背景为白色
 
           flow_width = (p.width + offset * 2) / flow_cell_size;
           flow_height = (p.height + offset * 2) / flow_cell_size;
@@ -81,7 +79,6 @@ const Sketch = () => {
               pos: p.createVector(r, q),
               vel: p.createVector(0, 0),
               acc: p.createVector(0, 0),
-              col: p.random(255),
               seed: i,
             });
           }
@@ -142,8 +139,8 @@ const Sketch = () => {
         }
 
         function display_particles() {
-          p.strokeWeight(2);
-          p.stroke(0, 0, 0, 10);
+          p.strokeWeight(1); // 使用较细的线条
+          p.stroke(0, 0, 0, 50); // 黑色线条，保持透明度适中
           for (let prt of particles) {
             if (p5.Vector.dist(prt.prev, prt.pos) < 10) {
               p.line(prt.prev.x, prt.prev.y, prt.pos.x, prt.pos.y);
@@ -183,6 +180,7 @@ const Sketch = () => {
         overflow: 'hidden',
         margin: 0,
         padding: 0,
+        border: 'none', // 确保没有边框
       }}
     ></div>
   );

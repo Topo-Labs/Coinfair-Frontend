@@ -129,7 +129,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   children,
 }) => {
   const [showMenu, setShowMenu] = useState(true);
-  const { isDesktop } = useMatchBreakpointsContext();
+  const { isDesktop, isMobile } = useMatchBreakpointsContext();
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
 
   const topBannerHeight = !isDesktop ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
@@ -170,7 +170,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       {/* 背景 Vanta 组件 */}
-      <Vanta />
+      {!isMobile && <Vanta />}
       <Wrapper>
         <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}

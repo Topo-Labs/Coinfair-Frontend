@@ -25,7 +25,8 @@ const Sketch = () => {
       const sketch = (p) => {
         let flow_grid = [];
         let particles = [];
-        let number_of_particles = 20000; // 设定适中的粒子数量以保证流畅运行
+        let initial_particles = 3000; // 初始加载较少的粒子数量
+        let max_particles = 8000; // 最大粒子数量，逐步增加到该值
         let tick = 0;
         let offset = 100;
 
@@ -45,8 +46,13 @@ const Sketch = () => {
           flow_width = (p.width + offset * 2) / flow_cell_size;
           flow_height = (p.height + offset * 2) / flow_cell_size;
 
-          init_particles();
+          init_particles(initial_particles); // 初始创建较少粒子
           init_flow();
+
+          // 延迟加载更多粒子，避免首屏卡顿
+          setTimeout(() => {
+            init_particles(max_particles - initial_particles);
+          }, 500); // 延迟 500ms 后加载更多粒子
         };
 
         p.draw = function () {
@@ -66,12 +72,12 @@ const Sketch = () => {
 
           flow_grid = [];
           particles = [];
-          init_particles();
+          init_particles(initial_particles); // 窗口大小改变时，重新初始化粒子
           init_flow();
         };
 
-        function init_particles() {
-          for (let i = 0; i < number_of_particles; i++) {
+        function init_particles(count) {
+          for (let i = 0; i < count; i++) {
             let r = p.random(p.width + 2 * offset);
             let q = p.random(p.height + 2 * offset);
             particles.push({
@@ -79,7 +85,7 @@ const Sketch = () => {
               pos: p.createVector(r, q),
               vel: p.createVector(0, 0),
               acc: p.createVector(0, 0),
-              seed: i,
+              seed: particles.length,
             });
           }
         }
@@ -111,8 +117,8 @@ const Sketch = () => {
           let high_pos = p.createVector(0, 0);
           let low_pos = p.createVector(0, 0);
 
-          for (let i = 0; i < 100; i++) {
-            let angle = (i / 100) * p.TAU;
+          for (let i = 0; i < 50; i++) { // 减少噪声计算的循环次数，优化性能
+            let angle = (i / 50) * p.TAU; // 由 100 次减少到 50 次
             let pos = p.createVector(x + p.cos(angle) * r, y + p.sin(angle) * r);
             let val = p.noise(pos.x, pos.y);
 
@@ -140,7 +146,7 @@ const Sketch = () => {
 
         function display_particles() {
           p.strokeWeight(1); // 使用较细的线条
-          p.stroke(0, 0, 0, 50); // 黑色线条，保持透明度适中
+          p.stroke(34, 45, 34, 80); // 墨绿色线条，保持透明度适中
           for (let prt of particles) {
             if (p5.Vector.dist(prt.prev, prt.pos) < 10) {
               p.line(prt.prev.x, prt.prev.y, prt.pos.x, prt.pos.y);
@@ -181,6 +187,8 @@ const Sketch = () => {
         margin: 0,
         padding: 0,
         border: 'none', // 确保没有边框
+        outline: 'none', // 防止任何可能的默认边框显示
+        boxShadow: 'none', // 去除所有阴影
       }}
     ></div>
   );

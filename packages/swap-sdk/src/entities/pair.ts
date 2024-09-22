@@ -9,11 +9,13 @@ import { BigNumber } from '@ethersproject/bignumber'
 import { Price } from './fractions/price'
 import { TokenAmount } from './fractions/tokenAmount'
 import IPancakePair from '../abis/IPancakePair.json'
+import TreasuryABI from '../abis/Coinfair_Treasury.json'
 
 import {
   BigintIsh,
   FACTORY_ADDRESS_MAP,
   INIT_CODE_HASH_MAP,
+  TREASURY_ADDRESS,
   MINIMUM_LIQUIDITY,
   ZERO,
   ONE,
@@ -62,7 +64,41 @@ export class Pair {
     return PAIR_ADDRESS_CACHE[key]
   }
 
-  public constructor(tokenAmountA: TokenAmount, tokenAmountB: TokenAmount) {
+  // public static async getAddress(tokenA: Token, tokenB: Token, provider: any, userAddress: string): Promise<string> {
+  //   const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA];
+  //   const key = composeKey(token0, token1);
+
+  //   // 检查缓存中是否已有地址
+  //   if (PAIR_ADDRESS_CACHE?.[key] !== undefined) {
+  //     return PAIR_ADDRESS_CACHE[key];
+  //   }
+
+  //   const treasuryAddress = (TREASURY_ADDRESS as { [key: number]: string })[token0.chainId]
+  //   if (!treasuryAddress) {
+  //     throw new Error(`Unsupported chainId: ${token0.chainId}`);
+  //   }
+
+  //   try {
+  //     const treasuryContract = new Contract(treasuryAddress, TreasuryABI, provider);
+  //     // 调用合约方法获取地址，传入 token0, token1 和用户地址
+  //     const result = await treasuryContract.getPairManagement([token0.address, token1.address], userAddress);
+
+  //     // 确保 result 是一个数组，并且第一个元素是有效的地址字符串
+  //     const pairAddress = Array.isArray(result) && typeof result[0] === 'string' ? result[0] : undefined;
+  //     if (!pairAddress) {
+  //       throw new Error('Invalid pair address returned from contract');
+  //     }
+
+  //     // 将获取到的地址缓存
+  //     PAIR_ADDRESS_CACHE[key] = pairAddress;
+  //     return pairAddress;
+  //   } catch (error) {
+  //     console.error('Error fetching pair address from contract:', error);
+  //     throw new Error('Failed to fetch pair address from contract');
+  //   }
+  // }
+
+  public constructor(tokenAmountA: TokenAmount, tokenAmountB: TokenAmount, pairAddress: string) {
     const tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks
       ? [tokenAmountA, tokenAmountB]
       : [tokenAmountB, tokenAmountA]
@@ -255,18 +291,6 @@ export class Pair {
     n = JSBI.exponentiate(n, JSBI.BigInt(a))
     return JSBI.divide(n, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt((48 * a) / b - decimal)))
   }
-
-  // async getToggleFee() {
-  //   try {
-  //     const contractFn = new Contract(Pair.getAddress(this.token0, this.token1), IPancakePair, getDefaultProvider())
-  //     // contractFn.getFee().then((res) => {
-  //     //   console.log(res)
-  //     // })
-  //     console.log(contractFn.getFee(), 12121212);
-  //   } catch (error) {
-  //     console.error('Error in getToggleFee:', error);
-  //   }
-  // }
 
   public getOutputAmount(inputAmount: TokenAmount): [TokenAmount, Pair] {
     invariant(this.involvesToken(inputAmount.token), 'TOKEN')

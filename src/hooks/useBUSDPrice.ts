@@ -24,7 +24,17 @@ export default function useBUSDPrice(currency?: Currency): Price | undefined {
     ],
     [WBNB, busd, chainId, currency, wrapped],
   )
-  const [[bnbPairState, bnbPair], [busdPairState, busdPair], [busdBnbPairState, busdBnbPair]] = usePairs(tokenPairs)
+  const pairs = usePairs(tokenPairs);
+
+  // 初始化默认值，确保 pairs 有足够的数据并按需设置默认值
+  const bnbPairData = pairs[0] || [PairState.NOT_EXISTS, null];
+  const busdPairData = pairs[1] || [PairState.NOT_EXISTS, null];
+  const busdBnbPairData = pairs[2] || [PairState.NOT_EXISTS, null];
+
+  // 分别获取每个状态和 pair
+  const [bnbPairState, bnbPair] = bnbPairData;
+  const [busdPairState, busdPair] = busdPairData;
+  const [busdBnbPairState, busdBnbPair] = busdBnbPairData;
 
   return useMemo(() => {
     if (!currency || !wrapped || !chainId) {

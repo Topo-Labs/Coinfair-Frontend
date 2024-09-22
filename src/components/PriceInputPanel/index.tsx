@@ -251,7 +251,7 @@ export default function PriceInputPanel({
       <InputPanel>
         <Container as="label" zapStyle={zapStyle} error={error} isDark={isDark}>
           <LabelRow style={{ display: 'flex', alignItems: 'center' }}>
-            <Text style={{ fontSize: '12px' }}>{t('priceOne')} {currency.symbol} =</Text>
+            <Text style={{ fontSize: '12px' }}>{t('priceOne')} {currency?.symbol} =</Text>
             <NumericalInput
               error={error}
               disabled={disabled}
@@ -262,7 +262,7 @@ export default function PriceInputPanel({
                 onUserInput(val)
               }}
             />
-            <Text style={{ fontSize: '12px', marginLeft: '6px', marginTop: '2px' }}>{otherCurrency.symbol}</Text>
+            <Text style={{ fontSize: '12px', marginLeft: '6px', marginTop: '2px' }}>{otherCurrency?.symbol}</Text>
           </LabelRow>
           <InputRow selected={disableCurrencySelect} style={{ display: 'flex', justifyContent: 'space-between' }}>
             {account && currency && !disabled && showMaxButton && label !== 'To' && (

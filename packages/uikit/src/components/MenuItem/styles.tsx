@@ -15,7 +15,7 @@ export const StyledMenuItemContainer = styled.div<StyledMenuItemProps>`
         left: 50%;
         height: 2px;
         width: 100%;
-        background-color: #4538e8;
+        background-color: #000;
         border-radius: 2px 2px 0 0;
       }
     `};
@@ -26,7 +26,7 @@ const StyledMenuItem = styled.a<StyledMenuItemProps>`
   display: flex;
   align-items: center;
 
-  color: ${({ theme, $isActive }) => ($isActive ? '#4538e8' : '#52525c')};
+  color: ${({ theme, $isActive }) => ($isActive ? '#000' : '#52525c')};
   font-size: 16px;
   font-weight: ${({ $isActive }) => ($isActive ? "600" : "400")};
 
@@ -36,7 +36,7 @@ const StyledMenuItem = styled.a<StyledMenuItemProps>`
     &:after {
       content: "";
       border-radius: 100%;
-      background: #4538e8;
+      background: #000;
       height: 8px;
       width: 8px;
       margin-left: 12px;

@@ -61,9 +61,9 @@ const Container = styled.div<{ zapStyle?: ZapStyle; error?: boolean; isDark?: bo
   /*border: 1px solid ${({ theme }) => theme.colors.inputCat};*/
   border-radius: ${({ theme }) => theme.radii.default};
   /*background-color: ${({ theme }) => theme.colors.input};*/
-  border: ${({ isDark }) => isDark ? '1px solid #372F47' : '1px solid #f6f5fe'};
-  background-color: ${({ isDark }) => isDark ? '#372F47' : '#f6f5fe'};
-  /* box-shadow: ${({ theme, error }) => theme.shadows[error ? 'warning' : 'inset']}; */
+  border: ${({ isDark }) => isDark ? '1px solid #372F47' : '1px solid #fff'};
+  background-color: ${({ isDark }) => isDark ? '#372F47' : '#f1f1f1'};
+  /* box-shadow: inset 2px 2px 5px #eeeeee, inset -2px -2px 5px #eeeeee; */
 `
 
 const StyledText = styled(Text)`
@@ -170,7 +170,7 @@ export default function CurrencyInputPanel({
           <Text
             onClick={!disabled && onMax}
             color="textSubtle"
-            fontSize="14px"
+            fontSize="12px"
             style={{ display: 'inline', cursor: 'pointer' }}
           >
             {!hideBalance && !!currency
@@ -188,7 +188,7 @@ export default function CurrencyInputPanel({
                 <Text
                   onClick={!disabled && onMax}
                   color="textSubtle"
-                  fontSize="14px"
+                  fontSize="12px"
                   title={!hideBalance && !!currency
                     ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
                     : ' -'}
@@ -202,13 +202,13 @@ export default function CurrencyInputPanel({
             </Flex>
           ) : labelType === 'swap-balance' ? (
             <Flex alignItems="center" justifyContent="space-between" style={{ padding: '0 12px', paddingTop: '10px' }}>
-              <Text style={{ fontSize: '14px' }}>{label}</Text>
+              <Text style={{ fontSize: '12px' }}>{label}</Text>
               {/* <Text>balance</Text> */}
               {account && (
                 <Text
                   onClick={!disabled && onMax}
                   color="textSubtle"
-                  fontSize="14px"
+                  fontSize="12px"
                   title={!hideBalance && !!currency
                     ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
                     : ' -'}

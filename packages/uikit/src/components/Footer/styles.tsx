@@ -4,7 +4,8 @@ import { Box, Flex } from "../Box";
 import SocialLinks from "./Components/SocialLinks";
 
 export const StyledFooter = styled(Flex)`
-  background: ${darkColors.backgroundAlt};
+  background: #fff;
+  box-shadow: -2px -2px 10px #eeeeee;
   /* border-radius: 8px */
 `;
 
@@ -50,7 +51,7 @@ export const StyledToolsContainer = styled(Flex)`
 `;
 
 export const StyledSocialLinks = styled(SocialLinks)`
-  border-bottom: 1px solid ${darkColors.cardBorder};
+  /* border-bottom: 1px solid ${darkColors.cardBorder}; */
 `;
 
 export const StyledText = styled.span`

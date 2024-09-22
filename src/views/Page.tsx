@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { PageMeta } from 'components/Layout/Page'
 
 const StyledPage = styled.div<{ $removePadding: boolean; $noMinHeight }>`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;

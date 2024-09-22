@@ -38,7 +38,7 @@ const ButtonWrapper = styled(Link)`
 
 const StyledButton = styled(Button)`
   width: 200px;
-  background: linear-gradient(180deg, #7645d9 0%, #452a7a 100%);
+  background: linear-gradient(180deg, #434B34 0%, #000 100%);
   ${({ theme }) => theme.mediaQueries.xs} {
     width: 240px;
   }

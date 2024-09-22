@@ -5,7 +5,7 @@ export const UserMenuDivider = styled.hr`
   border-color: ${({ theme }) => theme.colors.cardBorder};
   border-style: solid;
   border-width: 1px 0 0;
-  margin: 4px 0;
+  margin-top: 4px;
 `;
 
 export const UserMenuItem = styled.button<UserMenuItemProps>`
@@ -22,6 +22,8 @@ export const UserMenuItem = styled.button<UserMenuItemProps>`
   padding-left: 16px;
   padding-right: 16px;
   width: 100%;
+  transition: background-color .3s ease;
+  overflow: hidden;
 
   &:hover:not(:disabled) {
     background-color: ${({ theme }) => theme.colors.tertiary};

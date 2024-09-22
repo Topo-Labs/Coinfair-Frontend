@@ -58,8 +58,8 @@ const WalletInfo: React.FC<React.PropsWithChildren<WalletInfoProps>> = ({ hasLow
           <Text>{getFullDisplayBalance(cakeBalance, 18, 3)}</Text>
         )}
       </Flex> */}
-      <Flex alignItems="center" justifyContent="end" mb="24px">
-        <LinkExternal href={getBscScanLink(account, 'address', chainId)}>{t('View on %scan%', {scan: getScan(chainId)})}</LinkExternal>
+      <Flex alignItems="center" justifyContent="end" mb="24px" mt='24px'>
+        <LinkExternal fontSize={14} href={getBscScanLink(account, 'address', chainId)}>{t('View on %scan%', {scan: getScan(chainId)})}</LinkExternal>
       </Flex>
       <Button variant="secondary" width="100%" onClick={handleLogout}>
         {t('Disconnect Wallet')}

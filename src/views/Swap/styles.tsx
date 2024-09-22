@@ -5,6 +5,9 @@ export const StyledSwapContainer = styled(Flex)<{ $isChartExpanded: boolean }>`
   flex-shrink: 0;
   height: fit-content;
   padding: 0 0px;
+  /* box-shadow: 2px 2px 10px #eeeeee; */
+  border-radius: 20px;
+  /* overflow: hidden; */
 
   ${({ theme }) => theme.mediaQueries.lg} {
     padding: 0 40px;
@@ -17,4 +20,5 @@ export const StyledSwapContainer = styled(Flex)<{ $isChartExpanded: boolean }>`
 
 export const StyledInputCurrencyWrapper = styled(Box)`
   width: 358px;
+  border-radius: 20px;
 `

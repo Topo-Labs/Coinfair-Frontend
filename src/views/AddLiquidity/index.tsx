@@ -318,7 +318,6 @@ export default function AddLiquidity() {
       const encoded = ethers.utils.defaultAbiCoder.encode(types, values);
       estimate = routerContract.estimateGas.addLiquidity
       method = routerContract.addLiquidity
-      console.log(routerContract)
       args = [
         wrappedCurrency(currencyA, chainId)?.address ?? '',
         wrappedCurrency(currencyB, chainId)?.address ?? '',

@@ -10,6 +10,7 @@ export class Token extends Currency {
   public readonly chainId: ChainId
   public readonly address: string
   public readonly projectLink?: string
+  liquidityToken?: any
 
   public constructor(
     chainId: ChainId,

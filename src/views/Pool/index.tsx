@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Text, Flex, CardBody, CardFooter, Button, AddIcon, ArrowBackIcon, IconButton } from '@pancakeswap/uikit'
 import Link from 'next/link'
@@ -11,6 +11,11 @@ import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks
 import Dots from '../../components/Loader/Dots'
 import { AppHeader, AppBody } from '../../components/App'
 import Page from '../Page'
+import { Contract } from '@ethersproject/contracts'
+import { TREASURY_ADDRESS } from 'config/constants/exchange'
+import TreasuryABI from 'config/abi/Coinfair_Treasury.json'
+import { BigNumber } from '@ethersproject/bignumber'
+import { Token } from '@pancakeswap/sdk'
 
 const Body = styled(CardBody)`
   background-color: ${({ theme }) => theme.colors.dropdownDeep};
@@ -26,10 +31,14 @@ const TextCenter = styled.div`
   margin-bottom: 4px;
 `
 
+const poolTypes = [1, 2, 3, 4, 5];
+const feeTypes = [1, 3, 5, 10];
+
 export default function Pool() {
-  const { account } = useWeb3React()
+  const { account, chainId, library } = useWeb3React()
   const { t } = useTranslation()
   const theme = useTheme()
+  const [pairV2Tokens, setPairV2Tokens] = useState<any>([])
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -37,25 +46,106 @@ export default function Pool() {
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
     [trackedTokenPairs],
   )
-  const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens],
+
+  const contract = useMemo(() => {
+    if (!library || !account) return null
+    return new Contract(TREASURY_ADDRESS[chainId], TreasuryABI, library.getSigner(account))
+  }, [library, account])
+  // console.log(tokenPairsWithLiquidityTokens, 'tokenPairsWithLiquidityTokens')
+
+  const callContractMethod = async (tokens: any[]) => {
+    if (contract && tokens) {
+      try {
+        // 调用合约的方法
+        const result = await contract.getPairManagement([tokens[0].address, tokens[1].address], account);
+        // 递归函数将嵌套数组中的 BigNumber 转换为字符串
+        const convertToReadable = (data) => {
+          if (Array.isArray(data)) {
+            // 处理数组中的每个元素
+            return data.map(convertToReadable);
+          } else if (BigNumber.isBigNumber(data)) {
+            // 将 BigNumber 转换为字符串
+            return data.toString();
+          }
+          // 直接返回其他类型
+          return data;
+        };
+
+        // 转换嵌套数组的所有 BigNumber 为字符串
+        const readableResult = convertToReadable(result);
+        return readableResult;
+      } catch (error) {
+        console.error('Error calling contract method:', error);
+        return [];
+      }
+    }
+  };
+
+  // 假设 callContractMethod 是一个返回 Promise<Array> 或包含长度的异步函数
+  async function getFilteredPairs() {
+    // 等待所有 callContractMethod 调用完成，并获取每个结果
+    const results = await Promise.all(
+      trackedTokenPairs.map(async (tokens) => {
+        const result = await callContractMethod(tokens); // 调用异步函数
+        return { tokens, result }; // 返回 tokens 和 result
+      })
+    );
+  
+    // 筛选出 result 存在且长度不为空的对象
+    const filteredPairs = results
+      .filter(({ result }) => result && result.length > 0) // 过滤出 result 存在且长度不为空的项
+      .map(({ result, tokens }) => ({
+        liquidityToken: {
+          address: result[0][0], // 假设 result[0] 是地址
+          chainId: tokens[0]?.chainId || 204, // 从 tokens 中获取 chainId 或设置默认值
+          decimals: 18,
+          name: 'EquitySwap LPs',
+          symbol: 'PE-LP',
+        },
+        tokens,
+      })); // 返回包含 liquidityToken 和 tokens 的对象
+      console.log(filteredPairs, 'filteredPairsfilteredPairs')
+    return filteredPairs; // 返回筛选后的列表
+  }
+  
+  // 主逻辑函数，用于获取并返回值
+  async function main() {
+    const filteredPairs = await getFilteredPairs(); // 使用 await 获取结果
+    console.log('筛选后的最终值:', filteredPairs);
+    return filteredPairs; // 返回筛选后的值
+  }
+  useEffect(() => {
+    async function fetchLiquidityTokens() {
+      const tokens = await main(); // 调用 main 并等待其结果
+      setPairV2Tokens(tokens); // 更新状态
+    }
+    fetchLiquidityTokens()
+  }, [])
+
+  console.log(pairV2Tokens, 'pairV2TokenspairV2TokenspairV2Tokens')
+
+  const newPairV2Tokens = useMemo(
+    () => pairV2Tokens.map((tpwlt) => tpwlt.liquidityToken),
+    [pairV2Tokens],
   )
   const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
     account ?? undefined,
-    liquidityTokens,
+    newPairV2Tokens,
   )
+
+  console.log(v2PairsBalances, 'v2PairsBalancesv2PairsBalances')
 
   // fetch the reserves for all V2 pools in which the user has a balance
   const liquidityTokensWithBalances = useMemo(
     () =>
-      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
+      pairV2Tokens.filter(({ liquidityToken }) =>
         v2PairsBalances[liquidityToken.address]?.greaterThan('0'),
       ),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances],
+    [pairV2Tokens, v2PairsBalances],
   )
-
+  console.log(liquidityTokensWithBalances)
   const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
+  console.log(v2Pairs, 'v2的pairs')
   const v2IsLoading =
     fetchingV2PairBalances ||
     v2Pairs?.length < liquidityTokensWithBalances.length ||

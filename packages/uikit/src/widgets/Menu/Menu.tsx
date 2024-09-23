@@ -9,7 +9,7 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
 import Logo from "./components/Logo";
-import Vanta from './components/Vanta'; // 引入 Sketch 组件作为背景
+// import Vanta from './components/Vanta'; // 引入 Sketch 组件作为背景
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
 import LangSelector from "../../components/LangSelector/LangSelector";

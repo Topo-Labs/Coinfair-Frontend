@@ -56,7 +56,10 @@ const Page: React.FC<React.PropsWithChildren<PageProps>> = ({ children, symbol, 
   return (
     <>
       <PageMeta symbol={symbol} />
-      <StyledPage {...props}>{children}</StyledPage>
+      {/* <Vanta/> */}
+      <StyledPage {...props}>
+        {children}
+      </StyledPage>
     </>
   )
 }

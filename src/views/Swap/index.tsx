@@ -73,12 +73,12 @@ const Label = styled(Text)`
 `
 
 const SwitchIconButton = styled(IconButton)`
-  box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px #ccc;
   .icon-up-down {
     display: none;
   }
   &:hover {
-    background-color: #b03cf7;
+    background-color: #000;
     .icon-down {
       display: none;
       fill: white;
@@ -91,7 +91,7 @@ const SwitchIconButton = styled(IconButton)`
 `
 
 const StyledButton = styled(Button)`
-  background: linear-gradient(90deg, #EB3DFF 0%, #5C53D3 100%);
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
   border-radius: 28px;
 `
 
@@ -465,11 +465,11 @@ export default function Swap() {
                           >
                             <ArrowDownIcon
                               className="icon-down"
-                              color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? '#b03cf7' : 'text'}
+                              color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? '#434B34' : 'text'}
                             />
                             <ArrowUpDownIcon
                               className="icon-up-down"
-                              color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? '#b03cf7' : 'text'}
+                              color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? '#434B34' : 'text'}
                             />
                           </SwitchIconButton>
                           {recipient === null && !showWrap && isExpertMode ? (
@@ -527,7 +527,7 @@ export default function Swap() {
                           )}
                         </RowBetween>
                         {/* <RowBetween align="center"> */}
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '10px 0' }}>
                           <Label style={{ color: theme.colors.dark }}>{t('Slippage Tolerance')}</Label>
                           <Text bold color="primary" style={{ marginLeft: '10px', color: theme.colors.dark }}>
                             {allowedSlippage / 100}%
@@ -550,7 +550,7 @@ export default function Swap() {
                           (wrapType === WrapType.WRAP ? 'Wrap' : wrapType === WrapType.UNWRAP ? 'Unwrap' : null)}
                       </StyledButton>
                     ) : noRoute && userHasSpecifiedInputOutput ? (
-                      <GreyCard style={{ textAlign: 'center', padding: '0.75rem', background: 'linear-gradient(90deg,#EB3DFF 0%,#5C53D3 100%)', borderRadius: '28px', filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }}>
+                      <GreyCard style={{ textAlign: 'center', padding: '0.75rem', background: 'linear-gradient(90deg,#434B34 0%,#000 100%)', borderRadius: '28px' }}>
                         <Text color="textSubtle" style={{ color: 'white', fontWeight: '600' }}>
                           {t('Insufficient liquidity for this trade.')}
                         </Text>

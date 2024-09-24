@@ -76,7 +76,7 @@ const MenuItem = styled.div`
     justify-content: right;
   }
   &.active {
-    color: #4263eb;
+    color: #000;
   }
   @media screen and (max-width: 852px) {
     font-size: 14px;
@@ -128,7 +128,7 @@ const SubTab = styled.div`
     flex: 1;
     cursor: pointer;
     &.active {
-      color: #4263eb;
+      color: #000;
       font-weight: 600;
       background: #fff;
     }
@@ -205,7 +205,7 @@ const TimeMenuItem = styled.div`
   cursor: pointer;
   :hover {
     // background: #f3f4f9;
-    color: #4263eb;
+    color: #000;
   }
 `
 

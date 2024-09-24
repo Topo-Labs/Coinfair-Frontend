@@ -267,8 +267,8 @@ const SubMenuItem = styled.div`
   font-size: 14px;
   white-space: pre;
   &.active {
-    border-bottom: 2px solid #4263eb;
-    color: #4263eb;
+    border-bottom: 2px solid #000;
+    color: #000;
   }
 `
 

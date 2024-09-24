@@ -39,7 +39,7 @@ export const NoProfileMenuIcon: React.FC<React.PropsWithChildren> = () => (
 
 export const PendingMenuIcon: React.FC<React.PropsWithChildren> = () => (
   <MenuIconWrapper borderColor="secondary">
-    <RefreshIcon color="secondary" width="20px" spin />
+    <RefreshIcon color="secondary" width="10px" spin />
   </MenuIconWrapper>
 );
 

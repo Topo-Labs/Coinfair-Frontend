@@ -13,7 +13,7 @@ import { useAmmType } from "../../state/amm/hooks";
 import { swapFormulaList } from '../../utils'
 
 const StyledButton = styled(Button)`
-  background: linear-gradient(90deg, #EB3DFF 0%, #5C53D3 100%);
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
   border-radius: 28px;
 `
 
@@ -43,31 +43,37 @@ export function ChoosePair({
       />
       <CardBody>
         <Box>
-          <Text textTransform="uppercase" color="secondary" bold small pb="24px" style={{ fontSize: '12px' }}>
+          <Text textTransform="uppercase" color="secondary" bold small pb="24px" style={{ fontSize: '12px', marginLeft: '10px' }}>
             {t('Choose a valid pair')}
           </Text>
           <FlexGap gap="12px">
-            <Text />
-            <Text style={{ fontSize: '12px', whiteSpace: 'nowrap' }}>{t('tokensIssued')}</Text>
-            <AddIcon color="textSubtle" />
-            <Text style={{ fontSize: '12px', whiteSpace: 'nowrap' }}>{t('tokensRaised')}</Text>
+            {/* <Text /> */}
+            {/* <Text style={{ fontSize: '12px', whiteSpace: 'nowrap' }}>{t('tokensIssued')}</Text> */}
+            {/* <AddIcon color="textSubtle" /> */}
+            {/* <Text style={{ fontSize: '12px', whiteSpace: 'nowrap' }}>{t('tokensRaised')}</Text> */}
           </FlexGap>
-          <FlexGap gap="4px">
-            <CurrencySelect
-              id="add-liquidity-select-tokena"
-              selectedCurrency={currencyA}
-              onCurrencySelect={handleCurrencyASelect}
-              showCommonBases
-              commonBasesType={CommonBasesType.LIQUIDITY}
-            />
-            <AddIcon color="textSubtle" />
-            <CurrencySelect
-              id="add-liquidity-select-tokenb"
-              selectedCurrency={currencyB}
-              onCurrencySelect={handleCurrencyBSelect}
-              showCommonBases
-              commonBasesType={CommonBasesType.LIQUIDITY}
-            />
+          <FlexGap gap="12px" style={{ marginLeft: '10px' }}>
+            <div>
+              <Text style={{ fontSize: '12px', whiteSpace: 'nowrap', marginLeft: '15px' }}>{t('tokensIssued')}</Text>
+              <CurrencySelect
+                id="add-liquidity-select-tokena"
+                selectedCurrency={currencyA}
+                onCurrencySelect={handleCurrencyASelect}
+                showCommonBases
+                commonBasesType={CommonBasesType.LIQUIDITY}
+              />
+            </div>
+            <AddIcon color="textSubtle" style={{ marginTop: '15px' }} />
+            <div>
+              <Text style={{ fontSize: '12px', whiteSpace: 'nowrap', marginLeft: '15px' }}>{t('tokensRaised')}</Text>
+              <CurrencySelect
+                id="add-liquidity-select-tokenb"
+                selectedCurrency={currencyB}
+                onCurrencySelect={handleCurrencyBSelect}
+                showCommonBases
+                commonBasesType={CommonBasesType.LIQUIDITY}
+              />
+            </div>
           </FlexGap>
         </Box>
       </CardBody>

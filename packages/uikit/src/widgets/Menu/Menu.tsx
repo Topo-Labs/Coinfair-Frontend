@@ -1,3 +1,4 @@
+// Menu.js
 import throttle from "lodash/throttle";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -8,6 +9,7 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
 import Logo from "./components/Logo";
+// import Vanta from './components/Vanta'; // 引入 Sketch 组件作为背景
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
 import LangSelector from "../../components/LangSelector/LangSelector";
@@ -15,8 +17,25 @@ import { MenuContext } from "./context";
 import { useMatchBreakpointsContext } from "../../contexts";
 
 const Wrapper = styled.div`
-  position: relative;
+  position: absolute;
+  top: 0;
   width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1; /* 确保内容在 Vanta 之上 */
+`;
+
+// VantaWrapper 包裹 Vanta 组件，使其作为全局背景
+const VantaWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* 确保背景在最底层 */
+  overflow: hidden;
+  pointer-events: none; /* 禁用鼠标事件，防止影响交互 */
 `;
 
 const StyledNav = styled.nav`
@@ -32,17 +51,19 @@ const StyledNav = styled.nav`
   padding-left: 16px;
   padding-right: 16px;
   position: relative;
+  z-index: 2; /* 使导航在 Vanta 之上 */
 `;
 
 const HeaderNav = styled.div`
   width: fit-content;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
   bottom: 0;
   margin: auto;
-`
+  z-index: 2; /* 保证显示在 Vanta 上方 */
+`;
 
 const FixedContainer = styled.div<{ showMenu: boolean; height: number }>`
   position: fixed;
@@ -59,23 +80,34 @@ const TopBannerContainer = styled.div<{ height: number }>`
   min-height: ${({ height }) => `${height}px`};
   max-height: ${({ height }) => `${height}px`};
   width: 100%;
+  z-index: 2; /* 保持顶部横幅显示在其他内容之上 */
 `;
 
 const BodyWrapper = styled(Box)`
   position: relative;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100vh;
+  margin-top: 56px;
+  flex: 1;
+  z-index: 2;
 `;
 
 const StyledWrapper = styled.div`
   height: 56px;
   width: 100%;
-`
+  z-index: 2;
+`;
 
 const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
   flex-grow: 1;
   transition: margin-top 0.2s, margin-left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translate3d(0, 0, 0);
   max-width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
@@ -97,11 +129,10 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   children,
 }) => {
   const [showMenu, setShowMenu] = useState(true);
-  const { isDesktop } = useMatchBreakpointsContext()
+  const { isDesktop, isMobile } = useMatchBreakpointsContext();
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
 
   const topBannerHeight = !isDesktop ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
-
   const totalTopMenuHeight = banner ? MENU_HEIGHT + topBannerHeight : MENU_HEIGHT;
 
   useEffect(() => {
@@ -109,17 +140,12 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
       const currentOffset = window.pageYOffset;
       const isBottomOfPage = window.document.body.clientHeight === currentOffset + window.innerHeight;
       const isTopOfPage = currentOffset === 0;
-      // Always show the menu when user reach the top
       if (isTopOfPage) {
         setShowMenu(true);
-      }
-      // Avoid triggering anything at the bottom because of layout shift
-      else if (!isBottomOfPage) {
+      } else if (!isBottomOfPage) {
         if (currentOffset < refPrevOffset.current || currentOffset <= totalTopMenuHeight) {
-          // Has scroll up
           setShowMenu(true);
         } else {
-          // Has scroll down
           setShowMenu(false);
         }
       }
@@ -133,20 +159,18 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
     };
   }, [totalTopMenuHeight]);
 
-  // Find the home link if provided
   const homeLink = links.find((link) => link.label === "Home");
 
-  const subLinksWithoutMobile = subLinks?.filter((subLink) => 
-    {
-      if (subLink.label !== 'Rank' && subLink.label !== 'Circle')
-      return  !subLink.isMobileOnly
-    }
-  );
+  const subLinksWithoutMobile = subLinks?.filter((subLink) => {
+    if (subLink.label !== 'Rank' && subLink.label !== 'Circle') return !subLink.isMobileOnly;
+  });
 
   const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
 
   return (
     <MenuContext.Provider value={{ linkComponent }}>
+      {/* 背景 Vanta 组件 */}
+      {/* {!isMobile && <Vanta />} */}
       <Wrapper>
         <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
@@ -156,16 +180,18 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             </Flex>
             <HeaderNav>
               <Flex>
-                {isDesktop ? <SubMenuItems style={{marginTop: 8}} items={subLinksWithoutMobile} activeItem={activeSubItem} /> : null}
+                {isDesktop ? (
+                  <SubMenuItems style={{ marginTop: 8 }} items={subLinksWithoutMobile} activeItem={activeSubItem} />
+                ) : null}
               </Flex>
             </HeaderNav>
-            <Flex alignItems="center" justifyContent={'center'} height="100%">
+            <Flex alignItems="center" justifyContent={"center"} height="100%">
               <Box>
                 <LangSelector
                   currentLang={currentLang}
                   langs={langs}
                   setLang={setLang}
-                  buttonScale='xs'
+                  buttonScale="xs"
                   color="textSubtle"
                   hideLanguage
                 />
@@ -174,29 +200,36 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             </Flex>
           </StyledNav>
         </FixedContainer>
-        {
-          !isDesktop ?
-            <>
-              {subLinks && (
-                <Flex justifyContent="space-around">
-                  <SubMenuItems items={subLinksWithoutMobile} mt={`${totalTopMenuHeight + 1}px`} activeItem={activeSubItem} />
 
-                  {subLinksMobileOnly?.length > 0 && (
-                    <SubMenuItems
-                      items={subLinksMobileOnly}
-                      mt={`${totalTopMenuHeight + 1}px`}
-                      activeItem={activeSubItem}
-                      isMobileOnly
-                    />
-                  )}
-                </Flex>
-              )}
-            </> : <StyledWrapper />
-        }
+        {!isDesktop ? (
+          <>
+            {subLinks && (
+              <Flex style={{ zIndex: 2 }} justifyContent="space-around">
+                <SubMenuItems
+                  items={subLinksWithoutMobile}
+                  mt={`${totalTopMenuHeight + 1}px`}
+                  activeItem={activeSubItem}
+                />
+                {subLinksMobileOnly?.length > 0 && (
+                  <SubMenuItems
+                    items={subLinksMobileOnly}
+                    mt={`${totalTopMenuHeight + 1}px`}
+                    activeItem={activeSubItem}
+                    isMobileOnly
+                  />
+                )}
+              </Flex>
+            )}
+          </>
+        ) : (
+          <StyledWrapper />
+        )}
+
         <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
-            <Footer
+          </Inner>
+          <Footer
               items={footerLinks}
               isDark={isDark}
               toggleTheme={toggleTheme}
@@ -207,7 +240,6 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               buyCakeLabel={buyCakeLabel}
               mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
             />
-          </Inner>
         </BodyWrapper>
       </Wrapper>
     </MenuContext.Provider>

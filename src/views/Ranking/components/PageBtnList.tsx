@@ -31,7 +31,7 @@ const ButtonList = styled.div`
     cursor: pointer;
     &.active {
       color: #fff;
-      background: #4263eb;
+      background: #000;
     }
   }
   
@@ -67,7 +67,7 @@ const GoBtn = styled.div`
   transition: all 0.4s;
   :hover {
     color: #fff;
-    background: #4263eb;
+    background: #000;
   }
 `
 

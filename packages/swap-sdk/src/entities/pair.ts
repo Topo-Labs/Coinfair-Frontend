@@ -64,39 +64,47 @@ export class Pair {
     return PAIR_ADDRESS_CACHE[key]
   }
 
-  // public static async getAddress(tokenA: Token, tokenB: Token, provider: any, userAddress: string): Promise<string> {
-  //   const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA];
-  //   const key = composeKey(token0, token1);
+  public static getPairAddress(tokenA: Token, tokenB: Token, provider: any, userAddress: string, callback: (address: string | null) => void): void {
+    const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA];
+    const key = composeKey(token0, token1);
+    console.log('arg::::argargarg', tokenA, tokenB, provider, userAddress)
+    // 检查缓存中是否已有地址
+    // if (PAIR_ADDRESS_CACHE?.[key] !== undefined) {
+    //   callback(PAIR_ADDRESS_CACHE[key]);
+    //   return;
+    // }
 
-  //   // 检查缓存中是否已有地址
-  //   if (PAIR_ADDRESS_CACHE?.[key] !== undefined) {
-  //     return PAIR_ADDRESS_CACHE[key];
-  //   }
+    const treasuryAddress = (TREASURY_ADDRESS as { [key: number]: string })[token0.chainId];
+    if (!treasuryAddress) {
+      callback(null); // 或者你可以抛出一个错误
+      return;
+    }
 
-  //   const treasuryAddress = (TREASURY_ADDRESS as { [key: number]: string })[token0.chainId]
-  //   if (!treasuryAddress) {
-  //     throw new Error(`Unsupported chainId: ${token0.chainId}`);
-  //   }
+    const treasuryContract = new Contract(treasuryAddress, TreasuryABI, provider);
+    // console.log('treasuryContracttreasuryContract', treasuryContract)
+    
+    // 调用合约方法获取地址，传入 token0, token1 和用户地址
+    // console.log([token0.address, token1.address], userAddress)
+    treasuryContract.getPairManagement([token0.address, token1.address], userAddress)
+      .then((result: any) => {
+        const pairAddress = Array.isArray(result) && result[0] ? result[0].toString() : null;
+        const addressOnly = pairAddress.split(',')[0];
+        console.log('addressOnly:::addressOnly:::::::', addressOnly)
+        if (!addressOnly) {
+            callback(null); // 或者你可以抛出一个错误
+            return;
+        }
+        // 将获取到的地址缓存
+        PAIR_ADDRESS_CACHE[key] = addressOnly;
+        console.log(PAIR_ADDRESS_CACHE[key])
+        callback(addressOnly);
+      })
+      .catch((error) => {
+        console.error('Error fetching pair address from contract:', error);
+        callback(null); // 或者你可以抛出一个错误
+      });
+  }
 
-  //   try {
-  //     const treasuryContract = new Contract(treasuryAddress, TreasuryABI, provider);
-  //     // 调用合约方法获取地址，传入 token0, token1 和用户地址
-  //     const result = await treasuryContract.getPairManagement([token0.address, token1.address], userAddress);
-
-  //     // 确保 result 是一个数组，并且第一个元素是有效的地址字符串
-  //     const pairAddress = Array.isArray(result) && typeof result[0] === 'string' ? result[0] : undefined;
-  //     if (!pairAddress) {
-  //       throw new Error('Invalid pair address returned from contract');
-  //     }
-
-  //     // 将获取到的地址缓存
-  //     PAIR_ADDRESS_CACHE[key] = pairAddress;
-  //     return pairAddress;
-  //   } catch (error) {
-  //     console.error('Error fetching pair address from contract:', error);
-  //     throw new Error('Failed to fetch pair address from contract');
-  //   }
-  // }
 
   public constructor(tokenAmountA: TokenAmount, tokenAmountB: TokenAmount, pairAddress: string) {
     const tokenAmounts = tokenAmountA.token.sortsBefore(tokenAmountB.token) // does safety checks

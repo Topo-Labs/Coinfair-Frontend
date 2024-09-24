@@ -1,5 +1,5 @@
 import { TokenAmount, Pair, Currency } from '@pancakeswap/sdk';
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState, useRef } from 'react';
 import IPancakePairABI from 'config/abi/IPancakePair.json';
 import TreasuryABI from 'config/abi/Coinfair_Treasury.json';
 import { Interface } from '@ethersproject/abi';
@@ -18,7 +18,9 @@ export enum PairState {
 }
 
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
-  const { chainId } = useActiveWeb3React();
+  const { chainId, account, library } = useActiveWeb3React();
+  const previousTokensRef = useRef<string[]>([]);
+  // const [pairAddr, setPairAddr] = useState<(string | undefined)[]>([]);
 
   const tokens = useMemo(
     () =>
@@ -29,10 +31,68 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     [chainId, currencies],
   );
 
+  // const fetchPairAddresses = async () => {
+  //   const addresses = await Promise.all(
+  //     tokens.map(async ([tokenA, tokenB]) => {
+  //       if (!tokenA || !tokenB || tokenA.equals(tokenB)) return undefined;
+  
+  //       return new Promise<string | undefined>((resolve) => {
+  //         Pair.getPairAddress(tokenA, tokenB, library.getSigner(account), account, (address: string | null) => {
+  //           resolve(address || undefined);
+  //         });
+  //       });
+  //     })
+  //   );
+  
+  //   console.log(addresses, 'addressesaddressesaddresses');
+  //   setPairAddr(addresses); // 在这里再设置状态
+  // };
+
+  // useEffect(() => {
+  //   const fetchPairAddresses = async () => {
+  //     const addresses = await Promise.all(
+  //       tokens.map(async ([tokenA, tokenB]) => {
+  //         if (!tokenA || !tokenB || tokenA.equals(tokenB)) return undefined;
+
+  //         return new Promise<string | undefined>((resolve) => {
+  //           Pair.getPairAddress(tokenA, tokenB, library.getSigner(account), account, (address: string | null) => {
+  //             resolve(address || undefined);
+  //           });
+  //         });
+  //       })
+  //     );
+
+  //     console.log(addresses, 'addresses');
+  //     setPairAddr(addresses);
+  //   };
+
+  //   // 仅在 tokens 变化时请求
+  //   if (tokens.length > 0) {
+  //     fetchPairAddresses();
+  //   }
+  // }, [tokens.join(',')]); // 使用字符串来减少依赖项的变化
+
+  // console.log(pairAddr, 'pairAddrpairAddrpairAddr::::')
+
+  // useEffect(() => {
+  //   const currentTokens = tokens.map(([tokenA, tokenB]) => `${tokenA?.address}-${tokenB?.address}`).join(',');
+  //   if (currentTokens !== previousTokensRef.current.join(',')) {
+  //     previousTokensRef.current = tokens.map(([tokenA, tokenB]) => `${tokenA?.address}-${tokenB?.address}`);
+  //     fetchPairAddresses();
+  //   }
+  // }, [tokens]);
+
   const pairAddresses = useMemo(
     () =>
       tokens.map(([tokenA, tokenB]) => {
         try {
+          Pair.getPairAddress(tokenA, tokenB, library.getSigner(account), account, (address: string) => {
+            if (address) {
+              // console.log('Pair address:', address);
+            } else {
+              console.log('Failed to fetch pair address');
+            }
+          })
           return tokenA && tokenB && !tokenA.equals(tokenB) ? Pair.getAddress(tokenA, tokenB) : undefined;
         } catch (error: any) {
           console.error(
@@ -45,6 +105,8 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
       }),
     [tokens],
   );
+
+  console.log(pairAddresses, 'pairAddresses:::')
 
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves');
   const feeResults = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getFee');
@@ -86,6 +148,11 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
 }
 
 export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
+  // 如果 tokenA 或 tokenB 为 null 或 undefined，返回默认值
+  if (!tokenA || !tokenB) {
+    return [PairState.INVALID, null];
+  }
+  
   const pairCurrencies = useMemo<[Currency, Currency][]>(() => [[tokenA, tokenB]], [tokenA, tokenB]);
   return usePairs(pairCurrencies)[0];
 }

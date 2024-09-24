@@ -162,7 +162,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   const homeLink = links.find((link) => link.label === "Home");
 
   const subLinksWithoutMobile = subLinks?.filter((subLink) => {
-    if (subLink.label !== 'Rank' && subLink.label !== 'Circle') return !subLink.isMobileOnly;
+    if (subLink.label !== 'Rank') return !subLink.isMobileOnly;
   });
 
   const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);

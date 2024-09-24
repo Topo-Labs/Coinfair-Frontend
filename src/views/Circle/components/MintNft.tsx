@@ -1,165 +1,15 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
-import styled, { useTheme } from 'styled-components';
 import { FiCopy } from 'react-icons/fi';
-import { Button, ChevronDownIcon, Text, useModal, Flex, Box, Image } from '@pancakeswap/uikit';
-// import Snackbar from 'components/SnackBar/SnackbarComponent';
-import ethers, { Contract, providers } from 'ethers';
+import { Text } from '@pancakeswap/uikit';
+import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
 import { NETWORK_CONFIG } from 'utils/wallet'
-import { circleContractAddress, MINT_ABI } from './contract';
-
-const Circle = styled.div`
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  border-radius: 20px;
-  /* overflow: hidden; */
-  background: #000;
-  @media (min-width: 1200px) {
-    max-width: 560px;
-  }
-`;
-
-const CircleMain = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  background: #000;
-  border-radius: 20px;
-  @media (min-width: 1200px) {
-    min-width: 560px;
-  }
-`;
-
-const CircleHeader = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const CircleTitle = styled.div`
-  display: flex;
-  font-size: 24px;
-`;
-
-const CircleNftMain = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 30px;
-  & p{
-    margin-top: 40px;
-  }
-`;
-
-const CircleNft = styled.div`
-  width: fit-content;
-  border-radius: 16px;
-  background: #EEEEEE;
-  /* box-shadow: 0 0 15px 10px #27272B; */
-`;
-
-const NftMessage = styled.div`
-  padding: 10px 5px;
-`;
-
-const NftTotal = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const NftRemain = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-`;
-
-const CopyMain = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const CopyLink = styled.span`
-  max-width: 150px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 14px;
-  margin-top: 5px;
-`;
-
-const CopyBtn = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const CircleImg = styled.img`
-  border-radius: 16px;
-`;
-
-const CircleHistoryContent = styled.div`
-  max-width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: all .3s ease;
-  padding: 20px 0;
-`;
-
-const CircleContent = styled.div`
-  background-color: #f6f5fe;
-  border-radius: 8px;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-`;
-
-const CirclePeopleCount = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 13px;
-  margin-bottom: 285px;
-  font-size: 16px;
-`;
-
-const CircleContentPeople = styled.div`
-  color: #fff;
-  font-size: 20px;
-`;
-
-const CircleContentPeopleRange = styled.div`
-  color: #666666;
-  font-size: 14px;
-`;
-
-const MintAmount = styled.input`
-  background-color: #f6f5fe;
-  border: 0;
-  outline: 0;
-  color: #fff;
-  width: 100%;
-`;
-
-const CircleMint = styled(Button)`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all .3s ease;
-  border-radius: 4px;
-  padding: 15px 0;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 300;
-  background: linear-gradient(90deg, #EB3DFF 0%, #5C53D3 100%);
-  border-radius: 28px;
-  margin-bottom: 30px;
-`;
+import { circleContractAddress, MINT_ABI } from './constants';
+import { copyText } from 'utils/copyText';
+import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
+import useToast from 'hooks/useToast';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -203,27 +53,11 @@ interface ExtendedEthereum extends ExternalProvider {
 
 export default function MintNft() {
   const { account, chainId, active } = useActiveWeb3React();
-
+  const { toastSuccess, toastError } = useToast()
   const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarVariant, setSnackbarVariant] = useState<'success' | 'error' | 'warning' | 'info'>('success');
-
-  // const openSnackbar = (message: string, variant: 'success' | 'error' | 'warning' | 'info') => {
-  //   setSnackbarMessage(message);
-  //   setSnackbarVariant(variant);
-  //   setSnackbarOpen(true);
-  // };
-
-  // const handleCloseSnackbar = () => {
-  //   setSnackbarOpen(false);
-  // };
-
-
-  const accountAddress = '';
+  const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)
 
   const onChangeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value, 10);
@@ -233,112 +67,104 @@ export default function MintNft() {
       setAmount(0);
     }
   };
-  // 获取 NFT 信息
-  // const fetchNftInfo = useCallback(async () => {
-  //   setLoading(true);
-  //   const rpcUrl = NETWORK_CONFIG[String(chainId)]?.rpcUrls[0]
-  //   try {
-  //     if (!chainId) {
-  //       console.error('Invalid chain configuration or missing node URL:', chainId);
-  //       openSnackbar('Network configuration error. Check your chain settings.', 'error');
-  //       return;
-  //     }
+  const fetchNftInfo = useCallback(async () => {
+    setLoading(true);
+    const rpcUrl = NETWORK_CONFIG[String(chainId)]?.rpcUrls[0]
+    try {
+      if (!chainId) {
+        console.error('Invalid chain configuration or missing node URL:', chainId);
+        return;
+      }
 
-  //     const provider = new JsonRpcProvider(rpcUrl);
+      const provider = new JsonRpcProvider(rpcUrl);
+      if (!isAddress(circleContractAddress)) {
+        console.error('Invalid contract address:', circleContractAddress);
+        return;
+      }
 
-  //     if (!isAddress(circleContractAddress)) {
-  //       console.error('Invalid contract address:', circleContractAddress);
-  //       openSnackbar('Invalid contract address configuration.', 'error');
-  //       return;
-  //     }
+      const contract = new Contract(circleContractAddress, MINT_ABI, provider);
 
-  //     const contract = new Contract(circleContractAddress, MINT_ABI, provider);
+      if (!isAddress(account)) {
+        console.error('Invalid account address:', account);
+        return;
+      }
 
-  //     if (!isAddress(accountAddress)) {
-  //       console.error('Invalid account address:', accountAddress);
-  //       openSnackbar('Invalid account address. Please check your wallet connection.', 'error');
-  //       return;
-  //     }
+      const result = await retryAsync(() => contract.getMCInfo(account));
+      if (!result) {
+        console.error('No data returned from contract call.');
+        return;
+      }
 
-  //     const result = await retryAsync(() => contract.getMCInfo(accountAddress));
-  //     if (!result) {
-  //       console.error('No data returned from contract call.');
-  //       return;
-  //     }
+      const info = result.toString().split(',');
+      setNftInfo(info);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [chainId, account]);
 
-  //     const info = result.toString().split(',');
-  //     setNftInfo(info);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [chainId, accountAddress, openSnackbar]);
+  useEffect(() => {
+    if (active) {
+      fetchNftInfo();
+    }
+  }, [active, fetchNftInfo]);
 
-  // const confirmMint = useCallback(async () => {
-  //   if (!amount || parseInt(amount as unknown as string, 10) <= 0) {
-  //     openSnackbar('Please enter a valid amount.', 'warning');
-  //     return;
-  //   }
+  const confirmMint = useCallback(async () => {
+    if (!amount || parseInt(amount as unknown as string, 10) <= 0) {
+      return;
+    }
 
-  //   setLoading(true);
-  //   try {
-  //     if (!chainId) {
-  //       openSnackbar('Network configuration error. Check your chain settings.', 'error');
-  //       return;
-  //     }
+    setLoading(true);
+    try {
+      if (!chainId) {
+        return;
+      }
 
-  //     if (!isAddress(accountAddress)) {
-  //       openSnackbar('Invalid account address. Please check your wallet.', 'error');
-  //       console.error('Invalid account address:', accountAddress);
-  //       return;
-  //     }
+      if (!isAddress(account)) {
+        console.error('Invalid account address:', account);
+        return;
+      }
 
-  //     if (!((window as any).ethereum)) {
-  //       openSnackbar('Ethereum wallet not found. Please connect your wallet.', 'error');
-  //       return;
-  //     }
+      if (!((window as any).ethereum)) {
+        return;
+      }
 
-  //     const ethereum = ((window as any).ethereum) as unknown as ExtendedEthereum;
+      const ethereum = ((window as any).ethereum) as unknown as ExtendedEthereum;
 
-  //     try {
-  //       await ethereum.request({ method: 'eth_requestAccounts' });
-  //     } catch (requestError) {
-  //       console.error('Failed to request wallet accounts:', requestError);
-  //       openSnackbar('Failed to connect wallet. Please try again.', 'error');
-  //       setLoading(false);
-  //       return;
-  //     }
+      try {
+        await ethereum.request({ method: 'eth_requestAccounts' });
+      } catch (requestError) {
+        console.error('Failed to request wallet accounts:', requestError);
+        setLoading(false);
+        return;
+      }
 
-  //     const provider = new Web3Provider(ethereum);
-  //     const signer = await provider.getSigner();
+      const provider = new Web3Provider(ethereum);
+      const signer = await provider.getSigner();
 
-  //     const signerAddress = await signer.getAddress();
-  //     if (signerAddress.toLowerCase() !== accountAddress.toLowerCase()) {
-  //       openSnackbar('Signer account does not match the provided address.', 'error');
-  //       console.error('Signer address does not match:', signerAddress, accountAddress);
-  //       return;
-  //     }
+      const signerAddress = await signer.getAddress();
+      if (signerAddress.toLowerCase() !== account.toLowerCase()) {
+        console.error('Signer address does not match:', signerAddress, account);
+        return;
+      }
 
-  //     const contract = new Contract(circleContractAddress, MINT_ABI, signer);
+      const contract = new Contract(circleContractAddress, MINT_ABI, signer);
 
-  //     const cost = await contract.mintCost();
-  //     const totalCost = BigInt(cost.toString()) * BigInt(amount);
+      const cost = await contract.mintCost();
+      const totalCost = BigInt(cost.toString()) * BigInt(amount);
 
-  //     const tx = await contract.mint(amount, { value: totalCost });
-  //     await tx.wait();
-
-  //     openSnackbar('Mint success!', 'success');
-  //     await fetchNftInfo(); // 在 mint 成功后再次获取 NFT 信息
-  //   } catch (error) {
-  //     console.error('Mint failed:', error);
-  //     openSnackbar('Mint failed. Check console for details.', 'error');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [amount, accountAddress, chainId, fetchNftInfo, openSnackbar]);
-
-
+      const tx = await contract.mint(amount, { value: totalCost });
+      await tx.wait();
+      toastSuccess('Success to mint', 'Go notify your friends to claim now!')
+      await fetchNftInfo(); // 在 mint 成功后再次获取 NFT 信息
+    } catch (error: any) {
+      toastError('Failed to mint', `${error.message}`)
+      console.error('Mint failed:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [amount, account, chainId, fetchNftInfo]);
 
   if (!active) {
     return (
@@ -354,6 +180,15 @@ export default function MintNft() {
 
     );
   }
+
+  const displayTooltip = () => {
+    setIsTooltipDisplayed(true)
+    setTimeout(() => {
+      setIsTooltipDisplayed(false)
+    }, 1000)
+  }
+
+  console.log(isTooltipDisplayed, 'isTooltipDisplayedisTooltipDisplayed')
 
   return (
     <>
@@ -380,13 +215,21 @@ export default function MintNft() {
               </span>
             </NftRemain>
             <CopyMain>
-              <CopyLink title={`https://eqswap.io/claim?address=${accountAddress}`}>
-                https://eqswap.io/claim?address={accountAddress}
+              <CopyLink title={`https://coinfair.xyz/claim?address=${account}`}>
+                https://coinfair.xyz/claim?address={account}
               </CopyLink>
               <CopyBtn
-                // onClick={handleCopyAddress} 
+                onClick={() => copyText(`https://coinfair.xyz/claim?address=${account}`, displayTooltip)}
                 aria-label="Copy Claim link">
                 <FiCopy />
+                <Tooltip
+                  isTooltipDisplayed={isTooltipDisplayed}
+                  tooltipTop={-5}
+                  tooltipRight={-60}
+                  tooltipFontSize={100}
+                >
+                  Copied
+                </Tooltip>
               </CopyBtn>
             </CopyMain>
           </NftMessage>
@@ -413,8 +256,8 @@ export default function MintNft() {
         </CircleContentPeople>
       </CircleContent>
       <CircleMint 
-      // onClick={confirmMint}
-       disabled={loading}>
+        onClick={confirmMint}
+        disabled={loading}>
         {loading ? 'Minting...' : 'Mint'}
       </CircleMint>
     </>

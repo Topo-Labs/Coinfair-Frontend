@@ -170,11 +170,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       {/* 背景 Vanta 组件 */}
-<<<<<<< HEAD
-      {/* <Vanta /> */}
-=======
       {/* {!isMobile && <Vanta />} */}
->>>>>>> 19f4219e47fc5d918f10074f63f28a9f5be2c93d
       <Wrapper>
         <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}

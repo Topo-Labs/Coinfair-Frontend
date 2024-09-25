@@ -9,7 +9,7 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
 import Logo from "./components/Logo";
-import Vanta from './components/Vanta'; // 引入 Sketch 组件作为背景
+// import Vanta from './components/Vanta'; // 引入 Sketch 组件作为背景
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
 import LangSelector from "../../components/LangSelector/LangSelector";
@@ -129,7 +129,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   children,
 }) => {
   const [showMenu, setShowMenu] = useState(true);
-  const { isDesktop } = useMatchBreakpointsContext();
+  const { isDesktop, isMobile } = useMatchBreakpointsContext();
   const refPrevOffset = useRef(typeof window === "undefined" ? 0 : window.pageYOffset);
 
   const topBannerHeight = !isDesktop ? TOP_BANNER_HEIGHT_MOBILE : TOP_BANNER_HEIGHT;
@@ -162,7 +162,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   const homeLink = links.find((link) => link.label === "Home");
 
   const subLinksWithoutMobile = subLinks?.filter((subLink) => {
-    if (subLink.label !== 'Rank' && subLink.label !== 'Circle') return !subLink.isMobileOnly;
+    if (subLink.label !== 'Rank') return !subLink.isMobileOnly;
   });
 
   const subLinksMobileOnly = subLinks?.filter((subLink) => subLink.isMobileOnly);
@@ -170,7 +170,11 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   return (
     <MenuContext.Provider value={{ linkComponent }}>
       {/* 背景 Vanta 组件 */}
+<<<<<<< HEAD
       {/* <Vanta /> */}
+=======
+      {/* {!isMobile && <Vanta />} */}
+>>>>>>> 19f4219e47fc5d918f10074f63f28a9f5be2c93d
       <Wrapper>
         <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}

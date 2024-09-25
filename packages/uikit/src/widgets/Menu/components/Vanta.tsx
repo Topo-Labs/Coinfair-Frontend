@@ -5,7 +5,8 @@ const Sketch = dynamic(() => import('../components/Sketch'), { ssr: false });
 
 const Vanta = () => {
   return (
-    <Sketch />
+    // <Sketch />
+    ''
   );
 }
 

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useTranslation } from '@pancakeswap/localization'
 import useGoogleAnalysis from 'hooks/useGoogleAnalysis'
 import Page from '../Page'
-import MintNft from './components/MintNft'
+import ClaimNft from './components/ClaimNft'
 
 const ListWrapper = styled.div`
   width: 100%;
@@ -26,13 +26,13 @@ const ListWrapper = styled.div`
   }
 `
 
-export default function CircleList() {
-  useGoogleAnalysis("Circle", "")
+export default function ClaimList() {
+  useGoogleAnalysis("Claim", "")
 
   return (
     <Page>
       <ListWrapper>
-        <MintNft/>
+        <ClaimNft/>
       </ListWrapper>
     </Page>
   )

@@ -188,8 +188,6 @@ export default function MintNft() {
     }, 1000)
   }
 
-  console.log(isTooltipDisplayed, 'isTooltipDisplayedisTooltipDisplayed')
-
   return (
     <>
       <CircleHeader>

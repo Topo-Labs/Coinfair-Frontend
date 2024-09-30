@@ -324,6 +324,10 @@ export default function Swap() {
     }
   }, [maxAmountInput, onUserInput])
 
+  const handleClaimToken = useCallback(() => {
+    // const provider = new Contract(TREASURY_ADDRESS[chainId], )
+  }, [account, chainId])
+
   const handleOutputSelect = useCallback(
     (currencyOutput) => {
       onCurrencySelection(Field.OUTPUT, currencyOutput)
@@ -425,7 +429,7 @@ export default function Swap() {
                 />
                 <Wrapper id="swap-page" style={{ minHeight: '325px' }}>
                   <AutoColumn style={{ display: 'block' }}>
-                    {
+                    {/* {
                       ammType ?
                         (
                           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0px', marginBottom: '-16px' }}>
@@ -433,7 +437,7 @@ export default function Swap() {
                             <Text>{swapFormulaList[ammType - 1].alias}</Text>
                           </div>
                         ) : null
-                    }
+                    } */}
                     <div>
                       <CurrencyInputPanel
                         label={
@@ -443,6 +447,7 @@ export default function Swap() {
                         value={formattedAmounts[Field.INPUT]}
                         // value={renderOnInput(currencies[Field.INPUT])}
                         showMaxButton={!atMaxAmountInput}
+                        showWithDraw={false}
                         currency={currencies[Field.INPUT]}
                         onUserInput={handleTypeInput}
                         onMax={handleMaxInput}
@@ -483,9 +488,11 @@ export default function Swap() {
                         value={formattedAmounts[Field.OUTPUT]}
                         // value={renderOnInput()}
                         onUserInput={handleTypeOutput}
+                        onClaim={handleClaimToken}
                         label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                         labelType="swap-balance"
                         showMaxButton={false}
+                        showWithDraw={true}
                         currency={currencies[Field.OUTPUT]}
                         onCurrencySelect={handleOutputSelect}
                         otherCurrency={currencies[Field.INPUT]}
@@ -554,11 +561,11 @@ export default function Swap() {
                         <Text color="textSubtle" style={{ color: 'white', fontWeight: '600' }}>
                           {t('Insufficient liquidity for this trade.')}
                         </Text>
-                        {singleHopOnly && (
+                        {/* {singleHopOnly && (
                           <Text color="textSubtle" style={{ color: 'white', fontWeight: '600' }}>
                             {t('Try enabling multi-hop trades.')}
                           </Text>
-                        )}
+                        )} */}
                       </GreyCard>
                     ) : showApproveFlow ? (
                       <RowBetween>

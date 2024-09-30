@@ -5,7 +5,9 @@ import styled from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import { useWeb3React } from '@web3-react/core'
+import { Contract } from '@ethersproject/contracts'
 import { BIG_INT_ZERO } from 'config/constants/exchange'
+import TreasuryABI from 'config/abi/Coinfair_Treasury.json'
 import { LightCard } from '../../components/Card'
 import { AutoColumn, ColumnCenter } from '../../components/Layout/Column'
 import { CurrencyLogo } from '../../components/Logo'
@@ -52,7 +54,51 @@ export default function PoolFinder() {
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
   const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
-  const [pairState, pair] = usePair(currency0 || ETHER, currency1 || null)
+
+  // const contract = useMemo(() => {
+  //   if (!library || !account) return null
+  //   return new Contract(TREASURY_ADDRESS[chainId], TreasuryABI, library.getSigner(account))
+  // }, [library, account])
+
+  // useEffect(() => {
+  //   const callContractMethod = async () => {
+  //     if (
+  //       contract &&
+  //       currency0?.address && // 确保 currency0 存在并且有 address
+  //       currency1?.address // 确保 currency1 存在并且有 address
+  //     ) {
+  //       try {
+  //         // 调用合约的方法
+  //         const result = await contract.getPairManagement([currency0.address, currency1.address]);
+  
+  //         // 递归函数将嵌套数组中的 BigNumber 转换为字符串
+  //         const convertToReadable = (data) => {
+  //           if (Array.isArray(data)) {
+  //             // 处理数组中的每个元素
+  //             return data.map(convertToReadable);
+  //           } else if (BigNumber.isBigNumber(data)) {
+  //             // 将 BigNumber 转换为字符串
+  //             return data.toString();
+  //           }
+  //           // 直接返回其他类型
+  //           return data;
+  //         };
+  
+  //         // 转换嵌套数组的所有 BigNumber 为字符串
+  //         const readableResult = convertToReadable(result);
+  
+  //         // 打印转换后的结果
+  //         console.log('Contract call result:', readableResult);
+  //       } catch (error) {
+  //         console.error('Error calling contract method:', error);
+  //       }
+  //     }
+  //   };
+  
+  //   callContractMethod();
+  // }, [contract, currency0?.address, currency1?.address]); // 依赖项改为地址
+
+  const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
   const addPair = usePairAdder()
   useEffect(() => {
     if (pair) {

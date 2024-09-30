@@ -1,5 +1,6 @@
 /* eslint-disable no-continue */
 import invariant from 'tiny-invariant'
+import JSBI from 'jsbi';
 import { InsufficientInputAmountError, InsufficientReservesError } from '..'
 
 import { ChainId, ONE, TradeType, ZERO } from '../constants'
@@ -10,7 +11,7 @@ import { Fraction } from './fractions/fraction'
 import { Percent } from './fractions/percent'
 import { Price } from './fractions/price'
 import { TokenAmount } from './fractions/tokenAmount'
-import { Pair } from './pair'
+import { Pair, PairV3 } from './pair'
 import { Route } from './route'
 import { currencyEquals, Token, WNATIVE } from './token'
 
@@ -250,7 +251,7 @@ export class Trade {
    * @param bestTrades used in recursion; the current list of best trades
    */
   public static bestTradeExactIn(
-    pairs: Pair[],
+    pairs: PairV3[],
     currencyAmountIn: CurrencyAmount,
     currencyOut: Currency,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
@@ -259,50 +260,69 @@ export class Trade {
     originalAmountIn: CurrencyAmount = currencyAmountIn,
     bestTrades: Trade[] = []
   ): Trade[] {
-    invariant(pairs.length > 0, 'PAIRS')
-    invariant(maxHops > 0, 'MAX_HOPS')
-    invariant(originalAmountIn === currencyAmountIn || currentPairs.length > 0, 'INVALID_RECURSION')
+    invariant(pairs.length > 0, 'PAIRS');
+    invariant(maxHops > 0, 'MAX_HOPS');
+    invariant(originalAmountIn === currencyAmountIn || currentPairs.length > 0, 'INVALID_RECURSION');
     const chainId: ChainId | undefined =
       currencyAmountIn instanceof TokenAmount
         ? currencyAmountIn.token.chainId
         : currencyOut instanceof Token
           ? currencyOut.chainId
-          : undefined
-    invariant(chainId !== undefined, 'CHAIN_ID')
-    const amountIn = wrappedAmount(currencyAmountIn, chainId)
-    const tokenOut = wrappedCurrency(currencyOut, chainId)
+          : undefined;
+    invariant(chainId !== undefined, 'CHAIN_ID');
+    const amountIn = wrappedAmount(currencyAmountIn, chainId);
+    const tokenOut = wrappedCurrency(currencyOut, chainId);
+
     for (let i = 0; i < pairs.length; i++) {
-      const pair = pairs[i]
-      // pair irrelevant
-      if (!pair.token0.equals(amountIn.token) && !pair.token1.equals(amountIn.token)) continue
-      if (pair.reserve0.equalTo(ZERO) || pair.reserve1.equalTo(ZERO)) continue
+      const pair = pairs[i];
       
-      let amountOut: TokenAmount
+      // 只处理相关的 pair
+      if (!pair.token0.equals(amountIn.token) && !pair.token1.equals(amountIn.token)) continue;
+      if (pair.reserve0.equalTo(ZERO) || pair.reserve1.equalTo(ZERO)) continue;
+      
+      let amountOut: TokenAmount;
       try {
-        [amountOut] = pair.getOutputAmount(amountIn)
+        [amountOut] = pair.getOutputAmount(amountIn);
       } catch (error) {
-        // input too low
+        // 输入金额太低，跳过该 pair
         if ((error as InsufficientInputAmountError).isInsufficientInputAmountError) {
-          continue
+          continue;
         }
-        throw error
+        throw error;
       }
-      // we have arrived at the output token, so this is the final trade of one of the paths
+
+      // 根据 poolType 调整 amountOut
+      switch (pair.poolType) {
+        case 2:
+          amountOut = new TokenAmount(amountOut.token, JSBI.divide(amountOut.raw, JSBI.BigInt(4)));  // 除以 4
+          break;
+        case 4:
+          amountOut = new TokenAmount(amountOut.token, JSBI.divide(amountOut.raw, JSBI.BigInt(32))); // 除以 32
+          break;
+        case 1:
+        default:
+          // 不需要调整，直接使用原来的 amountOut
+          break;
+      }
+
+      // 如果已经达到目标 token，构建最终交易路径
       if (amountOut.token.equals(tokenOut)) {
         sortedInsert(
           bestTrades,
           new Trade(
             new Route([...currentPairs, pair], originalAmountIn.currency, currencyOut),
             originalAmountIn,
-            TradeType.EXACT_INPUT
+            TradeType.EXACT_INPUT,
           ),
           maxNumResults,
           tradeComparator
-        )
-      } else if (maxHops > 1 && pairs.length > 1) {
-        const pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length))
+        );
+      } 
+      // 如果还没有达到目标 token，递归调用
+      else if (maxHops > 1 && pairs.length > 1) {
+        const pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length));
 
-        // otherwise, consider all the other paths that lead from this token as long as we have not exceeded maxHops
+        // 考虑所有其他路径，递归调用
         Trade.bestTradeExactIn(
           pairsExcludingThisPair,
           amountOut,
@@ -314,10 +334,12 @@ export class Trade {
           [...currentPairs, pair],
           originalAmountIn,
           bestTrades
-        )
+        );
       }
+      // console.log(bestTrades, 'bestTrades')
     }
-    return bestTrades
+    // console.log(bestTrades, bestTrades[0].priceImpact.denominator.toString())
+    return bestTrades;
   }
 
   /**
@@ -336,7 +358,7 @@ export class Trade {
    * @param bestTrades used in recursion; the current list of best trades
    */
   public static bestTradeExactOut(
-    pairs: Pair[],
+    pairs: PairV3[],
     currencyIn: Currency,
     currencyAmountOut: CurrencyAmount,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
@@ -381,7 +403,7 @@ export class Trade {
           new Trade(
             new Route([pair, ...currentPairs], currencyIn, originalAmountOut.currency),
             originalAmountOut,
-            TradeType.EXACT_OUTPUT
+            TradeType.EXACT_OUTPUT,
           ),
           maxNumResults,
           tradeComparator

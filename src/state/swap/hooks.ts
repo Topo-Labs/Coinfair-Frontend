@@ -1,7 +1,10 @@
-import { ChainId, Currency, CurrencyAmount, Pair, Trade } from '@pancakeswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS } from '@pancakeswap/sdk'
+import { Contract } from '@ethersproject/contracts'
+import { formatUnits, parseUnits } from '@ethersproject/units'
+import TreasuryABI from 'config/abi/Coinfair_Treasury.json'
 import { useWeb3React } from '@web3-react/core'
 import { ParsedUrlQuery } from 'querystring'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, Dispatch } from 'react'
 import { SLOW_INTERVAL } from 'config/constants'
 import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from 'config/constants/exchange'
 import useSWRImmutable from 'swr/immutable'
@@ -10,6 +13,7 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTradeExactIn, useTradeExactOut } from 'hooks/Trades'
 import { useRouter } from 'next/router'
 import { useTranslation } from '@pancakeswap/localization'
+import { TokenAmount } from '@pancakeswap/sdk';
 import { isAddress } from 'utils'
 import { getDeltaTimestamps } from 'utils/getDeltaTimestamps'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
@@ -21,7 +25,7 @@ import { getTokenAddress } from 'views/Swap/components/Chart/utils'
 import tryParseAmount from 'utils/tryParseAmount'
 import { AppState, useAppDispatch } from '../index'
 import { useCurrencyBalances } from '../wallet/hooks'
-import { Field, replaceSwapState, updateDerivedPairData, updatePairData } from './actions'
+import { Field, replaceSwapState, updateBestPoolData, updateDerivedPairData, updatePairData } from './actions'
 import { SwapState } from './reducer'
 import { useUserSlippageTolerance } from '../user/hooks'
 import fetchPairPriceData from './fetch/fetchPairPriceData'
@@ -86,6 +90,63 @@ export function useSingleTokenSwapInfo(
   }
 }
 
+export const fetchBestPool = async (
+  independentField: Field,
+  typedValue: string,
+  inputCurrency: Currency | undefined,
+  outputCurrency: Currency | undefined,
+  library: any,
+  account: string,
+  dispatch: Dispatch<any> // Dispatch 类型，可根据需要调整
+) => {
+  // 判断是输入还是输出，使用相应的货币
+  const isExactIn = independentField === Field.INPUT;
+  const selectedCurrency = isExactIn ? inputCurrency : outputCurrency;
+
+  if (!selectedCurrency || !typedValue || !library || !account) {
+    console.warn('Missing required parameters for fetchBestPool.');
+    return;
+  }
+
+  try {
+    // 使用 tryParseAmount 解析用户输入的 typedValue
+    const parsedAmount = tryParseAmount(typedValue, selectedCurrency);
+    
+    // 如果解析失败，则退出
+    if (!parsedAmount || !(parsedAmount instanceof TokenAmount)) {
+      console.warn('Failed to parse amount for fetchBestPool.');
+      return;
+    }
+
+    const amountInBigInt = parsedAmount.raw.toString(); // 提取 parsedAmount 的 raw 值，转换为字符串
+
+    // 创建合约实例
+    const signer = library.getSigner(account);
+    const treasuryAddress = (TREASURY_ADDRESS as { [key: number]: string })[library.network.chainId];
+    const treasuryContract = new Contract(treasuryAddress, TreasuryABI, signer);
+
+    // 调用合约的 getBestPool 方法
+    const res = await treasuryContract.getBestPool(
+      [inputCurrency?.address, outputCurrency?.address],
+      amountInBigInt,
+      isExactIn
+    );
+
+    // 处理返回结果并更新 Redux store
+    const call = {
+      bestPair: res.toString().split(',')[0],
+      bestPoolType: res.toString().split(',')[1],
+      bestfee: res.toString().split(',')[2],
+      finalAmount: parseFloat(formatUnits(res.toString().split(',')[3], 17)).toFixed(6),
+    };
+
+    // 使用 dispatch 将结果保存到 Redux store
+    dispatch(updateBestPoolData(call));
+  } catch (error) {
+    console.error('Error fetching best pool:', error);
+  }
+};
+
 // from the current swap inputs, compute the best trade and return it.
 export function useDerivedSwapInfo(
   independentField: Field,
@@ -99,9 +160,11 @@ export function useDerivedSwapInfo(
   parsedAmount: CurrencyAmount | undefined
   v2Trade: Trade | undefined
   v2TradeOne: Trade | undefined
+  v3Trade: any | undefined
+  v3TradeOne: any | undefined
   inputError?: string
 } {
-  const { account } = useWeb3React()
+  const { account, chainId, library } = useWeb3React()
   const { t } = useTranslation()
 
   const to: string | null = (recipient === null ? account : isAddress(recipient) || null) ?? null
@@ -176,6 +239,8 @@ export function useDerivedSwapInfo(
     parsedAmount,
     v2Trade: v2Trade ?? undefined,
     v2TradeOne: v2TradeOne ?? undefined,
+    v3Trade: v2Trade ?? undefined,
+    v3TradeOne: v2TradeOne ?? undefined,
     inputError,
   }
 }

@@ -235,6 +235,58 @@ export function useMultipleContractSingleData(
   }, [cache, chainId, results, contractInterface, fragment]);
 }
 
+export function useMultipleContractSingleDataLine(
+  addresses: (string | undefined)[][], // 接受二级数组
+  contractInterface: Interface,
+  methodName: string,
+  callInputs?: OptionalMethodInputs,
+  options?: ListenerOptions,
+): CallState[] {
+  const fragment = contractInterface.getFunction(methodName);
+
+  const callData: string | undefined = useMemo(
+    () =>
+      fragment && isValidMethodArgs(callInputs)
+        ? contractInterface.encodeFunctionData(fragment, callInputs)
+        : undefined,
+    [callInputs, contractInterface, fragment],
+  );
+
+  // 扁平化处理 addresses，确保其为一维数组，过滤无效值
+  const flatAddresses = useMemo(
+    () =>
+      addresses
+        .flat() // 将二级数组展平成一维数组
+        .filter((address) => address !== undefined && address !== null), // 过滤掉无效的地址
+    [addresses],
+  );
+
+  const calls = useMemo(
+    () =>
+      fragment && flatAddresses.length > 0 && callData
+        ? flatAddresses.map<Call | undefined>((address) => {
+            return address && callData
+              ? {
+                  address,
+                  callData,
+                }
+              : undefined;
+          })
+        : [],
+    [flatAddresses, callData, fragment],
+  );
+
+  const results = useCallsData(calls, options);
+  const { chainId } = useActiveWeb3React();
+
+  const { cache } = useSWRConfig();
+
+  return useMemo(() => {
+    const currentBlockNumber = cache.get(`blockNumber-${chainId}`);
+    return results.map((result) => toCallState(result, contractInterface, fragment, currentBlockNumber));
+  }, [cache, chainId, results, contractInterface, fragment]);
+}
+
 export function useSingleCallResult(
   contract: Contract | null | undefined,
   methodName: string,

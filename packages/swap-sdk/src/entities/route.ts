@@ -3,17 +3,17 @@ import invariant from 'tiny-invariant'
 
 import { Currency, ETHER } from './currency'
 import { Token, WNATIVE } from './token'
-import { Pair } from './pair'
+import { PairV3 } from './pair'
 import { Price } from './fractions/price'
 
 export class Route {
-  public readonly pairs: Pair[]
+  public readonly pairs: PairV3[]
   public readonly path: Token[]
   public readonly input: Currency
   public readonly output: Currency
   public readonly midPrice: Price
 
-  public constructor(pairs: Pair[], input: Currency, output?: Currency) {
+  public constructor(pairs: PairV3[], input: Currency, output?: Currency) {
     invariant(pairs.length > 0, 'PAIRS')
     invariant(
       pairs.every((pair) => pair.chainId === pairs[0].chainId),

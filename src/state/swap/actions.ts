@@ -27,3 +27,9 @@ export const updateDerivedPairData = createAction<{
   pairId: string
   timeWindow: PairDataTimeWindowEnum
 }>('swap/updateDerivedPairData')
+export const updateBestPoolData = createAction<{
+  bestPair: string;
+  bestPoolType: string;
+  bestfee: string;
+  finalAmount: string;
+}>('swap/updateBestPoolData');

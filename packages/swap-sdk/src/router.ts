@@ -80,6 +80,8 @@ export abstract class Router {
     invariant(!(etherIn && etherOut), 'ETHER_IN_OUT')
     invariant(!('ttl' in options) || options.ttl > 0, 'TTL')
 
+    const poolType: string = trade.route.pairs[0].poolType.toString()
+    const fee: string = trade.route.pairs[0].fee.toString()
     const to: string = validateAndParseAddress(options.recipient)
     const amountIn: string = toHex(trade.maximumAmountIn(options.allowedSlippage))
     const amountOut: string = toHex(trade.minimumAmountOut(options.allowedSlippage))
@@ -89,6 +91,7 @@ export abstract class Router {
         ? `0x${(Math.floor(new Date().getTime() / 1000) + options.ttl).toString(16)}`
         : `0x${options.deadline.toString(16)}`
 
+    console.log(options)
     const useFeeOnTransfer = Boolean(options.feeOnTransfer)
 
     let methodName: string
@@ -99,20 +102,22 @@ export abstract class Router {
         if (etherIn) {
           methodName = useFeeOnTransfer ? 'swapExactETHForTokensSupportingFeeOnTransferTokens' : 'swapExactETHForTokens'
           // (uint amountOutMin, address[] calldata path, address to, uint deadline)
-          args = [amountOut, path, to, deadline]
+          args = [amountOut, path, [poolType], [fee], to, deadline]
+          console.log(args, 111)
           value = amountIn
         } else if (etherOut) {
           methodName = useFeeOnTransfer ? 'swapExactTokensForETHSupportingFeeOnTransferTokens' : 'swapExactTokensForETH'
           // (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
-          args = [amountIn, amountOut, path, to, deadline]
+          args = [amountIn, amountOut, path, [poolType], [fee], to, deadline]
+          console.log(args, 222)
           value = ZERO_HEX
         } else {
-          // methodName = useFeeOnTransfer
-          //   ? 'swapExactTokensForTokensSupportingFeeOnTransferTokens'
-          //   : 'swapExactTokensForTokens'
+          // methodName = useFeeOnTransfer ? 'swapExactTokensForTokensSupportingFeeOnTransferTokens' : 'swapExactTokensForTokens'
           methodName = 'swapExactTokensForTokensSupportingFeeOnTransferTokens'
           // (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
-          args = [amountIn, amountOut, path, to, deadline]
+          args = [amountIn, amountOut, path, [poolType], [fee], to, deadline]
+          console.log(trade.route.path, args, '正')
+          // console.log(args, 666)
           value = ZERO_HEX
         }
         break
@@ -121,17 +126,21 @@ export abstract class Router {
         if (etherIn) {
           methodName = 'swapETHForExactTokens'
           // (uint amountOut, address[] calldata path, address to, uint deadline)
-          args = [amountOut, path, to, deadline]
+          args = [amountOut, path, [poolType], [fee], to, deadline]
+          console.log(args, 111)
           value = amountIn
         } else if (etherOut) {
           methodName = 'swapTokensForExactETH'
           // (uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
-          args = [amountOut, amountIn, path, to, deadline]
+          args = [amountOut, amountIn, path, [poolType], [fee], to, deadline]
+          console.log(args, 222)
           value = ZERO_HEX
         } else {
           methodName = 'swapTokensForExactTokens'
           // (uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
-          args = [amountOut, amountIn, path, to, deadline]
+          args = [amountOut, amountIn, path, [poolType], [fee], to, deadline]
+          // console.log(args, 777)
+          console.log(trade.route.path, args, '反')
           value = ZERO_HEX
         }
         break

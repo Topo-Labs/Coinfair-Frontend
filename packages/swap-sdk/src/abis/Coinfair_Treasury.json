@@ -1,5 +1,12 @@
 [
 	{
+		"inputs": [],
+		"name": "collectETH",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -23,6 +30,29 @@
 			}
 		],
 		"name": "collectFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "pair",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "time",
+				"type": "uint256"
+			}
+		],
+		"name": "lockLP",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -62,29 +92,6 @@
 		],
 		"name": "CollectFee",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "time",
-				"type": "uint256"
-			}
-		],
-		"name": "lockLP",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -165,17 +172,17 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_CoinFairFactoryAddress",
+				"name": "_CoinfairFactoryAddress",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_CoinFairNFTAddress",
+				"name": "_CoinfairNFTAddress",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_CoinFairWarmRouterAddress",
+				"name": "_CoinfairWarmRouterAddress",
 				"type": "address"
 			}
 		],
@@ -340,7 +347,20 @@
 	},
 	{
 		"inputs": [],
-		"name": "CoinFair",
+		"name": "AUTHORS",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Coinfair",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -353,7 +373,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "CoinFairFactoryAddress",
+		"name": "CoinfairFactoryAddress",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -377,7 +397,7 @@
 				"type": "address"
 			}
 		],
-		"name": "CoinFairLPPrison",
+		"name": "CoinfairLPPrison",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -400,7 +420,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "CoinFairNFTAddress",
+		"name": "CoinfairNFTAddress",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -419,7 +439,7 @@
 				"type": "address"
 			}
 		],
-		"name": "CoinFairTotalTreasury",
+		"name": "CoinfairTotalTreasury",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -443,7 +463,31 @@
 				"type": "address"
 			}
 		],
-		"name": "CoinFairUsrTreasury",
+		"name": "CoinfairUsrTreasury",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "CoinfairUsrTreasuryTotal",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -456,7 +500,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "CoinFairWarmRouterAddress",
+		"name": "CoinfairWarmRouterAddress",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -507,6 +551,11 @@
 		"name": "getBestPool",
 		"outputs": [
 			{
+				"internalType": "address",
+				"name": "bestPair",
+				"type": "address"
+			},
+			{
 				"internalType": "uint8",
 				"name": "bestPoolType",
 				"type": "uint8"
@@ -548,13 +597,38 @@
 						"type": "address"
 					},
 					{
+						"internalType": "uint8",
+						"name": "poolType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "fee",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "reserve0",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "reserve1",
+						"type": "uint256"
+					},
+					{
 						"internalType": "uint256",
 						"name": "usrBal",
 						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "totalSupply",
+						"type": "uint256"
 					}
 				],
-				"internalType": "struct CoinFairV2Treasury.usrPoolManagement[]",
-				"name": "UsrPoolManagement",
+				"internalType": "struct CoinfairTreasury.usrPoolManagement[]",
+				"name": "UsrPoolManagement_",
 				"type": "tuple[]"
 			}
 		],

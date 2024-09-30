@@ -152,7 +152,7 @@ export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) =>
     [dispatch],
   )
 
-  return [singleHopOnly, setSingleHopOnly]
+  return [!singleHopOnly, setSingleHopOnly]
 }
 
 export function useUserSlippageTolerance(): [number, (slippage: number) => void] {

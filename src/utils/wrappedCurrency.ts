@@ -1,4 +1,5 @@
 import { ChainId, Currency, CurrencyAmount, ETHER, Token, TokenAmount, WNATIVE } from '@pancakeswap/sdk'
+import { useMemo } from 'react'
 
 export function wrappedCurrency(currency: Currency | undefined, chainId: ChainId | undefined): Token | undefined {
   return chainId && currency === ETHER ? WNATIVE[chainId] : currency instanceof Token ? currency : undefined

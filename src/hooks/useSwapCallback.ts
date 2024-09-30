@@ -122,7 +122,6 @@ export function useSwapCallback(
         } = successfulEstimation
 
         console.log(['Method:'], methodName);
-        // console.log(['Args:'], args);
         // console.log(['Value:'], value);
         // console.log(['Gas Estimate:'], gasEstimate.toString());
 

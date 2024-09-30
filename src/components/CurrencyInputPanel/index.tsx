@@ -1,6 +1,10 @@
 import { Currency, Pair, Token } from '@pancakeswap/sdk'
 import { Button, ChevronDownIcon, Text, useModal, Flex, Box } from '@pancakeswap/uikit'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Contract } from '@ethersproject/contracts';
+import { Web3Provider } from '@ethersproject/providers';
+import { TREASURY_ADDRESS } from '@pancakeswap/sdk'
+import TreasuryABI from '@pancakeswap/sdk/src/abis/Coinfair_Treasury.json'
 import styled, { css, useTheme } from 'styled-components'
 import { isAddress } from 'utils'
 import { useTranslation } from '@pancakeswap/localization'
@@ -12,6 +16,7 @@ import { background, border } from "styled-system";
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
 import { CurrencyLogo, DoubleCurrencyLogo } from '../Logo'
+import useToast from 'hooks/useToast';
 
 import { Input as NumericalInput } from './NumericalInput'
 import { CopyButton } from '../CopyButton'
@@ -84,7 +89,9 @@ interface CurrencyInputPanelProps {
   onUserInput: (value: string) => void
   onInputBlur?: () => void
   onMax?: () => void
+  onClaim?: () => void
   showMaxButton: boolean
+  showWithDraw: boolean
   label?: string
   onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
@@ -108,7 +115,9 @@ export default function CurrencyInputPanel({
   onUserInput,
   onInputBlur,
   onMax,
+  onClaim,
   showMaxButton,
+  showWithDraw,
   label,
   onCurrencySelect,
   currency,
@@ -127,7 +136,7 @@ export default function CurrencyInputPanel({
   labelType,
   noLiquidity,
 }: CurrencyInputPanelProps) {
-  const { account } = useActiveWeb3React()
+  const { account, chainId, library } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
   const {
     t,
@@ -143,6 +152,68 @@ export default function CurrencyInputPanel({
     showBUSD ? currency : undefined,
     Number.isFinite(+value) ? +value : undefined,
   )
+
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [contract, setContract] = useState(null);
+  const [isClaiming, setIsClaiming] = useState(false);
+  const [claimError, setClaimError] = useState(null);
+  const [hasRewards, setHasRewards] = useState(false);
+  const [rewards, setRewards] = useState('')
+
+  const { toastSuccess, toastError } = useToast()
+
+  useEffect(() => {
+    if (account && tokenAddress && label === 'To') {
+      const _contract = new Contract(TREASURY_ADDRESS[chainId], TreasuryABI, library.getSigner(account));
+      setContract(_contract)
+      const checkRewards = async () => {
+        try {
+          const r = await _contract.CoinfairUsrTreasury(account, tokenAddress);
+          setHasRewards(r.gt(0)); // 如果返佣奖励大于 0，启用按钮
+          setRewards(rewards.toString())
+        } catch (err) {
+          setHasRewards(false)
+          console.error('查询返佣奖励失败:', err);
+        }
+      };
+      checkRewards()
+    }
+  }, [account, tokenAddress]);
+
+  // 领取手续费
+  const handleClaimToken = async () => {
+    if (!contract) {
+        console.error('合约未正确加载');
+        return;
+    }
+
+    if (!tokenAddress && label !== 'To') {
+      console.error('token位置领取失败');
+      return;
+    }
+
+    setIsClaiming(true);
+    setClaimError(null);
+
+    try {
+        const tx = await contract.withdrawFee(tokenAddress); // 调用合约中的 withdrawFee 函数
+        console.log('Transaction hash:', tx.hash);
+
+        // 等待交易确认
+        const receipt = await tx.wait();
+        console.log('Claim successful!', receipt);
+
+        // 成功后，更新奖励状态
+        setHasRewards(false);
+        toastSuccess('Claim successful!', `You claimed ${rewards} ${token.symbol}.`)
+    } catch (err) {
+        console.error('领取失败:', err);
+        setClaimError(err || '领取失败');  // 使用新的错误变量
+    } finally {
+        setIsClaiming(false);
+    }
+  };
 
   const [onPresentCurrencyModal] = useModal(
     <CurrencySearchModal
@@ -265,6 +336,19 @@ export default function CurrencyInputPanel({
                 }}
               >
                 {t('Max').toLocaleUpperCase(locale)}
+              </Button>
+            )}
+            {account && currency && !disabled && showWithDraw && hasRewards && label === 'To' && (
+              <Button
+                onClick={handleClaimToken}
+                scale="xs"
+                variant="secondary"
+                style={{
+                  color: theme.colors.inputCat,
+                  border: `1px solid ${theme.colors.inputCat}`
+                }}
+              >
+                {isClaiming ? 'Claiming...' : 'Claim'}
               </Button>
             )}
             <Flex>

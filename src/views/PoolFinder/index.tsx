@@ -22,7 +22,6 @@ import Dots from '../../components/Loader/Dots'
 import { AppHeader, AppBody } from '../../components/App'
 import Page from '../Page'
 import { CommonBasesType } from '../../components/SearchModal/types'
-import { BigNumber } from '@ethersproject/bignumber'
 
 enum Fields {
   TOKEN0 = 0,

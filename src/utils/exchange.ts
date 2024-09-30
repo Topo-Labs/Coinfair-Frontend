@@ -39,14 +39,12 @@ export function getRouterContract(chainId: number, library: Web3Provider, accoun
       CoinfairHotABI,
       getProviderOrSigner(library, account),
     ) as EquityRouter
-  } else {
-    return getContract(
-      ROUTER_ADDRESS[chainId].warm,
-      CoinfairWarmABI,
-      getProviderOrSigner(library, account),
-    ) as EquityRouter
   }
-  
+  return getContract(
+    ROUTER_ADDRESS[chainId].warm,
+    CoinfairWarmABI,
+    getProviderOrSigner(library, account),
+  ) as EquityRouter
 }
 
 // computes price breakdown for the trade

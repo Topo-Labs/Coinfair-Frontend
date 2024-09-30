@@ -1,10 +1,10 @@
-import { Currency, Pair, Token } from '@pancakeswap/sdk'
+import { Currency, Pair, Token, TREASURY_ADDRESS } from '@pancakeswap/sdk'
 import { Button, ChevronDownIcon, Text, useModal, Flex, Box } from '@pancakeswap/uikit'
 import { useEffect, useState } from 'react'
 import { Contract } from '@ethersproject/contracts';
 import { Web3Provider } from '@ethersproject/providers';
-import { TREASURY_ADDRESS } from '@pancakeswap/sdk'
 import TreasuryABI from '@pancakeswap/sdk/src/abis/Coinfair_Treasury.json'
+import useToast from 'hooks/useToast';
 import styled, { css, useTheme } from 'styled-components'
 import { isAddress } from 'utils'
 import { useTranslation } from '@pancakeswap/localization'
@@ -16,7 +16,6 @@ import { background, border } from "styled-system";
 import { useCurrencyBalance } from '../../state/wallet/hooks'
 import CurrencySearchModal from '../SearchModal/CurrencySearchModal'
 import { CurrencyLogo, DoubleCurrencyLogo } from '../Logo'
-import useToast from 'hooks/useToast';
 
 import { Input as NumericalInput } from './NumericalInput'
 import { CopyButton } from '../CopyButton'

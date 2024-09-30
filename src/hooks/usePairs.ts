@@ -7,8 +7,6 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { useWeb3React } from '@web3-react/core';
 import { useMultipleContractSingleData } from '../state/multicall/hooks';
 import { wrappedCurrency } from '../utils/wrappedCurrency';
-import { Contract } from '@ethersproject/contracts';
-import pLimit from 'p-limit';
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI);
 const GET_ALLPAIR = new Interface(TreasuryABI)

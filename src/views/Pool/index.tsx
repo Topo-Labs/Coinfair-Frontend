@@ -6,7 +6,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import { useWeb3React } from '@web3-react/core'
 import FullPositionCard from '../../components/PositionCard'
 import { useTokenBalancesWithLoadingIndicator } from '../../state/wallet/hooks'
-import { usePairs, PairState } from '../../hooks/usePairs'
+import { usePairs, PairState, useV3Pairs } from '../../hooks/usePairs'
 import { toV2LiquidityToken, useTrackedTokenPairs } from '../../state/user/hooks'
 import Dots from '../../components/Loader/Dots'
 import { AppHeader, AppBody } from '../../components/App'
@@ -17,7 +17,7 @@ const Body = styled(CardBody)`
 `
 
 const StyledButton = styled(Button)`
-  background: linear-gradient(90deg, #EB3DFF 0%, #5C53D3 100%);
+  background: linear-gradient(90deg, #434B34 0%, #000000 100%);
   border-radius: 28px;
 `
 
@@ -56,6 +56,8 @@ export default function Pool() {
   )
 
   const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
+  const v3Pairs = useV3Pairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
+  console.log(v3Pairs)
   const v2IsLoading =
     fetchingV2PairBalances ||
     v2Pairs?.length < liquidityTokensWithBalances.length ||

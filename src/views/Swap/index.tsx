@@ -492,7 +492,7 @@ export default function Swap() {
                         label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
                         labelType="swap-balance"
                         showMaxButton={false}
-                        showWithDraw={true}
+                        showWithDraw
                         currency={currencies[Field.OUTPUT]}
                         onCurrencySelect={handleOutputSelect}
                         otherCurrency={currencies[Field.INPUT]}

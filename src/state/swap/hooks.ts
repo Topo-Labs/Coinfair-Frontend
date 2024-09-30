@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS } from '@pancakeswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS, TokenAmount } from '@pancakeswap/sdk'
 import { Contract } from '@ethersproject/contracts'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import TreasuryABI from 'config/abi/Coinfair_Treasury.json'
@@ -13,7 +13,6 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useTradeExactIn, useTradeExactOut } from 'hooks/Trades'
 import { useRouter } from 'next/router'
 import { useTranslation } from '@pancakeswap/localization'
-import { TokenAmount } from '@pancakeswap/sdk';
 import { isAddress } from 'utils'
 import { getDeltaTimestamps } from 'utils/getDeltaTimestamps'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'

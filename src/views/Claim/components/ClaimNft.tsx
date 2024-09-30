@@ -2,10 +2,10 @@ import { memo, useState, useEffect, useCallback } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
-import { circleContractAddress, MINT_ABI } from './constants';
-import { ClaimFooter, ClaimHeader, ClaimImg, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress, NftMessage, NftTotal } from './styles';
 import { NETWORK_CONFIG } from 'utils/wallet';
 import useToast from 'hooks/useToast'
+import { circleContractAddress, MINT_ABI } from './constants';
+import { ClaimFooter, ClaimHeader, ClaimImg, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress, NftMessage, NftTotal } from './styles';
 
 interface ExtendedEthereum extends ExternalProvider {
   on?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;

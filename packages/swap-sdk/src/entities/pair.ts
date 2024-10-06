@@ -86,7 +86,6 @@ export class PairV3 {
   
     // 修改 key 使其包含 poolType 和 fee
     const key = `${composeKey(token0, token1)}-${poolType}-${fee}`;
-    // console.log(FACTORY_ADDRESS_MAP[token0.chainId], INIT_CODE_HASH_MAP[token0.chainId], token0, token1, poolType, fee)
     // 如果缓存中不存在当前组合的地址，则进行计算并缓存
     if (!PAIR_ADDRESS_V3_CACHE?.[key]) {
       PAIR_ADDRESS_V3_CACHE = {
@@ -237,7 +236,7 @@ export class PairV3 {
 
   }
 
-  public exp(n: JSBI, a: number, b: number): JSBI {
+  public exp(n: JSBI, a: number, b: number, dec: number): JSBI {
     const decimal = 38
     const decimal2 = 77
     if (a === b) {
@@ -250,7 +249,7 @@ export class PairV3 {
       // console.info("4:1")
       n = JSBI.divide(JSBI.multiply(JSBI.multiply(n, n), JSBI.multiply(n, n)), JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimal2)))
     } else if ((a === 32 && b === 1)) {
-      console.info("32:1")
+      // console.info("32:1")
       const pow64 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimal));
       let q = n;
       for (let i = 0; i < 31; i++) {
@@ -314,11 +313,40 @@ export class PairV3 {
     return JSBI.divide(n, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt((48 * a) / b - decimal)))
   }
 
+  // 定义输入和输出的逻辑转换
+  public calculateOutputFromInput(inputAmountRaw: JSBI, inputReserve: JSBI, outputReserve: JSBI, fee: number): JSBI {
+    // 计算扣除手续费后的输入量
+    const feeMultiplier = JSBI.BigInt(1000 - fee);  // 例如 fee = 3，则 feeMultiplier = 997
+    const effectiveInputAmount = JSBI.divide(
+      JSBI.multiply(inputAmountRaw, feeMultiplier), 
+      JSBI.BigInt(1000)
+    );
+
+    // 恒定乘积公式：outputAmount = (y * ∆x) / (x + ∆x)
+    return JSBI.divide(
+      JSBI.multiply(outputReserve, effectiveInputAmount),
+      JSBI.add(inputReserve, effectiveInputAmount)
+    );
+  }
+
+  public calculateInputFromOutput(outputAmountRaw: JSBI, inputReserve: JSBI, outputReserve: JSBI, fee: number): JSBI {
+    // 反向恒定乘积公式：inputAmount = (y * ∆y) / (x - ∆y)
+    const inputAmountWithoutFee = JSBI.divide(
+      JSBI.multiply(inputReserve, outputAmountRaw),
+      JSBI.subtract(outputReserve, outputAmountRaw)
+    );
+
+    // 计算并加上手续费
+    const feeMultiplier = JSBI.BigInt(1000 - fee);
+    return JSBI.divide(JSBI.multiply(inputAmountWithoutFee, JSBI.BigInt(1000)), feeMultiplier);
+  }
+
   public getOutputAmount(inputAmount: TokenAmount): [TokenAmount, PairV3] {
     invariant(this.involvesToken(inputAmount.token), 'TOKEN')
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
       throw new InsufficientReservesError()
     }
+
     const inputReserve = this.reserveOf(inputAmount.token)
     const outputReserve = this.reserveOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
     const inputExponent = this.exponentOf(inputAmount.token)
@@ -342,23 +370,60 @@ export class PairV3 {
     if (JSBI.LE(JSBI.BigInt(outputReserve.raw), tmp)) {
       throw new InsufficientInputAmountError()
     }
-    let outputAmount = new TokenAmount(
-      inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)
-    )
-    // console.info('result:', JSBI.toNumber(JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)))
+    // let outputAmount = new TokenAmount(
+    //   inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
+    //   JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)
+    // )
+
+    let outputAmountRaw;
+
+    // 先计算不扣手续费的输出量
     switch (this.poolType) {
       case 2:
-        outputAmount = new TokenAmount(outputAmount.token, JSBI.divide(outputAmount.raw, JSBI.BigInt(4)));  // 除以 4
+        // 使用恒定乘积公式，调整为 4 倍 outputReserve
+        outputAmountRaw = JSBI.divide(
+          JSBI.multiply(JSBI.BigInt(outputReserve.raw), JSBI.BigInt(inputAmount.raw)),
+          JSBI.add(JSBI.multiply(JSBI.BigInt(inputReserve.raw), JSBI.BigInt(4)), JSBI.BigInt(inputAmount.raw))  // 调整 inputReserve * 4
+        );
         break;
+    
       case 4:
-        outputAmount = new TokenAmount(outputAmount.token, JSBI.divide(outputAmount.raw, JSBI.BigInt(32))); // 除以 32
+        // 使用恒定乘积公式，调整为 32 倍 outputReserve
+        outputAmountRaw = JSBI.divide(
+          JSBI.multiply(JSBI.BigInt(outputReserve.raw), JSBI.BigInt(inputAmount.raw)),
+          JSBI.add(JSBI.multiply(JSBI.BigInt(inputReserve.raw), JSBI.BigInt(32)), JSBI.BigInt(inputAmount.raw))  // 调整 inputReserve * 32
+        );
         break;
+    
       case 1:
       default:
-        // 不需要调整，直接使用原来的 amountOut
+        // 恒定乘积公式，未调整
+        outputAmountRaw = JSBI.divide(
+          JSBI.multiply(JSBI.BigInt(outputReserve.raw), JSBI.BigInt(inputAmount.raw)),
+          JSBI.add(JSBI.BigInt(inputReserve.raw), JSBI.BigInt(inputAmount.raw))
+        );
         break;
     }
+    
+    // 如果输出量小于零，则抛出错误
+    if (JSBI.LT(outputAmountRaw, ZERO)) {
+      throw new InsufficientInputAmountError();
+    }
+    
+    // 根据手续费扣除相应的费用
+    if (this.fee === 3 || this.fee === 5 || this.fee === 10) {
+      const feeMultiplier = JSBI.BigInt(1000 - this.fee);  // 例如 this.fee = 3，则 feeMultiplier = 997
+      outputAmountRaw = JSBI.divide(
+        JSBI.multiply(outputAmountRaw, feeMultiplier), 
+        JSBI.BigInt(1000)  // 扣除手续费
+      );
+    }
+    
+    // 最终生成 TokenAmount
+    const outputAmount = new TokenAmount(
+      inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
+      outputAmountRaw
+    );    
     return [outputAmount, new PairV3(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), this.poolType, this.fee)]
   }
 
@@ -392,25 +457,58 @@ export class PairV3 {
     if (JSBI.LT(tmp, JSBI.BigInt(inputReserve.raw))) {
       throw new InsufficientInputAmountError()
     }
-    let inputAmount = new TokenAmount(
-      outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.divide(
-        JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
-        FEES_NUMERATOR
-      )
-    )
+    // let inputAmount = new TokenAmount(
+    //   outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
+    //   JSBI.divide(
+    //     JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
+    //     FEES_NUMERATOR
+    //   )
+    // )
+
+    let inputAmountRaw;
+
+    // 根据不同的 poolType 使用不同的公式计算 inputAmount
     switch (this.poolType) {
       case 2:
-        inputAmount = new TokenAmount(inputAmount.token, JSBI.multiply(inputAmount.raw, JSBI.BigInt(4)));  // 除以 4
+        // 使用 p = 4y / x
+        inputAmountRaw = JSBI.divide(
+          JSBI.multiply(JSBI.BigInt(inputReserve.raw), JSBI.multiply(JSBI.BigInt(4), outputAmount.raw)),
+          JSBI.subtract(JSBI.BigInt(outputReserve.raw), JSBI.BigInt(outputAmount.raw))
+        );
         break;
+
       case 4:
-        inputAmount = new TokenAmount(inputAmount.token, JSBI.multiply(inputAmount.raw, JSBI.BigInt(32))); // 除以 32
+        // 使用 p = 32y / x
+        inputAmountRaw = JSBI.divide(
+          JSBI.multiply(JSBI.BigInt(inputReserve.raw), JSBI.multiply(JSBI.BigInt(32), outputAmount.raw)),
+          JSBI.subtract(JSBI.BigInt(outputReserve.raw), JSBI.BigInt(outputAmount.raw))
+        );
         break;
+
       case 1:
       default:
-        // 不需要调整，直接使用原来的 amountOut
+        // 使用 p = y / x
+        inputAmountRaw = JSBI.divide(
+          JSBI.multiply(JSBI.BigInt(inputReserve.raw), outputAmount.raw),
+          JSBI.subtract(JSBI.BigInt(outputReserve.raw), JSBI.BigInt(outputAmount.raw))
+        );
         break;
     }
+
+    // 如果输入量小于零，则抛出错误
+    if (JSBI.LT(inputAmountRaw, ZERO)) {
+      throw new InsufficientInputAmountError();
+    }
+
+    // 根据手续费调整 inputAmount
+    const feeMultiplier = JSBI.BigInt(1000 + this.fee);  // 例如 this.fee = 3，则 feeMultiplier = 1003
+    const adjustedInputAmountRaw = JSBI.divide(JSBI.multiply(inputAmountRaw, feeMultiplier), JSBI.BigInt(1000));
+
+    // 最终生成 TokenAmount
+    const inputAmount = new TokenAmount(
+      outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
+      adjustedInputAmountRaw
+    );
     return [inputAmount, new PairV3(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), this.poolType, this.fee)]
   }
 
@@ -518,7 +616,6 @@ export class Pair {
   
     // 修改 key 使其包含 poolType 和 fee
     const key = `${composeKey(token0, token1)}-${poolType}-${fee}`;
-    // console.log(FACTORY_ADDRESS_MAP[token0.chainId], INIT_CODE_HASH_MAP[token0.chainId], token0, token1, poolType, fee)
     // 如果缓存中不存在当前组合的地址，则进行计算并缓存
     if (!PAIR_ADDRESS_V3_CACHE?.[key]) {
       PAIR_ADDRESS_V3_CACHE = {
@@ -743,90 +840,90 @@ export class Pair {
     return JSBI.divide(n, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt((48 * a) / b - decimal)))
   }
 
-  public getOutputAmount(inputAmount: TokenAmount): [TokenAmount, Pair] {
-    invariant(this.involvesToken(inputAmount.token), 'TOKEN')
-    if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
-      throw new InsufficientReservesError()
-    }
-    const inputReserve = this.reserveOf(inputAmount.token)
-    const outputReserve = this.reserveOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
-    const inputExponent = this.exponentOf(inputAmount.token)
-    const outputExponent = this.exponentOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
+  // public getOutputAmount(inputAmount: TokenAmount): [TokenAmount, Pair] {
+  //   invariant(this.involvesToken(inputAmount.token), 'TOKEN')
+  //   if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
+  //     throw new InsufficientReservesError()
+  //   }
+  //   const inputReserve = this.reserveOf(inputAmount.token)
+  //   const outputReserve = this.reserveOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
+  //   const inputExponent = this.exponentOf(inputAmount.token)
+  //   const outputExponent = this.exponentOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
 
-    // Fees I*F_N/F_D  
-    const inputAmountWithFee = JSBI.divide(JSBI.multiply(inputAmount.raw, FEES_NUMERATOR), FEES_DENOMINATOR)
-    const outputDecimals = inputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
-    const K = JSBI.multiply(
-      this.exp(inputReserve.raw, +inputExponent, 32, inputAmount.currency.decimals),
-      this.exp(outputReserve.raw, +outputExponent, 32, outputDecimals)
-    )
-    const X = this.exp(
-      JSBI.add(inputReserve.raw, inputAmountWithFee),
-      +inputExponent,
-      32,
-      inputAmount.currency.decimals
-    )
-    const tmp = this.exp(JSBI.divide(K, X), 32, +outputExponent, outputDecimals)
+  //   // Fees I*F_N/F_D  
+  //   const inputAmountWithFee = JSBI.divide(JSBI.multiply(inputAmount.raw, FEES_NUMERATOR), FEES_DENOMINATOR)
+  //   const outputDecimals = inputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
+  //   const K = JSBI.multiply(
+  //     this.exp(inputReserve.raw, +inputExponent, 32, inputAmount.currency.decimals),
+  //     this.exp(outputReserve.raw, +outputExponent, 32, outputDecimals)
+  //   )
+  //   const X = this.exp(
+  //     JSBI.add(inputReserve.raw, inputAmountWithFee),
+  //     +inputExponent,
+  //     32,
+  //     inputAmount.currency.decimals
+  //   )
+  //   const tmp = this.exp(JSBI.divide(K, X), 32, +outputExponent, outputDecimals)
 
-    if (JSBI.LE(JSBI.BigInt(outputReserve.raw), tmp)) {
-      throw new InsufficientInputAmountError()
-    }
-    const outputAmount = new TokenAmount(
-      inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)
-    )
-    // console.info('result:', JSBI.toNumber(JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)))
-    return [outputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
-  }
+  //   if (JSBI.LE(JSBI.BigInt(outputReserve.raw), tmp)) {
+  //     throw new InsufficientInputAmountError()
+  //   }
+  //   const outputAmount = new TokenAmount(
+  //     inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
+  //     JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)
+  //   )
+  //   // console.info('result:', JSBI.toNumber(JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)))
+  //   return [outputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
+  // }
 
-  public getInputAmount(outputAmount: TokenAmount): [TokenAmount, Pair] {
-    invariant(this.involvesToken(outputAmount.token), 'TOKEN')
-    if (
-      JSBI.equal(this.reserve0.raw, ZERO) ||
-      JSBI.equal(this.reserve1.raw, ZERO) ||
-      JSBI.greaterThanOrEqual(outputAmount.raw, this.reserveOf(outputAmount.token).raw)
-    ) {
-      throw new InsufficientReservesError()
-    }
+  // public getInputAmount(outputAmount: TokenAmount): [TokenAmount, Pair] {
+  //   invariant(this.involvesToken(outputAmount.token), 'TOKEN')
+  //   if (
+  //     JSBI.equal(this.reserve0.raw, ZERO) ||
+  //     JSBI.equal(this.reserve1.raw, ZERO) ||
+  //     JSBI.greaterThanOrEqual(outputAmount.raw, this.reserveOf(outputAmount.token).raw)
+  //   ) {
+  //     throw new InsufficientReservesError()
+  //   }
 
-    const outputReserve = this.reserveOf(outputAmount.token)
-    const inputReserve = this.reserveOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
-    const outputExponent = this.exponentOf(outputAmount.token)
-    const inputExponent = this.exponentOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
+  //   const outputReserve = this.reserveOf(outputAmount.token)
+  //   const inputReserve = this.reserveOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
+  //   const outputExponent = this.exponentOf(outputAmount.token)
+  //   const inputExponent = this.exponentOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
 
-    const inputDecimals = outputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
-    const K = JSBI.multiply(
-      this.exp(inputReserve.raw, +inputExponent, 32, inputDecimals),
-      this.exp(outputReserve.raw, +outputExponent, 32, outputAmount.token.decimals)
-    )
-    const Y = this.exp(
-      JSBI.subtract(outputReserve.raw, outputAmount.raw),
-      +outputExponent,
-      32,
-      outputAmount.currency.decimals
-    )
-    const tmp = this.exp(JSBI.divide(K, Y), 32, +inputExponent, inputDecimals)
-    if (JSBI.LT(tmp, JSBI.BigInt(inputReserve.raw))) {
-      throw new InsufficientInputAmountError()
-    }
-    const inputAmount = new TokenAmount(
-      outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.divide(
-        JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
-        FEES_NUMERATOR
-      )
-    )
-    // console.log(
-    //   'result:',
-    //   JSBI.toNumber(
-    //     JSBI.divide(
-    //       JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
-    //       FEES_NUMERATOR
-    //     )
-    //   )
-    // )
-    return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
-  }
+  //   const inputDecimals = outputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
+  //   const K = JSBI.multiply(
+  //     this.exp(inputReserve.raw, +inputExponent, 32, inputDecimals),
+  //     this.exp(outputReserve.raw, +outputExponent, 32, outputAmount.token.decimals)
+  //   )
+  //   const Y = this.exp(
+  //     JSBI.subtract(outputReserve.raw, outputAmount.raw),
+  //     +outputExponent,
+  //     32,
+  //     outputAmount.currency.decimals
+  //   )
+  //   const tmp = this.exp(JSBI.divide(K, Y), 32, +inputExponent, inputDecimals)
+  //   if (JSBI.LT(tmp, JSBI.BigInt(inputReserve.raw))) {
+  //     throw new InsufficientInputAmountError()
+  //   }
+  //   const inputAmount = new TokenAmount(
+  //     outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
+  //     JSBI.divide(
+  //       JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
+  //       FEES_NUMERATOR
+  //     )
+  //   )
+  //   // console.log(
+  //   //   'result:',
+  //   //   JSBI.toNumber(
+  //   //     JSBI.divide(
+  //   //       JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
+  //   //       FEES_NUMERATOR
+  //   //     )
+  //   //   )
+  //   // )
+  //   return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
+  // }
 
   public getLiquidityMinted(
     totalSupply: TokenAmount,

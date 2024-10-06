@@ -257,8 +257,6 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves');
   const feeResults = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getFee');
 
-  // console.log(results, feeResults)
-
   const pairsData = useMemo(() => {
     // 将 results 分为每 9 个一组，保持与 processedPairAddresses 对应
     const groupedResults = Array.from({ length: Math.ceil(results.length / 9) }, (_, i) =>
@@ -304,11 +302,15 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
   //     }
   //   });
   // }, [pairsData, feeResults]);
-
   return pairsData as any;
 }
 
 export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
   const pairCurrencies = useMemo<[Currency, Currency][]>(() => [[tokenA, tokenB]], [tokenA, tokenB]);
   return usePairs(pairCurrencies)[0];
+}
+
+export function useV3Pair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
+  const pairCurrencies = useMemo<[Currency, Currency][]>(() => [[tokenA, tokenB]], [tokenA, tokenB]);
+  return useV3Pairs(pairCurrencies)[0];
 }

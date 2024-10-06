@@ -14,7 +14,7 @@ import { CurrencyLogo } from '../../components/Logo'
 import { MinimalPositionCard } from '../../components/PositionCard'
 import Row from '../../components/Layout/Row'
 import CurrencySearchModal from '../../components/SearchModal/CurrencySearchModal'
-import { PairState, usePair } from '../../hooks/usePairs'
+import { PairState, usePair, useV3Pair } from '../../hooks/usePairs'
 import { usePairAdder } from '../../state/user/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { currencyId } from '../../utils/currencyId'
@@ -98,6 +98,8 @@ export default function PoolFinder() {
   // }, [contract, currency0?.address, currency1?.address]); // 依赖项改为地址
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
+  const [pairStateV3, pairV3] = useV3Pair(currency0 ?? undefined, currency1 ?? undefined)
+  console.log(pairStateV3, pairV3)
   const addPair = usePairAdder()
   useEffect(() => {
     if (pair) {

@@ -86,8 +86,6 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
     group.filter(isExistsPair)
   );
 
-  // console.log('allV3Pairs::::', allV3Pairs[0])
-
   // const validPairAddresses = allPairs.map(([, pair]) => Pair.getAddress(pair.token0, pair.token1));
   
   const validPairV3Addresses = allV3Pairs.flatMap((group) =>
@@ -119,49 +117,19 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
   //   }
   // });
 
-  // 将 exponentsResultV3 按每 9 个分组
-  const groupedResults = Array.from(
-    { length: Math.ceil(exponentsResultV3.length / 9) },
-    (_, i) => exponentsResultV3.slice(i * 9, i * 9 + 9)
-  );
+  const exponentsV3 = exponentsResultV3.filter(item => item.result !== undefined)
 
-  // console.log(groupedResults, 'groupedResultsgroupedResultsgroupedResults')
-
-  // 类型守卫函数，确保 item 是 [PairState, Pair]
-  function isValidPair(item: any): item is [PairState, Pair] {
-    return Array.isArray(item) && item.length === 2 && item[0] === PairState.EXISTS && item[1] instanceof Pair;
-  }
-  
-  // 类型守卫函数，确保 result 是 { result: any; loading: boolean }
-  function isValidResult(result: any): result is { result: any; loading: boolean } {
-    return result && typeof result === 'object' && 'loading' in result && 'result' in result;
-  }
-
-  allV3Pairs.forEach((group, groupIndex) => {
-    // 获取对应的分组结果
-    const results = groupedResults[groupIndex];
-  
-    // 遍历每组中的 pair 和对应的 result
-    group.forEach((item, pairIndex) => {
-      // 使用类型守卫函数检查 item 是否为 [PairState, Pair]
-      if (!isValidPair(item)) return;
-      const [, pair] = item;
-      // 获取当前 pair 对应的 result，并使用类型守卫检查 result
-      const result = results?.[pairIndex];
-      if (!isValidResult(result)) return;
-      const { result: exponents, loading } = result;
-      // 更新 pair 的指数
-      if (loading || !exponents) {
-        pair.setExponents('100', '100'); // 设置默认指数值
-      } else {
-        // 提取 exponent0 和 exponent1
-        const [exponent0, exponent1] = Array.isArray(exponents)
-          ? exponents
-          : [exponents.exponent0, exponents.exponent1];
-        pair.setExponents(exponent0.toString(), exponent1.toString()); // 更新指数
-      }
-    });
-  });
+  allV3Pairs[0]?.forEach((group, groupIndex) => {
+    const results = exponentsV3[groupIndex];
+    if (results?.loading || !results?.result) {
+      group[1]?.setExponents('100', '100')
+    } else {
+      const [exponent0, exponent1] = Array.isArray(results?.result)
+        ? results.result
+        : [results.result.exponent0, results.result.exponent0];
+        group[1]?.setExponents(exponent0.toString(), exponent1.toString());
+    }
+  })
 
   // 类型守卫函数，确保 pairEntry 是 [PairState, PairV3] 结构
   function isValidPairEntry(entry: any): entry is [PairState, PairV3] {
@@ -187,10 +155,7 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
         memo[pair.liquidityToken.address] = memo[pair.liquidityToken.address] ?? pair;
         return memo;
       }, {})
-    );
-
-    // console.log(uniquePairs, 'uniquePairsuniquePairs')
-  
+    );  
     return uniquePairs;
   }, [allV3Pairs]);
 }
@@ -199,7 +164,6 @@ const MAX_HOPS = 3;
 
 export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?: Currency): Trade | null {
   const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut);
-  // console.log(allowedPairs, 'allowedPairsallowedPairs::')
   const [singleHopOnly] = useUserSingleHopOnly();
 
   return useMemo(() => {

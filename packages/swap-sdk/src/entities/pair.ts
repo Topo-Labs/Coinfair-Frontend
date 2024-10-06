@@ -412,10 +412,10 @@ export class PairV3 {
     
     // 根据手续费扣除相应的费用
     if (this.fee === 3 || this.fee === 5 || this.fee === 10) {
-      const feeMultiplier = JSBI.BigInt(1000 - this.fee);  // 例如 this.fee = 3，则 feeMultiplier = 997
+      const feeMultiplier = JSBI.BigInt(100 - this.fee);  // 例如 this.fee = 3，则 feeMultiplier = 997
       outputAmountRaw = JSBI.divide(
         JSBI.multiply(outputAmountRaw, feeMultiplier), 
-        JSBI.BigInt(1000)  // 扣除手续费
+        JSBI.BigInt(100)  // 扣除手续费
       );
     }
     
@@ -501,8 +501,8 @@ export class PairV3 {
     }
 
     // 根据手续费调整 inputAmount
-    const feeMultiplier = JSBI.BigInt(1000 + this.fee);  // 例如 this.fee = 3，则 feeMultiplier = 1003
-    const adjustedInputAmountRaw = JSBI.divide(JSBI.multiply(inputAmountRaw, feeMultiplier), JSBI.BigInt(1000));
+    const feeMultiplier = JSBI.BigInt(100 + this.fee);  // 例如 this.fee = 3，则 feeMultiplier = 1003
+    const adjustedInputAmountRaw = JSBI.divide(JSBI.multiply(inputAmountRaw, feeMultiplier), JSBI.BigInt(100));
 
     // 最终生成 TokenAmount
     const inputAmount = new TokenAmount(

@@ -42,7 +42,7 @@ import { MinimalPositionCard } from '../../components/PositionCard'
 import { RowBetween, RowFixed } from '../../components/Layout/Row'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 
-import { PairState } from '../../hooks/usePairs'
+import { PairState, useV3Pair } from '../../hooks/usePairs'
 import { useCurrency } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import useTransactionDeadline from '../../hooks/useTransactionDeadline'
@@ -74,6 +74,11 @@ enum Steps {
   Add,
 }
 
+interface FeeTypesIF {
+  show: number | string;
+  real: number | string;
+}
+
 const StyledColumnCenter = styled(ColumnCenter)`
   width: 100%;
   align-items: center;
@@ -94,6 +99,21 @@ const contractMirrorMap = {
   3: 1
 }
 
+const feeTypes: FeeTypesIF[] = [
+  {
+      show: '0.30',
+      real: 3,
+  },
+  {
+      show: '0.50',
+      real: 5,
+  },
+  {
+      show: '1.00',
+      real: 10,
+  }
+]
+
 export default function AddLiquidity() {
   const theme = useTheme()
   const router = useRouter()
@@ -113,6 +133,10 @@ export default function AddLiquidity() {
 
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
+
+  const pairV3 = useV3Pair(currencyA ?? undefined, currencyB ?? undefined)
+
+  // console.log(pairV3, contractMirrorMap, feeTypes, 'pairV3pairV3::')
 
   useEffect(() => {
     if (!currencyIdA && !currencyIdB) {
@@ -608,7 +632,7 @@ export default function AddLiquidity() {
         )}
         {showAddLiquidity && (
           <>
-            <AmmSwitch noLiquidity={noLiquidity} backTo={canZap ? () => setSteps(Steps.Choose) : '/liquidity'} />
+            <AmmSwitch pairV3={pairV3} contractMirrorMap={contractMirrorMap} noLiquidity={noLiquidity} backTo={canZap ? () => setSteps(Steps.Choose) : '/liquidity'} />
             <CardBody>
               <Text textAlign="center" style={{ margin: '-16px auto 0px' }}>
                 {
@@ -619,7 +643,7 @@ export default function AddLiquidity() {
                     </div> : null
                 }
               </Text>
-              {!pair && !poolData && <FeeRate feeType={feeType} setFeeType={setFeeType} />}
+              {!pair && !poolData && <FeeRate feeType={feeType} setFeeType={setFeeType} feeTypes={feeTypes} />}
               <AutoColumn gap="20px">
                 {noLiquidity && (
                   <PriceInputPanel

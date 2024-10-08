@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-interface FeeTypesIF {
-    show: number | string;
-    real: number | string;
-}
-
 const FeeRateContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -56,22 +51,7 @@ const FeeRateItem = styled.div`
     }
 `;
 
-const feeTypes: FeeTypesIF[] = [
-    {
-        show: '0.30',
-        real: 3,
-    },
-    {
-        show: '0.50',
-        real: 5,
-    },
-    {
-        show: '1.00',
-        real: 10,
-    }
-]
-
-const FeeRate: React.FC<React.PropsWithChildren<Props>> = ({ feeType, setFeeType }) => {
+const FeeRate: React.FC<React.PropsWithChildren<Props>> = ({ feeType, setFeeType, feeTypes }) => {
 
     return (
         <FeeRateContainer>

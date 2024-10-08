@@ -98,8 +98,8 @@ export default function PoolFinder() {
   // }, [contract, currency0?.address, currency1?.address]); // 依赖项改为地址
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
-  const [pairStateV3, pairV3] = useV3Pair(currency0 ?? undefined, currency1 ?? undefined)
-  console.log(pairStateV3, pairV3)
+  const pairV3 = useV3Pair(currency0 ?? undefined, currency1 ?? undefined)
+  console.log(pairV3)
   const addPair = usePairAdder()
   useEffect(() => {
     if (pair) {
@@ -192,6 +192,15 @@ export default function PoolFinder() {
               <Text as={Row}>{t('Select a Token')}</Text>
             )}
           </StyledButton>
+
+          {
+            // pairV3?.length && pairV3.map(pairItem => <MinimalPositionCard pair={pairItem[1]}/>)
+            currency0 && currency1 ? (
+              pairV3?.length ? (
+                <></>
+              ) : ''
+            ) : prerequisiteMessage
+          }
 
           {currency0 && currency1 ? (
             pairState === PairState.EXISTS ? (

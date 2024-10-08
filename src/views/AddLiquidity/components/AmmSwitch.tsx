@@ -12,11 +12,13 @@ import Transactions from 'components/App/Transactions'
 import { SettingsMode } from 'components/Menu/GlobalSettings/types'
 
 interface Props {
+  pairV3: any
+  contractMirrorMap: any
   backTo: any
   noLiquidity: boolean
 }
 
-const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidity }) => {
+const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ pairV3, contractMirrorMap, backTo, noLiquidity }) => {
   const ammType = useAmmType()
   const dispatch = useAppDispatch()
 
@@ -31,7 +33,6 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
       setAmmType(AmmType.Default)
     }
   }, [])
-
 
   return (
     <div
@@ -72,11 +73,11 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
             fontSize: '12px',
             lineHeight: '15px',
           }}
-          disabled={!noLiquidity}
+          // disabled={!noLiquidity}
           onClick={() => {
             setAmmType(AmmType.Default)
           }}
-        >ES I</Button>
+        >Pool I</Button>
         <Button
           style={{
             background: ammType === 2 ? '#000' : 'transparent',
@@ -93,11 +94,11 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
             fontSize: '12px',
             lineHeight: '15px',
           }}
-          disabled={!noLiquidity}
+          // disabled={!noLiquidity}
           onClick={() => {
             setAmmType(AmmType.OneThirtytwo)
           }}
-        >ES II</Button>
+        >Pool II</Button>
         <Button
           style={{
             background: ammType === 3 ? '#000' : 'transparent',
@@ -114,11 +115,11 @@ const AmmSwitch: React.FC<React.PropsWithChildren<Props>> = ({ backTo, noLiquidi
             fontSize: '12px',
             lineHeight: '15px',
           }}
-          disabled={!noLiquidity}
+          // disabled={!noLiquidity}
           onClick={() => {
             setAmmType(AmmType.OneOne)
           }}
-        >ES III</Button>
+        >Pool III</Button>
       </div>
       <div
         style={{

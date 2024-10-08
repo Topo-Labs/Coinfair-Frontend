@@ -276,21 +276,26 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
         // 提取 reserves 值，处理数组或对象的情况
         const reserve0 = Array.isArray(reserves) ? reserves[0] : reserves.reserve0;
         const reserve1 = Array.isArray(reserves) ? reserves[1] : reserves.reserve1;
+
+        // console.log(tokenA.symbol, tokenB.symbol, reserve0.toString(), reserve1.toString())
+
+        const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA];
   
         // 返回 PairState 和新创建的 PairV3 实例，传递 token 和 reserves
         return [
           PairState.EXISTS,
           new PairV3(
-            new TokenAmount(tokenA, reserve0.toString()),  // 传递 tokenA 和 reserve0
-            new TokenAmount(tokenB, reserve1.toString()),  // 传递 tokenB 和 reserve1
+            new TokenAmount(token0, reserve0.toString()),  // 传递 tokenA 和 reserve0
+            new TokenAmount(token1, reserve1.toString()),  // 传递 tokenB 和 reserve1
             poolType,
             fee
           ),
         ];
       });
     });
-  }, [results, processedPairAddresses]);  
+  }, [results, processedPairAddresses]); 
 
+  
   // useEffect(() => {
   //   pairsData.forEach(([, pair], i) => {
   //     const fee = feeResults[i].result ? feeResults[i].result[0].toString() : '0';
@@ -302,6 +307,7 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
   //     }
   //   });
   // }, [pairsData, feeResults]);
+
   return pairsData as any;
 }
 
@@ -310,7 +316,8 @@ export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair 
   return usePairs(pairCurrencies)[0];
 }
 
-export function useV3Pair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair | null] {
+export function useV3Pair(tokenA?: Currency, tokenB?: Currency) {
   const pairCurrencies = useMemo<[Currency, Currency][]>(() => [[tokenA, tokenB]], [tokenA, tokenB]);
-  return useV3Pairs(pairCurrencies)[0];
+  const response = useV3Pairs(pairCurrencies)[0].filter((item) => item[1])
+  return response;
 }

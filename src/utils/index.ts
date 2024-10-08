@@ -84,17 +84,17 @@ export function isTokenOnList(defaultTokens: TokenAddressMap, currency?: Currenc
 
 export const swapFormulaList = [
   {
-    label: 'ES I',
+    label: 'Pool I',
     value: 'P=4Y/X',
     alias: 'Coinfair Air',
   },
   {
-    label: 'ES II',
+    label: 'Pool II',
     value: 'P=32Y/X',
     alias: 'Coinfair Pro',
   },
   {
-    label: 'ES III',
+    label: 'Pool III',
     value: 'P=Y/X',
     alias: 'Traditional Dex',
   },

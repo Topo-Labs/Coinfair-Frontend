@@ -15,7 +15,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
-import { PairState, usePair } from 'hooks/usePairs'
+import { PairState, usePair, useV3Pair } from 'hooks/usePairs'
 import useTotalSupply from 'hooks/useTotalSupply'
 import { useGasPrice } from 'state/user/hooks'
 import { useAmmType } from 'state/amm/hooks'
@@ -129,6 +129,9 @@ export function useDerivedMintInfo(
 
   // pair
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
+  const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
+
+  console.log(pairV3, 'pairV3pairV3::')
 
   const totalSupply = useTotalSupply(pair?.liquidityToken)
 

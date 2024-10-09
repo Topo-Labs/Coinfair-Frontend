@@ -1,4 +1,4 @@
-export const circleContractAddress = '0xd06bD01F41761f96cb189Ea99c8e58f3671427f8'
+export const circleContractAddress = '0x729B7D8562a8f95AD10AD3a68D8bE5a91932296b'
 export const MINT_ABI = [
 	{
 		"inputs": [],

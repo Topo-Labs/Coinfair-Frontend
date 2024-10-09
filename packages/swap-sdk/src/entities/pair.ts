@@ -324,10 +324,13 @@ export class PairV3 {
     const inputExponent = this.exponentOf(inputAmount.token)
     const outputExponent = this.exponentOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
 
-    console.log(inputExponent, outputExponent)
+    const feeBigInt = JSBI.BigInt(this.fee);
+    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10));
+    const FEES_NUM = JSBI.subtract(JSBI.BigInt(10000), tenTimesFee)
 
     // Fees I*F_N/F_D  
-    const inputAmountWithFee = JSBI.divide(JSBI.multiply(inputAmount.raw, FEES_NUMERATOR), FEES_DENOMINATOR)
+    const inputAmountWithFee = JSBI.divide(JSBI.multiply(inputAmount.raw, FEES_NUM), FEES_DENOMINATOR)
+
     const outputDecimals = inputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
     const K = JSBI.multiply(
       this.exp(inputReserve.raw, +inputExponent, 32, inputAmount.currency.decimals),
@@ -382,11 +385,16 @@ export class PairV3 {
     if (JSBI.LT(tmp, JSBI.BigInt(inputReserve.raw))) {
       throw new InsufficientInputAmountError()
     }
+
+    const feeBigInt = JSBI.BigInt(this.fee);
+    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10));
+    const FEES_NUM = JSBI.subtract(JSBI.BigInt(10000), tenTimesFee)
+
     let inputAmount = new TokenAmount(
       outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
       JSBI.divide(
         JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
-        FEES_NUMERATOR
+        FEES_NUM
       )
     )
 
@@ -794,15 +802,6 @@ export class Pair {
         FEES_NUMERATOR
       )
     )
-    // console.log(
-    //   'result:',
-    //   JSBI.toNumber(
-    //     JSBI.divide(
-    //       JSBI.multiply(JSBI.subtract(tmp, JSBI.BigInt(inputReserve.raw)), JSBI.BigInt(FEES_DENOMINATOR)),
-    //       FEES_NUMERATOR
-    //     )
-    //   )
-    // )
     return [inputAmount, new Pair(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
   }
 

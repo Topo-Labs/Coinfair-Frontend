@@ -54,13 +54,13 @@ const config: (
             label: t('Liquidity'),
             href: '/liquidity',
           },
+          // {
+          //   label: t('rank'),
+          //   href: '/rank',
+          // },
           {
-            label: t('rank'),
-            href: '/rank',
-          },
-          {
-            label: t('circle'),
-            href: '/circle',
+            label: t('Earn'),
+            href: '/earn',
           },
           // {
           //   label: t('Income'),
@@ -94,13 +94,13 @@ const config: (
             label: t('Liquidity'),
             href: '/add',
           },
+          // {
+          //   label: t('rank'),
+          //   href: '/rank',
+          // },
           {
-            label: t('rank'),
-            href: '/rank',
-          },
-          {
-            label: t('circle'),
-            href: '/circle',
+            label: t('Earn'),
+            href: '/earn',
           },
           /* {
             label: t('Income'),
@@ -123,13 +123,13 @@ const config: (
             label: t('Liquidity'),
             href: '/add',
           },
+          // {
+          //   label: t('rank'),
+          //   href: '/rank',
+          // },
           {
-            label: t('rank'),
-            href: '/rank',
-          },
-          {
-            label: t('circle'),
-            href: '/circle',
+            label: t('Earn'),
+            href: '/earn',
           },
           /* {
             label: t('Income'),
@@ -152,13 +152,13 @@ const config: (
             label: t('Liquidity'),
             href: '/add',
           },
+          // {
+          //   label: t('rank'),
+          //   href: '/rank',
+          // },
           {
-            label: t('rank'),
-            href: '/rank',
-          },
-          {
-            label: t('circle'),
-            href: '/circle',
+            label: t('Earn'),
+            href: '/earn',
           },
           /* {
             label: t('Income'),
@@ -181,13 +181,13 @@ const config: (
             label: t('Liquidity'),
             href: '/add',
           },
+          // {
+          //   label: t('rank'),
+          //   href: '/rank',
+          // },
           {
-            label: t('rank'),
-            href: '/rank',
-          },
-          {
-            label: t('circle'),
-            href: '/circle',
+            label: t('Earn'),
+            href: '/earn',
           },
           /* {
             label: t('Income'),
@@ -210,13 +210,13 @@ const config: (
             label: t('Liquidity'),
             href: '/add',
           },
+          // {
+          //   label: t('rank'),
+          //   href: '/rank',
+          // },
           {
-            label: t('rank'),
-            href: '/rank',
-          },
-          {
-            label: t('circle'),
-            href: '/circle',
+            label: t('Earn'),
+            href: '/earn',
           },
           /* {
             label: t('Income'),

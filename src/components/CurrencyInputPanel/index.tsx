@@ -44,6 +44,20 @@ const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm'
       height: auto;
     `};
 `
+
+const ClaimButton = styled(Button)<{ disabled }>`
+  transition: all .3s ease;
+  ${(disabled) => 
+    !disabled &&
+    css`
+      &:hover {
+        background: #000;
+        color: #fff;
+      }
+    `
+  }
+`
+
 const LabelRow = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -152,8 +166,6 @@ export default function CurrencyInputPanel({
     Number.isFinite(+value) ? +value : undefined,
   )
 
-  const [provider, setProvider] = useState(null);
-  const [signer, setSigner] = useState(null);
   const [contract, setContract] = useState(null);
   const [isClaiming, setIsClaiming] = useState(false);
   const [claimError, setClaimError] = useState(null);
@@ -163,7 +175,7 @@ export default function CurrencyInputPanel({
   const { toastSuccess, toastError } = useToast()
 
   useEffect(() => {
-    if (account && tokenAddress && label === 'To') {
+    if (account && tokenAddress && chainId && library && TREASURY_ADDRESS[chainId]) {
       const _contract = new Contract(TREASURY_ADDRESS[chainId], TreasuryABI, library.getSigner(account));
       setContract(_contract)
       const checkRewards = async () => {
@@ -178,7 +190,7 @@ export default function CurrencyInputPanel({
       };
       checkRewards()
     }
-  }, [account, tokenAddress]);
+  }, [account, tokenAddress, chainId, library]);
 
   // 领取手续费
   const handleClaimToken = async () => {
@@ -324,7 +336,7 @@ export default function CurrencyInputPanel({
               }}
             />
             {/* <Text style={{border: '2px solid #4B5860', padding: '0 8px', borderRadius: '15px', fontSize: '12px'}}>MAX</Text> */}
-            {account && currency && !disabled && showMaxButton && label !== 'To' && (
+            {/* {account && currency && !disabled && showMaxButton && label !== 'To' && (
               <Button
                 onClick={onMax}
                 scale="xs"
@@ -336,19 +348,20 @@ export default function CurrencyInputPanel({
               >
                 {t('Max').toLocaleUpperCase(locale)}
               </Button>
-            )}
-            {account && currency && !disabled && showWithDraw && hasRewards && label === 'To' && (
-              <Button
+            )} */}
+            {account && currency && !disabled && showWithDraw && (
+              <ClaimButton
                 onClick={handleClaimToken}
                 scale="xs"
                 variant="secondary"
+                disabled={!hasRewards}
                 style={{
-                  color: theme.colors.inputCat,
-                  border: `1px solid ${theme.colors.inputCat}`
+                  color: hasRewards ? theme.colors.inputCat : '#999',
+                  border: `1px solid ${hasRewards ? theme.colors.inputCat : '#999'}`
                 }}
               >
                 {isClaiming ? 'Claiming...' : 'Claim'}
-              </Button>
+              </ClaimButton>
             )}
             <Flex>
               {beforeButton}

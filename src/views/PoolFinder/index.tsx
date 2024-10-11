@@ -15,7 +15,7 @@ import { MinimalPositionCard } from '../../components/PositionCard'
 import Row from '../../components/Layout/Row'
 import CurrencySearchModal from '../../components/SearchModal/CurrencySearchModal'
 import { PairState, usePair, useV3Pair } from '../../hooks/usePairs'
-import { usePairAdder } from '../../state/user/hooks'
+import { usePairAdder, usePairV3Adder } from '../../state/user/hooks'
 import { useTokenBalance } from '../../state/wallet/hooks'
 import { currencyId } from '../../utils/currencyId'
 import Dots from '../../components/Loader/Dots'
@@ -99,13 +99,19 @@ export default function PoolFinder() {
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
   const pairV3 = useV3Pair(currency0 ?? undefined, currency1 ?? undefined)
-  console.log(pairV3)
   const addPair = usePairAdder()
+  const addPairV3 = usePairV3Adder()
+  // useEffect(() => {
+  //   if (pair) {
+  //     addPair(pair)
+  //   }
+  // }, [pair, addPair])
+
   useEffect(() => {
-    if (pair) {
-      addPair(pair)
+    if (pairV3?.length) {
+      addPairV3(pairV3)
     }
-  }, [pair, addPair])
+  }, [pairV3?.length, addPairV3])
 
   const validPairNoLiquidity: boolean =
     pairState === PairState.NOT_EXISTS ||
@@ -117,6 +123,13 @@ export default function PoolFinder() {
     )
 
   const position: TokenAmount | undefined = useTokenBalance(account ?? undefined, pair?.liquidityToken)
+
+  // pairV3.map(pairItem => {  })
+
+  // const positionV3 = 
+
+  const pairV3Data = pairV3?.length && pairV3.map(pairItem => pairItem[1])
+
   const hasPosition = Boolean(position && JSBI.greaterThan(position.raw, BIG_INT_ZERO))
 
   const handleCurrencySelect = useCallback(
@@ -197,12 +210,17 @@ export default function PoolFinder() {
             // pairV3?.length && pairV3.map(pairItem => <MinimalPositionCard pair={pairItem[1]}/>)
             currency0 && currency1 ? (
               pairV3?.length ? (
-                <></>
+                <>
+                  <MinimalPositionCard pair={pairV3[0][1]} pairV3={pairV3Data} />
+                  <Button as={NextLinkFromReactRouter} to="/liquidity" variant="secondary" width="100%">
+                    {t('Manage these pools')}
+                  </Button>
+                </>
               ) : ''
             ) : prerequisiteMessage
           }
 
-          {currency0 && currency1 ? (
+          {/* {currency0 && currency1 ? (
             pairState === PairState.EXISTS ? (
               hasPosition && pair ? (
                 <>
@@ -258,7 +276,7 @@ export default function PoolFinder() {
             ) : null
           ) : (
             prerequisiteMessage
-          )}
+          )} */}
         </AutoColumn>
 
         {/* <CurrencySearchModal

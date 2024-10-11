@@ -1,15 +1,12 @@
 import { TokenAmount, Pair, PairV3, Currency } from '@pancakeswap/sdk';
-import { useMemo, useEffect, useState, useRef, useLayoutEffect } from 'react';
+import { useMemo, useEffect } from 'react';
 import IPancakePairABI from 'config/abi/IPancakePair.json';
-import TreasuryABI from 'config/abi/Coinfair_Treasury.json';
 import { Interface } from '@ethersproject/abi';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
-import { useWeb3React } from '@web3-react/core';
 import { useMultipleContractSingleData } from '../state/multicall/hooks';
 import { wrappedCurrency } from '../utils/wrappedCurrency';
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI);
-const GET_ALLPAIR = new Interface(TreasuryABI)
 const poolTypes = [1, 2, 4]
 const fees = [3, 5, 10]
 
@@ -19,105 +16,6 @@ export enum PairState {
   EXISTS,
   INVALID,
 }
-
-// export const useMultiplePairAddresses = (tokenPairs) => {
-//   const { chainId, account, library } = useActiveWeb3React();
-//   const [pairDetails, setPairDetails] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   const isMounted = useRef(true);
-
-//   useEffect(() => {
-//     // 设置组件挂载状态
-//     isMounted.current = true;
-//     // 组件卸载时清理
-//     return () => {
-//       isMounted.current = false;
-//     };
-//   }, []);
-
-//   // 使用 useMemo 缓存 tokenPairs，确保引用稳定
-//   const memoizedTokenPairs = useMemo(() => {
-//     return tokenPairs.filter(
-//       (pair) =>
-//         Array.isArray(pair) &&
-//         pair.length === 2 &&
-//         pair[0] &&
-//         pair[1]
-//     );
-//   }, [tokenPairs]);
-
-//   // 使用 JSON 序列化进行深度比较，确保 tokens 的稳定性
-//   const tokens = useMemo(() => {
-//     return memoizedTokenPairs.map(([tokenA, tokenB]) => {
-//       const tokenAWrapped = wrappedCurrency(tokenA, chainId);
-//       const tokenBWrapped = wrappedCurrency(tokenB, chainId);
-//       if (!tokenAWrapped || !tokenBWrapped) {
-//         console.error('wrappedCurrency returned undefined for tokens:', { tokenA, tokenB });
-//         return null;
-//       }
-//       return [tokenAWrapped, tokenBWrapped];
-//     }).filter(Boolean); // 过滤掉 null 值
-//   }, [JSON.stringify(memoizedTokenPairs), chainId]); // 使用 JSON.stringify 确保引用稳定
-
-//   useEffect(() => {
-//     if (!library || !account || !chainId || tokens.length === 0) {
-//       if (loading !== false) setLoading(false);
-//       return;
-//     }
-
-//     const fetchPairDetails = async () => {
-//       if (loading !== true) setLoading(true);
-//       try {
-//         const signer = library.getSigner(account);
-//         const limit = pLimit(10); // 控制并发数，根据需要调整
-
-//         const tasks = tokens.map(([tokenA, tokenB]) =>
-//           limit(async () => {
-//             try {
-//               if (!tokenA || !tokenB || tokenA.equals(tokenB)) {
-//                 return { address: undefined, reserve: null, exponent: null };
-//               }
-
-//               const pairData = await Pair.getPairAddress(tokenA, tokenB, signer, account);
-//               // console.log(pairData, 123123123);
-
-//               return pairData;
-//               // return [
-//               //   PairState.EXISTS,
-//               //   new Pair(new TokenAmount(token0, reserve0.toString()), new TokenAmount(token1, reserve1.toString())),
-//               // ];
-//             } catch (error) {
-//               console.error('Error fetching data for tokens:', tokenA, tokenB, error);
-//               return { address: undefined, reserve: null, exponent: null };
-//             }
-//           }),
-//         );
-
-//         const details = await Promise.all(tasks);
-
-//         // 确保组件仍然挂载时才更新状态
-//         if (isMounted.current) {
-//           setPairDetails(details);
-//         }
-//       } catch (error) {
-//         console.error('Error in fetchPairDetails:', error);
-//       } finally {
-//         if (isMounted.current && loading !== false) setLoading(false);
-//       }
-//     };
-
-//     fetchPairDetails();
-//   }, [tokens.length, library, account, chainId]); // 仅在 tokens 长度变化时触发
-
-//   console.log(pairDetails)
-
-//   return { pairDetails, loading, pairState: pairDetails?.length ? PairState.EXISTS :  PairState.NOT_EXISTS};
-//   // return [
-//   //   PairState.EXISTS,
-//   //   new Pair(new TokenAmount(pairDetails.tokenA, reserve0.toString()), new TokenAmount(pairDetails.tokenB, reserve1.toString())),
-//   // ];
-// };
 
 export function usePairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
   const { chainId, account, library } = useActiveWeb3React();
@@ -135,7 +33,6 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
     () =>
       tokens.map(([tokenA, tokenB]) => {
         try {
-          // console.log(tokenA && tokenB && !tokenA.equals(tokenB) ? Pair.getV3Address(tokenA, tokenB, poolType, fee) : undefined)
           return tokenA && tokenB && !tokenA.equals(tokenB) ? Pair.getAddress(tokenA, tokenB) : undefined;
         } catch (error: any) {
           console.error(
@@ -189,9 +86,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
 }
 
 export function useV3Pairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
-  const { chainId, account, library } = useActiveWeb3React();
-
-    // console.log(Pair.getTestAddress())
+  const { chainId } = useActiveWeb3React();
 
   const tokens = useMemo(
     () =>
@@ -212,7 +107,6 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
               !tokenA.equals(tokenB)
               ? PairV3.getV3Address(tokenA, tokenB, poolType, fee)
               : undefined;
-            // console.log(tokenA.symbol, tokenB.symbol, poolType, fee, address)
             return address;
           } catch (error: any) {
             console.error(
@@ -252,10 +146,8 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
     );
   }, [tokens, poolTypes, fees]);
 
-  // console.log(processedPairAddresses)
-
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves');
-  const feeResults = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getFee');
+  // const feeResults = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getFee');
 
   const pairsData = useMemo(() => {
     // 将 results 分为每 9 个一组，保持与 processedPairAddresses 对应

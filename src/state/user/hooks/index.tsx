@@ -1,4 +1,4 @@
-import { ChainId, Pair, Token } from '@pancakeswap/sdk'
+import { ChainId, Pair, PairV3, Token } from '@pancakeswap/sdk'
 import flatMap from 'lodash/flatMap'
 import farms from 'config/constants/farms'
 import { useCallback, useMemo } from 'react'
@@ -42,6 +42,7 @@ import {
 } from '../actions'
 import { deserializeToken, serializeToken } from './helpers'
 import { GAS_PRICE_GWEI } from '../../types'
+import { PairState } from 'hooks/usePairs'
 
 export function useAudioModeManager(): [boolean, () => void] {
   const dispatch = useAppDispatch()
@@ -409,6 +410,13 @@ function serializePair(pair: Pair): SerializedPair {
   }
 }
 
+function serializePairV3(pair: PairV3): SerializedPair {
+  return {
+    token0: serializeToken(pair.token0),
+    token1: serializeToken(pair.token1),
+  }
+}
+
 export function usePairAdder(): (pair: Pair) => void {
   const dispatch = useAppDispatch()
 
@@ -418,6 +426,20 @@ export function usePairAdder(): (pair: Pair) => void {
     },
     [dispatch],
   )
+}
+
+export function usePairV3Adder(): (pair: (PairState | Pair)[]) => void {
+  const dispatch = useAppDispatch()
+
+  return useCallback(
+    (pairs: (PairState | Pair)[]) => {
+      // 对每个 pair 进行序列化，并添加到 store
+      pairs.forEach(pair => {
+        dispatch(addSerializedPair({ serializedPair: serializePairV3(pair[1]) }));
+      });
+    },
+    [dispatch],
+  );
 }
 
 /**
@@ -501,7 +523,9 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   //   [generatedPairs, pinnedPairs, userPairs, farmPairs],
   // )
 
-  const combinedList = useMemo(() => generatedPairs, [generatedPairs])
+  const combinedList = useMemo(() => userPairs.concat(generatedPairs), [generatedPairs, userPairs])
+
+  // const combinedList = useMemo(() => generatedPairs, [generatedPairs])
 
   return useMemo(() => {
     // dedupes pairs of tokens in the combined list

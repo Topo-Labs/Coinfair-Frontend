@@ -33,6 +33,7 @@ export default function Pool() {
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
+  // const tokenPairsV3 = usePairs()
   const tokenPairsWithLiquidityTokens = useMemo(
     () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
     [trackedTokenPairs],
@@ -56,7 +57,17 @@ export default function Pool() {
   )
 
   const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
-  const v3Pairs = useV3Pairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
+  const tokenPairsV3 = useV3Pairs(trackedTokenPairs)
+
+  const filteredPairs = tokenPairsV3.map(
+    secondLevelArray => 
+      secondLevelArray.filter(
+        thirdLevelArray => thirdLevelArray[1] // 只保留第二个值为真的第三层数组
+      ).map(
+        thirdLevelArray => thirdLevelArray[1] // 提取出符合条件的第二个值
+      )
+  ).flat(); // 将多维数组拍平成一级数组
+
   const v2IsLoading =
     fetchingV2PairBalances ||
     v2Pairs?.length < liquidityTokensWithBalances.length ||
@@ -80,14 +91,15 @@ export default function Pool() {
         </Text>
       )
     }
-    if (allV2PairsWithLiquidity?.length > 0) {
-      return allV2PairsWithLiquidity.map((v2Pair, index) => (
-        <FullPositionCard
-          key={v2Pair.liquidityToken.address}
-          pair={v2Pair}
-          mb={index < allV2PairsWithLiquidity.length - 1 ? '16px' : 0}
-        />
-      ))
+    if (filteredPairs?.length > 0) {
+      return (
+        filteredPairs.map((pairItem, i) =>
+          <FullPositionCard
+            pair={pairItem}
+            mb={i < filteredPairs.length - 1 ? '16px' : 0}
+          />
+        )
+      )
     }
     return (
       <Text color="textSubtle" textAlign="center">

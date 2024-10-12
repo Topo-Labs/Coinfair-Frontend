@@ -16,13 +16,13 @@ import {
 import styled from 'styled-components'
 import { NextLinkFromReactRouter } from 'components/NextLink'
 import { useTranslation } from '@pancakeswap/localization'
-import useTotalSupply from 'hooks/useTotalSupply'
+import { useTotalSupply, useTotalSupplyV3 } from 'hooks/useTotalSupply'
 import useBUSDPrice from 'hooks/useBUSDPrice'
 import { multiplyPriceByAmount } from 'utils/prices'
 import { useWeb3React } from '@web3-react/core'
 import { BIG_INT_ZERO } from 'config/constants/exchange'
 
-import { useTokenBalance } from '../../state/wallet/hooks'
+import { useTokenBalance, useTokenBalanceV3 } from '../../state/wallet/hooks'
 import { currencyId } from '../../utils/currencyId'
 import { unwrappedToken } from '../../utils/wrappedCurrency'
 
@@ -83,11 +83,13 @@ const useLPValues = (account, pair, currency0, currency1) => {
 }
 
 const useLPV3Values = (account, pairs, currency0, currency1) => {
-  const token0Prices = pairs.map(pair => useBUSDPrice(currency0));
-  const token1Prices = pairs.map(pair => useBUSDPrice(currency1));
+  const token0Price = useBUSDPrice(currency0);
+  const token1Price = useBUSDPrice(currency1);
 
-  const userPoolBalances = pairs.map(pair => useTokenBalance(account ?? undefined, pair.liquidityToken));
-  const totalPoolTokensArr = pairs.map(pair => useTotalSupply(pair.liquidityToken));
+  // 使用自定义 Hook 获取用户的池余额
+  const userPoolBalances = useTokenBalanceV3(account, pairs);
+
+  const totalPoolTokensArr = useTotalSupplyV3(pairs);
 
   const poolTokenPercentages = pairs.map((pair, index) => {
     const userPoolBalance = userPoolBalances[index];
@@ -114,9 +116,6 @@ const useLPV3Values = (account, pairs, currency0, currency1) => {
   });
 
   const tokenUSDValues = tokenDeposits.map(([token0Deposited, token1Deposited], index) => {
-    const token0Price = token0Prices[index];
-    const token1Price = token1Prices[index];
-
     const token0USDValue =
       token0Deposited && token0Price
         ? multiplyPriceByAmount(token0Price, parseFloat(token0Deposited.toSignificant(6)))
@@ -170,7 +169,7 @@ export function MinimalPositionCard({ pair, pairV3, showUnwrapped = false }: Pos
           const token1Deposited = token1DepositedV3[index];
   
           return (
-            <Card key={index}>
+            <Card key={userPoolBalance?.token?.address}>
               <CardBody>
                 <AutoColumn gap="16px">
                   <FixedHeightRow>

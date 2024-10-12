@@ -447,7 +447,7 @@ export default function Swap() {
                         value={formattedAmounts[Field.INPUT]}
                         // value={renderOnInput(currencies[Field.INPUT])}
                         showMaxButton={!atMaxAmountInput}
-                        showWithDraw={true}
+                        showWithDraw
                         currency={currencies[Field.INPUT]}
                         onUserInput={handleTypeInput}
                         onMax={handleMaxInput}

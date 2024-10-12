@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { BASES_TO_TRACK_LIQUIDITY_FOR, PINNED_PAIRS } from 'config/constants'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useOfficialsAndUserAddedTokens } from 'hooks/Tokens'
+import { PairState } from 'hooks/usePairs'
 import { AppState, useAppDispatch } from '../../index'
 import {
   addSerializedPair,
@@ -42,7 +43,6 @@ import {
 } from '../actions'
 import { deserializeToken, serializeToken } from './helpers'
 import { GAS_PRICE_GWEI } from '../../types'
-import { PairState } from 'hooks/usePairs'
 
 export function useAudioModeManager(): [boolean, () => void] {
   const dispatch = useAppDispatch()

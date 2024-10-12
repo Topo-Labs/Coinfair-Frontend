@@ -315,3 +315,44 @@ export function useSingleCallResult(
     return toCallState(result, contract?.interface, fragment, currentBlockNumber);
   }, [cache, chainId, result, contract?.interface, fragment]);
 }
+
+export function useMultipleCallResults(
+  contracts: (Contract | null | undefined)[],
+  methodName: string,
+  inputsArray?: OptionalMethodInputs[],
+  options?: ListenerOptions,
+): CallState[] {
+  // 生成合约方法的片段
+  const fragments = useMemo(() => 
+    contracts.map(contract => contract?.interface?.getFunction(methodName)), 
+    [contracts, methodName]
+  );
+
+  // 生成多个调用
+  const calls = useMemo<Call[]>(() => {
+    return contracts.map((contract, index) => {
+      const fragment = fragments[index];
+      const inputs = inputsArray ? inputsArray[index] : undefined;
+      return contract && fragment && isValidMethodArgs(inputs)
+        ? {
+            address: contract.address,
+            callData: contract.interface.encodeFunctionData(fragment, inputs),
+          }
+        : null;
+    }).filter(call => call !== null); // 过滤掉空值
+  }, [contracts, fragments, inputsArray]);
+
+  // 使用 callsData 获取多个调用结果
+  const results = useCallsData(calls, options);
+  const { cache } = useSWRConfig();
+  const { chainId } = useActiveWeb3React();
+
+  // 返回每个合约的调用状态
+  return useMemo(() => {
+    const currentBlockNumber = cache.get(`blockNumber-${chainId}`);
+    return results.map((result, index) => {
+      const fragment = fragments[index];
+      return toCallState(result, contracts[index]?.interface, fragment, currentBlockNumber);
+    });
+  }, [cache, chainId, results, contracts, fragments]);
+}

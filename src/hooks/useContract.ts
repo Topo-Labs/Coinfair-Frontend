@@ -358,8 +358,43 @@ function useContract<T extends Contract = Contract>(
   }, [address, ABI, signer, canReturnContract]) as T
 }
 
+function useContracts<T extends Contract = Contract>(
+  addresses: (string | undefined)[],
+  ABI: any,
+  withSignerIfPossible = true,
+): (T | null)[] {
+  const { library, account, chainId } = useActiveWeb3React();
+
+  const signer = useMemo(
+    () =>
+      withSignerIfPossible ? getProviderOrSigner(library, account) : chainId === ChainId.BSC ? bscRpcProvider : library,
+    [withSignerIfPossible, library, account, chainId],
+  );
+
+  const canReturnContracts = useMemo(
+    () => addresses.every((address) => address && ABI && (withSignerIfPossible ? library : true)),
+    [addresses, ABI, library, withSignerIfPossible],
+  );
+
+  return useMemo(() => {
+    if (!canReturnContracts) return addresses.map(() => null);
+    try {
+      return addresses.map((address) =>
+        address ? getContract(address, ABI, signer) : null
+      );
+    } catch (error) {
+      console.error('Failed to get contracts', error);
+      return addresses.map(() => null);
+    }
+  }, [addresses, ABI, signer, canReturnContracts]) as (T | null)[];
+}
+
 export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean) {
   return useContract<Erc20>(tokenAddress, ERC20_ABI, withSignerIfPossible)
+}
+
+export function useTokenContracts(tokenAddresses?: (string | undefined)[], withSignerIfPossible?: boolean) {
+  return useContracts<Erc20>(tokenAddresses || [], ERC20_ABI, withSignerIfPossible);
 }
 
 export function useWBNBContract(withSignerIfPossible?: boolean): Contract | null {

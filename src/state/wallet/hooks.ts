@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount } from '@pancakeswap/sdk'
+import { Currency, CurrencyAmount, ETHER, JSBI, PairV3, Token, TokenAmount } from '@pancakeswap/sdk'
 import { useMemo } from 'react'
 import { useWeb3React } from '@web3-react/core'
 import ERC20_INTERFACE from 'config/abi/erc20'
@@ -96,6 +96,15 @@ export function useTokenBalance(account?: string, token?: Token): TokenAmount | 
   const tokenBalances = useTokenBalances(account, [token])
   if (!token) return undefined
   return tokenBalances[token.address]
+}
+
+export function useTokenBalanceV3(account?: string, pairs?: PairV3[]): (TokenAmount | undefined)[] {
+  const tokens = pairs.map(pair => pair.liquidityToken);
+  const tokenBalances = useTokenBalances(account, tokens); // 传入提取出来的 tokens 数组
+  return tokens.map(token => {
+    if (!token) return undefined;
+    return tokenBalances[token.address];
+  });
 }
 
 export function useCurrencyBalances(

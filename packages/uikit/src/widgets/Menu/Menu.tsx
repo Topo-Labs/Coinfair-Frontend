@@ -243,22 +243,22 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           <StyledWrapper />
         )}
 
-        <BodyWrapper mt={isDesktop ? `${totalTopMenuHeight + 1}px` : "0"}>
-          {
+        <BodyWrapper mt={isDesktop ? `${totalTopMenuHeight + 56}px` : "0"}>
+          {/* {
             !isDesktop && 
             <XwarnMobile>
               <img src="/images/X-warning-mobile.png" alt="" />
             </XwarnMobile>
-          }
+          } */}
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
           </Inner>
-          {
+          {/* {
             isDesktop && 
             <Xwarn>
               <img style={{ width: '60%' }} src="/images/X-warning.png" alt="" />
             </Xwarn>
-          }
+          } */}
           <Footer
             items={footerLinks}
             isDark={isDark}

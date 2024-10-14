@@ -90,7 +90,6 @@ const BodyWrapper = styled(Box)`
   justify-content: space-between;
   width: 100%;
   height: 100vh;
-  margin-top: 56px;
   flex: 1;
   z-index: 2;
 `;
@@ -109,6 +108,25 @@ const Inner = styled.div<{ isPushed: boolean; showMenu: boolean }>`
   display: flex;
   flex-direction: column;
 `;
+
+const Xwarn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0;
+  width: 100%;
+  margin-bottom: 100px;
+`
+
+const XwarnMobile = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0;
+  width: 100%;
+  margin-top: 20px;
+  padding: 0 15px;
+`
 
 const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   linkComponent = "a",
@@ -225,21 +243,33 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           <StyledWrapper />
         )}
 
-        <BodyWrapper mt={!subLinks ? `${totalTopMenuHeight + 1}px` : "0"}>
+        <BodyWrapper mt={isDesktop ? `${totalTopMenuHeight + 1}px` : "0"}>
+          {
+            !isDesktop && 
+            <XwarnMobile>
+              <img src="/images/X-warning-mobile.png" alt="" />
+            </XwarnMobile>
+          }
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
           </Inner>
+          {
+            isDesktop && 
+            <Xwarn>
+              <img style={{ width: '60%' }} src="/images/X-warning.png" alt="" />
+            </Xwarn>
+          }
           <Footer
-              items={footerLinks}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-              langs={langs}
-              setLang={setLang}
-              currentLang={currentLang}
-              cakePriceUsd={cakePriceUsd}
-              buyCakeLabel={buyCakeLabel}
-              mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
-            />
+            items={footerLinks}
+            isDark={isDark}
+            toggleTheme={toggleTheme}
+            langs={langs}
+            setLang={setLang}
+            currentLang={currentLang}
+            cakePriceUsd={cakePriceUsd}
+            buyCakeLabel={buyCakeLabel}
+            mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
+          />
         </BodyWrapper>
       </Wrapper>
     </MenuContext.Provider>

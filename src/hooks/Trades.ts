@@ -20,7 +20,7 @@ import { useMultipleContractSingleData } from '../state/multicall/hooks';
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI);
 
-const poolTypes = [1, 2, 4]
+const poolTypes = [1, 2, 3, 4, 5]
 const fees = [3, 5, 10]
 
 export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): PairV3[] {

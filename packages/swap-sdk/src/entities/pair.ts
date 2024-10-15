@@ -232,10 +232,6 @@ export class PairV3 {
     return x
   }
 
-  public calculateProduct(n, a, b, decimal): JSBI {
-
-  }
-
   public exp(n: JSBI, a: number, b: number, dec: number): JSBI {
     const decimal = 38
     const decimal2 = 77

@@ -11,6 +11,7 @@ const StyledLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   border-radius: 50%;
+  background: #fff;
 `
 
 export default function CurrencyLogo({

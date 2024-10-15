@@ -161,89 +161,96 @@ export function MinimalPositionCard({ pair, pairV3, showUnwrapped = false }: Pos
 
   return (
     <>
-      {userPoolBalancesV3 && userPoolBalancesV3.length > 0 ? (
-        userPoolBalancesV3.map((userPoolBalance, index) => {
-          const totalUSDValue = totalUSDValuesV3[index];
-          const poolTokenPercentage = poolTokenPercentagesV3[index];
-          const token0Deposited = token0DepositedV3[index];
-          const token1Deposited = token1DepositedV3[index];
-  
-          return (
-            <Card key={userPoolBalance?.token?.address}>
-              <CardBody>
-                <AutoColumn gap="16px">
-                  <FixedHeightRow>
-                    <RowFixed>
-                      <Text color="secondary" bold>
-                        {t('LP tokens in your wallet')}
-                      </Text>
-                    </RowFixed>
-                  </FixedHeightRow>
-                  <FixedHeightRow>
-                    <RowFixed>
-                      <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin size={20} />
-                      <Text small color="textSubtle">
-                        {currency0.symbol}-{currency1.symbol} LP
-                      </Text>
-                    </RowFixed>
-                    <RowFixed>
-                      <Flex flexDirection="column" alignItems="flex-end">
-                        <Text>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</Text>
-                        {Number.isFinite(totalUSDValue) && (
-                          <Text small color="textSubtle">{`(~${totalUSDValue.toLocaleString(undefined, {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })} USD)`}</Text>
-                        )}
-                      </Flex>
-                    </RowFixed>
-                  </FixedHeightRow>
-                  <AutoColumn gap="4px">
-                    {poolData && (
+      {userPoolBalancesV3?.length && userPoolBalancesV3?.every(item => item?.toSignificant(4) !== '0') ? (
+        <>
+          {
+            userPoolBalancesV3.map((userPoolBalance, index) => {
+              const totalUSDValue = totalUSDValuesV3[index];
+              const poolTokenPercentage = poolTokenPercentagesV3[index];
+              const token0Deposited = token0DepositedV3[index];
+              const token1Deposited = token1DepositedV3[index];
+      
+              return (
+                <Card key={userPoolBalance?.token?.address}>
+                  <CardBody>
+                    <AutoColumn gap="16px">
                       <FixedHeightRow>
-                        <TooltipText ref={targetRef} color="textSubtle" small>
-                          {t('LP reward APR')}:
-                        </TooltipText>
-                        {tooltipVisible && tooltip}
-                        <Text>{formatAmount(poolData.lpApr7d)}%</Text>
+                        <RowFixed>
+                          <Text color="secondary" bold>
+                            {t('LP tokens in your wallet')}
+                          </Text>
+                        </RowFixed>
                       </FixedHeightRow>
-                    )}
-                    <FixedHeightRow>
-                      <Text color="textSubtle" small>
-                        {t('Share of Pool')}:
-                      </Text>
-                      <Text>{poolTokenPercentage ? `${poolTokenPercentage.toFixed(6)}%` : '-'}</Text>
-                    </FixedHeightRow>
-                    <FixedHeightRow>
-                      <Text color="textSubtle" small>
-                        {t('Pooled %asset%', { asset: currency0.symbol })}:
-                      </Text>
-                      {token0Deposited ? (
+                      <FixedHeightRow>
                         <RowFixed>
-                          <Text ml="6px">{token0Deposited?.toSignificant(6)}</Text>
+                          <DoubleCurrencyLogo currency0={currency0} currency1={currency1} margin size={20} />
+                          <Text small color="textSubtle">
+                            {currency0.symbol}-{currency1.symbol} LP
+                          </Text>
                         </RowFixed>
-                      ) : (
-                        '-'
-                      )}
-                    </FixedHeightRow>
-                    <FixedHeightRow>
-                      <Text color="textSubtle" small>
-                        {t('Pooled %asset%', { asset: currency1.symbol })}:
-                      </Text>
-                      {token1Deposited ? (
                         <RowFixed>
-                          <Text ml="6px">{token1Deposited?.toSignificant(6)}</Text>
+                          <Flex flexDirection="column" alignItems="flex-end">
+                            <Text>{userPoolBalance ? userPoolBalance.toSignificant(4) : '-'}</Text>
+                            {Number.isFinite(totalUSDValue) && (
+                              <Text small color="textSubtle">{`(~${totalUSDValue.toLocaleString(undefined, {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                              })} USD)`}</Text>
+                            )}
+                          </Flex>
                         </RowFixed>
-                      ) : (
-                        '-'
-                      )}
-                    </FixedHeightRow>
-                  </AutoColumn>
-                </AutoColumn>
-              </CardBody>
-            </Card>
-          );
-        })
+                      </FixedHeightRow>
+                      <AutoColumn gap="4px">
+                        {poolData && (
+                          <FixedHeightRow>
+                            <TooltipText ref={targetRef} color="textSubtle" small>
+                              {t('LP reward APR')}:
+                            </TooltipText>
+                            {tooltipVisible && tooltip}
+                            <Text>{formatAmount(poolData.lpApr7d)}%</Text>
+                          </FixedHeightRow>
+                        )}
+                        <FixedHeightRow>
+                          <Text color="textSubtle" small>
+                            {t('Share of Pool')}:
+                          </Text>
+                          <Text>{poolTokenPercentage ? `${poolTokenPercentage.toFixed(6)}%` : '-'}</Text>
+                        </FixedHeightRow>
+                        <FixedHeightRow>
+                          <Text color="textSubtle" small>
+                            {t('Pooled %asset%', { asset: currency0.symbol })}:
+                          </Text>
+                          {token0Deposited ? (
+                            <RowFixed>
+                              <Text ml="6px">{token0Deposited?.toSignificant(6)}</Text>
+                            </RowFixed>
+                          ) : (
+                            '-'
+                          )}
+                        </FixedHeightRow>
+                        <FixedHeightRow>
+                          <Text color="textSubtle" small>
+                            {t('Pooled %asset%', { asset: currency1.symbol })}:
+                          </Text>
+                          {token1Deposited ? (
+                            <RowFixed>
+                              <Text ml="6px">{token1Deposited?.toSignificant(6)}</Text>
+                            </RowFixed>
+                          ) : (
+                            '-'
+                          )}
+                        </FixedHeightRow>
+                      </AutoColumn>
+                    </AutoColumn>
+                  </CardBody>
+                </Card>
+              );
+            })
+          }
+          <Button as={NextLinkFromReactRouter} to="/liquidity" variant="secondary" width="100%">
+            {t('Manage these pools')}
+          </Button>
+        </>
       ) : (
         // 可选的空状态显示逻辑
         ''

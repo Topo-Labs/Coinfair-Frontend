@@ -7,7 +7,7 @@ import { useMultipleContractSingleData } from '../state/multicall/hooks';
 import { wrappedCurrency } from '../utils/wrappedCurrency';
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI);
-const poolTypes = [1, 2, 4]
+const poolTypes = [1, 2, 3, 4, 5]
 const fees = [3, 5, 10]
 
 export enum PairState {

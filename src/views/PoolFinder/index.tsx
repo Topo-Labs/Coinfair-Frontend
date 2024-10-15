@@ -212,9 +212,6 @@ export default function PoolFinder() {
               pairV3?.length ? (
                 <>
                   <MinimalPositionCard pair={pairV3[0][1]} pairV3={pairV3Data} />
-                  <Button as={NextLinkFromReactRouter} to="/liquidity" variant="secondary" width="100%">
-                    {t('Manage these pools')}
-                  </Button>
                 </>
               ) : ''
             ) : prerequisiteMessage

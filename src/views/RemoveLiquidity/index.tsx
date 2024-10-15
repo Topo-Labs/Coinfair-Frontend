@@ -5,6 +5,7 @@ import { Contract } from '@ethersproject/contracts'
 import { TransactionResponse } from '@ethersproject/providers'
 import { useRouter } from 'next/router'
 import useToast from 'hooks/useToast'
+import { useV3Pair } from 'hooks/usePairs'
 import { Currency, currencyEquals, ETHER, Percent, WNATIVE } from '@pancakeswap/sdk'
 import {
   Button,
@@ -72,7 +73,7 @@ export default function RemoveLiquidity() {
   const router = useRouter()
   const [zapMode] = useZapModeManager()
   const [temporarilyZapMode, setTemporarilyZapMode] = useState(true)
-  const [currencyIdA, currencyIdB] = router.query.currency || []
+  const [currencyIdA, currencyIdB, poolType, fee] = router.query.currency || []
   const [currencyA, currencyB] = [useCurrency(currencyIdA) ?? undefined, useCurrency(currencyIdB) ?? undefined]
   const { account, chainId, library } = useActiveWeb3React()
   const { toastError } = useToast()
@@ -99,7 +100,11 @@ export default function RemoveLiquidity() {
   )
   const isZap = (!removalCheckedA || !removalCheckedB) && zapModeStatus
 
-  const poolData = useLPApr(pair)
+  const pairV3 = useV3Pair(tokenA ?? undefined, tokenB ?? undefined)?.map(pairItem => pairItem[1])
+
+  const pairFind = pairV3.find(item => item.poolType.toString() === poolType && item.fee.toString() === fee)
+
+  const poolData = useLPApr(pairFind)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t(`Based on last 7 days' performance. Does not account for impermanent loss`),
     {
@@ -108,6 +113,8 @@ export default function RemoveLiquidity() {
   )
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
+
+  // console.log(pairFind, poolData, 'poolDatapoolData:::')
 
   // modal and loading
   const [showDetailed, setShowDetailed] = useState<boolean>(false)
@@ -697,7 +704,7 @@ export default function RemoveLiquidity() {
                 showMaxButton={!atMaxAmount}
                 disableCurrencySelect
                 currency={pair?.liquidityToken}
-                pair={pair}
+                pair={pairFind}
                 id="liquidity-amount"
                 onCurrencySelect={() => null}
                 showCommonBases
@@ -860,9 +867,9 @@ export default function RemoveLiquidity() {
         </CardBody>
       </AppBody>
 
-      {pair ? (
+      {pairV3.length ? (
         <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWBNB} pair={pair} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWBNB} pair={pair} pairV3={[pairFind]} />
         </AutoColumn>
       ) : null}
     </Page>

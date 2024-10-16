@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { usePair } from 'hooks/usePairs'
+import { usePair, useV3Pair } from 'hooks/usePairs'
 import { useTotalSupply } from 'hooks/useTotalSupply'
 
 import { useTranslation } from '@pancakeswap/localization'
@@ -22,6 +22,8 @@ export function useDerivedBurnInfo(
   removalCheckedA?: boolean,
   removalCheckedB?: boolean,
   zapMode?: boolean,
+  poolType?: string,
+  fee?: string,
 ): {
   pair?: Pair | null
   parsedAmounts: {
@@ -43,37 +45,42 @@ export function useDerivedBurnInfo(
   // pair + totalsupply
   const [, pair] = usePair(currencyA, currencyB)
 
+  const pairV3 = useV3Pair(currencyA, currencyB)?.map(pairItem => pairItem[1])
+
+  const pairFill = pairV3?.length && pairV3.find(item => item?.poolType.toString() === poolType && item?.fee.toString() === fee)
+  console.log(pairFill, poolType, fee, 'currencyB:::::::2222222')
+
   // balances
-  const relevantTokenBalances = useTokenBalances(account ?? undefined, [pair?.liquidityToken])
-  const userLiquidity: undefined | TokenAmount = relevantTokenBalances?.[pair?.liquidityToken?.address ?? '']
+  const relevantTokenBalances = useTokenBalances(account ?? undefined, [pairFill?.liquidityToken])
+  const userLiquidity: undefined | TokenAmount = relevantTokenBalances?.[pairFill?.liquidityToken?.address ?? '']
 
   const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)]
   const tokens = {
     [Field.CURRENCY_A]: tokenA,
     [Field.CURRENCY_B]: tokenB,
-    [Field.LIQUIDITY]: pair?.liquidityToken,
+    [Field.LIQUIDITY]: pairFill?.liquidityToken,
   }
 
   // liquidity values
-  const totalSupply = useTotalSupply(pair?.liquidityToken)
+  const totalSupply = useTotalSupply(pairFill?.liquidityToken)
   const liquidityValueA =
-    pair &&
+    pairFill &&
     totalSupply &&
     userLiquidity &&
     tokenA &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalSupply.raw, userLiquidity.raw)
-      ? new TokenAmount(tokenA, pair.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).raw)
+      ? new TokenAmount(tokenA, pairFill.getLiquidityValue(tokenA, totalSupply, userLiquidity, false).raw)
       : undefined
 
   const liquidityValueB =
-    pair &&
+    pairFill &&
     totalSupply &&
     userLiquidity &&
     tokenB &&
     // this condition is a short-circuit in the case where useTokenBalance updates sooner than useTotalSupply
     JSBI.greaterThanOrEqual(totalSupply.raw, userLiquidity.raw)
-      ? new TokenAmount(tokenB, pair.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).raw)
+      ? new TokenAmount(tokenB, pairFill.getLiquidityValue(tokenB, totalSupply, userLiquidity, false).raw)
       : undefined
   const liquidityValues: { [Field.CURRENCY_A]?: TokenAmount; [Field.CURRENCY_B]?: TokenAmount } = {
     [Field.CURRENCY_A]: liquidityValueA,
@@ -87,8 +94,8 @@ export function useDerivedBurnInfo(
   }
   // user specified a specific amount of liquidity tokens
   else if (independentField === Field.LIQUIDITY) {
-    if (pair?.liquidityToken) {
-      const independentAmount = tryParseAmount(typedValue, pair.liquidityToken)
+    if (pairFill?.liquidityToken) {
+      const independentAmount = tryParseAmount(typedValue, pairFill.liquidityToken)
       if (independentAmount && userLiquidity && !independentAmount.greaterThan(userLiquidity)) {
         percentToRemove = new Percent(independentAmount.raw, userLiquidity.raw)
       }
@@ -128,15 +135,15 @@ export function useDerivedBurnInfo(
   const tokenAmountToZap = removalCheckedA && removalCheckedB ? undefined : removalCheckedA ? amountB : amountA
 
   const estimateZapOutAmount = useMemo(() => {
-    if (pair && tokenAmountToZap) {
+    if (pairFill && tokenAmountToZap) {
       try {
-        return pair.getOutputAmount(tokenAmountToZap)[0]
+        return pairFill.getOutputAmount(tokenAmountToZap)[0]
       } catch (error) {
         return undefined
       }
     }
     return undefined
-  }, [pair, tokenAmountToZap])
+  }, [pairFill, tokenAmountToZap])
 
   const parsedAmounts: {
     [Field.LIQUIDITY_PERCENT]: Percent
@@ -181,7 +188,7 @@ export function useDerivedBurnInfo(
     error = error ?? t('Enter an amount')
   }
 
-  return { pair, parsedAmounts, error, tokenToReceive, estimateZapOutAmount }
+  return { pair: pairFill, parsedAmounts, error, tokenToReceive, estimateZapOutAmount }
 }
 
 export function useBurnActionHandlers(): {

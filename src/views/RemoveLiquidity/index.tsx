@@ -6,7 +6,7 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { useRouter } from 'next/router'
 import useToast from 'hooks/useToast'
 import { useV3Pair } from 'hooks/usePairs'
-import { Currency, currencyEquals, ETHER, Percent, WNATIVE } from '@pancakeswap/sdk'
+import { Currency, currencyEquals, ETHER, PairV3, Percent, WNATIVE } from '@pancakeswap/sdk'
 import {
   Button,
   Text,
@@ -97,6 +97,8 @@ export default function RemoveLiquidity() {
     removalCheckedA,
     removalCheckedB,
     zapModeStatus,
+    poolType,
+    fee
   )
   const isZap = (!removalCheckedA || !removalCheckedB) && zapModeStatus
 
@@ -104,7 +106,7 @@ export default function RemoveLiquidity() {
 
   const pairFind = pairV3.find(item => item.poolType.toString() === poolType && item.fee.toString() === fee)
 
-  const poolData = useLPApr(pairFind)
+  const poolData = useLPApr(pair)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
     t(`Based on last 7 days' performance. Does not account for impermanent loss`),
     {
@@ -114,7 +116,7 @@ export default function RemoveLiquidity() {
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
 
-  // console.log(pairFind, poolData, 'poolDatapoolData:::')
+  // console.log(pair, poolData, 'poolDatapoolData:::')
 
   // modal and loading
   const [showDetailed, setShowDetailed] = useState<boolean>(false)
@@ -357,6 +359,8 @@ export default function RemoveLiquidity() {
           amountsMin[currencyBIsBNB ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
           account,
           deadline.toHexString(),
+          poolType,
+          fee
         ]
       }
       // removeLiquidity
@@ -370,48 +374,50 @@ export default function RemoveLiquidity() {
           amountsMin[Field.CURRENCY_B].toString(),
           account,
           deadline.toHexString(),
+          poolType,
+          fee
         ]
       }
     }
     // we have a signature, use permit versions of remove liquidity
-    else if (signatureData !== null) {
-      // removeLiquidityETHWithPermit
-      if (oneCurrencyIsBNB) {
-        methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens']
-        args = [
-          currencyBIsBNB ? tokenA.address : tokenB.address,
-          liquidityAmount.raw.toString(),
-          amountsMin[currencyBIsBNB ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
-          amountsMin[currencyBIsBNB ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
-          account,
-          signatureData.deadline,
-          false,
-          signatureData.v,
-          signatureData.r,
-          signatureData.s,
-        ]
-      }
-      // removeLiquidityETHWithPermit
-      else {
-        methodNames = ['removeLiquidityWithPermit']
-        args = [
-          tokenA.address,
-          tokenB.address,
-          liquidityAmount.raw.toString(),
-          amountsMin[Field.CURRENCY_A].toString(),
-          amountsMin[Field.CURRENCY_B].toString(),
-          account,
-          signatureData.deadline,
-          false,
-          signatureData.v,
-          signatureData.r,
-          signatureData.s,
-        ]
-      }
-    } else {
-      toastError(t('Error'), t('Attempting to confirm without approval or a signature'))
-      throw new Error('Attempting to confirm without approval or a signature')
-    }
+    // else if (signatureData !== null) {
+    //   // removeLiquidityETHWithPermit
+    //   if (oneCurrencyIsBNB) {
+    //     methodNames = ['removeLiquidityETHWithPermit', 'removeLiquidityETHWithPermitSupportingFeeOnTransferTokens']
+    //     args = [
+    //       currencyBIsBNB ? tokenA.address : tokenB.address,
+    //       liquidityAmount.raw.toString(),
+    //       amountsMin[currencyBIsBNB ? Field.CURRENCY_A : Field.CURRENCY_B].toString(),
+    //       amountsMin[currencyBIsBNB ? Field.CURRENCY_B : Field.CURRENCY_A].toString(),
+    //       account,
+    //       signatureData.deadline,
+    //       false,
+    //       signatureData.v,
+    //       signatureData.r,
+    //       signatureData.s,
+    //     ]
+    //   }
+    //   // removeLiquidityETHWithPermit
+    //   else {
+    //     methodNames = ['removeLiquidityWithPermit']
+    //     args = [
+    //       tokenA.address,
+    //       tokenB.address,
+    //       liquidityAmount.raw.toString(),
+    //       amountsMin[Field.CURRENCY_A].toString(),
+    //       amountsMin[Field.CURRENCY_B].toString(),
+    //       account,
+    //       signatureData.deadline,
+    //       false,
+    //       signatureData.v,
+    //       signatureData.r,
+    //       signatureData.s,
+    //     ]
+    //   }
+    // } else {
+    //   toastError(t('Error'), t('Attempting to confirm without approval or a signature'))
+    //   throw new Error('Attempting to confirm without approval or a signature')
+    // }
 
     const safeGasEstimates: (BigNumber | undefined)[] = await Promise.all(
       methodNames.map((methodName) =>
@@ -619,7 +625,7 @@ export default function RemoveLiquidity() {
                 <LightGreyCard>
                   <Flex justifyContent="space-between" mb="8px" as="label" alignItems="center">
                     <Flex alignItems="center">
-                      {zapModeStatus && (
+                      {/* {zapModeStatus && (
                         <Flex mr="9px">
                           <Checkbox
                             disabled={isZapOutA}
@@ -628,7 +634,7 @@ export default function RemoveLiquidity() {
                             onChange={(e) => setRemovalCheckedA(e.target.checked)}
                           />
                         </Flex>
-                      )}
+                      )} */}
                       <CurrencyLogo currency={currencyA} />
                       <Text small color="textSubtle" id="remove-liquidity-tokena-symbol" ml="4px">
                         {currencyA?.symbol}
@@ -645,7 +651,7 @@ export default function RemoveLiquidity() {
                   </Flex>
                   <Flex justifyContent="space-between" as="label" alignItems="center">
                     <Flex alignItems="center">
-                      {zapModeStatus && (
+                      {/* {zapModeStatus && (
                         <Flex mr="9px">
                           <Checkbox
                             disabled={isZapOutB}
@@ -654,7 +660,7 @@ export default function RemoveLiquidity() {
                             onChange={(e) => setRemovalCheckedB(e.target.checked)}
                           />
                         </Flex>
-                      )}
+                      )} */}
                       <CurrencyLogo currency={currencyB} />
                       <Text small color="textSubtle" id="remove-liquidity-tokenb-symbol" ml="4px">
                         {currencyB?.symbol}
@@ -704,7 +710,7 @@ export default function RemoveLiquidity() {
                 showMaxButton={!atMaxAmount}
                 disableCurrencySelect
                 currency={pair?.liquidityToken}
-                pair={pairFind}
+                pair={pair}
                 id="liquidity-amount"
                 onCurrencySelect={() => null}
                 showCommonBases
@@ -714,17 +720,17 @@ export default function RemoveLiquidity() {
                 <ArrowDownIcon width="24px" my="16px" />
               </ColumnCenter>
               <CurrencyInputPanel
-                beforeButton={
-                  zapModeStatus && (
-                    <ZapCheckbox
-                      disabled={!removalCheckedB && removalCheckedA}
-                      checked={removalCheckedA}
-                      onChange={(e) => {
-                        setRemovalCheckedA(e.target.checked)
-                      }}
-                    />
-                  )
-                }
+                // beforeButton={
+                //   zapModeStatus && (
+                //     <ZapCheckbox
+                //       disabled={!removalCheckedB && removalCheckedA}
+                //       checked={removalCheckedA}
+                //       onChange={(e) => {
+                //         setRemovalCheckedA(e.target.checked)
+                //       }}
+                //     />
+                //   )
+                // }
                 zapStyle="zap"
                 hideBalance
                 disabled={isZap && !removalCheckedA}
@@ -743,17 +749,17 @@ export default function RemoveLiquidity() {
                 <AddIcon width="24px" my="16px" />
               </ColumnCenter>
               <CurrencyInputPanel
-                beforeButton={
-                  zapModeStatus && (
-                    <ZapCheckbox
-                      disabled={!removalCheckedA && removalCheckedB}
-                      checked={removalCheckedB}
-                      onChange={(e) => {
-                        setRemovalCheckedB(e.target.checked)
-                      }}
-                    />
-                  )
-                }
+                // beforeButton={
+                //   zapModeStatus && (
+                //     <ZapCheckbox
+                //       disabled={!removalCheckedA && removalCheckedB}
+                //       checked={removalCheckedB}
+                //       onChange={(e) => {
+                //         setRemovalCheckedB(e.target.checked)
+                //       }}
+                //     />
+                //   )
+                // }
                 zapStyle="zap"
                 hideBalance
                 disabled={isZap && !removalCheckedB}
@@ -869,7 +875,7 @@ export default function RemoveLiquidity() {
 
       {pairV3.length ? (
         <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
-          <MinimalPositionCard showUnwrapped={oneCurrencyIsWBNB} pair={pair} pairV3={[pairFind]} />
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWBNB} pair={pair as unknown as PairV3} pairV3={[pairFind]} />
         </AutoColumn>
       ) : null}
     </Page>

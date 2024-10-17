@@ -99,6 +99,12 @@ const contractMirrorMap = {
   3: 1
 }
 
+const contractListMap = {
+  1: [2, 3],
+  2: [4, 5],
+  3: [1],
+};
+
 const feeTypes: FeeTypesIF[] = [
   {
       show: '0.30',
@@ -125,7 +131,7 @@ export default function AddLiquidity() {
   const [temporarilyZapMode, setTemporarilyZapMode] = useState(true)
   const [currencyIdA, currencyIdB] = router.query.currency || [PE[chainId]?.address, '']
   const [steps, setSteps] = useState(Steps.Choose)
-  const [feeType, setFeeType] = useState<number | string>(3)
+  const [feeType, setFeeType] = useState<number>(3)
   
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
@@ -135,8 +141,6 @@ export default function AddLiquidity() {
   const currencyB = useCurrency(currencyIdB)
 
   const pairV3 = useV3Pair(currencyA ?? undefined, currencyB ?? undefined)
-
-  // console.log(pairV3, contractMirrorMap, feeTypes, 'pairV3pairV3::')
 
   useEffect(() => {
     if (!currencyIdA && !currencyIdB) {
@@ -168,7 +172,7 @@ export default function AddLiquidity() {
     error,
     addError,
     myPrice,
-  } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
+  } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined, contractListMap[ammType], feeType)
 
   const poolData = useLPApr(pair)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
@@ -652,7 +656,7 @@ export default function AddLiquidity() {
                     onInputBlur={zapIn.onInputBlurOnce}
                     disabled={canZap && !zapTokenCheckedA}
                     error={zapIn.priceSeverity > 3 && zapIn.swapTokenField === Field.CURRENCY_A}
-                    beforeButton={<></>}
+                    // beforeButton={<></>}
                     onCurrencySelect={handleCurrencyASelect}
                     disableCurrencySelect={canZap}
                     zapStyle={canZap ? 'zap' : 'noZap'}
@@ -678,17 +682,17 @@ export default function AddLiquidity() {
                     onInputBlur={zapIn.onInputBlurOnce}
                     error={zapIn.priceSeverity > 3 && zapIn.swapTokenField === Field.CURRENCY_A}
                     disabled={canZap && !zapTokenCheckedA}
-                    beforeButton={
-                      canZap && (
-                        <ZapCheckbox
-                          disabled={currencyBalances?.[Field.CURRENCY_A]?.equalTo(0)}
-                          checked={zapTokenCheckedA}
-                          onChange={(e) => {
-                            setZapTokenToggleA(e.target.checked)
-                          }}
-                        />
-                      )
-                    }
+                    // beforeButton={
+                    //   canZap && (
+                    //     <ZapCheckbox
+                    //       disabled={currencyBalances?.[Field.CURRENCY_A]?.equalTo(0)}
+                    //       checked={zapTokenCheckedA}
+                    //       onChange={(e) => {
+                    //         setZapTokenToggleA(e.target.checked)
+                    //       }}
+                    //     />
+                    //   )
+                    // }
                     onCurrencySelect={handleCurrencyASelect}
                     zapStyle={canZap ? 'zap' : 'noZap'}
                     value={formattedAmounts[Field.CURRENCY_A]}
@@ -712,17 +716,17 @@ export default function AddLiquidity() {
                     onInputBlur={zapIn.onInputBlurOnce}
                     disabled={canZap && !zapTokenCheckedB}
                     error={zapIn.priceSeverity > 3 && zapIn.swapTokenField === Field.CURRENCY_B}
-                    beforeButton={
-                      canZap && (
-                        <ZapCheckbox
-                          disabled={currencyBalances?.[Field.CURRENCY_B]?.equalTo(0)}
-                          checked={zapTokenCheckedB}
-                          onChange={(e) => {
-                            setZapTokenToggleB(e.target.checked)
-                          }}
-                        />
-                      )
-                    }
+                    // beforeButton={
+                    //   canZap && (
+                    //     <ZapCheckbox
+                    //       disabled={currencyBalances?.[Field.CURRENCY_B]?.equalTo(0)}
+                    //       checked={zapTokenCheckedB}
+                    //       onChange={(e) => {
+                    //         setZapTokenToggleB(e.target.checked)
+                    //       }}
+                    //     />
+                    //   )
+                    // }
                     onCurrencySelect={handleCurrencyBSelect}
                     disableCurrencySelect={canZap}
                     zapStyle={canZap ? 'zap' : 'noZap'}

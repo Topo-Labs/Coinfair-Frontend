@@ -14,13 +14,13 @@ export function useTotalSupply(token?: Token): TokenAmount | undefined {
 }
 
 export function useTotalSupplyV3(pairs: PairV3[]): (TokenAmount | undefined)[] {
-  const tokens = pairs.map(pair => pair.liquidityToken);
-  const tokenAddresses = tokens.map(token => token?.address);
+  const tokens = pairs?.length && pairs?.map(pair => pair?.liquidityToken);
+  const tokenAddresses = tokens?.length && tokens.map(token => token?.address);
 
   const contracts = useTokenContracts(tokenAddresses, false);
   const totalSupplys = useMultipleCallResults(contracts, 'totalSupply');
 
-  return tokens.map((token, index) => {
+  return tokens?.length && tokens?.map((token, index) => {
     const totalSupplyResult = totalSupplys[index]?.result?.[0];
 
     return token && totalSupplyResult

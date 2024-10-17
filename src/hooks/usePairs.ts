@@ -8,7 +8,7 @@ import { wrappedCurrency } from '../utils/wrappedCurrency';
 
 const PAIR_INTERFACE = new Interface(IPancakePairABI);
 const poolTypes = [1, 2, 3, 4, 5]
-const fees = [3, 5, 10]
+const fees = [1, 3, 5, 10]
 
 export enum PairState {
   LOADING,
@@ -186,7 +186,6 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
       });
     });
   }, [results, processedPairAddresses]); 
-
   
   // useEffect(() => {
   //   pairsData.forEach(([, pair], i) => {
@@ -210,6 +209,9 @@ export function usePair(tokenA?: Currency, tokenB?: Currency): [PairState, Pair 
 
 export function useV3Pair(tokenA?: Currency, tokenB?: Currency) {
   const pairCurrencies = useMemo<[Currency, Currency][]>(() => [[tokenA, tokenB]], [tokenA, tokenB]);
-  const response = useV3Pairs(pairCurrencies)[0].filter((item) => item[1])
+  const allPairs = useV3Pairs(pairCurrencies)
+  const response = allPairs.flatMap(first => 
+    first.filter(second => second[1])
+  )
   return response;
 }

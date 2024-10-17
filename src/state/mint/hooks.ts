@@ -16,7 +16,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { PairState, usePair, useV3Pair } from 'hooks/usePairs'
-import { useTotalSupply } from 'hooks/useTotalSupply'
+import { useTotalSupply, useTotalSupplyV3 } from 'hooks/useTotalSupply'
 import { useGasPrice } from 'state/user/hooks'
 import { useAmmType } from 'state/amm/hooks'
 import { AmmType } from 'state/amm/types'
@@ -77,6 +77,8 @@ export function useMintActionHandlers(noLiquidity: boolean | undefined): {
 export function useDerivedMintInfo(
   currencyA: Currency | undefined,
   currencyB: Currency | undefined,
+  poolType?: number[],
+  fee?: number
 ): {
   dependentField: Field
   currencies: { [field in Field]?: Currency }
@@ -130,8 +132,22 @@ export function useDerivedMintInfo(
   // pair
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
   const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
+  const pairList = pairV3?.length && pairV3.map(pairItem => pairItem[1])
+
+  // console.log(pairV3, poolType, fee, pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined)
+
+  const pairData = pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined
+
+  // const pairState = pairData ? pairData[0] : false
+  // const pair = pairData ? pairData[1] : null
+
+  // console.log(poolType, fee, pair, 'pairpairpair:::')
 
   const totalSupply = useTotalSupply(pair?.liquidityToken)
+
+  const totalV3 = useTotalSupplyV3(pairList)
+
+  // console.log(totalV3?.length && totalV3.map(item => item.toSignificant(4)))
 
   const noLiquidity: boolean =
     pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, BIG_INT_ZERO))
@@ -205,8 +221,8 @@ export function useDerivedMintInfo(
       if (tokenA && tokenB && wrappedIndependentAmount && pair) {
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA;
         const dependentTokenAmount = dependentField === Field.CURRENCY_B
-          ? pair.priceOf(tokenA).quote(wrappedIndependentAmount)
-          : pair.priceOf(tokenB).quote(wrappedIndependentAmount);
+          ? pair?.priceOf(tokenA).quote(wrappedIndependentAmount)
+          : pair?.priceOf(tokenB).quote(wrappedIndependentAmount);
   
         if (Number(dependentTokenAmount.raw) === 0 || Number(dependentTokenAmount.raw) < 0) {
           console.warn("Out amount calculation resulted in a zero or negative value.");
@@ -265,7 +281,7 @@ export function useDerivedMintInfo(
       return undefined
     }
     const wrappedCurrencyA = wrappedCurrency(currencyA, chainId)
-    return pair && wrappedCurrencyA ? pair.priceOf(wrappedCurrencyA).divide(multiply) : undefined
+    return pair && wrappedCurrencyA ? pair?.priceOf(wrappedCurrencyA).divide(multiply) : undefined
   }, [chainId, currencyA, currencyB, noLiquidity, pair, parsedAmounts, divide, multiply])
   // liquidity minted
   const liquidityMinted = useMemo(() => {
@@ -276,7 +292,7 @@ export function useDerivedMintInfo(
     ]
     if (pair && totalSupply && tokenAmountA && tokenAmountB) {
       try {
-        return pair.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
+        return pair?.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
       } catch (error) {
         console.error(error)
         return undefined

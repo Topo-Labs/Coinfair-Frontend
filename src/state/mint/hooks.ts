@@ -77,8 +77,8 @@ export function useMintActionHandlers(noLiquidity: boolean | undefined): {
 export function useDerivedMintInfo(
   currencyA: Currency | undefined,
   currencyB: Currency | undefined,
-  poolType?: number[],
-  fee?: number
+  contractListMap?: any,
+  feeType?: number
 ): {
   dependentField: Field
   currencies: { [field in Field]?: Currency }
@@ -131,26 +131,39 @@ export function useDerivedMintInfo(
 
   // pair
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
-  const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
-  const pairList = pairV3?.length && pairV3.map(pairItem => pairItem[1])
+  // const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
+  // const pairList = pairV3?.length && pairV3.map(pairItem => pairItem[1])
 
   // console.log(pairV3, poolType, fee, pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined)
 
-  const pairData = pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined
+  // const pairData = pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined
 
   // const pairState = pairData ? pairData[0] : false
   // const pair = pairData ? pairData[1] : null
 
   // console.log(poolType, fee, pair, 'pairpairpair:::')
 
-  const totalSupply = useTotalSupply(pair?.liquidityToken)
+  const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
 
-  const totalV3 = useTotalSupplyV3(pairList)
+  const pairCurrent = pairV3?.length ? pairV3.find(item => {
+    if (contractListMap[ammType].includes(item[1].poolType) && feeType === item[1].fee) {
+      return item
+    }
+  }) : undefined
+
+  const pairData = pairCurrent ? pairCurrent[1] : undefined
+  const pairStateData = pairCurrent ? PairState.EXISTS : PairState.NOT_EXISTS
+
+  console.log(pairData)
+
+  const totalSupply = useTotalSupply(pairData?.liquidityToken)
+
+  // const totalV3 = useTotalSupplyV3(pairList)
 
   // console.log(totalV3?.length && totalV3.map(item => item.toSignificant(4)))
 
   const noLiquidity: boolean =
-    pairState === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, BIG_INT_ZERO))
+    pairStateData === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, BIG_INT_ZERO))
 
   // balances
   const balances = useCurrencyBalances(account ?? undefined, [
@@ -218,11 +231,11 @@ export function useDerivedMintInfo(
       const wrappedIndependentAmount = wrappedCurrencyAmount(independentAmount, chainId);
       const [tokenA, tokenB] = [wrappedCurrency(currencyA, chainId), wrappedCurrency(currencyB, chainId)];
       
-      if (tokenA && tokenB && wrappedIndependentAmount && pair) {
+      if (tokenA && tokenB && wrappedIndependentAmount && pairData) {
         const dependentCurrency = dependentField === Field.CURRENCY_B ? currencyB : currencyA;
         const dependentTokenAmount = dependentField === Field.CURRENCY_B
-          ? pair?.priceOf(tokenA).quote(wrappedIndependentAmount)
-          : pair?.priceOf(tokenB).quote(wrappedIndependentAmount);
+          ? pairData?.priceOf(tokenA).quote(wrappedIndependentAmount)
+          : pairData?.priceOf(tokenB).quote(wrappedIndependentAmount);
   
         if (Number(dependentTokenAmount.raw) === 0 || Number(dependentTokenAmount.raw) < 0) {
           console.warn("Out amount calculation resulted in a zero or negative value.");
@@ -243,7 +256,7 @@ export function useDerivedMintInfo(
     currencyA,
     chainId,
     currencyB,
-    pair,
+    pairData,
     customPrice,
     divide,
     multiply
@@ -270,7 +283,7 @@ export function useDerivedMintInfo(
       }
     }
     return undefined
-  }, [chainId, currencyA, noLiquidity, pair, parsedAmounts, divide, multiply])
+  }, [chainId, currencyA, noLiquidity, pairData, parsedAmounts, divide, multiply])
 
   const price = useMemo(() => {
     if (noLiquidity) {
@@ -281,8 +294,8 @@ export function useDerivedMintInfo(
       return undefined
     }
     const wrappedCurrencyA = wrappedCurrency(currencyA, chainId)
-    return pair && wrappedCurrencyA ? pair?.priceOf(wrappedCurrencyA).divide(multiply) : undefined
-  }, [chainId, currencyA, currencyB, noLiquidity, pair, parsedAmounts, divide, multiply])
+    return pairData && wrappedCurrencyA ? pairData?.priceOf(wrappedCurrencyA).divide(multiply) : undefined
+  }, [chainId, currencyA, currencyB, noLiquidity, pairData, parsedAmounts, divide, multiply])
   // liquidity minted
   const liquidityMinted = useMemo(() => {
     const { [Field.CURRENCY_A]: currencyAAmount, [Field.CURRENCY_B]: currencyBAmount } = parsedAmounts
@@ -290,16 +303,16 @@ export function useDerivedMintInfo(
       wrappedCurrencyAmount(currencyAAmount, chainId),
       wrappedCurrencyAmount(currencyBAmount, chainId),
     ]
-    if (pair && totalSupply && tokenAmountA && tokenAmountB) {
+    if (pairData && totalSupply && tokenAmountA && tokenAmountB) {
       try {
-        return pair?.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
+        return pairData?.getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB)
       } catch (error) {
         console.error(error)
         return undefined
       }
     }
     return undefined
-  }, [parsedAmounts, chainId, pair, totalSupply])
+  }, [parsedAmounts, chainId, pairData, totalSupply])
 
   const poolTokenPercentage = useMemo(() => {
     if (liquidityMinted && totalSupply) {
@@ -343,8 +356,8 @@ export function useDerivedMintInfo(
   return {
     dependentField,
     currencies,
-    pair,
-    pairState,
+    pair: pairData,
+    pairState: pairStateData,
     currencyBalances,
     parsedAmounts,
     price,

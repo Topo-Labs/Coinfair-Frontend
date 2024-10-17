@@ -142,6 +142,16 @@ export default function AddLiquidity() {
 
   const pairV3 = useV3Pair(currencyA ?? undefined, currencyB ?? undefined)
 
+  // const pairCurrent = pairV3?.length ? pairV3.find(item => {
+  //   if (contractListMap[ammType].includes(item[1].poolType) && feeType === item[1].fee) {
+  //     return item
+  //   }
+  // }) : undefined
+
+  // const pairData = pairCurrent ? pairCurrent[1] : undefined
+
+  // console.log(pairData)
+
   useEffect(() => {
     if (!currencyIdA && !currencyIdB) {
       dispatch(resetMintState())
@@ -172,7 +182,7 @@ export default function AddLiquidity() {
     error,
     addError,
     myPrice,
-  } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined, contractListMap[ammType], feeType)
+  } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined, contractListMap, feeType)
 
   const poolData = useLPApr(pair)
   const { targetRef, tooltip, tooltipVisible } = useTooltip(
@@ -647,7 +657,7 @@ export default function AddLiquidity() {
                     </div> : null
                 }
               </Text>
-              {!pair && !poolData && <FeeRate feeType={feeType} setFeeType={setFeeType} feeTypes={feeTypes} />}
+              <FeeRate feeType={feeType} setFeeType={setFeeType} feeTypes={feeTypes} />
               <AutoColumn gap="20px">
                 {noLiquidity && (
                   <PriceInputPanel
@@ -946,7 +956,7 @@ export default function AddLiquidity() {
       {!(addIsUnsupported || addIsWarning) ? (
         pair && !noLiquidity && pairState !== PairState.INVALID ? (
           <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
-            <MinimalPositionCard showUnwrapped={oneCurrencyIsWBNB} pair={pair} />
+            <MinimalPositionCard showUnwrapped={oneCurrencyIsWBNB} pair={pair} pairV3={[pair]} />
           </AutoColumn>
         ) : null
       ) : (

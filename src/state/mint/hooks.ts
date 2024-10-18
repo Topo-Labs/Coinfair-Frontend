@@ -149,6 +149,7 @@ export function useDerivedMintInfo(
     if (contractListMap[ammType].includes(item[1].poolType) && feeType === item[1].fee) {
       return item
     }
+    return undefined
   }) : undefined
 
   const pairData = pairCurrent ? pairCurrent[1] : undefined

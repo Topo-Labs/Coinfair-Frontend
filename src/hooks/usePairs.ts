@@ -85,7 +85,7 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
   return pairsData as any;
 }
 
-export function useV3Pairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, Pair | null][] {
+export function useV3Pairs(currencies: [Currency | undefined, Currency | undefined][]): [PairState, PairV3 | null][] {
   const { chainId } = useActiveWeb3React();
 
   const tokens = useMemo(

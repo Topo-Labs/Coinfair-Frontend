@@ -154,8 +154,6 @@ export function useDerivedMintInfo(
   const pairData = pairCurrent ? pairCurrent[1] : undefined
   const pairStateData = pairCurrent ? PairState.EXISTS : PairState.NOT_EXISTS
 
-  console.log(pairData)
-
   const totalSupply = useTotalSupply(pairData?.liquidityToken)
 
   // const totalV3 = useTotalSupplyV3(pairList)

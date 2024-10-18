@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { BigNumber } from '@ethersproject/bignumber';
 import { isTradeBetter } from 'utils/trades';
 import { Currency, CurrencyAmount, Pair, PairV3, Token, Trade } from '@pancakeswap/sdk';
 import flatMap from 'lodash/flatMap';
@@ -74,7 +75,7 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
       });
   }, [tokenA, tokenB, bases, basePairs, chainId]);
 
-  function isExistsPair(result: any): result is [PairState.EXISTS, Pair] {
+  function isExistsPair(result: any): result is [PairState.EXISTS, PairV3] {
     return result[0] === PairState.EXISTS && !!result[1];
   }
 
@@ -85,7 +86,6 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
   const allV3Pairs = useV3Pairs(allPairCombinations).map((group) =>
     group.filter(isExistsPair)
   );
-
   // const validPairAddresses = allPairs.map(([, pair]) => Pair.getAddress(pair.token0, pair.token1));
   
   const validPairV3Addresses = allV3Pairs.flatMap((group) =>
@@ -103,7 +103,7 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
   );
 
   // const exponentsResult = useMultipleContractSingleData(validPairAddresses, PAIR_INTERFACE, 'getExponents');
-  const exponentsResultV3 = useMultipleContractSingleData(validPairV3Addresses, PAIR_INTERFACE, 'getExponents');
+  // const exponentsResultV3 = useMultipleContractSingleData(validPairV3Addresses, PAIR_INTERFACE, 'getExponents');
   
   // exponentsResult.forEach((result, i) => {
   //   const { result: exponents, loading } = result;
@@ -117,19 +117,37 @@ export function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): P
   //   }
   // });
 
-  const exponentsV3 = exponentsResultV3.filter(item => item.result !== undefined)
+  // const exponentsV3 = exponentsResultV3.filter(item => item.result !== undefined)
 
-  allV3Pairs[0]?.forEach((group, groupIndex) => {
-    const results = exponentsV3[groupIndex];
-    if (results?.loading || !results?.result) {
-      group[1]?.setExponents('100', '100')
-    } else {
-      const [exponent0, exponent1] = Array.isArray(results?.result)
-        ? results.result
-        : [results.result.exponent0, results.result.exponent0];
-        group[1]?.setExponents(exponent0.toString(), exponent1.toString());
-    }
-  })
+  allV3Pairs.forEach(pairs => {
+    pairs.forEach(group => {
+      switch (group[1]?.poolType) {
+        case 2:
+          group[1].setExponents(BigNumber.from(32).toString(), BigNumber.from(8).toString())
+          break;
+
+        case 3:
+          group[1].setExponents(BigNumber.from(8).toString(), BigNumber.from(32).toString())
+          break;
+
+        case 4:
+          group[1].setExponents(BigNumber.from(32).toString(), BigNumber.from(1).toString())
+          break;
+
+        case 5:
+          group[1].setExponents(BigNumber.from(1).toString(), BigNumber.from(32).toString())
+          break;
+
+        case 1:
+          group[1].setExponents(BigNumber.from(32).toString(), BigNumber.from(32).toString())
+          break;
+
+        default:
+          group[1].setExponents('100', '100')
+          break;
+      }
+    })
+  });
 
   // 类型守卫函数，确保 pairEntry 是 [PairState, PairV3] 结构
   function isValidPairEntry(entry: any): entry is [PairState, PairV3] {

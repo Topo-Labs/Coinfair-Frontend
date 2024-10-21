@@ -5,7 +5,6 @@ import SocialLinks from "./Components/SocialLinks";
 
 export const StyledFooter = styled(Flex)`
   background: #fff;
-  box-shadow: -2px -2px 10px #eeeeee;
   /* border-radius: 8px */
 `;
 

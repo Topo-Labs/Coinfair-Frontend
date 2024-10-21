@@ -60,11 +60,15 @@ import {
 import CircleLoader from '../../components/Loader/CircleLoader'
 import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
-import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
+import { StyledInputCurrencyWrapper, StyledSwapContainer, BTC, USDC, Binance, ETH, USDT, ADA, Slogen, SlogenLine } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
 import ImportTokenWarningModal from '../../components/ImportTokenWarningModal'
 import { CommonBasesType } from '../../components/SearchModal/types'
 import { swapFormulaList } from '../../utils'
+
+const SwapPage = styled(Page)`
+  position: relative;
+`
 
 const Label = styled(Text)`
   font-size: 12px;
@@ -413,11 +417,15 @@ export default function Swap() {
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
   return (
-    <Page>
+    <SwapPage>
       <Flex width="100%" justifyContent="center" position="relative">
         <Flex flexDirection="column">
           <StyledSwapContainer $isChartExpanded={false}>
             <StyledInputCurrencyWrapper mt="0">
+              <Slogen>
+                <SlogenLine>Trade in deep</SlogenLine>
+                <SlogenLine>Rewards you keep</SlogenLine>
+              </Slogen>
               <AppBody>
                 <CurrencyInputHeader
                   title={t('Swap')}
@@ -662,6 +670,24 @@ export default function Swap() {
         </Flex>
       </Flex>
       <Airdop />
-    </Page>
+      <BTC>
+        <img src="/images/coins/BTC.svg" alt="" />
+      </BTC>
+      <USDC>
+        <img src="/images/coins/USDC.svg" alt="" />
+      </USDC>
+      <Binance>
+        <img src="/images/coins/Binance.svg" alt="" />
+      </Binance>
+      <ETH>
+        <img src="/images/coins/ETH.svg" alt="" />
+      </ETH>
+      <USDT>
+        <img src="/images/coins/USDT.svg" alt="" />
+      </USDT>
+      <ADA>
+        <img src="/images/coins/ADA.svg" alt="" />
+      </ADA>
+    </SwapPage>
   )
 }

@@ -1,6 +1,14 @@
 import { Button } from '@pancakeswap/uikit';
 import styled, { useTheme } from 'styled-components';
 
+export const EarnContainer = styled.div`
+  padding: 0 100px;
+`
+
+export const EarnStep = styled.div`
+  
+`
+
 export const Circle = styled.div`
   margin: 0 auto;
   display: flex;

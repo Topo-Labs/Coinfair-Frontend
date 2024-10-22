@@ -35,6 +35,9 @@ export const Slogen = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 86px;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const SlogenLine = styled.div`
@@ -42,12 +45,18 @@ export const SlogenLine = styled.div`
   font-weight: 900;
   height: 48px;
   white-space: nowrap;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const Coin = styled.div`
   border-radius: 100%;
   box-shadow: 0 4px 8px 1px #f2f2f2;
   background: #fff;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const BTC = styled(Coin)`
@@ -61,6 +70,9 @@ export const BTC = styled(Coin)`
   top: 30%;
   animation: ${floatAnimation} 4s ease-in-out infinite;
   animation-delay: ${Math.random()}s;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const USDC = styled(Coin)`
@@ -72,8 +84,11 @@ export const USDC = styled(Coin)`
   position: absolute;
   left: 10%;
   top: 50%;
-  animation: ${floatAnimation} 4s ease-in-out infinite;
+  animation: ${floatAnimation} 4.5s ease-in-out infinite;
   animation-delay: ${Math.random()}s;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const Binance = styled(Coin)`
@@ -85,8 +100,11 @@ export const Binance = styled(Coin)`
   position: absolute;
   left: 25%;
   top: 70%;
-  animation: ${floatAnimation} 4s ease-in-out infinite;
+  animation: ${floatAnimation} 5s ease-in-out infinite;
   animation-delay: ${Math.random()}s;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const ETH = styled(Coin)`
@@ -98,8 +116,11 @@ export const ETH = styled(Coin)`
   position: absolute;
   right: 20%;
   top: 30%;
-  animation: ${floatAnimation} 4s ease-in-out infinite;
+  animation: ${floatAnimation} 4.3s ease-in-out infinite;
   animation-delay: ${Math.random()}s;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const USDT = styled(Coin)`
@@ -111,8 +132,11 @@ export const USDT = styled(Coin)`
   position: absolute;
   right: 10%;
   top: 50%;
-  animation: ${floatAnimation} 4s ease-in-out infinite;
+  animation: ${floatAnimation} 4.8s ease-in-out infinite;
   animation-delay: ${Math.random()}s;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `
 
 export const ADA = styled(Coin)`
@@ -124,6 +148,9 @@ export const ADA = styled(Coin)`
   position: absolute;
   right: 20%;
   top: 75%;
-  animation: ${floatAnimation} 4s ease-in-out infinite;
+  animation: ${floatAnimation} 5.2s ease-in-out infinite;
   animation-delay: ${Math.random()}s;
+  @media screen and (max-width: 968px) {
+    display: none;
+  }
 `

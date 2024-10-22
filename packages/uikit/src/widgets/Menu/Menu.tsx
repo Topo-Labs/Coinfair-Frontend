@@ -194,7 +194,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
           <StyledNav>
             <Flex>
-              <Logo isDark={isDark} href={homeLink?.href ?? "/"} />
+              <Logo isDark={isDark} href={"/swap"} />
             </Flex>
             <HeaderNav>
               <Flex>
@@ -243,7 +243,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           <StyledWrapper />
         )}
 
-        <BodyWrapper mt={isDesktop && !location.pathname.startsWith('/swap') ? `${totalTopMenuHeight + 56}px` : "0"}>
+        <BodyWrapper mt={isDesktop && !location.pathname.startsWith('/swap') && !location.pathname.startsWith('/') ? `${totalTopMenuHeight + 56}px` : "0"}>
           {
             !isDesktop && !location.pathname.startsWith('/earn') &&
             <XwarnMobile>

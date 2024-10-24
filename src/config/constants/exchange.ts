@@ -1,6 +1,6 @@
 import { ChainId, JSBI, Percent, Token } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
-import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken } from './tokens'
+import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens } from './tokens'
 import { ChainTokenList } from './types'
 
 export const ROUTER_ADDRESS = {
@@ -11,6 +11,10 @@ export const ROUTER_ADDRESS = {
   [ChainId.opBNB]: {
     hot: '0x426f2a4665E1304710C1A0615084d0548b1E8f77',
     warm: '0x26f29d8ca2a6454Ec2f748c16455De7653259E05',
+  },
+  [ChainId.BASE]: {
+    hot: '0x5A5aeDBA5b459703bb6Fbb4AB3864590af7a3FAA',
+    warm: '0x85B48cB8c3b6Bdfec1382430E979Bf7C9dD7Eb53',
   },
   [ChainId.SCROLL_TESTNET]: '0xDC80625F25C2d78082F78610eEAC7dc28b5259F2',
   [ChainId.SCROLL]: '0x95074bFCC3bF400E6De39cd553e3b51Bd7619925'
@@ -23,7 +27,8 @@ export const AIRDOP_ADDRESS = {
 
 export const MINT_ADDRESS = {
   [ChainId.BSC_TESTNET]: '0x0FDD73F79Bcb84Ac6c81805b50A452a61Bb0B2Cc',
-  [ChainId.opBNB]: '0xd4E58e5f5Ec6a6B9675206C2d002E551C83a3050'
+  [ChainId.opBNB]: '0xd4E58e5f5Ec6a6B9675206C2d002E551C83a3050',
+  [ChainId.BASE]: '0xd5A318354EafB96103D74B0B8577a2C18532bd05'
 }
 
 export const HAND_NFT_ADDRESS = {
@@ -43,6 +48,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
     bscTokens.usdc,
     bscTokens.pv
   ],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.testToken, bscTestnetTokens.testToken1],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
@@ -81,6 +87,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
   [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
@@ -96,6 +103,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
   [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]

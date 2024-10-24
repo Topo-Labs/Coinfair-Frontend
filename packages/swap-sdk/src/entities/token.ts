@@ -99,6 +99,14 @@ export const WBNB = {
     'WBNB',
     'https://www.binance.org'
   ),
+  [ChainId.BASE]: new Token(
+    ChainId.BASE,
+    '0x4200000000000000000000000000000000000006',
+    18,
+    'WETH',
+    'WETH',
+    'https://www.base.org'
+  ),
   [ChainId.BSC_TESTNET]: new Token(
     ChainId.BSC_TESTNET,
     '0x1d3833550c06Ba47E93c0e7FFf5f16Fb1163873F',
@@ -146,6 +154,7 @@ export const WNATIVE = {
   // [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
   [ChainId.GOERLI]: WBNB[ChainId.GOERLI],
   [ChainId.BSC]: WBNB[ChainId.BSC],
+  [ChainId.BASE]: WBNB[ChainId.BASE],
   [ChainId.BSC_TESTNET]: WBNB[ChainId.BSC_TESTNET],
   [ChainId.ARB_TESTNET]: WBNB[ChainId.ARB_TESTNET],
   [ChainId.opBNB]: WBNB[ChainId.opBNB],

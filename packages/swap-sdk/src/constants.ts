@@ -7,6 +7,7 @@ export enum ChainId {
   ETHEREUM = 1,
   GOERLI = 5,
   BSC = 56,
+  BASE = 8453,
   opBNB = 204,
   BSC_TESTNET = 97,
   ARB_TESTNET = 421613,
@@ -31,6 +32,7 @@ export enum Rounding {
 export const FACTORY_ADDRESS_MAP = {
   [ChainId.GOERLI]: '0xa373C0460cD7c1A355E07a004c8f8651aDE8a3d3',
   [ChainId.BSC]: '0xD4EBc57fA5635EC1160F80962d935d44DdCED916',
+  [ChainId.BASE]: '0x9c8f98266b7fd4de31517d8f8a0d0C2348D86745',
   [ChainId.BSC_TESTNET]: '0x0c5843163d0Fbe1c3106C5f96f202ca08D91F4b7',
   [ChainId.ARB_TESTNET]: '0x6941CD0d6EF3E4c1294b85fe6EF275AA6C4691fb',
   [ChainId.ZKSYNC]: '',
@@ -42,6 +44,7 @@ export const FACTORY_ADDRESS_MAP = {
 export const INIT_CODE_HASH_MAP = {
   [ChainId.GOERLI]: '0xbd6e9c8068984bfca91aed95f2f98658a71e81a7e6fdc3ee14a32e18282b6fd6',
   [ChainId.BSC]: '0xa128b758fe3db46bdb4f32a8deaf22bbaa0a7b6f3cbaff9500cd9bc5aa31b595',
+  [ChainId.BASE]: '0xb7fde8b9e0ff237f62ccaae3ea471e700e7e6b0d4feeb2391acf57ca0a3f41b8',
   [ChainId.BSC_TESTNET]: '0x9d15c1fe3a61ecfd4282672e26382de61be672a5316cfef0c6362c7898c7b6d7',
   [ChainId.ARB_TESTNET]: '0xddb43bdccbba1a5f8ed99fdaccbafbcb4292989533b27066454dccc7f50ff467',
   [ChainId.opBNB]: '0x57b1cf0d398e777c9cb81a91d310ddecfdc1baea29793572fa76615692b6ba8b',
@@ -51,6 +54,7 @@ export const INIT_CODE_HASH_MAP = {
 
 export const TREASURY_ADDRESS = {
   [ChainId.opBNB]: '0x0f517d44d2E99869153388Eb62D8d332Ee97055A',
+  [ChainId.BASE]: '0x6EAc048a5f6358c8383Eb2a878f2a9B06B0c0b7E',
 }
 
 export const MINIMUM_LIQUIDITY = JSBI.BigInt(1000);

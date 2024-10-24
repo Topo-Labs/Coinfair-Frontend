@@ -312,108 +312,115 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
   };  
 
   return (
-    <Card {...props}>
-      <Flex justifyContent="space-between" role="button" onClick={() => setShowMore(!showMore)} p="16px">
-        <Flex flexDirection="column">
-          <Flex alignItems="center" mb="4px">
-            <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={25} />
-            <Text bold ml="8px">
-              {!currency0 || !currency1 ? <Dots>{t('Loading')}</Dots> : `${currency0.symbol}/${currency1.symbol}`}
-            </Text>
-            <TypeInfo>{renderTypeInfo()}</TypeInfo>
-          </Flex>
-          <Text fontSize="14px" color="textSubtle">
-            {userPoolBalance?.toSignificant(4)}
-          </Text>
-          {Number.isFinite(totalUSDValue) && (
-            <Text small color="textSubtle">{`(~${totalUSDValue.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })} USD)`}</Text>
-          )}
-        </Flex>
-        {showMore ? <ChevronUpIcon /> : <ChevronDownIcon />}
-      </Flex>
-
-      {showMore && (
-        <AutoColumn gap="8px" style={{ padding: '16px' }}>
-          <FixedHeightRow>
-            <RowFixed>
-              <CurrencyLogo size="20px" currency={currency0} />
-              <Text color="textSubtle" ml="4px">
-                {t('Pooled %asset%', { asset: currency0.symbol })}:
-              </Text>
-            </RowFixed>
-            {token0Deposited ? (
-              <RowFixed>
-                <Text ml="6px">{token0Deposited?.toSignificant(6)}</Text>
-              </RowFixed>
-            ) : (
-              '-'
-            )}
-          </FixedHeightRow>
-
-          <FixedHeightRow>
-            <RowFixed>
-              <CurrencyLogo size="20px" currency={currency1} />
-              <Text color="textSubtle" ml="4px">
-                {t('Pooled %asset%', { asset: currency1.symbol })}:
-              </Text>
-            </RowFixed>
-            {token1Deposited ? (
-              <RowFixed>
-                <Text ml="6px">{token1Deposited?.toSignificant(6)}</Text>
-              </RowFixed>
-            ) : (
-              '-'
-            )}
-          </FixedHeightRow>
-
-          {poolData && (
-            <FixedHeightRow>
-              <RowFixed>
-                <TooltipText ref={targetRef} color="textSubtle">
-                  {t('LP reward APR')}:
-                </TooltipText>
-                {tooltipVisible && tooltip}
-              </RowFixed>
-              <Text>{formatAmount(poolData.lpApr7d)}%</Text>
-            </FixedHeightRow>
-          )}
-
-          <FixedHeightRow>
-            <Text color="textSubtle">{t('Share of Pool')}</Text>
-            <Text>
-              {poolTokenPercentage
-                ? `${poolTokenPercentage.toFixed(2) === '0.00' ? '<0.01' : poolTokenPercentage.toFixed(2)}%`
-                : '-'}
-            </Text>
-          </FixedHeightRow>
-
-          {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, BIG_INT_ZERO) && (
-            <Flex flexDirection="column">
-              <Button
-                as={NextLinkFromReactRouter}
-                to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}/${pair.poolType}/${pair.fee}`}
-                variant="primary"
-                width="100%"
-                mb="8px"
-              >
-                {t('Remove')}
-              </Button>
-              <Button
-                as={NextLinkFromReactRouter}
-                to={`/add/${currencyId(currency0)}/${currencyId(currency1)}/${pair.poolType}/${pair.fee}?step=1`}
-                variant="text"
-                startIcon={<AddIcon color="primary" />}
-                width="100%"
-              >
-                {t('Add liquidity instead')}
-              </Button>
+    <>
+      {
+        userPoolBalance?.toSignificant(4) !== '0' && (
+          <Card {...props}>
+            <Flex justifyContent="space-between" role="button" onClick={() => setShowMore(!showMore)} p="16px">
+              <Flex flexDirection="column">
+                <Flex alignItems="center" mb="4px">
+                  <DoubleCurrencyLogo currency0={currency0} currency1={currency1} size={25} />
+                  <Text bold ml="8px">
+                    {!currency0 || !currency1 ? <Dots>{t('Loading')}</Dots> : `${currency0.symbol}/${currency1.symbol}`}
+                  </Text>
+                  <TypeInfo>{renderTypeInfo()}</TypeInfo>
+                </Flex>
+                <Text fontSize="14px" color="textSubtle">
+                  {userPoolBalance?.toSignificant(4)}
+                </Text>
+                {Number.isFinite(totalUSDValue) && (
+                  <Text small color="textSubtle">{`(~${totalUSDValue.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })} USD)`}</Text>
+                )}
+              </Flex>
+              {showMore ? <ChevronUpIcon /> : <ChevronDownIcon />}
             </Flex>
-          )}
-        </AutoColumn>
-      )}
-    </Card>
+
+            {showMore && (
+              <AutoColumn gap="8px" style={{ padding: '16px' }}>
+                <FixedHeightRow>
+                  <RowFixed>
+                    <CurrencyLogo size="20px" currency={currency0} />
+                    <Text color="textSubtle" ml="4px">
+                      {t('Pooled %asset%', { asset: currency0.symbol })}:
+                    </Text>
+                  </RowFixed>
+                  {token0Deposited ? (
+                    <RowFixed>
+                      <Text ml="6px">{token0Deposited?.toSignificant(6)}</Text>
+                    </RowFixed>
+                  ) : (
+                    '-'
+                  )}
+                </FixedHeightRow>
+
+                <FixedHeightRow>
+                  <RowFixed>
+                    <CurrencyLogo size="20px" currency={currency1} />
+                    <Text color="textSubtle" ml="4px">
+                      {t('Pooled %asset%', { asset: currency1.symbol })}:
+                    </Text>
+                  </RowFixed>
+                  {token1Deposited ? (
+                    <RowFixed>
+                      <Text ml="6px">{token1Deposited?.toSignificant(6)}</Text>
+                    </RowFixed>
+                  ) : (
+                    '-'
+                  )}
+                </FixedHeightRow>
+
+                {poolData && (
+                  <FixedHeightRow>
+                    <RowFixed>
+                      <TooltipText ref={targetRef} color="textSubtle">
+                        {t('LP reward APR')}:
+                      </TooltipText>
+                      {tooltipVisible && tooltip}
+                    </RowFixed>
+                    <Text>{formatAmount(poolData.lpApr7d)}%</Text>
+                  </FixedHeightRow>
+                )}
+
+                <FixedHeightRow>
+                  <Text color="textSubtle">{t('Share of Pool')}</Text>
+                  <Text>
+                    {poolTokenPercentage
+                      ? `${poolTokenPercentage.toFixed(2) === '0.00' ? '<0.01' : poolTokenPercentage.toFixed(2)}%`
+                      : '-'}
+                  </Text>
+                </FixedHeightRow>
+
+                {userPoolBalance && JSBI.greaterThan(userPoolBalance.raw, BIG_INT_ZERO) && (
+                  <Flex flexDirection="column">
+                    <Button
+                      as={NextLinkFromReactRouter}
+                      to={`/remove/${currencyId(currency0)}/${currencyId(currency1)}/${pair.poolType}/${pair.fee}`}
+                      variant="primary"
+                      width="100%"
+                      mb="8px"
+                    >
+                      {t('Remove')}
+                    </Button>
+                    <Button
+                      as={NextLinkFromReactRouter}
+                      to={`/add/${currencyId(currency0)}/${currencyId(currency1)}/${pair.poolType}/${pair.fee}?step=1`}
+                      variant="text"
+                      startIcon={<AddIcon color="primary" />}
+                      width="100%"
+                    >
+                      {t('Add liquidity instead')}
+                    </Button>
+                  </Flex>
+                )}
+              </AutoColumn>
+            )}
+          </Card>
+        )
+      }
+    </>
+    
   )
 }

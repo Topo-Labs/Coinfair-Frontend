@@ -15,6 +15,7 @@ export const SUPPORTED_CHAINS = chainsIdList.filter((chain) => {
   return false
 })
 
+// console.log(SUPPORTED_CHAINS)
 
 export const NetworkSelect = () => {
   const { t } = useTranslation()
@@ -26,17 +27,12 @@ export const NetworkSelect = () => {
       </Box>
       {/* <UserMenuDivider /> */}
       {SUPPORTED_CHAINS.length ? <UserMenuDivider /> : null}
-      {SUPPORTED_CHAINS.map((chain) => {
-        if (chain === '204') {
-          return (
-            <UserMenuItem key={chain} style={{ justifyContent: 'flex-start' }} onClick={() => setupNetwork(parseInt(chain))}>
-              <Image width={24} height={24} src={`/images/chains/${chain}.png`} unoptimized />
-              <Text pl="12px">{NETWORK_CONFIG[chain].name}</Text>
-            </UserMenuItem>
-          )
-        }
-        return ''
-      })}
+      {SUPPORTED_CHAINS.map((chain) => (
+        <UserMenuItem key={chain} style={{ justifyContent: 'flex-start' }} onClick={() => setupNetwork(parseInt(chain))}>
+          <Image width={24} height={24} src={`/images/chains/${chain}.png`} unoptimized />
+          <Text pl="12px">{NETWORK_CONFIG[chain].name}</Text>
+        </UserMenuItem>
+      ))}
     </>
   )
 }
@@ -44,15 +40,15 @@ export const NetworkSelect = () => {
 export const NetworkSwitcher = () => {
   const { chainId } = useActiveWeb3React()
 
-  const opChainId = 204
+  // const opChainId = 204
 
   return (
     chainId ?
       <UserMenu
         mr="8px"
-        avatarSrc={`/images/chains/${opChainId}.png`}
+        avatarSrc={`/images/chains/${chainId}.png`}
         account={
-          NETWORK_CONFIG[SUPPORTED_CHAINS.find(chain => (Number(chain) === Number(opChainId)))]?.name
+          NETWORK_CONFIG[SUPPORTED_CHAINS.find(chain => (Number(chain) === Number(chainId)))]?.name
         }
         ellipsis={false}
       >

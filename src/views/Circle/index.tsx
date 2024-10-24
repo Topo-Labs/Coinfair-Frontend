@@ -5,6 +5,7 @@ import { useTranslation } from '@pancakeswap/localization'
 import useGoogleAnalysis from 'hooks/useGoogleAnalysis'
 import Page from '../Page'
 import MintNft from './components/MintNft'
+import EarnPage from './EarnPage'
 
 const ListWrapper = styled.div`
   width: 100%;
@@ -31,9 +32,10 @@ export default function CircleList() {
 
   return (
     <Page>
-      <ListWrapper>
+      <EarnPage/>
+      {/* <ListWrapper>
         <MintNft/>
-      </ListWrapper>
+      </ListWrapper> */}
     </Page>
   )
 }

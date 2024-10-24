@@ -11,6 +11,7 @@ export enum ChainId {
   // RINKEBY = 4,
   GOERLI = 5,
   BSC = 56,
+  BASE = 8453,
   BSC_TESTNET = 97,
   opBNB = 204,
   ARB_TESTNET = 421613,
@@ -72,6 +73,25 @@ export const NETWORK_CONFIG = {
     multicall: {
       address: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
       blockCreated: 7162653,
+    },
+    testnet: false,
+  },
+  [ChainId.BASE]: {
+    name: 'Base Chain',
+    network: 'Base Network',
+    scanURL: 'https://basescan.org',
+    rpcUrls: [
+      'https://bsc-dataseed1.ninicoin.io',
+      'https://bsc-dataseed1.defibit.io',
+      'https://bsc-dataseed.binance.org',
+    ],
+    scan: 'BaseScan',
+    tokenName: 'BASE_ETH',
+    symbol: 'BASE_ETH',
+    decimals: 18,
+    multicall: {
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      blockCreated: 5022,
     },
     testnet: false,
   },

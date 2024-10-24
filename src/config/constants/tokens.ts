@@ -2663,6 +2663,25 @@ export const scrollToken = {
   ),
 }
 
+export const baseTokens = {
+  WETH: new Token(
+    ChainId.BASE,
+    '0x4200000000000000000000000000000000000006',
+    18,
+    'WETH',
+    'WETH',
+    ''
+  ),
+  USDC: new Token(
+    ChainId.BASE,
+    '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+    18,
+    'USDC',
+    'USDC',
+    ''
+  ),
+}
+
 export const PE = {
   [ChainId.GOERLI]: goerliTokens.pe,
   [ChainId.BSC]: PE_MAINNET,

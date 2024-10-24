@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS, TokenAmount } from '@pancakeswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS, TokenAmount, PairV3 } from '@pancakeswap/sdk'
 import { Contract } from '@ethersproject/contracts'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import TreasuryABI from 'config/abi/Coinfair_Treasury.json'

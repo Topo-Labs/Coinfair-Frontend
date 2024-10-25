@@ -57,25 +57,25 @@ export const NETWORK_CONFIG = {
   //   testnet: false,
   // },
 
-  [ChainId.BSC]: {
-    name: 'BNB Smart Chain',
-    network: 'bsc',
-    scanURL: 'https://bscscan.com',
-    rpcUrls: [
-      'https://bsc-dataseed1.ninicoin.io',
-      'https://bsc-dataseed1.defibit.io',
-      'https://bsc-dataseed.binance.org',
-    ],
-    scan: 'BSCScan',
-    tokenName: 'BNB',
-    symbol: 'BNB',
-    decimals: 18,
-    multicall: {
-      address: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
-      blockCreated: 7162653,
-    },
-    testnet: false,
-  },
+  // [ChainId.BSC]: {
+  //   name: 'BNB Smart Chain',
+  //   network: 'bsc',
+  //   scanURL: 'https://bscscan.com',
+  //   rpcUrls: [
+  //     'https://bsc-dataseed1.ninicoin.io',
+  //     'https://bsc-dataseed1.defibit.io',
+  //     'https://bsc-dataseed.binance.org',
+  //   ],
+  //   scan: 'BSCScan',
+  //   tokenName: 'BNB',
+  //   symbol: 'BNB',
+  //   decimals: 18,
+  //   multicall: {
+  //     address: '0xfF6FD90A470Aaa0c1B8A54681746b07AcdFedc9B',
+  //     blockCreated: 7162653,
+  //   },
+  //   testnet: false,
+  // },
   [ChainId.BASE]: {
     name: 'Base Chain',
     network: 'Base Network',
@@ -95,28 +95,28 @@ export const NETWORK_CONFIG = {
     },
     testnet: false,
   },
-  [ChainId.BSC_TESTNET]: {
-    name: 'BNB Smart Chain Testnet',
-    network: 'bsc-testnet',
-    scanURL: 'https://testnet.bscscan.com',
-    rpcUrls: [
-      'https://bsc-testnet.publicnode.com',
-      'https://data-seed-prebsc-1-s1.binance.org:8545',
-      'https://data-seed-prebsc-2-s1.binance.org:8545'
-    ],
-    scan: 'BSCTestScan',
-    tokenName: 'BNB',
-    symbol: 'BNB',
-    decimals: 18,
-    blockExplorers: {
-      default: { name: 'BscScan', url: 'https://testnet.bscscan.com' },
-    },
-    multicall: {
-      address: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
-      blockCreated: 9759845,
-    },
-    testnet: true,
-  },
+  // [ChainId.BSC_TESTNET]: {
+  //   name: 'BNB Smart Chain Testnet',
+  //   network: 'bsc-testnet',
+  //   scanURL: 'https://testnet.bscscan.com',
+  //   rpcUrls: [
+  //     'https://bsc-testnet.publicnode.com',
+  //     'https://data-seed-prebsc-1-s1.binance.org:8545',
+  //     'https://data-seed-prebsc-2-s1.binance.org:8545'
+  //   ],
+  //   scan: 'BSCTestScan',
+  //   tokenName: 'BNB',
+  //   symbol: 'BNB',
+  //   decimals: 18,
+  //   blockExplorers: {
+  //     default: { name: 'BscScan', url: 'https://testnet.bscscan.com' },
+  //   },
+  //   multicall: {
+  //     address: '0x8F3273Fb89B075b1645095ABaC6ed17B2d4Bc576',
+  //     blockCreated: 9759845,
+  //   },
+  //   testnet: true,
+  // },
   [ChainId.opBNB]: {
     name: 'opBNB Mainnet',
     network: 'opBNB-Mainnet',
@@ -225,23 +225,23 @@ export const NETWORK_CONFIG = {
 //     },
 //     testnet: true,
 //   },
-  [ChainId.SCROLL]: {
-    name: 'Scroll',
-    network: 'Scroll',
-    scanURL: 'https://scrollscan.com/',
-    rpcUrls: [
-      'https://go.getblock.io/caf7aeb78b4447feb91173da91d22ca2'
-    ],
-    scan: 'explorer',
-    decimals: 18,
-    tokenName: 'ETH',
-    symbol: 'ETH',
-    multicall: {
-      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
-      blockCreated: 14,
-    },
-    testnet: false,
-  },
+  // [ChainId.SCROLL]: {
+  //   name: 'Scroll',
+  //   network: 'Scroll',
+  //   scanURL: 'https://scrollscan.com/',
+  //   rpcUrls: [
+  //     'https://go.getblock.io/caf7aeb78b4447feb91173da91d22ca2'
+  //   ],
+  //   scan: 'explorer',
+  //   decimals: 18,
+  //   tokenName: 'ETH',
+  //   symbol: 'ETH',
+  //   multicall: {
+  //     address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+  //     blockCreated: 14,
+  //   },
+  //   testnet: false,
+  // },
 }
 
 // CAKE_PER_BLOCK details
@@ -256,7 +256,7 @@ export const BLOCKS_PER_YEAR = (60 / BSC_BLOCK_TIME) * 60 * 24 * 365 // 10512000
 export const CAKE_PER_YEAR = CAKE_PER_BLOCK * BLOCKS_PER_YEAR
 export const BASE_URL = 'https://equityswap.club'
 export const BASE_ADD_LIQUIDITY_URL = `${BASE_URL}/add`
-export const BASE_BSC_SCAN_URL = NETWORK_CONFIG[ChainId.BSC].scanURL
+export const BASE_BSC_SCAN_URL = NETWORK_CONFIG[ChainId.BASE].scanURL
 export const DEFAULT_TOKEN_DECIMAL = BIG_TEN.pow(18)
 export const DEFAULT_GAS_LIMIT = 250000
 export const AUCTION_BIDDERS_TO_FETCH = 500

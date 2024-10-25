@@ -803,7 +803,7 @@
   "If you purchase a token from this list, you may not be able to sell it back.": "Om du köper en token från denna lista kan du kanske inte sälja tillbaka den.",
   "Import": "Importera",
   "via": "via",
-  "Anyone can create a BEP20 token on BSC with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.": "Vem som helst kan skapa en BEP20-token på BSC med valfritt namn, även falska versioner av befintliga tokens som påstår sig representera projekt som inte har någon token.",
+  "Anyone can create a ERC20 token on BSC with any name, including creating fake versions of existing tokens and tokens that claim to represent projects that do not have a token.": "Vem som helst kan skapa en BEP20-token på BSC med valfritt namn, även falska versioner av befintliga tokens som påstår sig representera projekt som inte har någon token.",
   "If you purchase an arbitrary token, you may be unable to sell it back.": "Om du köper en slumpmässigt utvald token kan du kanske inte sälja tillbaka den.",
   "Unknown Source": "Okänd källa",
   "Lists": "Listor",

@@ -32,6 +32,7 @@ export class Token extends Currency {
    */
   public equals(other: Token): boolean {
     // short circuit on reference equality
+    if (!this || !other) return false;
     if (this === other) {
       return true
     }

@@ -81,13 +81,11 @@ export const NETWORK_CONFIG = {
     network: 'Base Network',
     scanURL: 'https://basescan.org',
     rpcUrls: [
-      'https://bsc-dataseed1.ninicoin.io',
-      'https://bsc-dataseed1.defibit.io',
-      'https://bsc-dataseed.binance.org',
+      'https://mainnet.base.org',
     ],
     scan: 'BaseScan',
-    tokenName: 'BASE_ETH',
-    symbol: 'BASE_ETH',
+    tokenName: 'Base ETH',
+    symbol: 'ETH',
     decimals: 18,
     multicall: {
       address: '0xcA11bde05977b3631167028862bE2a173976CA11',
@@ -135,7 +133,7 @@ export const NETWORK_CONFIG = {
       address: '0x9C63ADb6C88F33317e7405c7a0c1c15cC752f093',
       blockCreated: 9759845,
     },
-    testnet: true,
+    testnet: false,
   },
   // [ChainId.ARB_TESTNET]: {
   //   name: 'ARB Smart Chain Testnet',

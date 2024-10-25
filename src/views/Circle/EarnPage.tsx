@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { NETWORK_CONFIG } from 'utils/wallet'
 import { copyText } from 'utils/copyText';
 import useToast from 'hooks/useToast';
@@ -9,7 +10,6 @@ import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
 import { circleContractAddress, MINT_ABI } from './components/constants';
-import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnClaimTItem, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnTokenIcon, EarnTokenInfo, EarnClaimAmount, EarnAmount, EarnClaimButton, EarnClaimLast, EarnTokenNoLogo, EarnHistoryTHead } from './components/styles';
 
 const history = [

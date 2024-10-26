@@ -32,10 +32,10 @@ export default function CircleList() {
 
   return (
     <Page>
-      <EarnPage/>
-      {/* <ListWrapper>
+      {/* <EarnPage/> */}
+      <ListWrapper>
         <MintNft/>
-      </ListWrapper> */}
+      </ListWrapper>
     </Page>
   )
 }

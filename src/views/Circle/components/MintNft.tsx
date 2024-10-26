@@ -8,7 +8,8 @@ import { Text } from '@pancakeswap/uikit';
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
-import { circleContractAddress, MINT_ABI } from './constants';
+import { MINT_ADDRESS } from 'config/constants/exchange'
+import { MINT_ABI } from './constants';
 import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
@@ -77,12 +78,12 @@ export default function MintNft() {
       }
 
       const provider = new JsonRpcProvider(rpcUrl);
-      if (!isAddress(circleContractAddress)) {
-        console.error('Invalid contract address:', circleContractAddress);
+      if (!isAddress(MINT_ADDRESS[chainId])) {
+        console.error('Invalid contract address:', MINT_ADDRESS[chainId]);
         return;
       }
 
-      const contract = new Contract(circleContractAddress, MINT_ABI, provider);
+      const contract = new Contract(MINT_ADDRESS[chainId], MINT_ABI, provider);
 
       if (!isAddress(account)) {
         console.error('Invalid account address:', account);
@@ -149,7 +150,7 @@ export default function MintNft() {
         return;
       }
 
-      const contract = new Contract(circleContractAddress, MINT_ABI, signer);
+      const contract = new Contract(MINT_ADDRESS[chainId], MINT_ABI, signer);
 
       const cost = await contract.mintCost();
       const totalCost = BigInt(cost.toString()) * BigInt(amount);

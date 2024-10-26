@@ -10,6 +10,7 @@ import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
 import { circleContractAddress, MINT_ABI } from './components/constants';
+import { useClaimHistory } from './useHistory'
 import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnClaimTItem, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnTokenIcon, EarnTokenInfo, EarnClaimAmount, EarnAmount, EarnClaimButton, EarnClaimLast, EarnTokenNoLogo, EarnHistoryTHead } from './components/styles';
 
 const history = [
@@ -42,9 +43,12 @@ const history = [
 
 export default function Earn() {
 
-  const { chainId } = useActiveWeb3React()
+  const { chainId, account } = useActiveWeb3React();
+  const { data: claimData, loading: claimLoading, error: claimError } = useClaimHistory(account);
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [claimedHistory, setClaimedHistory] = useState([]);
+
+  // console.log(claimData, claimLoading, claimError, account)
 
   const getStorageKey = (_chainId: number) => `earnTokens_${_chainId}`;
 

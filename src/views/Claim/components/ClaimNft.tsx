@@ -4,7 +4,8 @@ import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { NETWORK_CONFIG } from 'utils/wallet';
 import useToast from 'hooks/useToast'
-import { circleContractAddress, MINT_ABI } from './constants';
+import { MINT_ADDRESS } from 'config/constants/exchange'
+import { MINT_ABI } from './constants';
 import { ClaimFooter, ClaimHeader, ClaimImg, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress, NftMessage, NftTotal } from './styles';
 
 interface ExtendedEthereum extends ExternalProvider {
@@ -26,7 +27,7 @@ const Claim = () => {
     try {
       const rpcUrl = NETWORK_CONFIG[String(chainId)]?.rpcUrls[0];
       const provider = new JsonRpcProvider(rpcUrl);
-      const contract = new Contract(circleContractAddress, MINT_ABI, provider);
+      const contract = new Contract(MINT_ADDRESS[chainId], MINT_ABI, provider);
 
       const [parentsData, claimCountData] = await Promise.all([
         contract.getTwoParentAddress(account),
@@ -55,14 +56,15 @@ const Claim = () => {
       const web3Provider = new Web3Provider(ethereum);
       const signer = await web3Provider.getSigner();
 
-      const contractInstance = new Contract(circleContractAddress, MINT_ABI, signer);
+      const contractInstance = new Contract(MINT_ADDRESS[chainId], MINT_ABI, signer);
       const balance = await web3Provider.getBalance(await signer.getAddress());
       const cost = await contractInstance.claimCost();
 
-      const feeData = await web3Provider.getFeeData();
-      const totalCost = cost + (feeData.maxFeePerGas ?? 0);
+      const gasPrice = await web3Provider.getGasPrice();
+      const gasLimit = 100000;
+      const totalCost = cost.add(gasPrice.mul(gasLimit));
 
-      if (balance < totalCost) {
+      if (balance.lt(totalCost)) {
         toastError('Failed to claim', 'Insufficient funds to cover gas fees and claim costs.')
         console.error('Insufficient funds to cover gas fees and claim costs.');
         return;
@@ -70,8 +72,8 @@ const Claim = () => {
 
       const tx = await contractInstance.claim(address, {
         value: cost,
-        maxFeePerGas: feeData.maxFeePerGas,
-        maxPriorityFeePerGas: feeData.maxPriorityFeePerGas,
+        gasPrice: gasPrice,
+        gasLimit: gasLimit,
       });
 
       await tx.wait();

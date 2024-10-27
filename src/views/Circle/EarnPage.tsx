@@ -11,6 +11,7 @@ import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/
 import {isAddress} from "@ethersproject/address"
 import { circleContractAddress, MINT_ABI } from './components/constants';
 import { useClaimHistory } from './useHistory'
+import EarnClaimItem from './components/EarnClaimItem';
 import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnClaimTItem, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnTokenIcon, EarnTokenInfo, EarnClaimAmount, EarnAmount, EarnClaimButton, EarnClaimLast, EarnTokenNoLogo, EarnHistoryTHead } from './components/styles';
 
 const history = [
@@ -48,7 +49,7 @@ export default function Earn() {
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [claimedHistory, setClaimedHistory] = useState([]);
 
-  // console.log(claimData, claimLoading, claimError, account)
+  console.log(claimData, claimLoading, claimError, account)
 
   const getStorageKey = (_chainId: number) => `earnTokens_${_chainId}`;
 
@@ -112,7 +113,7 @@ export default function Earn() {
         </EarnStepItem>
       </EarnStep>
       <EarnClaimTable>
-        <EarnClaimTop><EarnTitle>Claim tokens</EarnTitle><EarnClaimImport onClick={() => onPresentCurrencyModal()}>Select else +</EarnClaimImport></EarnClaimTop>
+        <EarnClaimTop><EarnTitle>Claim Rewards</EarnTitle><EarnClaimImport onClick={() => onPresentCurrencyModal()}>Select else +</EarnClaimImport></EarnClaimTop>
         {
           selectedTokens.length > 0 && (
             <EarnClaimTHead>
@@ -127,19 +128,8 @@ export default function Earn() {
         <EarnTBody>
           {
             selectedTokens.length > 0 ? (
-              selectedTokens.map(token =>
-                <EarnClaimTItem>
-                  <EarnTokenInfo>
-                    <EarnTokenIcon>
-                      {token.tokenInfo ? <img src={token.tokenInfo?.logoURI} alt="" /> : <EarnTokenNoLogo>{token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}</EarnTokenNoLogo>}
-                    </EarnTokenIcon>
-                    {token.symbol}
-                  </EarnTokenInfo>
-                  <EarnClaimAmount>12.8</EarnClaimAmount>
-                  <EarnAmount>12.8</EarnAmount>
-                  <EarnAmount>12.8</EarnAmount>
-                  <EarnClaimLast><EarnClaimButton>Claim</EarnClaimButton></EarnClaimLast>
-                </EarnClaimTItem>
+              selectedTokens.map(item =>
+                <EarnClaimItem token={item}/>
               )
             ) : (
               <EarnNoData>
@@ -152,7 +142,7 @@ export default function Earn() {
       </EarnClaimTable>
       <EarnMiddleBox>
         <EarnHistory>
-          <EarnTitle>Claim history</EarnTitle>
+          <EarnTitle>Rewords Pool</EarnTitle>
           {
             !history.length && (
               <EarnHistoryTHead>
@@ -165,8 +155,9 @@ export default function Earn() {
           }
           <EarnTBody>
             {
-              !history.length ? (
-                history.map(hty =>
+              claimData && claimData.collectFees.length ? (
+                claimData.collectFees.map(hty =>
+                  // <EarnClaimTItem></EarnClaimTItem>
                   <></>
                 )
               ) : (
@@ -179,7 +170,7 @@ export default function Earn() {
           </EarnTBody>
         </EarnHistory>
         <EarnHistory>
-          <EarnTitle>Mint history</EarnTitle>
+          <EarnTitle>Mint History</EarnTitle>
           {
             !history.length && (
               <EarnHistoryTHead>

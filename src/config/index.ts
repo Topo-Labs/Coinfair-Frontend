@@ -77,7 +77,7 @@ export const NETWORK_CONFIG = {
   //   testnet: false,
   // },
   [ChainId.BASE]: {
-    name: 'Base Chain',
+    name: 'Base',
     network: 'Base Network',
     scanURL: 'https://basescan.org',
     rpcUrls: [
@@ -116,7 +116,7 @@ export const NETWORK_CONFIG = {
   //   testnet: true,
   // },
   [ChainId.opBNB]: {
-    name: 'opBNB Mainnet',
+    name: 'opBNB',
     network: 'opBNB-Mainnet',
     scanURL: 'https://mainnet.opbnbscan.com',
     rpcUrls: [

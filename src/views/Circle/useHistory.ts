@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { client_claim, CLAIM_HISTORY_DATA } from 'utils/urqlClient';
+import { clientClaim, CLAIM_HISTORY_DATA } from 'utils/urqlClient';
 
 export function useClaimHistory(account: string) {
   const [data, setData] = useState(null);
@@ -10,7 +10,7 @@ export function useClaimHistory(account: string) {
     const fetchClaimHistory = async () => {
       try {
         setLoading(true);
-        const result = await client_claim.query(CLAIM_HISTORY_DATA, { parent: account }).toPromise();
+        const result = await clientClaim.query(CLAIM_HISTORY_DATA, { parent: account }).toPromise();
         if (result.error) {
           setError(result.error);
         } else {

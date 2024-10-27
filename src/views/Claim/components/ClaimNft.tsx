@@ -72,8 +72,8 @@ const Claim = () => {
 
       const tx = await contractInstance.claim(address, {
         value: cost,
-        gasPrice: gasPrice,
-        gasLimit: gasLimit,
+        gasPrice,
+        gasLimit,
       });
 
       await tx.wait();

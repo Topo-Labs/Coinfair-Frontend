@@ -285,6 +285,10 @@ export const EarnHistoryTHead = styled(EarnClaimTHead)`
   margin-top: 25px;
 `
 
+export const EarnHistoryValue = styled.span`
+  
+`
+
 export const EarnFAQ = styled.div`
   border-radius: 16px;
   padding: 28px;

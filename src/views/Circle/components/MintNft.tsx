@@ -10,7 +10,7 @@ import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/
 import {isAddress} from "@ethersproject/address"
 import { MINT_ADDRESS } from 'config/constants/exchange'
 import { MINT_ABI } from './constants';
-import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
+import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, ListWrapper, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -48,6 +48,7 @@ const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => 
 };
 // 定义一个扩展 Eip1193Provider 的接口，包含 on 和 removeListener 方法
 interface ExtendedEthereum extends ExternalProvider {
+  enable: any;
   on?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
   removeListener?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
 }
@@ -134,7 +135,13 @@ export default function MintNft() {
       const ethereum = ((window as any).ethereum) as unknown as ExtendedEthereum;
 
       try {
-        await ethereum.request({ method: 'eth_requestAccounts' });
+        if (ethereum?.request) {
+          await ethereum.request({ method: 'eth_requestAccounts' });
+        } else if (ethereum?.enable) {
+          await ethereum.enable();
+        } else {
+          throw new Error('Unsupported wallet provider.');
+        }
       } catch (requestError) {
         console.error('Failed to request wallet accounts:', requestError);
         setLoading(false);
@@ -190,7 +197,7 @@ export default function MintNft() {
   }
 
   return (
-    <>
+    <ListWrapper>
       <CircleHeader>
         <CircleTitle>Mint & Share NFT</CircleTitle>
       </CircleHeader>
@@ -259,6 +266,6 @@ export default function MintNft() {
         disabled={loading}>
         {loading ? 'Minting...' : 'Mint'}
       </CircleMint>
-    </>
+    </ListWrapper>
   );
 }

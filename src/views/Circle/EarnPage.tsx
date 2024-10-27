@@ -12,6 +12,7 @@ import {isAddress} from "@ethersproject/address"
 import { circleContractAddress, MINT_ABI } from './components/constants';
 import { useClaimHistory } from './useHistory'
 import EarnClaimItem from './components/EarnClaimItem';
+import MintNft from './components/MintNft';
 import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnClaimTItem, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnTokenIcon, EarnTokenInfo, EarnClaimAmount, EarnAmount, EarnClaimButton, EarnClaimLast, EarnTokenNoLogo, EarnHistoryTHead } from './components/styles';
 
 const history = [
@@ -49,7 +50,7 @@ export default function Earn() {
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [claimedHistory, setClaimedHistory] = useState([]);
 
-  console.log(claimData, claimLoading, claimError, account)
+  // console.log(claimData, claimLoading, claimError, account)
 
   const getStorageKey = (_chainId: number) => `earnTokens_${_chainId}`;
 
@@ -73,6 +74,8 @@ export default function Earn() {
 
   const [onPresentCurrencyModal] = useModal(<CurrencySearchModal onCurrencySelect={onCurrencySelect}/>)
 
+  const [onMintNftModal] = useModal(<MintNft/>)
+
   const formatAddress = (address: string) => {
     if (!address) return '';
     const start = address.slice(0, 6);   // 前6位
@@ -94,7 +97,7 @@ export default function Earn() {
           <EarnStepItemTop>step 1<EarnStepItemIcon><img src="/images/step-nft.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
           <EarnStepItemBottom>
             <EarnStepItemWords>MINT referral NFT</EarnStepItemWords>
-            <EarnStepItemButton>Mint NFT</EarnStepItemButton>
+            <EarnStepItemButton onClick={() => onMintNftModal()}>Mint NFT</EarnStepItemButton>
           </EarnStepItemBottom>
         </EarnStepItem>
         <EarnStepItem>

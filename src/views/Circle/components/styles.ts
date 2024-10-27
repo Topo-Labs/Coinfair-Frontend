@@ -300,6 +300,22 @@ export const EarnFAQItem = styled.div`
   border-top: 1px solid #EDEDED;
 `
 
+export const ListWrapper = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  background: #fff;
+  padding: 20px 20px 0 16px;
+  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  border-radius: 20px;
+  z-index: 90;
+  @media (min-width: 1200px) {
+    max-width: 560px;
+  }
+`
+
 export const Circle = styled.div`
   margin: 0 auto;
   display: flex;

@@ -80,7 +80,7 @@ export default function Earn() {
 
   const displayTooltip = () => {
     setIsTooltipDisplayed(true)
-    toastSuccess('Copyied success!', 'You can share link with your friends or circle')
+    toastSuccess('Copyied success!', 'You can share link with your friends and circle')
     setTimeout(() => {
       setIsTooltipDisplayed(false)
     }, 1000)

@@ -39,7 +39,7 @@ const Menu = (props) => {
       }}
       rightSide={
         <>
-          <GlobalSettings2 mode={SettingsMode.GLOBAL} />
+          {/* <GlobalSettings2 mode={SettingsMode.GLOBAL} /> */}
           <NetworkSwitcher />
           <UserMenu />
         </>

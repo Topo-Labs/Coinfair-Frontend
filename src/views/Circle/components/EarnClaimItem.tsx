@@ -4,7 +4,7 @@ import { formatUnits } from '@ethersproject/units';
 import { TREASURY_ADDRESS } from '@pancakeswap/sdk';
 import TreasuryABI from '@pancakeswap/sdk/src/abis/Coinfair_Treasury.json';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
-import { EarnAmount, EarnClaimAmount, EarnClaimButton, EarnClaimLast, EarnClaimTItem, EarnTokenIcon, EarnTokenInfo, EarnTokenNoLogo } from './styles';
+import { EarnAmountTotal, EarnClaimAmount, EarnClaimButton, EarnClaimedAomunt, EarnClaimLast, EarnClaimTItem, EarnTokenIcon, EarnTokenInfo, EarnTokenNoLogo } from './styles';
 
 export default function EarnClaimItem({ token }) {
   const { chainId, account, library } = useActiveWeb3React();
@@ -86,8 +86,8 @@ export default function EarnClaimItem({ token }) {
         {token.symbol}
       </EarnTokenInfo>
       <EarnClaimAmount>{claimPending}</EarnClaimAmount>
-      <EarnAmount>{claimAmount}</EarnAmount>
-      <EarnAmount>{claimTotal}</EarnAmount>
+      <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
+      <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
       <EarnClaimLast>
         <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
       </EarnClaimLast>

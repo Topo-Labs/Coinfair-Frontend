@@ -187,6 +187,17 @@ export const EarnTName = styled.span`
   color: #666666;
 `
 
+export const EarnTReward = styled.span`
+  width: 30%;
+  display: flex;
+  font-size: 14px;
+  color: #666666;
+`
+
+export const EarnTTime = styled(EarnTName)`
+  justify-content: flex-end;
+`
+
 export const EarnTOpration = styled.span`
   font-size: 14px;
   color: #666666;
@@ -236,7 +247,7 @@ export const EarnTokenNoLogo = styled.div`
   font-weight: 900;
 `
 
-export const EarnAmount = styled.div`
+export const EarnAmountTotal = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
@@ -245,7 +256,12 @@ export const EarnAmount = styled.div`
   font-weight: 500;
 `
 
-export const EarnClaimAmount = styled(EarnAmount)`
+export const EarnClaimedAomunt = styled(EarnAmountTotal)`
+  flex: 1;
+  color: #999999;
+`
+
+export const EarnClaimAmount = styled(EarnAmountTotal)`
   color: #0DAE6F;
   flex: 1;
 `
@@ -286,7 +302,23 @@ export const EarnHistoryTHead = styled(EarnClaimTHead)`
 `
 
 export const EarnHistoryValue = styled.span`
-  
+  display: flex;
+  align-items: center;
+  flex: 1;
+  color: #000;
+  font-size: 14px;
+`
+
+export const EarnHistoryReward = styled.span`
+  display: flex;
+  align-items: center;
+  width: 30%;
+  color: #0DAE6F;
+  font-size: 14px;
+`
+
+export const EarnHistoryTime = styled(EarnHistoryValue)`
+  justify-content: flex-end;
 `
 
 export const EarnFAQ = styled.div`

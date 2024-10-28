@@ -10,10 +10,11 @@ import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
 import { circleContractAddress, MINT_ABI } from './components/constants';
-import { useClaimHistory } from './useHistory'
+import { useRewardsPool, useMintHistory } from './useHistory'
 import EarnClaimItem from './components/EarnClaimItem';
+import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
-import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnClaimTItem, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnTokenIcon, EarnTokenInfo, EarnClaimAmount, EarnAmount, EarnClaimButton, EarnClaimLast, EarnTokenNoLogo, EarnHistoryTHead } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward } from './components/styles';
 
 const history = [
   {
@@ -47,12 +48,14 @@ export default function Earn() {
 
   const { chainId, account } = useActiveWeb3React();
   const { toastSuccess, toastError } = useToast()
-  const { data: claimData, loading: claimLoading, error: claimError } = useClaimHistory(account);
+  const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(account);
+  const { data: mintData, loading: mintLoading, error: mintError } = useMintHistory(account);
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [claimedHistory, setClaimedHistory] = useState([]);
   const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)
 
   // console.log(claimData, claimLoading, claimError, account)
+  console.log(mintData, mintLoading, mintError, account)
 
   const getStorageKey = (_chainId: number) => `earnTokens_${_chainId}`;
 
@@ -157,21 +160,33 @@ export default function Earn() {
         <EarnHistory>
           <EarnTitle>Rewords Pool</EarnTitle>
           {
-            !history.length && (
+            history.length && (
               <EarnHistoryTHead>
                 <EarnTName>Number</EarnTName>
-                <EarnTName>Claimed amount</EarnTName>
+                <EarnTReward>Claimed amount</EarnTReward>
                 <EarnTName>Address</EarnTName>
-                <EarnTName>Claimed time</EarnTName>
+                <EarnTTime>Claimed time</EarnTTime>
               </EarnHistoryTHead>
             )
           }
           <EarnTBody>
-            {
+            {/* {
               claimData && claimData.collectFees.length ? (
                 claimData.collectFees.map(hty =>
                   // <EarnClaimTItem></EarnClaimTItem>
                   <></>
+                )
+              ) : (
+                <EarnNoData>
+                  <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                  No Data
+                </EarnNoData>
+              )
+            } */}
+            {
+              history.length ? (
+                history.map(hty =>
+                  <EarnRewardItem info={hty}/>
                 )
               ) : (
                 <EarnNoData>

@@ -16,7 +16,8 @@ export const CLAIM_HISTORY_DATA = gql`
     collectFees(first: 10, 
       where: {
         parent: $parent
-      }) {
+      }
+    ) {
       token
       parentAmount
       owner
@@ -25,4 +26,17 @@ export const CLAIM_HISTORY_DATA = gql`
   }
 `;
 
-// export const MINT_HISTORY_DATA = gql``
+export const MINT_HISTORY_DATA = gql`
+  query {
+    claims(first: 5,
+      where: {
+        minter: $minter
+      }
+    ) {
+      id
+      minter
+      claimer
+      blockTimestamp
+    }
+  }
+`

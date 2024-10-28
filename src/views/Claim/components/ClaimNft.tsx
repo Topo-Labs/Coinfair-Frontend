@@ -61,8 +61,10 @@ const Claim = () => {
       const cost = await contractInstance.claimCost();
 
       const gasPrice = await web3Provider.getGasPrice();
-      const gasLimit = 100000;
-      const totalCost = cost.add(gasPrice.mul(gasLimit));
+
+      const estimatedGasLimit = await contractInstance.estimateGas.claim(address, { value: cost });
+
+      const totalCost = cost.add(gasPrice.mul(estimatedGasLimit));
 
       if (balance.lt(totalCost)) {
         toastError('Failed to claim', 'Insufficient funds to cover gas fees and claim costs.')
@@ -73,19 +75,19 @@ const Claim = () => {
       const tx = await contractInstance.claim(address, {
         value: cost,
         gasPrice,
-        gasLimit,
+        gasLimit: estimatedGasLimit,
       });
 
       await tx.wait();
       setClaimCount((prev) => prev + 1);
-      toastSuccess('Success to claim')
+      toastSuccess('Success to claim');
       fetchData(); // 更新状态
 
     } catch (error: any) {
       if (account.toLocaleLowerCase() === address.toLocaleLowerCase()) {
-        toastError('Failed to claim', `Cannot claim your own NFT.`)
+        toastError('Failed to claim', `Cannot claim your own NFT.`);
       } else {
-        toastError('Failed to claim', `${error.message}`)
+        toastError('Failed to claim', `${error.message}`);
       }
       console.error('Claim failed:', error);
     } finally {

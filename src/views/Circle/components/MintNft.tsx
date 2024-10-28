@@ -201,7 +201,6 @@ export default function MintNft() {
       <CircleHeader>
         <CircleTitle>Mint & Share NFT</CircleTitle>
       </CircleHeader>
-
       <CircleNftMain>
         <CircleNft>
           <CircleImg src="/images/circle/nft.svg" alt="NFT" />
@@ -220,7 +219,7 @@ export default function MintNft() {
                   : '--'}
               </span>
             </NftRemain>
-            <CopyMain>
+            {/* <CopyMain>
               <CopyLink title={`https://coinfair.xyz/claim?address=${account}`}>
                 https://coinfair.xyz/claim?address={account}
               </CopyLink>
@@ -237,7 +236,7 @@ export default function MintNft() {
                   Copied
                 </Tooltip>
               </CopyBtn>
-            </CopyMain>
+            </CopyMain> */}
           </NftMessage>
         </CircleNft>
       </CircleNftMain>

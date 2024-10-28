@@ -4,7 +4,7 @@ import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { NETWORK_CONFIG } from 'utils/wallet'
 import { copyText } from 'utils/copyText';
 import useToast from 'hooks/useToast';
-import { FiCopy } from 'react-icons/fi';
+import { FaShare } from "react-icons/fa6";
 import { useModal } from '@pancakeswap/uikit';
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
@@ -46,9 +46,11 @@ const history = [
 export default function Earn() {
 
   const { chainId, account } = useActiveWeb3React();
+  const { toastSuccess, toastError } = useToast()
   const { data: claimData, loading: claimLoading, error: claimError } = useClaimHistory(account);
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [claimedHistory, setClaimedHistory] = useState([]);
+  const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)
 
   // console.log(claimData, claimLoading, claimError, account)
 
@@ -75,6 +77,14 @@ export default function Earn() {
   const [onPresentCurrencyModal] = useModal(<CurrencySearchModal onCurrencySelect={onCurrencySelect}/>)
 
   const [onMintNftModal] = useModal(<MintNft/>)
+
+  const displayTooltip = () => {
+    setIsTooltipDisplayed(true)
+    toastSuccess('Copyied success!', 'You can share link with your friends or circle')
+    setTimeout(() => {
+      setIsTooltipDisplayed(false)
+    }, 1000)
+  }
 
   const formatAddress = (address: string) => {
     if (!address) return '';
@@ -104,7 +114,7 @@ export default function Earn() {
           <EarnStepItemTop>step 2<EarnStepItemIcon><img src="/images/step-share.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
           <EarnStepItemBottom>
             <EarnStepItemWords>Invite friends for your NFT</EarnStepItemWords>
-            <EarnStepItemButton>Mint NFT</EarnStepItemButton>
+            <EarnStepItemButton onClick={() => copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}><FaShare size={20} style={{ marginRight: '20px' }}/>Invite a friend</EarnStepItemButton>
           </EarnStepItemBottom>
         </EarnStepItem>
         <EarnStepItem>

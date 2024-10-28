@@ -336,7 +336,7 @@ export default function CurrencyInputPanel({
               }}
             />
             {/* <Text style={{border: '2px solid #4B5860', padding: '0 8px', borderRadius: '15px', fontSize: '12px'}}>MAX</Text> */}
-            {/* {account && currency && !disabled && showMaxButton && label !== 'To' && (
+            {account && currency && !disabled && showMaxButton && label !== 'To' && (
               <Button
                 onClick={onMax}
                 scale="xs"
@@ -348,8 +348,8 @@ export default function CurrencyInputPanel({
               >
                 {t('Max').toLocaleUpperCase(locale)}
               </Button>
-            )} */}
-            {account && currency && !disabled && showWithDraw && (
+            )}
+            {/* {account && currency && !disabled && showWithDraw && (
               <ClaimButton
                 onClick={handleClaimToken}
                 scale="xs"
@@ -362,7 +362,7 @@ export default function CurrencyInputPanel({
               >
                 {isClaiming ? 'Claiming...' : 'Claim'}
               </ClaimButton>
-            )}
+            )} */}
             <Flex>
               {beforeButton}
               <CurrencySelectButton

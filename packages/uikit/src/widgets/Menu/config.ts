@@ -161,7 +161,7 @@ export const userMenulinks: DropdownMenuItems[] = [
   },
   {
     type: DropdownMenuItemType.EXTERNAL_LINK,
-    href: "https://equityswap.club",
+    href: "https://coinfair.xyz",
     label: "Link",
   },
   {

@@ -18,7 +18,7 @@ const connectors: Config[] = [
     icon: Metamask,
     connectorId: ConnectorNames.Injected,
     priority: 1,
-    href: "https://metamask.app.link/dapp/https://www.equityswap.club/",
+    href: "https://metamask.app.link/dapp/https://www.coinfair.xyz/",
   },
   {
     title: "Binance Wallet",
@@ -37,7 +37,7 @@ const connectors: Config[] = [
     icon: TrustWallet,
     connectorId: ConnectorNames.Injected,
     priority: 4,
-    href: "https://link.trustwallet.com/open_url?url=https://www.equityswap.club/",
+    href: "https://link.trustwallet.com/open_url?url=https://www.coinfair.xyz/",
   },
   {
     title: "WalletConnect",

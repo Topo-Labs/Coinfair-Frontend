@@ -38,140 +38,6 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "time",
-				"type": "uint256"
-			}
-		],
-		"name": "lockLP",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "token",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			}
-		],
-		"name": "CollectFee",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "locker",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "lockTime",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "isFirstTimeLock",
-				"type": "bool"
-			}
-		],
-		"name": "LockLP",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			}
-		],
-		"name": "releaseLP",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "releaser",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "ReleaseLP",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "_CoinfairFactoryAddress",
 				"type": "address"
 			},
@@ -190,6 +56,66 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "token",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "parent",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "grandParent",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "communityAddress",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "parentAmount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "grandParentAmount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "communityAddressAmount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			}
+		],
+		"name": "CollectFee",
+		"type": "event"
 	},
 	{
 		"inputs": [
@@ -282,6 +208,16 @@
 				"internalType": "uint256",
 				"name": "newProjectCommunityAddressRatio",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "newGrandParentAddressLevel1Ratio",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "newGrandParentAddressLevel2Ratio",
+				"type": "uint256"
 			}
 		],
 		"name": "setRatio",
@@ -346,6 +282,10 @@
 		"type": "event"
 	},
 	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
 		"inputs": [],
 		"name": "AUTHORS",
 		"outputs": [
@@ -385,34 +325,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "CoinfairLPPrison",
+		"inputs": [],
+		"name": "CoinfairLock",
 		"outputs": [
 			{
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "dischargedTime",
-				"type": "uint256"
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -512,62 +431,12 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "grandParentAddressLevel1Ratio",
+		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "fees",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address[]",
-				"name": "path",
-				"type": "address[]"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "isExactTokensForTokens",
-				"type": "bool"
-			}
-		],
-		"name": "getBestPool",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "bestPair",
-				"type": "address"
-			},
-			{
-				"internalType": "uint8",
-				"name": "bestPoolType",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "bestfee",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "finalAmount",
 				"type": "uint256"
 			}
 		],
@@ -575,61 +444,13 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address[]",
-				"name": "path",
-				"type": "address[]"
-			},
-			{
-				"internalType": "address",
-				"name": "usrAddr",
-				"type": "address"
-			}
-		],
-		"name": "getPairManagement",
+		"inputs": [],
+		"name": "grandParentAddressLevel2Ratio",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "address",
-						"name": "usrPair",
-						"type": "address"
-					},
-					{
-						"internalType": "uint8",
-						"name": "poolType",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "fee",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "reserve0",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "reserve1",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "usrBal",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "totalSupply",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct CoinfairTreasury.usrPoolManagement[]",
-				"name": "UsrPoolManagement_",
-				"type": "tuple[]"
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -669,19 +490,6 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "setDEXAddressLock",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",

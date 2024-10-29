@@ -1,30 +1,79 @@
 import { useEffect, useState } from 'react';
 import { clientClaim, CLAIM_HISTORY_DATA, clientMint, MINT_HISTORY_DATA } from 'utils/urqlClient';
 
-export function useRewardsPool(account: string) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+export function useRewardsPool(chainId, parent) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchClaimHistory = async () => {
+    if (!chainId || !parent) {
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true; // 防止组件卸载后的状态更新
+    let fetchCount = 0; // 计数器，限制请求次数
+    const maxFetchCount = 120; // 最多请求 120 次（一小时的上限）
+
+    const fetchTokens = async () => {
+      if (fetchCount >= maxFetchCount) {
+        clearInterval(interval); // 停止定时器
+        return;
+      }
+
+      fetchCount += 1; // 每次请求时增加计数
       try {
         setLoading(true);
-        const result = await clientClaim.query(CLAIM_HISTORY_DATA, { parent: account }).toPromise();
-        if (result.error) {
-          setError(result.error);
-        } else {
-          setData(result.data);
+        const response = await fetch(`https://coinfair.xyz/get_tokens`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chain_id: chainId,
+            parent: parent,
+          }),
+        });
+
+        if (!response.ok) {
+          console.log(`Error fetching tokens: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        if (isMounted) {
+          setData(result.data.collectFees);
+          setError(null);
         }
       } catch (err) {
-        setError(err);
+        if (isMounted) {
+          if (err instanceof Error) {
+            console.error("Error fetching tokens:", err.message);
+            setError(err.message);
+          } else {
+            console.error("Unknown error:", err);
+            setError(String(err));
+          }
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
-    fetchClaimHistory();
-  }, []);
+    // 初次调用
+    fetchTokens();
+
+    // 设置定时器，每 30 秒请求一次数据
+    const interval = setInterval(fetchTokens, 30000);
+
+    // 清除定时器和组件卸载保护
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [chainId, parent]);
 
   return {
     data,
@@ -39,14 +88,26 @@ export function useMintHistory(account: string) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchClaimHistory = async () => {
+    if (!account) return;
+
+    let fetchCount = 0; // 计数器，限制请求次数
+    const maxFetchCount = 120; // 最多请求 120 次（一小时的上限）
+
+    const fetchMintHistory = async () => {
+      if (fetchCount >= maxFetchCount) {
+        clearInterval(interval); // 停止定时器
+        return;
+      }
+
+      fetchCount += 1; // 每次请求时增加计数
       try {
         setLoading(true);
         const result = await clientMint.query(MINT_HISTORY_DATA, { minter: account }).toPromise();
+
         if (result.error) {
           setError(result.error);
         } else {
-          setData(result.data);
+          setData(result.data?.claims || []);
         }
       } catch (err) {
         setError(err);
@@ -55,8 +116,12 @@ export function useMintHistory(account: string) {
       }
     };
 
-    fetchClaimHistory();
-  }, []);
+    fetchMintHistory();
+
+    const interval = setInterval(fetchMintHistory, 30000);
+
+    return () => clearInterval(interval);
+  }, [account]);
 
   return {
     data,

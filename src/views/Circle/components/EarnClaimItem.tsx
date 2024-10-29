@@ -21,9 +21,9 @@ export default function EarnClaimItem({ token }) {
       const pending = await _contract.CoinfairUsrTreasury(account, token.address);
       const amount = total.sub(pending);
 
-      setClaimTotal(formatUnits(total, 18).slice(0, formatUnits(total, 18).indexOf('.') + 6));
-      setClaimAmount(formatUnits(amount, 18).slice(0, formatUnits(amount, 18).indexOf('.') + 6));
-      setClaimPending(formatUnits(pending, 18).slice(0, formatUnits(pending, 18).indexOf('.') + 6));
+      setClaimTotal(formatUnits(total, token.decimals).slice(0, formatUnits(total, token.decimals).indexOf('.') + 6));
+      setClaimAmount(formatUnits(amount, token.decimals).slice(0, formatUnits(amount, token.decimals).indexOf('.') + 6));
+      setClaimPending(formatUnits(pending, token.decimals).slice(0, formatUnits(pending, token.decimals).indexOf('.') + 6));
       setHasRewards(pending.gt(0)); // 如果返佣奖励大于 0，启用按钮
     } catch (err) {
       setHasRewards(false);

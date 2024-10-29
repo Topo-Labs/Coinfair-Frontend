@@ -12,6 +12,7 @@ import {isAddress} from "@ethersproject/address"
 import { circleContractAddress, MINT_ABI } from './components/constants';
 import { useRewardsPool, useMintHistory } from './useHistory'
 import EarnClaimItem from './components/EarnClaimItem';
+import EarnMintItem from './components/EarnMintItem';
 import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
 import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward } from './components/styles';
@@ -47,15 +48,15 @@ const history = [
 export default function Earn() {
 
   const { chainId, account } = useActiveWeb3React();
-  const { toastSuccess, toastError } = useToast()
-  const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(account);
+  const { toastSuccess, toastError } = useToast();
+  const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(chainId, account);
   const { data: mintData, loading: mintLoading, error: mintError } = useMintHistory(account);
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [claimedHistory, setClaimedHistory] = useState([]);
-  const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)
+  const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false);
 
-  // console.log(claimData, claimLoading, claimError, account)
-  console.log(mintData, mintLoading, mintError, account)
+  console.log('claimData:', claimData, claimLoading, claimError, account)
+  console.log('mintData:', mintData, mintLoading, mintError, account)
 
   const getStorageKey = (_chainId: number) => `earnTokens_${_chainId}`;
 
@@ -88,13 +89,6 @@ export default function Earn() {
       setIsTooltipDisplayed(false)
     }, 1000)
   }
-
-  const formatAddress = (address: string) => {
-    if (!address) return '';
-    const start = address.slice(0, 6);   // 前6位
-    const end = address.slice(-4);       // 后4位
-    return `${start}...${end}`;
-  };
 
   return (
     <EarnContainer>
@@ -160,33 +154,20 @@ export default function Earn() {
         <EarnHistory>
           <EarnTitle>Rewords Pool</EarnTitle>
           {
-            history.length && (
+            claimData && claimData.length ? (
               <EarnHistoryTHead>
                 <EarnTName>Number</EarnTName>
                 <EarnTReward>Claimed amount</EarnTReward>
                 <EarnTName>Address</EarnTName>
                 <EarnTTime>Claimed time</EarnTTime>
               </EarnHistoryTHead>
-            )
+            ) : ''
           }
           <EarnTBody>
-            {/* {
-              claimData && claimData.collectFees.length ? (
-                claimData.collectFees.map(hty =>
-                  // <EarnClaimTItem></EarnClaimTItem>
-                  <></>
-                )
-              ) : (
-                <EarnNoData>
-                  <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                  No Data
-                </EarnNoData>
-              )
-            } */}
             {
-              history.length ? (
-                history.map(hty =>
-                  <EarnRewardItem info={hty}/>
+              claimData && claimData.length ? (
+                claimData.map((hty, index) =>
+                  <EarnRewardItem info={hty} index={index}/>
                 )
               ) : (
                 <EarnNoData>
@@ -200,20 +181,19 @@ export default function Earn() {
         <EarnHistory>
           <EarnTitle>Mint History</EarnTitle>
           {
-            !history.length && (
+            mintData && mintData.length ? (
               <EarnHistoryTHead>
                 <EarnTName>Number</EarnTName>
-                <EarnTName>Claimed amount</EarnTName>
                 <EarnTName>Address</EarnTName>
-                <EarnTName>Claimed time</EarnTName>
+                <EarnTTime>Claimed time</EarnTTime>
               </EarnHistoryTHead>
-            )
+            ) : ''
           }
           <EarnTBody>
             {
-              !history.length ? (
-                history.map(hty =>
-                  <></>
+              mintData && mintData.length ? (
+                mintData.map((hty, index) =>
+                  <EarnMintItem info={hty} index={index}/>
                 )
               ) : (
                 <EarnNoData>

@@ -115,26 +115,26 @@ export const NETWORK_CONFIG = {
   //   },
   //   testnet: true,
   // },
-  [ChainId.opBNB]: {
-    name: 'opBNB',
-    network: 'opBNB-Mainnet',
-    scanURL: 'https://mainnet.opbnbscan.com',
-    rpcUrls: [
-      'https://opbnb-mainnet-rpc.bnbchain.org'
-    ],
-    scan: 'opbnbscan',
-    tokenName: 'BNB',
-    symbol: 'BNB',
-    decimals: 18,
-    blockExplorers: {
-      default: { name: 'opbnbscan', url: 'https://mainnet.opbnbscan.com' },
-    },
-    multicall: {
-      address: '0x9C63ADb6C88F33317e7405c7a0c1c15cC752f093',
-      blockCreated: 9759845,
-    },
-    testnet: false,
-  },
+  // [ChainId.opBNB]: {
+  //   name: 'opBNB',
+  //   network: 'opBNB-Mainnet',
+  //   scanURL: 'https://mainnet.opbnbscan.com',
+  //   rpcUrls: [
+  //     'https://opbnb-mainnet-rpc.bnbchain.org'
+  //   ],
+  //   scan: 'opbnbscan',
+  //   tokenName: 'BNB',
+  //   symbol: 'BNB',
+  //   decimals: 18,
+  //   blockExplorers: {
+  //     default: { name: 'opbnbscan', url: 'https://mainnet.opbnbscan.com' },
+  //   },
+  //   multicall: {
+  //     address: '0x9C63ADb6C88F33317e7405c7a0c1c15cC752f093',
+  //     blockCreated: 9759845,
+  //   },
+  //   testnet: false,
+  // },
   // [ChainId.ARB_TESTNET]: {
   //   name: 'ARB Smart Chain Testnet',
   //   network: 'arb-testnet',

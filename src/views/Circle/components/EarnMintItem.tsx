@@ -10,17 +10,14 @@ const formatAddress = (address: string) => {
   return `${start}...${end}`;
 };
 
-export default function EarnRewardItem({ info, index }) {
-
-  const formattedParentAmount = parseFloat(formatUnits(info.parentAmount, info.decimals)).toFixed(5);
+export default function EarnMintItem({ info, index }) {
 
   const formattedTimestamp = moment.unix(info.blockTimestamp).format('YYYY-MM-DD HH:mm');
 
   return (
     <EarnClaimTItem>
       <EarnHistoryValue>{index + 1}</EarnHistoryValue>
-      <EarnHistoryReward>{formattedParentAmount}&nbsp;&nbsp;{info.symbol}</EarnHistoryReward>
-      <EarnHistoryValue>{formatAddress(info.owner)}</EarnHistoryValue>
+      <EarnHistoryValue>{formatAddress(info.minter)}</EarnHistoryValue>
       <EarnHistoryTime>{formattedTimestamp}</EarnHistoryTime>
     </EarnClaimTItem>
   );

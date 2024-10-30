@@ -1,10 +1,13 @@
 import { Button } from '@pancakeswap/uikit';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 export const EarnContainer = styled.div`
   padding: 0 100px;
   padding-top: 100px;
   width: 100%;
+  @media screen and (max-width: 1200px) {
+    padding: 0;
+  }
 `
 
 export const EarnTips = styled.div`
@@ -120,7 +123,7 @@ export const EarnStepItemToScroll = styled(Button)`
 
 export const EarnClaimTable = styled.div`
   border-radius: 16px;
-  padding: 28px;
+  padding: 28px 0;
   box-shadow: 0 1px 3px 0 #EDEDED;
   margin-top: 40px;
 `
@@ -130,6 +133,7 @@ export const EarnClaimTop = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding: 0 28px;
 `
 
 export const EarnTitle = styled.h2`
@@ -158,6 +162,7 @@ export const EarnClaimImport = styled(Button)`
 export const EarnClaimTHead = styled.div`
   display: flex;
   margin-bottom: 15px;
+  padding: 0 28px;
 `
 
 export const EarnTBody = styled.div`
@@ -208,9 +213,9 @@ export const EarnTOpration = styled.span`
 
 export const EarnClaimTItem = styled.div`
   display: flex;
-  padding: 9px 0;
   border-radius: 4px;
   transition: all .3s ease;
+  padding: 9px 28px;
   :hover {
     background: #f6f6f6;
   }
@@ -288,13 +293,17 @@ export const EarnMiddleBox = styled.div`
 export const EarnHistory = styled.div`
   flex: 1;
   border-radius: 16px;
-  padding: 28px;
+  padding: 28px 0;
   box-shadow: 0 1px 3px 0 #EDEDED;
   margin-top: 40px;
   margin-right: 27px;
   &:last-child {
     margin-right: 0;
   }
+`
+
+export const EarnHistoryTitle = styled(EarnTitle)`
+  padding: 0 28px;
 `
 
 export const EarnHistoryTHead = styled(EarnClaimTHead)`
@@ -321,16 +330,113 @@ export const EarnHistoryTime = styled(EarnHistoryValue)`
   justify-content: flex-end;
 `
 
+export const EarnMintGroup = styled.div`
+  display: flex;
+  margin-top: 20px;
+`
+
+export const EarnMintGroupItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+`
+
+export const EarnMintGroupNumber = styled.span`
+  font-size: 20px;
+  color: #333333;
+  font-weight: 500;
+  margin-bottom: 10px;
+`
+
+export const EarnMintGroupWords = styled.span`
+  font-size: 14px;
+  font-weight: 500;
+  color: #666666;
+`
+
 export const EarnFAQ = styled.div`
   border-radius: 16px;
-  padding: 28px;
+  padding: 28px 0;
   box-shadow: 0 1px 3px 0 #EDEDED;
   margin-top: 40px;
 `
 
-export const EarnFAQItem = styled.div`
-  border-top: 1px solid #EDEDED;
+export const EarnFAQTitle = styled(EarnTitle)`
+  padding: 0 28px;
 `
+
+export const EarnFAQBody = styled.div`
+  margin-top: 36px;
+`
+
+export const EarnFAQItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  transition: all .3s ease;
+  &:hover {
+    background: #F0F0F0;
+  }
+`
+
+export const EarnQuestion = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 20px 28px;
+  border-top: 1px solid #EDEDED;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+export const EarnAnswerWrapper = styled.div<{ isOpen: boolean; height: number }>`
+  overflow: hidden;
+  height: ${({ isOpen, height }) => (isOpen ? `${height}px` : '0')};
+  transition: height 0.4s ease;
+`;
+
+export const EarnAnswer = styled.div`
+  font-size: 16px;
+  line-height: 24px;
+  padding: 15px 28px;
+  padding-top: 0;
+  color: #666666;
+`
+
+export const PlusMinusIcon = styled.div<{ isOpen: boolean }>`
+  width: 16px;
+  height: 16px;
+  position: relative;
+  cursor: pointer;
+
+  /* Horizontal line (always visible) */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #333;
+    transform: translateY(-50%);
+  }
+
+  /* Vertical line (visible when closed, hidden when open) */
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 16px;
+    background-color: #333;
+    transform: translateX(-50%) scaleY(${({ isOpen }) => (isOpen ? 0 : 1)});
+    transform-origin: center;
+    transition: transform 0.3s ease;
+  }
+`;
 
 export const ListWrapper = styled.div`
   width: 100%;

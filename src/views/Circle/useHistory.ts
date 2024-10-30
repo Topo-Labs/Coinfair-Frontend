@@ -9,19 +9,21 @@ export function useRewardsPool(chainId, parent) {
   useEffect(() => {
     if (!chainId || !parent) {
       setLoading(false);
-      return;
+      setData([]);
+      setError("Missing chainId or parent");
+      return undefined;
     }
-
+  
     let isMounted = true; // 防止组件卸载后的状态更新
     let fetchCount = 0; // 计数器，限制请求次数
     const maxFetchCount = 120; // 最多请求 120 次（一小时的上限）
-
+  
     const fetchTokens = async () => {
       if (fetchCount >= maxFetchCount) {
         clearInterval(interval); // 停止定时器
         return;
       }
-
+  
       fetchCount += 1; // 每次请求时增加计数
       try {
         setLoading(true);
@@ -32,17 +34,18 @@ export function useRewardsPool(chainId, parent) {
           },
           body: JSON.stringify({
             chain_id: chainId,
-            parent: parent,
+            parent,
           }),
         });
-
+  
         if (!response.ok) {
           console.log(`Error fetching tokens: ${response.statusText}`);
+          throw new Error(`Error fetching tokens: ${response.statusText}`);
         }
-
+  
         const result = await response.json();
         if (isMounted) {
-          setData(result.data.collectFees);
+          setData(result.data.collectFees || []);
           setError(null);
         }
       } catch (err) {
@@ -61,13 +64,13 @@ export function useRewardsPool(chainId, parent) {
         }
       }
     };
-
+  
     // 初次调用
     fetchTokens();
-
+  
     // 设置定时器，每 30 秒请求一次数据
     const interval = setInterval(fetchTokens, 30000);
-
+  
     // 清除定时器和组件卸载保护
     return () => {
       isMounted = false;
@@ -88,10 +91,16 @@ export function useMintHistory(account: string) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!account) return;
+    if (!account) {
+      setLoading(false);
+      setData(null); // 清空数据
+      setError("Missing account information");
+      return undefined;
+    }
 
     let fetchCount = 0; // 计数器，限制请求次数
     const maxFetchCount = 120; // 最多请求 120 次（一小时的上限）
+    let isMounted = true; // 防止组件卸载后的状态更新
 
     const fetchMintHistory = async () => {
       if (fetchCount >= maxFetchCount) {
@@ -105,22 +114,33 @@ export function useMintHistory(account: string) {
         const result = await clientMint.query(MINT_HISTORY_DATA, { minter: account }).toPromise();
 
         if (result.error) {
-          setError(result.error);
-        } else {
+          setError(result.error.message);
+        } else if (isMounted) {
           setData(result.data?.claims || []);
+          setError(null);
         }
       } catch (err) {
-        setError(err);
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : "Unknown error");
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
+    // 初次调用
     fetchMintHistory();
 
+    // 设置定时器，每 30 秒请求一次数据
     const interval = setInterval(fetchMintHistory, 30000);
 
-    return () => clearInterval(interval);
+    // 清除定时器和组件卸载保护
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
   }, [account]);
 
   return {
@@ -129,3 +149,4 @@ export function useMintHistory(account: string) {
     error,
   };
 }
+

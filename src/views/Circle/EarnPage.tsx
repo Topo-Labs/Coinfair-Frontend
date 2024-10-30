@@ -1,62 +1,71 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
 import { NETWORK_CONFIG } from 'utils/wallet'
 import { copyText } from 'utils/copyText';
 import useToast from 'hooks/useToast';
+import { MINT_ADDRESS } from 'config/constants/exchange'
 import { FaShare } from "react-icons/fa6";
 import { useModal } from '@pancakeswap/uikit';
 import { Contract } from '@ethersproject/contracts'
-import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
-import { circleContractAddress, MINT_ABI } from './components/constants';
+import { MINT_ABI } from './components/constants';
 import { useRewardsPool, useMintHistory } from './useHistory'
 import EarnClaimItem from './components/EarnClaimItem';
 import EarnMintItem from './components/EarnMintItem';
 import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
-import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward } from './components/styles';
+import EarnFAQGroup from './components/EarnFAQGroup';
+import faqData from './FAQ.json'
+import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQItem, EarnFAQBody, EarnQuestion, EarnAnswer, EarnFAQTitle, EarnHistoryTitle } from './components/styles';
 
-const history = [
-  {
-    address: '0xfjsldjfklajflksjfksaljfsf',
-    claimed_number: 12.8888,
-    claimed_time: Date.now()
-  },
-  {
-    address: '0xfjsldjfklajflksjfksaljfsf',
-    claimed_number: 12.8888,
-    claimed_time: Date.now()
-  },
-  {
-    address: '0xfjsldjfklajflksjfksaljfsf',
-    claimed_number: 12.8888,
-    claimed_time: Date.now()
-  },
-  {
-    address: '0xfjsldjfklajflksjfksaljfsf',
-    claimed_number: 12.8888,
-    claimed_time: Date.now()
-  },
-  {
-    address: '0xfjsldjfklajflksjfksaljfsf',
-    claimed_number: 12.8888,
-    claimed_time: Date.now()
+const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
+  const promises = [];
+
+  for (let i = 0; i < retries; i++) {
+    promises.push(new Promise((resolve, reject) => {
+      try {
+        fn().then(result => {
+          resolve(result);
+        }).catch(error => {
+          console.error(`Attempt ${i + 1} failed:`, error);
+          if (i < retries - 1) {
+            setTimeout(() => resolve(undefined), delay); // 传递 undefined
+          } else {
+            reject(error);
+          }
+        });
+      } catch (error) {
+        console.error(`Attempt ${i + 1} failed:`, error);
+        if (i < retries - 1) {
+          setTimeout(() => resolve(undefined), delay); // 传递 undefined
+        } else {
+          reject(error);
+        }
+      }
+    }));
   }
-]
+
+  try {
+    const results = await Promise.all(promises);
+    return results.find((result) => result !== undefined); // 返回第一个成功的结果
+  } catch (error) {
+    throw new Error('All retry attempts failed.');
+  }
+};
 
 export default function Earn() {
 
-  const { chainId, account } = useActiveWeb3React();
+  const { chainId, account, active } = useActiveWeb3React();
   const { toastSuccess, toastError } = useToast();
   const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(chainId, account);
   const { data: mintData, loading: mintLoading, error: mintError } = useMintHistory(account);
   const [selectedTokens, setSelectedTokens] = useState([]);
-  const [claimedHistory, setClaimedHistory] = useState([]);
-  const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false);
-
-  console.log('claimData:', claimData, claimLoading, claimError, account)
-  console.log('mintData:', mintData, mintLoading, mintError, account)
+  const [loading, setLoading] = useState(false);
+  const [nftInfo, setNftInfo] = useState<string[]>([]);
+  const [openIndex, setOpenIndex] = useState(null);
+  const claimRewardsRef = useRef(null);
 
   const getStorageKey = (_chainId: number) => `earnTokens_${_chainId}`;
 
@@ -67,11 +76,54 @@ export default function Earn() {
     } else {
       setSelectedTokens([]);
     }
-  }, [chainId]);
+  }, [chainId, active]);
+
+  const fetchNftInfo = useCallback(async () => {
+    setLoading(true);
+    const rpcUrl = NETWORK_CONFIG[String(chainId)]?.rpcUrls[0]
+    try {
+      if (!chainId) {
+        console.error('Invalid chain configuration or missing node URL:', chainId);
+        return;
+      }
+
+      const provider = new JsonRpcProvider(rpcUrl);
+      if (!isAddress(MINT_ADDRESS[chainId])) {
+        console.error('Invalid contract address:', MINT_ADDRESS[chainId]);
+        return;
+      }
+
+      const contract = new Contract(MINT_ADDRESS[chainId], MINT_ABI, provider);
+
+      if (!isAddress(account)) {
+        console.error('Invalid account address:', account);
+        return;
+      }
+
+      const result = await retryAsync(() => contract.getMCInfo(account));
+      if (!result) {
+        console.error('No data returned from contract call.');
+        return;
+      }
+
+      const info = result.toString().split(',');
+      setNftInfo(info);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [chainId, account]);
+
+  useEffect(() => {
+    if (active) {
+      fetchNftInfo();
+    }
+  }, [active, fetchNftInfo]);
 
   const onCurrencySelect = (currencyInput) => {
     const isTokenExists = selectedTokens.some(token => token.address === currencyInput.address);
-    if (!isTokenExists) { // 检查是否已存在
+    if (!isTokenExists) {
       const updatedTokens = [...selectedTokens, currencyInput];
       setSelectedTokens(updatedTokens);
       localStorage.setItem(getStorageKey(chainId), JSON.stringify(updatedTokens));
@@ -83,12 +135,18 @@ export default function Earn() {
   const [onMintNftModal] = useModal(<MintNft/>)
 
   const displayTooltip = () => {
-    setIsTooltipDisplayed(true)
     toastSuccess('Copyied success!', 'You can share link with your friends and circle')
-    setTimeout(() => {
-      setIsTooltipDisplayed(false)
-    }, 1000)
   }
+
+  const handleGoClaimClick = () => {
+    if (claimRewardsRef.current) {
+      claimRewardsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const toggleOpen = (index: number) => {
+    setOpenIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   return (
     <EarnContainer>
@@ -118,11 +176,11 @@ export default function Earn() {
           <EarnStepItemTop>step 3<EarnStepItemIcon><img src="/images/step-command.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
           <EarnStepItemBottom>
             <EarnStepItemWords>Already Claimed!</EarnStepItemWords>
-            <EarnStepItemToScroll>Go claim！</EarnStepItemToScroll>
+            <EarnStepItemToScroll onClick={handleGoClaimClick}>Go claim！</EarnStepItemToScroll>
           </EarnStepItemBottom>
         </EarnStepItem>
       </EarnStep>
-      <EarnClaimTable>
+      <EarnClaimTable ref={claimRewardsRef}>
         <EarnClaimTop><EarnTitle>Claim Rewards</EarnTitle><EarnClaimImport onClick={() => onPresentCurrencyModal()}>Select else +</EarnClaimImport></EarnClaimTop>
         {
           selectedTokens.length > 0 && (
@@ -152,7 +210,7 @@ export default function Earn() {
       </EarnClaimTable>
       <EarnMiddleBox>
         <EarnHistory>
-          <EarnTitle>Rewords Pool</EarnTitle>
+          <EarnHistoryTitle>Rewords Pool</EarnHistoryTitle>
           {
             claimData && claimData.length ? (
               <EarnHistoryTHead>
@@ -164,22 +222,44 @@ export default function Earn() {
             ) : ''
           }
           <EarnTBody>
-            {
-              claimData && claimData.length ? (
-                claimData.map((hty, index) =>
-                  <EarnRewardItem info={hty} index={index}/>
-                )
-              ) : (
-                <EarnNoData>
-                  <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                  No Data
-                </EarnNoData>
+          {
+            claimData && claimData.length ? (
+              [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                <EarnRewardItem info={hty} index={index} />
               )
-            }
+            ) : (
+              <EarnNoData>
+                <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                No Data
+              </EarnNoData>
+            )
+          }
           </EarnTBody>
         </EarnHistory>
         <EarnHistory>
-          <EarnTitle>Mint History</EarnTitle>
+          <EarnHistoryTitle>Mint History</EarnHistoryTitle>
+          <EarnMintGroup>
+            <EarnMintGroupItem>
+              <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[1] !== undefined ? nftInfo[1] : '--'}</EarnMintGroupNumber>
+              <EarnMintGroupWords>Minted total</EarnMintGroupWords>
+            </EarnMintGroupItem>
+            <EarnMintGroupItem>
+              <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[0] !== undefined ? nftInfo[0] : '--'}</EarnMintGroupNumber>
+              <EarnMintGroupWords>Already claimed</EarnMintGroupWords>
+            </EarnMintGroupItem>
+            <EarnMintGroupItem>
+              <EarnMintGroupNumber>
+                {
+                  nftInfo.length > 1
+                  ? !Number.isNaN(Number(nftInfo[1])) && !Number.isNaN(Number(nftInfo[0]))
+                    ? (Number(nftInfo[1]) - Number(nftInfo[0])).toString()
+                    : '--'
+                  : '--'
+                }
+              </EarnMintGroupNumber>
+              <EarnMintGroupWords>Remain</EarnMintGroupWords>
+            </EarnMintGroupItem>
+          </EarnMintGroup>
           {
             mintData && mintData.length ? (
               <EarnHistoryTHead>
@@ -192,7 +272,7 @@ export default function Earn() {
           <EarnTBody>
             {
               mintData && mintData.length ? (
-                mintData.map((hty, index) =>
+                [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
                   <EarnMintItem info={hty} index={index}/>
                 )
               ) : (
@@ -206,7 +286,21 @@ export default function Earn() {
         </EarnHistory>
       </EarnMiddleBox>
       <EarnFAQ>
-        <EarnTitle>FAQ</EarnTitle>
+        <EarnFAQTitle>FAQ</EarnFAQTitle>
+        <EarnFAQBody>
+          {
+            faqData.map((faq, index) =>
+              <EarnFAQGroup
+                key={`${faq + index}`}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openIndex === index}
+                toggleOpen={() => toggleOpen(index)}
+                index={index}
+              />
+            )
+          }
+        </EarnFAQBody>
       </EarnFAQ>
     </EarnContainer>
   );

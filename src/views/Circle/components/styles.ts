@@ -7,6 +7,7 @@ export const EarnContainer = styled.div`
   width: 100%;
   @media screen and (max-width: 1200px) {
     padding: 0;
+    /* overflow-x: hidden; */
   }
 `
 
@@ -14,6 +15,9 @@ export const EarnTips = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 1200px) {
+    margin: 1rem 0;
+  }
 `
 
 export const EarnTipRight = styled.div`
@@ -21,6 +25,9 @@ export const EarnTipRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  @media screen and (max-width: 1200px) {
+    margin-left: 1rem;
+  }
 `
 
 export const EarnTipIcon = styled.div`
@@ -34,6 +41,10 @@ export const EarnTipWords = styled.div`
   font-size: 38px;
   font-weight: 900;
   line-height: 45px;
+  @media screen and (max-width: 1200px) {
+    font-size: 25px;
+    line-height: 25px;
+  }
 `
 
 export const EarnTipGreen = styled.span`
@@ -41,11 +52,18 @@ export const EarnTipGreen = styled.span`
   font-weight: 900;
   color: #0DAE6F;
   line-height: 45px;
+  @media screen and (max-width: 1200px) {
+    font-size: 25px;
+    line-height: 25px;
+  }
 `
 
 export const EarnStep = styled.div`
   display: flex;
   margin-top: 100px;
+  @media screen and (max-width: 1200px) {
+    margin-top: 20px;
+  }
 `
 
 export const EarnStepItem = styled.div`
@@ -68,15 +86,19 @@ export const EarnStepItem = styled.div`
 `
 
 export const EarnStepItemTop = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   font-size: 20px;
   font-weight: 900;
+  color: #CCCCCC;
 `
 
 export const EarnStepItemBottom = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 `
 
 export const EarnStepItemIcon = styled.div`
@@ -121,11 +143,70 @@ export const EarnStepItemToScroll = styled(Button)`
   }
 `
 
+export const CarouselContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 1px 3px 0 #EDEDED;
+  border-radius: 20px;
+`;
+
+export const SlideWrapper = styled.div<{translateX: number}>`
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(${(props) => props.translateX}%);
+`;
+
+export const Slide = styled.div`
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  box-sizing: border-box;
+`;
+
+export const SlideButton = styled(Button)`
+  width: 100%;
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+  }
+`;
+
+export const DotContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  padding-bottom: 20px;
+`;
+
+export const Dot = styled.div<{ active: boolean }>`
+  width: ${(props) => (props.active ? '30px' : '6px')};
+  height: 6px;
+  background-color: ${(props) => (props.active ? '#000' : '#ccc')};
+  margin: 0 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+`;
+
 export const EarnClaimTable = styled.div`
   border-radius: 16px;
   padding: 28px 0;
   box-shadow: 0 1px 3px 0 #EDEDED;
   margin-top: 40px;
+  @media screen and (max-width: 1200px) {
+    padding-top: 15px;
+    padding-bottom: 0;
+    overflow: hidden;
+  }
 `
 
 export const EarnClaimTop = styled.div`
@@ -134,6 +215,9 @@ export const EarnClaimTop = styled.div`
   align-items: center;
   margin-bottom: 20px;
   padding: 0 28px;
+  @media screen and (max-width: 1200px) {
+    padding: 0 15px;
+  }
 `
 
 export const EarnTitle = styled.h2`
@@ -141,6 +225,9 @@ export const EarnTitle = styled.h2`
   font-weight: 900;
   color: #000000;
   line-height: 24px;
+  @media screen and (max-width: 1200px) {
+    font-size: 18px;
+  }
 `
 
 export const EarnClaimImport = styled(Button)`
@@ -157,12 +244,24 @@ export const EarnClaimImport = styled(Button)`
     background: #000000;
     color: #ffffff
   }
+  @media screen and (max-width: 1200px) {
+    padding: 0;
+    border: 0;
+    color: #666666;
+    &:hover {
+      color: none;
+      background: none;
+    }
+  }
 `
 
 export const EarnClaimTHead = styled.div`
   display: flex;
   margin-bottom: 15px;
   padding: 0 28px;
+  @media screen and (max-width: 1200px) {
+    padding: 0 15px;
+  }
 `
 
 export const EarnTBody = styled.div`
@@ -190,6 +289,23 @@ export const EarnTName = styled.span`
   display: flex;
   font-size: 14px;
   color: #666666;
+  @media screen and (max-width: 1200px) {
+    flex: 0;
+  }
+`
+
+export const EarnTNameToken = styled.span`
+  width: 40%;
+  display: flex;
+  font-size: 14px;
+  color: #666666;
+`
+
+export const EarnTNamePending = styled.span`
+  width: 30%;
+  display: flex;
+  font-size: 14px;
+  color: #666666;
 `
 
 export const EarnTReward = styled.span`
@@ -197,10 +313,28 @@ export const EarnTReward = styled.span`
   display: flex;
   font-size: 14px;
   color: #666666;
+  @media screen and (max-width: 1200px) {
+    flex: 1;
+  }
+`
+
+export const EarnTAddress = styled.span`
+  flex: 1;
+  display: flex;
+  font-size: 14px;
+  color: #666666;
+  @media screen and (max-width: 1200px) {
+    flex: 1;
+    justify-content: flex-end;
+    margin-right: 10px;
+  }
 `
 
 export const EarnTTime = styled(EarnTName)`
   justify-content: flex-end;
+  @media screen and (max-width: 1200px) {
+    flex: 1;
+  }
 `
 
 export const EarnTOpration = styled.span`
@@ -209,6 +343,21 @@ export const EarnTOpration = styled.span`
   display: flex;
   justify-content: flex-end;
   width: 8%;
+  @media screen and (max-width: 1200px) {
+    width: 30%;
+  }
+`
+
+export const EarnTSelect = styled.span`
+  width: 25px;
+`
+
+export const EarnClaimGroup = styled.div<{isOpen: boolean}>`
+  display: flex;
+  flex-direction: column;
+  transition: all .4s ease;
+  background-color: ${({ isOpen }) => (isOpen ? '#FAFAFA' : 'none')};
+  box-shadow: ${({ isOpen }) => (isOpen ? 'inset 0 0 4px 0 #EEEEEE' : 'none')};
 `
 
 export const EarnClaimTItem = styled.div`
@@ -219,6 +368,39 @@ export const EarnClaimTItem = styled.div`
   :hover {
     background: #f6f6f6;
   }
+  @media screen and (max-width: 1200px) {
+    padding: 9px 15px;
+    border-radius: none;
+    :hover {
+      background: none;
+    }
+  }
+`
+
+export const EarnClaimTBottom = styled.div<{isOpen: boolean}>`
+  display: flex;
+  transition: all .3s ease;
+  padding: 0 15px;
+  /* background: #FAFAFA; */
+  /* box-shadow: 'inset 0 0 4px 0 #EEE'; */
+  overflow: hidden;
+  height: ${({ isOpen }) => (isOpen ? `60px` : '0')};
+  transition: height 0.4s ease;
+  margin-top: 10px;
+`
+
+export const EarnTBottomGroup = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-right: 18px;
+`
+
+export const EarnTBottomName = styled.span`
+  font-size: 14px;
+  color: #666666;
 `
 
 export const EarnTokenInfo = styled.div`
@@ -275,6 +457,9 @@ export const EarnClaimLast = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 8%;
+  @media screen and (max-width: 1200px) {
+    width: auto;
+  }
 `
 
 export const EarnClaimButton = styled(Button)`
@@ -284,6 +469,12 @@ export const EarnClaimButton = styled(Button)`
   padding: 0;
   background: #0DAE6F;
   font-size: 14px;
+`
+
+export const EarnClaimSelect = styled.img<{ isOpen: boolean }>`
+  margin-left: 15px;
+  transition: transform 0.3s ease;
+  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `
 
 export const EarnMiddleBox = styled.div`
@@ -300,10 +491,17 @@ export const EarnHistory = styled.div`
   &:last-child {
     margin-right: 0;
   }
+  @media screen and (max-width: 1200px) {
+    margin-right: 0;
+    padding: 15px 0;
+  }
 `
 
 export const EarnHistoryTitle = styled(EarnTitle)`
   padding: 0 28px;
+  @media screen and (max-width: 1200px) {
+    padding: 0 15px;
+  }
 `
 
 export const EarnHistoryTHead = styled(EarnClaimTHead)`
@@ -316,6 +514,20 @@ export const EarnHistoryValue = styled.span`
   flex: 1;
   color: #000;
   font-size: 14px;
+  @media screen and (max-width: 1200px) {
+    justify-content: flex-end;
+  }
+`
+
+export const EarnHistoryAddress = styled.span`
+  display: flex;
+  align-items: center;
+  flex: 1;
+  color: #000;
+  font-size: 14px;
+  @media screen and (max-width: 1200px) {
+    justify-content: flex-start;
+  }
 `
 
 export const EarnHistoryReward = styled.span`
@@ -376,7 +588,7 @@ export const EarnFAQItem = styled.div`
   flex-direction: column;
   transition: all .3s ease;
   &:hover {
-    background: #F0F0F0;
+    background: #f6f6f6;
   }
 `
 

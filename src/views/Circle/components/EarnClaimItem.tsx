@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { formatUnits } from '@ethersproject/units';
 import { TREASURY_ADDRESS } from '@pancakeswap/sdk';
+import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import TreasuryABI from '@pancakeswap/sdk/src/abis/Coinfair_Treasury.json';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
-import { EarnAmountTotal, EarnClaimAmount, EarnClaimButton, EarnClaimedAomunt, EarnClaimLast, EarnClaimTItem, EarnTokenIcon, EarnTokenInfo, EarnTokenNoLogo } from './styles';
+import { EarnAmountTotal, EarnClaimAmount, EarnClaimButton, EarnClaimedAomunt, EarnClaimGroup, EarnClaimLast, EarnClaimSelect, EarnClaimTBottom, EarnClaimTItem, EarnTBottomGroup, EarnTBottomName, EarnTokenIcon, EarnTokenInfo, EarnTokenNoLogo } from './styles';
 
 export default function EarnClaimItem({ token }) {
   const { chainId, account, library } = useActiveWeb3React();
@@ -14,6 +15,8 @@ export default function EarnClaimItem({ token }) {
   const [claimPending, setClaimPending] = useState('0');
   const [hasRewards, setHasRewards] = useState(false);
   const [isClaiming, setIsClaiming] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { isDesktop } = useMatchBreakpointsContext()
 
   const fetchClaims = async (_contract) => {
     try {
@@ -72,25 +75,63 @@ export default function EarnClaimItem({ token }) {
   };
 
   return (
-    <EarnClaimTItem>
-      <EarnTokenInfo>
-        <EarnTokenIcon>
-          {token.tokenInfo ? (
-            <img src={token.tokenInfo?.logoURI} alt="" />
-          ) : (
-            <EarnTokenNoLogo>
-              {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
-            </EarnTokenNoLogo>
-          )}
-        </EarnTokenIcon>
-        {token.symbol}
-      </EarnTokenInfo>
-      <EarnClaimAmount>{claimPending}</EarnClaimAmount>
-      <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
-      <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
-      <EarnClaimLast>
-        <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
-      </EarnClaimLast>
-    </EarnClaimTItem>
+    <>
+      {
+        isDesktop ? (
+          <EarnClaimTItem>
+            <EarnTokenInfo>
+              <EarnTokenIcon>
+                {token.tokenInfo ? (
+                  <img src={token.tokenInfo?.logoURI} alt="" />
+                ) : (
+                  <EarnTokenNoLogo>
+                    {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
+                  </EarnTokenNoLogo>
+                )}
+              </EarnTokenIcon>
+              {token.symbol}
+            </EarnTokenInfo>
+            <EarnClaimAmount>{claimPending}</EarnClaimAmount>
+            <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
+            <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
+            <EarnClaimLast>
+              <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
+            </EarnClaimLast>
+          </EarnClaimTItem>
+        ) : (
+          <EarnClaimGroup isOpen={isOpen}>
+            <EarnClaimTItem>
+              <EarnTokenInfo>
+                <EarnTokenIcon>
+                  {token.tokenInfo ? (
+                    <img src={token.tokenInfo?.logoURI} alt="" />
+                  ) : (
+                    <EarnTokenNoLogo>
+                      {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
+                    </EarnTokenNoLogo>
+                  )}
+                </EarnTokenIcon>
+                {token.symbol}
+              </EarnTokenInfo>
+              <EarnClaimAmount>{claimPending}</EarnClaimAmount>
+              <EarnClaimLast>
+                <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
+              </EarnClaimLast>
+              <EarnClaimSelect onClick={() => setIsOpen((prev) => !prev)} src='/images/item-arrow.svg' isOpen={isOpen}></EarnClaimSelect>
+            </EarnClaimTItem>
+            <EarnClaimTBottom isOpen={isOpen}>
+              <EarnTBottomGroup>
+                <EarnTBottomName>Claimed</EarnTBottomName>
+                <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
+              </EarnTBottomGroup>
+              <EarnTBottomGroup>
+                <EarnTBottomName>Total</EarnTBottomName>
+                <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
+              </EarnTBottomGroup>
+            </EarnClaimTBottom>
+          </EarnClaimGroup>
+        )
+      }
+    </>
   );
 }

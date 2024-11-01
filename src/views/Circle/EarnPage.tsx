@@ -97,15 +97,17 @@ export default function Earn() {
   const endX = useRef(0);
   const pauseTimeout = useRef(null);
 
-  // 自动播放
   useEffect(() => {
+    let interval = null;
     if (!isDesktop && slides.length > 0 && !isPaused) {
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
       }, 3000);
-
-      return () => clearInterval(interval);
     }
+    // 清除定时器（如果存在）
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [isDesktop, slides.length, isPaused]);
 
   // 清除暂停定时器
@@ -306,9 +308,9 @@ export default function Earn() {
               ))}
             </SlideWrapper>
             <DotContainer>
-              {slides.map((_, index) => (
+              {slides.map((slide, index) => (
                 <Dot
-                  key={index}
+                  key={slide.toString()}
                   active={index === activeIndex}
                   onClick={() => {
                     setActiveIndex(index);
@@ -342,7 +344,7 @@ export default function Earn() {
                   <EarnTNameToken>Name</EarnTNameToken>
                   <EarnTNamePending>Pending</EarnTNamePending>
                   <EarnTOpration>Operation</EarnTOpration>
-                  <EarnTSelect></EarnTSelect>
+                  <EarnTSelect/>
                 </EarnClaimTHead>
               )
           )

@@ -117,7 +117,7 @@ export default function EarnClaimItem({ token }) {
               <EarnClaimLast>
                 <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
               </EarnClaimLast>
-              <EarnClaimSelect onClick={() => setIsOpen((prev) => !prev)} src='/images/item-arrow.svg' isOpen={isOpen}></EarnClaimSelect>
+              <EarnClaimSelect onClick={() => setIsOpen((prev) => !prev)} src='/images/item-arrow.svg' isOpen={isOpen}/>
             </EarnClaimTItem>
             <EarnClaimTBottom isOpen={isOpen}>
               <EarnTBottomGroup>

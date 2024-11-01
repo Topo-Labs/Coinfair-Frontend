@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
+import { ethers } from 'ethers';
 import {
   CampaignType,
   SerializedFarmConfig,
@@ -65,6 +66,13 @@ export const GAS_PRICE_GWEI = {
   fast: parseUnits(GAS_PRICE.fast, 'gwei').toString(),
   instant: parseUnits(GAS_PRICE.instant, 'gwei').toString(),
   testnet: parseUnits(GAS_PRICE.testnet, 'gwei').toString(),
+}
+
+export enum GAS_PRICE_LEVEL {
+  default = 'default',
+  fast = 'fast',
+  instant = 'instant',
+  testnet = 'testnet',
 }
 
 export type DeserializedPoolVault = DeserializedPool & DeserializedCakeVault

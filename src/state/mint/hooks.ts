@@ -131,18 +131,6 @@ export function useDerivedMintInfo(
 
   // pair
   const [pairState, pair] = usePair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
-  // const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
-  // const pairList = pairV3?.length && pairV3.map(pairItem => pairItem[1])
-
-  // console.log(pairV3, poolType, fee, pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined)
-
-  // const pairData = pairV3?.length && pairV3.find(item => poolType.includes(item[1]?.poolType) && item[1]?.fee === fee) || undefined
-
-  // const pairState = pairData ? pairData[0] : false
-  // const pair = pairData ? pairData[1] : null
-
-  // console.log(poolType, fee, pair, 'pairpairpair:::')
-
   const pairV3 = useV3Pair(currencies[Field.CURRENCY_A], currencies[Field.CURRENCY_B]) ?? [PairState.NOT_EXISTS, null]
 
   const pairCurrent = pairV3?.length ? pairV3.find(item => {
@@ -154,13 +142,7 @@ export function useDerivedMintInfo(
 
   const pairData = pairCurrent ? pairCurrent[1] : undefined
   const pairStateData = pairCurrent ? PairState.EXISTS : PairState.NOT_EXISTS
-
   const totalSupply = useTotalSupply(pairData?.liquidityToken)
-
-  // const totalV3 = useTotalSupplyV3(pairList)
-
-  // console.log(totalV3?.length && totalV3.map(item => item.toSignificant(4)))
-
   const noLiquidity: boolean =
     pairStateData === PairState.NOT_EXISTS || Boolean(totalSupply && JSBI.equal(totalSupply.raw, BIG_INT_ZERO))
 
@@ -406,7 +388,24 @@ function guessMaxZappableAmount(pair: Pair, token0AmountIn: TokenAmount, token1A
 
 // compare the gas is larger than swap in amount
 function useZapInGasOverhead(inputAmount: CurrencyAmount | undefined) {
-  const gasPrice = useGasPrice()
+  const { library } = useActiveWeb3React()
+  const [gasPrice, setGasPrice] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    const fetchGasPrice = async () => {
+      if (library) {
+        try {
+          const price = await library.getGasPrice()
+          setGasPrice(price.toString())
+        } catch (error) {
+          console.error("Failed to fetch gas price:", error)
+          setGasPrice(undefined)
+        }
+      }
+    }
+    fetchGasPrice()
+  }, [library])
+
   const requiredGas = formatUnits(gasPrice ? BigNumber.from(gasPrice).mul('500000') : '0')
   const requiredGasAsCurrencyAmount = inputAmount ? tryParseAmount(requiredGas, ETHER) : undefined
   const inputIsBNB = inputAmount?.currency.symbol === 'BNB' || inputAmount?.currency.symbol === 'ETH'

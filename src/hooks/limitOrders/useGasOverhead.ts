@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { formatUnits } from '@ethersproject/units'
 import { CurrencyAmount, Price, Token, TokenAmount, JSBI, ETHER } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
@@ -8,7 +8,6 @@ import { Rate } from 'state/limitOrders/types'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { GENERIC_GAS_LIMIT_ORDER_EXECUTION, BIG_INT_TEN } from 'config/constants/exchange'
 import getPriceForOneToken from 'views/LimitOrders/utils/getPriceForOneToken'
-import { useGasPrice } from 'state/user/hooks'
 
 export default function useGasOverhead(
   inputAmount: CurrencyAmount | undefined,
@@ -19,9 +18,25 @@ export default function useGasOverhead(
   realExecutionPriceAsString: string | undefined
   gasPrice: string | undefined
 } {
-  const { chainId } = useActiveWeb3React()
+  const { chainId, library } = useActiveWeb3React()
+  const [gasPrice, setGasPrice] = useState<string | undefined>(undefined)
 
-  const gasPrice = useGasPrice()
+  // Fetch real-time gas price using library.getGasPrice
+  useEffect(() => {
+    const fetchGasPrice = async () => {
+      if (library) {
+        try {
+          const price = await library.getGasPrice()
+          setGasPrice(price.toString())
+        } catch (error) {
+          console.error("Failed to fetch gas price:", error)
+          setGasPrice(undefined)
+        }
+      }
+    }
+    fetchGasPrice()
+  }, [library])
+
   const requiredGas = formatUnits(gasPrice ? BigNumber.from(gasPrice).mul(GENERIC_GAS_LIMIT_ORDER_EXECUTION) : '0')
   const requiredGasAsCurrencyAmount = tryParseAmount(requiredGas, ETHER)
 

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import { splitSignature } from '@ethersproject/bytes'
 import { Contract } from '@ethersproject/contracts'
@@ -83,7 +83,22 @@ export default function RemoveLiquidity() {
   )
 
   const { t } = useTranslation()
-  const gasPrice = useGasPrice()
+  const [gasPrice, setGasPrice] = useState<BigNumber | null>(null)
+  useEffect(() => {
+    const fetchGasPrice = async () => {
+      if (library) {
+        try {
+          const price = await library.getGasPrice()
+          setGasPrice(price)
+        } catch (error) {
+          console.error("Failed to fetch gas price:", error)
+          setGasPrice(null)
+        }
+      }
+    }
+    fetchGasPrice()
+  }, [library])
+  // const gasPrice = useGasPrice()
 
   const zapModeStatus = useMemo(() => !!zapMode && temporarilyZapMode, [zapMode, temporarilyZapMode])
 
@@ -115,9 +130,6 @@ export default function RemoveLiquidity() {
   )
   const { onUserInput: _onUserInput } = useBurnActionHandlers()
   const isValid = !error
-
-  // console.log(pair, poolData, 'poolDatapoolData:::')
-
   // modal and loading
   const [showDetailed, setShowDetailed] = useState<boolean>(false)
   const [{ attemptingTxn, liquidityErrorMessage, txHash }, setLiquidityState] = useState<{

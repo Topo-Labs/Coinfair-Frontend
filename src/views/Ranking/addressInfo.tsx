@@ -389,15 +389,12 @@ const DetailsPage: React.FC<React.PropsWithChildren<{ address: string }>> = ({ a
   const [copy, setCopied] = useState(false)
   const router = useRouter()
   const { account } = useWeb3React()
-  // const paramValue = router.query;
-  // console.log(typeof account,typeof paramValue.address)
   const url = window.location.pathname;
   const startIndex = url.lastIndexOf("/") + 1;
   const currentPageAddress = url.substring(startIndex);
   const info = useRankingDetails(address)
   const accountLowerCase = account ? account.toLowerCase() : '';
 
-  // console.log(accountLowerCase===currentPageAddress)
   useEffect(() => {
     if (address !== 'undefined') {
       if (address.length !== 42 || address.slice(0, 2) !== '0x') {

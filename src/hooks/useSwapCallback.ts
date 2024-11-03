@@ -4,7 +4,6 @@ import { SwapParameters, Trade, TradeType } from '@pancakeswap/sdk'
 import { useTranslation } from '@pancakeswap/localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useMemo } from 'react'
-import { useGasPrice } from 'state/user/hooks'
 import truncateHash from 'utils/truncateHash'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../config/constants'
 import { useTransactionAdder } from '../state/transactions/hooks'
@@ -37,22 +36,15 @@ interface SwapCallEstimate {
   call: SwapCall
 }
 
-// returns a function that will execute a swap, if the parameters are all valid
-// and the user has approved the slippage adjusted input amount for the trade
 export function useSwapCallback(
-  trade: Trade | undefined, // trade to execute, required
-  allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE, // in bips
-  recipientAddress: string | null, // the address of the recipient of the trade, or null if swap should be returned to sender
+  trade: Trade | undefined,
+  allowedSlippage: number = INITIAL_ALLOWED_SLIPPAGE,
+  recipientAddress: string | null,
 ): { state: SwapCallbackState; callback: null | (() => Promise<string>); error: string | null } {
   const { account, chainId, library } = useActiveWeb3React()
-  const gasPrice = useGasPrice()
-
   const swapCalls = useSwapCallArguments(trade, allowedSlippage, recipientAddress)
-
   const { t } = useTranslation()
-
   const addTransaction = useTransactionAdder()
-
   const recipient = recipientAddress === null ? account : recipientAddress
 
   return useMemo(() => {
@@ -69,6 +61,9 @@ export function useSwapCallback(
     return {
       state: SwapCallbackState.VALID,
       callback: async function onSwap(): Promise<string> {
+        // 动态获取 gas price
+        const gasPrice = await library.getGasPrice()
+
         const estimatedCalls: SwapCallEstimate[] = await Promise.all(
           swapCalls.map((call) => {
             const {
@@ -94,14 +89,12 @@ export function useSwapCallback(
                   })
                   .catch((callError) => {
                     console.error('Call threw error', call, callError)
-
                     return { call, error: transactionErrorToUserReadableMessage(callError, t) }
                   })
               })
           }),
         )
 
-        // a successful estimation is a bignumber gas estimate and the next call is also a bignumber gas estimate
         const successfulEstimation = estimatedCalls.find(
           (el, ix, list): el is SuccessfulCall =>
             'gasEstimate' in el && (ix === list.length - 1 || 'gasEstimate' in list[ix + 1]),
@@ -120,10 +113,6 @@ export function useSwapCallback(
           },
           gasEstimate,
         } = successfulEstimation
-
-        console.log(['Method:'], methodName);
-        // console.log(['Value:'], value);
-        // console.log(['Gas Estimate:'], gasEstimate.toString());
 
         return contract[methodName](...args, {
           gasLimit: calculateGasMargin(gasEstimate),
@@ -179,11 +168,9 @@ export function useSwapCallback(
             return response.hash
           })
           .catch((error: any) => {
-            // if the user rejected the tx, pass this along
             if (error?.code === 4001) {
               throw new Error('Transaction rejected.')
             } else {
-              // otherwise, the error was unexpected and we need to convey that
               console.error(`Swap failed`, error, methodName, args, value)
               throw new Error(t('Swap failed: %message%', { message: transactionErrorToUserReadableMessage(error, t) }))
             }
@@ -199,7 +186,6 @@ export function useSwapCallback(
     recipient,
     recipientAddress,
     swapCalls,
-    gasPrice,
     t,
     addTransaction,
     allowedSlippage,

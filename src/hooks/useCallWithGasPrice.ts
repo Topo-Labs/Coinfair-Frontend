@@ -4,16 +4,17 @@ import { Contract, CallOverrides } from '@ethersproject/contracts'
 import { useGasPrice } from 'state/user/hooks'
 import get from 'lodash/get'
 import * as Sentry from '@sentry/react'
+import useActiveWeb3React from './useActiveWeb3React'
 
 export function useCallWithGasPrice() {
-  const gasPrice = useGasPrice()
-
+  const { library } = useActiveWeb3React() // 获取 library 对象
+  
   /**
-   * Perform a contract call with a gas price returned from useGasPrice
+   * Perform a contract call with a gas price fetched dynamically from library.getGasPrice()
    * @param contract Used to perform the call
    * @param methodName The name of the method called
    * @param methodArgs An array of arguments to pass to the method
-   * @param overrides An overrides object to pass to the method. gasPrice passed in here will take priority over the price returned by useGasPrice
+   * @param overrides An overrides object to pass to the method. gasPrice passed in here will take priority over the price returned by library.getGasPrice()
    * @returns https://docs.ethers.io/v5/api/providers/types/#providers-TransactionReceipt
    */
   const callWithGasPrice = useCallback(
@@ -23,6 +24,9 @@ export function useCallWithGasPrice() {
       methodArgs: any[] = [],
       overrides: CallOverrides = null,
     ): Promise<TransactionResponse> => {
+      // 获取实时 gas price
+      const gasPrice = overrides?.gasPrice || (await library.getGasPrice())
+
       Sentry.addBreadcrumb({
         type: 'Transaction',
         message: `Call with gas price: ${gasPrice}`,
@@ -33,12 +37,11 @@ export function useCallWithGasPrice() {
           overrides,
         },
       })
-      const contractMethod = get(contract, methodName)
-      const hasManualGasPriceOverride = overrides?.gasPrice
 
+      const contractMethod = get(contract, methodName)
       const tx = await contractMethod(
         ...methodArgs,
-        hasManualGasPriceOverride ? { ...overrides } : { ...overrides, gasPrice },
+        { ...overrides, gasPrice } // 使用获取到的实时 gas price
       )
 
       if (tx) {
@@ -56,7 +59,7 @@ export function useCallWithGasPrice() {
 
       return tx
     },
-    [gasPrice],
+    [library],
   )
 
   return { callWithGasPrice }

@@ -132,26 +132,30 @@ export default function AddLiquidity() {
   const [currencyIdA, currencyIdB] = router.query.currency || [PE[chainId]?.address, '']
   const [steps, setSteps] = useState(Steps.Choose)
   const [feeType, setFeeType] = useState<number>(3)
+  const [gasPrice, setGasPrice] = useState<BigNumber | null>(null)
   
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
-  const gasPrice = useGasPrice()
+  // const gasPrice = useGasPrice()
+  useEffect(() => {
+    const fetchGasPrice = async () => {
+      if (library) {
+        try {
+          const price = await library.getGasPrice()
+          setGasPrice(price)
+        } catch (error) {
+          console.error("Failed to fetch gas price:", error)
+          setGasPrice(null)
+        }
+      }
+    }
+    fetchGasPrice()
+  }, [library])
 
   const currencyA = useCurrency(currencyIdA)
   const currencyB = useCurrency(currencyIdB)
 
   const pairV3 = useV3Pair(currencyA ?? undefined, currencyB ?? undefined)
-
-  // const pairCurrent = pairV3?.length ? pairV3.find(item => {
-  //   if (contractListMap[ammType].includes(item[1].poolType) && feeType === item[1].fee) {
-  //     return item
-  //   }
-  // }) : undefined
-
-  // const pairData = pairCurrent ? pairCurrent[1] : undefined
-
-  // console.log(pairData)
-
   useEffect(() => {
     if (!currencyIdA && !currencyIdB) {
       dispatch(resetMintState())

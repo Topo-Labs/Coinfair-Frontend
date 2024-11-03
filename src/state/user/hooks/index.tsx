@@ -458,13 +458,8 @@ export function useTrackedTokenPairs(): [Token, Token][] {
   const { chainId } = useActiveWeb3React()
   const tokens = useOfficialsAndUserAddedTokens()
 
-  // console.log(tokens, 111)
-
   // pinned pairs
   const pinnedPairs = useMemo(() => (chainId ? PINNED_PAIRS[chainId] ?? [] : []), [chainId])
-
-  // console.log(pinnedPairs, 222)
-
   const farmPairs: [Token, Token][] = useMemo(
     () =>
       farms
@@ -472,9 +467,6 @@ export function useTrackedTokenPairs(): [Token, Token][] {
         .map((farm) => [deserializeToken(farm.token), deserializeToken(farm.quoteToken)]),
     [],
   )
-
-  // console.log(farmPairs, 333)
-
   // pairs for every token against every base
   const generatedPairs: [Token, Token][] = useMemo(
     () =>
@@ -498,14 +490,8 @@ export function useTrackedTokenPairs(): [Token, Token][] {
         : [],
     [tokens, chainId],
   )
-
-  // console.log(generatedPairs, 444)
-
   // pairs saved by users
   const savedSerializedPairs = useSelector<AppState, AppState['user']['pairs']>(({ user: { pairs } }) => pairs)
-
-  // console.log(savedSerializedPairs, 555)
-
   const userPairs: [Token, Token][] = useMemo(() => {
     if (!chainId || !savedSerializedPairs) return []
     const forChain = savedSerializedPairs[chainId]
@@ -515,9 +501,6 @@ export function useTrackedTokenPairs(): [Token, Token][] {
       return [deserializeToken(forChain[pairId].token0), deserializeToken(forChain[pairId].token1)]
     })
   }, [savedSerializedPairs, chainId])
-
-  // console.log(userPairs, 666)
-
   // const combinedList = useMemo(
   //   () => userPairs.concat(generatedPairs).concat(pinnedPairs).concat(farmPairs),
   //   [generatedPairs, pinnedPairs, userPairs, farmPairs],

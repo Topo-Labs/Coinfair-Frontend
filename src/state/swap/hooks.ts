@@ -286,7 +286,6 @@ export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: st
       outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.USDT.address
       break;
     default:
-      // console.log();
       break;
   }
 

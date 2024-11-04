@@ -72,7 +72,7 @@ const MenuIcon: React.FC<React.PropsWithChildren<{ avatarSrc?: string; variant: 
   }
 
   if (!avatarSrc) {
-    return <NoProfileMenuIcon />;
+    return 'Select a Network';
   }
 
   return <ProfileIcon src={avatarSrc} height={20} width={20} />;

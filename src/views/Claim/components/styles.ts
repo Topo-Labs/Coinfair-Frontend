@@ -50,7 +50,7 @@ export const ClaimNftMain = styled.div`
 export const ClaimNft = styled.div`
   width: fit-content;
   border-radius: 16px;
-  background: #EEEEEE;
+  perspective: 1000px;
   /* box-shadow: 0 0 15px 10px #27272B; */
 `;
 
@@ -91,8 +91,32 @@ export const CopyBtn = styled.div`
   position: relative;
 `;
 
-export const ClaimImg = styled.img`
-  border-radius: 16px;
+export const ClaimImgWrapper = styled.div`
+  position: relative;
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  animation: rotate3D 5s infinite linear;
+
+  @keyframes rotate3D {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+`
+
+export const ClaimImg = styled.img<{depth: number}>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  transform: translateZ(${props => props.depth}px);
+  opacity: ${props => 1 - props.depth / 20};
 `;
 
 export const ClaimHistoryContent = styled.div`

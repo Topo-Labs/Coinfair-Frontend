@@ -6,7 +6,7 @@ import { NETWORK_CONFIG } from 'utils/wallet';
 import useToast from 'hooks/useToast'
 import { MINT_ADDRESS } from 'config/constants/exchange'
 import { MINT_ABI } from './constants';
-import { ClaimFooter, ClaimHeader, ClaimImg, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress, NftMessage, NftTotal } from './styles';
+import { ClaimFooter, ClaimHeader, ClaimImg, ClaimImgWrapper, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress, NftMessage, NftTotal } from './styles';
 
 interface ExtendedEthereum extends ExternalProvider {
   on?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
@@ -108,6 +108,8 @@ const Claim = () => {
     );
   }
 
+  const layers = Array.from({ length: 5 }, (_, i) => i - 5);
+
   return (
     <>
       <ClaimHeader>
@@ -115,17 +117,16 @@ const Claim = () => {
       </ClaimHeader>
       <ClaimNftMain>
         <ClaimNft>
-          <ClaimImg src="/images/circle/nft.svg" alt="NFT" />
-          <NftMessage>
-            <NftTotal>
-              <span>Name:</span>
-              <span>Eadge</span>
-            </NftTotal>
-            <NftTotal>
-              <span>Claimed Count:</span>
-              <span>{claimCount}</span>
-            </NftTotal>
-          </NftMessage>
+          <ClaimImgWrapper>
+            {layers.map((depth) => (
+              <ClaimImg
+                key={depth}
+                src="/images/circle/nft_dog.png"
+                alt="NFT"
+                depth={depth}
+              />
+            ))}
+          </ClaimImgWrapper>
         </ClaimNft>
       </ClaimNftMain>
       <ClaimFooter>

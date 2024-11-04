@@ -1,5 +1,6 @@
 import { Box, Text, UserMenu, UserMenuDivider, UserMenuItem } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
+import { useWeb3React } from '@web3-react/core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import Image from 'next/image'
 import { setupNetwork } from 'utils/wallet'
@@ -38,9 +39,7 @@ export const NetworkSelect = () => {
 }
 
 export const NetworkSwitcher = () => {
-  const { chainId } = useActiveWeb3React()
-
-  // const opChainId = 204
+  const { chainId } = useWeb3React()
 
   return (
     chainId ?

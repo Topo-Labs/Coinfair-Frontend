@@ -49,6 +49,7 @@ const Menu = styled.div<{ isOpen: boolean }>`
   width: 280px;
   visibility: visible;
   z-index: 1001;
+  box-shadow: 0 0 10px 2px #FAFAFA;
 
   ${({ isOpen }) =>
     !isOpen &&

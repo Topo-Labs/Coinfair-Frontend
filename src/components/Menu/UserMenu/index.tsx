@@ -77,13 +77,13 @@ const UserMenu = () => {
           {t('Your NFTs')}
         </UserMenuItem> */}
         {/* <ProfileUserMenuItem isLoading={isLoading} hasProfile={hasProfile} disabled={isWrongNetwork} /> */}
-        <UserMenuItem
+        {/* <UserMenuItem
           as="button"
           disabled={isWrongNetwork}
           onClick={handleSignClick}
         >
           {t('Go to Profile')}
-        </UserMenuItem>
+        </UserMenuItem> */}
         <UserMenuDivider />
         <UserMenuItem as="button" onClick={logout}>
           <Flex alignItems="center" justifyContent="space-between" width="100%">

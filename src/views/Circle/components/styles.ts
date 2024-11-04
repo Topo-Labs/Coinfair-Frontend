@@ -48,7 +48,7 @@ export const EarnTipWords = styled.div`
 `
 
 export const EarnTipGreen = styled.span`
-  font-size: 28px;
+  font-size: 38px;
   font-weight: 900;
   color: #0DAE6F;
   line-height: 45px;
@@ -715,8 +715,7 @@ export const CircleNftMain = styled.div`
 export const CircleNft = styled.div`
   width: fit-content;
   border-radius: 16px;
-  background: #EEEEEE;
-  /* box-shadow: 0 0 15px 10px #27272B; */
+  perspective: 1000px;
 `;
 
 export const NftMessage = styled.div`
@@ -755,8 +754,31 @@ export const CopyBtn = styled.div`
   position: relative;
 `;
 
-export const CircleImg = styled.img`
-  border-radius: 16px;
+export const CircleImgWrapper = styled.div`
+  position: relative;
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  animation: rotate3D 5s infinite linear;
+
+  @keyframes rotate3D {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+`
+
+export const CircleImg = styled.img<{depth: number}>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(${props => props.depth}px);
+  opacity: ${props => 1 - props.depth / 20};
 `;
 
 export const CircleHistoryContent = styled.div`

@@ -10,7 +10,7 @@ import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/
 import {isAddress} from "@ethersproject/address"
 import { MINT_ADDRESS } from 'config/constants/exchange'
 import { MINT_ABI } from './constants';
-import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, ListWrapper, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
+import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, ListWrapper, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -106,11 +106,11 @@ export default function MintNft() {
     }
   }, [chainId, account]);
 
-  useEffect(() => {
-    if (active) {
-      fetchNftInfo();
-    }
-  }, [active, fetchNftInfo]);
+  // useEffect(() => {
+  //   if (active) {
+  //     fetchNftInfo();
+  //   }
+  // }, [active, fetchNftInfo]);
 
   const confirmMint = useCallback(async () => {
     if (!amount || parseInt(amount as unknown as string, 10) <= 0) {
@@ -196,49 +196,26 @@ export default function MintNft() {
     }, 1000)
   }
 
+  const layers = Array.from({ length: 5 }, (_, i) => i - 5);
+
   return (
     <ListWrapper>
       <CircleHeader>
         <CircleTitle>Mint & Share NFT</CircleTitle>
       </CircleHeader>
       <CircleNftMain>
-        <CircleNft>
-          <CircleImg src="/images/circle/nft.svg" alt="NFT" />
-          <NftMessage>
-            <NftTotal>
-              <span>Mint Total:</span>
-              <span>{nftInfo.length > 1 && nftInfo[1] !== undefined ? nftInfo[1] : '--'}</span>
-            </NftTotal>
-            <NftRemain>
-              <span>Remain:</span>
-              <span>
-                {nftInfo.length > 1
-                  ? !Number.isNaN(Number(nftInfo[1])) && !Number.isNaN(Number(nftInfo[0]))
-                    ? (Number(nftInfo[1]) - Number(nftInfo[0])).toString()
-                    : '--'
-                  : '--'}
-              </span>
-            </NftRemain>
-            {/* <CopyMain>
-              <CopyLink title={`https://coinfair.xyz/claim?address=${account}`}>
-                https://coinfair.xyz/claim?address={account}
-              </CopyLink>
-              <CopyBtn
-                onClick={() => copyText(`https://coinfair.xyz/claim?address=${account}`, displayTooltip)}
-                aria-label="Copy Claim link">
-                <FiCopy />
-                <Tooltip
-                  isTooltipDisplayed={isTooltipDisplayed}
-                  tooltipTop={-5}
-                  tooltipRight={-60}
-                  tooltipFontSize={100}
-                >
-                  Copied
-                </Tooltip>
-              </CopyBtn>
-            </CopyMain> */}
-          </NftMessage>
-        </CircleNft>
+      <CircleNft>
+        <CircleImgWrapper>
+          {layers.map((depth) => (
+            <CircleImg
+              key={depth}
+              src="/images/circle/nft_dog.png"
+              alt="NFT"
+              depth={depth}
+            />
+          ))}
+        </CircleImgWrapper>
+      </CircleNft>
       </CircleNftMain>
       <CircleContent>
         <MintAmount

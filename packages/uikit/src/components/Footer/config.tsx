@@ -1,6 +1,6 @@
 import { Language } from "../LangSelector/types";
 import { FooterLinkType } from "./types";
-import { TwitterIcon, TelegramIcon, RedditIcon, InstagramIcon, GithubIcon, DiscordIcon, MediumIcon } from "../Svg";
+import { TwitterIcon, TelegramIcon, DiscordIcon, MediumIcon, GitBookIcon } from "../Svg";
 // TODO:EquitySwap
 export const footerLinks: FooterLinkType[] = [
   {
@@ -96,6 +96,11 @@ export const socials = [
     label: "Medium",
     icon: MediumIcon,
     href: "https://medium.com/@coinfair-global",
+  },
+  {
+    label: "Gitbook",
+    icon: GitBookIcon,
+    href: "https://coinfair.gitbook.io/",
   },
 ];
 

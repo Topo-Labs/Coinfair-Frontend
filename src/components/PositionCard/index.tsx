@@ -406,7 +406,7 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
                     </Button>
                     <Button
                       as={NextLinkFromReactRouter}
-                      to={`/add/${currencyId(currency0)}/${currencyId(currency1)}/${pair.poolType}/${pair.fee}?step=1`}
+                      to={`/add/${currencyId(currency1)}/${currencyId(currency0)}/${pair.poolType}/${pair.fee}?step=1`}
                       variant="text"
                       startIcon={<AddIcon color="primary" />}
                       width="100%"

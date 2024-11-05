@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { formatUnits } from '@ethersproject/units';
 import { TREASURY_ADDRESS } from '@pancakeswap/sdk';
+import { useTranslation } from '@pancakeswap/localization';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import TreasuryABI from '@pancakeswap/sdk/src/abis/Coinfair_Treasury.json';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
@@ -17,6 +18,8 @@ export default function EarnClaimItem({ token }) {
   const [isClaiming, setIsClaiming] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { isDesktop } = useMatchBreakpointsContext()
+
+  const { t } =  useTranslation()
 
   const fetchClaims = async (_contract) => {
     try {
@@ -95,7 +98,7 @@ export default function EarnClaimItem({ token }) {
             <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
             <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
             <EarnClaimLast>
-              <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
+              <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
             </EarnClaimLast>
           </EarnClaimTItem>
         ) : (
@@ -115,17 +118,17 @@ export default function EarnClaimItem({ token }) {
               </EarnTokenInfo>
               <EarnClaimAmount>{claimPending}</EarnClaimAmount>
               <EarnClaimLast>
-                <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>Claim</EarnClaimButton>
+                <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
               </EarnClaimLast>
               <EarnClaimSelect onClick={() => setIsOpen((prev) => !prev)} src='/images/item-arrow.svg' isOpen={isOpen}/>
             </EarnClaimTItem>
             <EarnClaimTBottom isOpen={isOpen}>
               <EarnTBottomGroup>
-                <EarnTBottomName>Claimed</EarnTBottomName>
+                <EarnTBottomName>{t('Claimed')}</EarnTBottomName>
                 <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
               </EarnTBottomGroup>
               <EarnTBottomGroup>
-                <EarnTBottomName>Total</EarnTBottomName>
+                <EarnTBottomName>{t('Total')}</EarnTBottomName>
                 <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
               </EarnTBottomGroup>
             </EarnClaimTBottom>

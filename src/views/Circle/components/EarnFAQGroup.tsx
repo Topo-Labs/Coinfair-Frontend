@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from '@pancakeswap/localization';
 import { EarnAnswer, EarnFAQItem, EarnQuestion, EarnAnswerWrapper, PlusMinusIcon } from './styles'
 
 type EarnFAQGroupProps = {
@@ -14,6 +15,8 @@ export default function EarnFAQGroup({ question, answer, isOpen, toggleOpen, ind
   const answerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
 
+  const { t } =  useTranslation()
+
   useEffect(() => {
     if (isOpen && answerRef.current) {
       setHeight(answerRef.current.scrollHeight);
@@ -25,11 +28,11 @@ export default function EarnFAQGroup({ question, answer, isOpen, toggleOpen, ind
   return (
     <EarnFAQItem>
       <EarnQuestion onClick={() => toggleOpen(index)}>
-        Q: {question}
+        Q: {t(question)}
         <PlusMinusIcon isOpen={isOpen}/>
       </EarnQuestion>
       <EarnAnswerWrapper isOpen={isOpen} height={height}>
-        <EarnAnswer ref={answerRef}>A: {answer}</EarnAnswer>
+        <EarnAnswer ref={answerRef}>A: {t(answer)}</EarnAnswer>
       </EarnAnswerWrapper>
     </EarnFAQItem>
   )

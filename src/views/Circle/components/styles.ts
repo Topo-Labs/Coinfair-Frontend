@@ -570,9 +570,10 @@ export const EarnMintGroupWords = styled.span`
 
 export const EarnFAQ = styled.div`
   border-radius: 16px;
-  padding: 28px 0;
+  padding-top: 28px;
   box-shadow: 0 1px 3px 0 #EDEDED;
   margin-top: 40px;
+  overflow: hidden;
 `
 
 export const EarnFAQTitle = styled(EarnTitle)`

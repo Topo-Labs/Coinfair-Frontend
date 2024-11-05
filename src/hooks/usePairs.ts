@@ -150,54 +150,35 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
   // const feeResults = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getFee');
 
   const pairsData = useMemo(() => {
-    // 将 results 分为每 9 个一组，保持与 processedPairAddresses 对应
     const groupedResults = Array.from({ length: Math.ceil(results.length / 9) }, (_, i) =>
       results.slice(i * 9, i * 9 + 9)
     );
   
     return groupedResults.map((group, i) => {
-      // 对应的 processedPairAddresses
       return group.map((result, index) => {
         const { result: reserves, loading } = result;
-        const { tokenA, tokenB, poolType, fee } = processedPairAddresses[i * 9 + index]; // 获取 tokenA, tokenB, poolType 和 fee
+        const { tokenA, tokenB, poolType, fee } = processedPairAddresses[i * 9 + index];
   
         if (loading) return [PairState.LOADING, null];
         if (!tokenA || !tokenB || tokenA.equals(tokenB)) return [PairState.INVALID, null];
         if (!reserves) return [PairState.NOT_EXISTS, null];
   
-        // 提取 reserves 值，处理数组或对象的情况
         const reserve0 = Array.isArray(reserves) ? reserves[0] : reserves.reserve0;
         const reserve1 = Array.isArray(reserves) ? reserves[1] : reserves.reserve1;
 
-        // console.log(tokenA.symbol, tokenB.symbol, reserve0.toString(), reserve1.toString())
-
         const [token0, token1] = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA];
-  
-        // 返回 PairState 和新创建的 PairV3 实例，传递 token 和 reserves
-        return [
+          return [
           PairState.EXISTS,
           new PairV3(
-            new TokenAmount(token0, reserve0.toString()),  // 传递 tokenA 和 reserve0
-            new TokenAmount(token1, reserve1.toString()),  // 传递 tokenB 和 reserve1
+            new TokenAmount(token0, reserve0.toString()),
+            new TokenAmount(token1, reserve1.toString()),
             poolType,
             fee
           ),
         ];
       });
     });
-  }, [results, processedPairAddresses]); 
-  
-  // useEffect(() => {
-  //   pairsData.forEach(([, pair], i) => {
-  //     const fee = feeResults[i].result ? feeResults[i].result[0].toString() : '0';
-  //     if (pair && fee !== '0') {
-  //       const event = new CustomEvent('onFee', {
-  //         detail: fee,
-  //       });
-  //       window.dispatchEvent(event);
-  //     }
-  //   });
-  // }, [pairsData, feeResults]);
+  }, [results, processedPairAddresses]);
 
   return pairsData as any;
 }

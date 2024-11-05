@@ -14,7 +14,7 @@ import {
 } from 'config/constants/exchange';
 import { Interface } from '@ethersproject/abi';
 import IPancakePairABI from 'config/abi/IPancakePair.json';
-import { PairState, usePairs, useV3Pairs } from './usePairs';
+import { PairState, useV3Pairs } from './usePairs';
 import { wrappedCurrency } from '../utils/wrappedCurrency';
 import { useUnsupportedTokens, useWarningTokens } from './Tokens';
 import { useMultipleContractSingleData } from '../state/multicall/hooks';

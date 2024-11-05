@@ -33,48 +33,18 @@ export default function Pool() {
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
-  // const tokenPairsV3 = usePairs()
-  const tokenPairsWithLiquidityTokens = useMemo(
-    () => trackedTokenPairs.map((tokens) => ({ liquidityToken: toV2LiquidityToken(tokens), tokens })),
-    [trackedTokenPairs],
-  )
-  const liquidityTokens = useMemo(
-    () => tokenPairsWithLiquidityTokens.map((tpwlt) => tpwlt.liquidityToken),
-    [tokenPairsWithLiquidityTokens],
-  )
-  const [v2PairsBalances, fetchingV2PairBalances] = useTokenBalancesWithLoadingIndicator(
-    account ?? undefined,
-    liquidityTokens,
-  )
-
-  // fetch the reserves for all V2 pools in which the user has a balance
-  const liquidityTokensWithBalances = useMemo(
-    () =>
-      tokenPairsWithLiquidityTokens.filter(({ liquidityToken }) =>
-        v2PairsBalances[liquidityToken.address]?.greaterThan('0'),
-      ),
-    [tokenPairsWithLiquidityTokens, v2PairsBalances],
-  )
-
-  const v2Pairs = usePairs(liquidityTokensWithBalances.map(({ tokens }) => tokens))
   const tokenPairsV3 = useV3Pairs(trackedTokenPairs)
 
   const filteredPairs = tokenPairsV3.map(
     secondLevelArray => 
       secondLevelArray.filter(
-        thirdLevelArray => thirdLevelArray[1] // 只保留第二个值为真的第三层数组
+        thirdLevelArray => thirdLevelArray[1]
       ).map(
-        thirdLevelArray => thirdLevelArray[1] // 提取出符合条件的第二个值
+        thirdLevelArray => thirdLevelArray[1]
       )
-  ).flat(); // 将多维数组拍平成一级数组
+  ).flat();
 
-  const v2IsLoading =
-    fetchingV2PairBalances ||
-    v2Pairs?.length < liquidityTokensWithBalances.length ||
-    (v2Pairs?.length && v2Pairs.every(([pairState]) => pairState === PairState.LOADING))
-  const allV2PairsWithLiquidity = v2Pairs
-    ?.filter(([pairState, pair]) => pairState === PairState.EXISTS && Boolean(pair))
-    .map(([, pair]) => pair)
+  const v2IsLoading = filteredPairs?.length === 0
 
   const renderBody = () => {
     if (!account) {
@@ -119,28 +89,6 @@ export default function Pool() {
     <Page>
       <AppBody>
         <AppHeader title={t('Your Liquidity')} subtitle="" />
-        {/* <Text color={theme.colors.contrast} p={[0, 17]} fontSize="12px">
-          <TextCenter>{t('liquidityTitle')}</TextCenter>
-          {t('liquidityText1')}
-          <br />
-          {t('liquidityText2')}
-          <br />
-          {t('liquidityText3')}
-          <br />
-          {
-            isMore ?
-              <>
-                {t('liquidityText4')}
-                <br />
-                {t('liquidityText5')}
-                <br />
-                {t('liquidityText6')}
-                <br />
-                {t('liquidityText7')}
-              </> : null
-          }
-          <div role="button" tabIndex="0" onKeyDown={() => { setMore(!isMore) }} style={{ zoom: '0.96', color: '#5c53d3', cursor: 'pointer', textAlign: 'right' }} onClick={() => { setMore(!isMore) }}>{isMore ? t('hide') : t('more')}</div>
-        </Text> */}
         <Body
         >
           {renderBody()}
@@ -167,11 +115,6 @@ export default function Pool() {
               {t('Add Liquidity')}
             </StyledButton>
           </Link>
-          {/* <Link href="/whitelist" passHref>
-            <StyledButton id="join-pool-button" width="100%" style={{ background: 'transparent', boxShadow: 'unset', color: '#5c53d3', marginTop: '16px' }}>
-              {t('addWhitelist')}
-            </StyledButton>
-          </Link> */}
         </CardFooter>
       </AppBody>
     </Page>
@@ -195,36 +138,6 @@ export default function Pool() {
               <ArrowBackIcon width="22px" />
             </IconButton>
           </div>
-          {/* <div
-            style={{
-              fontFamily: 'Inter',
-              fontSize: '12px',
-              fontStyle: 'normal',
-              lineHeight: '15px',
-              color: '#111526',
-            }}
-          >
-            <TextCenter>{t('liquidityTitle')}</TextCenter>
-            {t('liquidityText1')}
-            <br />
-            {t('liquidityText2')}
-            <br />
-            {t('liquidityText3')}
-            <br />
-            {t('liquidityText4')}
-            <br />
-            {
-              isMore ?
-                <>
-                  {t('liquidityText5')}
-                  <br />
-                  {t('liquidityText6')}
-                  <br />
-                  {t('liquidityText7')}
-                </> : null
-            }
-            <div role="button" tabIndex="0" onKeyDown={() => { setMore(!isMore) }} style={{ zoom: '0.96', color: '#5c53d3', cursor: 'pointer', textAlign: 'right' }} onClick={() => { setMore(!isMore) }}>{isMore ? t('hide') : t('more')}</div>
-          </div> */}
         </div>
         <div
           style={{
@@ -333,21 +246,6 @@ export default function Pool() {
                 {whiteListInfo.whiteListAddress}
               </div>
             )}
-            {/* {!isAddWiteListSuccess && (
-              <div
-                style={{
-                  fontFamily: 'Inter',
-                  fontStyle: 'normal',
-                  fontWeight: 400,
-                  fontSize: '12px',
-                  lineHeight: '15px',
-                  color: '#AAAAAA',
-                  marginTop: '5px',
-                }}
-              >
-                {t('tokenIssuerText')}
-              </div>
-            )} */}
           </div>
         </div>
         <CardFooter style={{ textAlign: 'center' }}>

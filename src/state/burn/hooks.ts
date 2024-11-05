@@ -3,7 +3,7 @@ import { useCallback, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { wrappedCurrency } from 'utils/wrappedCurrency'
-import { usePair, useV3Pair } from 'hooks/usePairs'
+import { useV3Pair } from 'hooks/usePairs'
 import { useTotalSupply } from 'hooks/useTotalSupply'
 
 import { useTranslation } from '@pancakeswap/localization'
@@ -43,8 +43,6 @@ export function useDerivedBurnInfo(
   const { t } = useTranslation()
 
   // pair + totalsupply
-  const [, pair] = usePair(currencyA, currencyB)
-
   const pairV3 = useV3Pair(currencyA, currencyB)?.map(pairItem => pairItem[1])
 
   const pairFill = pairV3?.length && pairV3.find(item => item?.poolType.toString() === poolType && item?.fee.toString() === fee)

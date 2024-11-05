@@ -38,11 +38,11 @@ const Nav = () => {
             {t('Liquidity')}
           </ButtonMenuItem>
         </Link>
-        <Link href="/income" passHref>
+        {/* <Link href="/income" passHref>
           <ButtonMenuItem id="pool-nav-link" as="a">
             {t('Income')}
           </ButtonMenuItem>
-        </Link>
+        </Link> */}
       </ButtonMenu>
     </StyledNav>
   )

@@ -6,7 +6,7 @@ import { BigNumber as EthersBigNumber } from '@ethersproject/bignumber'
 import { Zero } from '@ethersproject/constants'
 import useSWR from 'swr'
 import { BIG_ZERO } from 'utils/bigNumber'
-import {BSC_PROD_NODE, bscRpcProvider} from 'utils/providers'
+import { bscRpcProvider } from 'utils/providers'
 import { NETWORK_CONFIG } from 'utils/wallet'
 
 import {StaticJsonRpcProvider} from "@ethersproject/providers";

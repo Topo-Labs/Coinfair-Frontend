@@ -11,7 +11,7 @@ import { bscRpcProvider } from 'utils/providers'
  */
 const useActiveWeb3React = (): Web3ReactContextInterface<Web3Provider> => {
   const { library, chainId, ...web3React } = useWeb3React()
-  return { library: library ?? bscRpcProvider, chainId: chainId ?? ChainId.BASE, ...web3React }
+  return { library: library ?? bscRpcProvider, chainId: chainId ?? ChainId.BSC, ...web3React }
 }
 
 export default useActiveWeb3React

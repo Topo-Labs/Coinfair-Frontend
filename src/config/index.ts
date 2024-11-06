@@ -81,8 +81,8 @@ export const NETWORK_CONFIG = {
     network: 'Base Network',
     scanURL: 'https://basescan.org',
     rpcUrls: [
-      // 'https://mainnet.base.org',
-      'https://rpc.ankr.com/base/9c9763b95d62a8269670b0aa089f1ba82604d70f86115ee5185f54c6a837166f',
+      'https://mainnet.base.org',
+      // 'https://rpc.ankr.com/base/9c9763b95d62a8269670b0aa089f1ba82604d70f86115ee5185f54c6a837166f',
       // 'https://base.meowrpc.com',
       // 'https://base.llamarpc.com',
       // 'https://base.drpc.org',

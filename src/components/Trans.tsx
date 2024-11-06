@@ -9,7 +9,7 @@ const Trans = ({ children, ...props }: TransProps) => {
   if (typeof children !== 'string') {
     throw new Error('children not string in Trans is not supported yet')
   }
-  return <>{t(children, props)}</>
+  return <span style={{ color: '#fff' }}>{t(children, props)}</span>
 }
 
 export default Trans

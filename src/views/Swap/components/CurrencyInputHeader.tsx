@@ -66,7 +66,7 @@ const CurrencyInputHeader: React.FC<React.PropsWithChildren<Props>> = ({
     setIsChartDisplayed((currentIsChartDisplayed) => !currentIsChartDisplayed)
   }
   const { isDark } = useTheme()
-  const getStrokeColor = () => isDark ? "#FFFFFF" : "#333333";
+  const getStrokeColor = () => "#000000";
   const [onPresentTransactionsModal] = useModal(<TransactionsModal />)
   const handleOnClick = useCallback(() => onRefreshPrice?.(), [onRefreshPrice])
   const router = useRouter()

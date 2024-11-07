@@ -244,21 +244,9 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         )}
 
         <BodyWrapper mt={isDesktop && !location.pathname.startsWith('/swap') && !location.pathname.startsWith('/earn') ? `${totalTopMenuHeight + 56}px` : "0"}>
-          {
-            !isDesktop && !location.pathname.startsWith('/earn') &&
-            <XwarnMobile>
-              <img src="/images/X-warning-mobile.png" alt="" />
-            </XwarnMobile>
-          }
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
           </Inner>
-          {
-            isDesktop && !location.pathname.startsWith('/earn') &&
-            <Xwarn>
-              <img style={{ width: '60%' }} src="/images/X-warning.png" alt="" />
-            </Xwarn>
-          }
           <Footer
             items={footerLinks}
             isDark={isDark}

@@ -293,14 +293,14 @@ export default function PriceInputPanel({
                 {pair ? (
                   <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={16} margin />
                 ) : currency ? (
-                  <CurrencyLogo currency={currency} size="20px" style={{ marginRight: '8px' }} />
+                  <CurrencyLogo currency={currency} size="20px" />
                 ) : null}
                 {pair ? (
-                  <Text id="pair" bold style={{ fontSize: '12px' }}>
+                  <Text id="pair" bold style={{ marginLeft: '8px', fontSize: '12px' }}>
                     {pair?.token0.symbol}:{pair?.token1.symbol}
                   </Text>
                 ) : (
-                  <Text id="pair" bold style={{ fontSize: '12px' }}>
+                  <Text id="pair" bold style={{ marginLeft: '8px', fontSize: '12px' }}>
                     {(currency && currency.symbol && currency.symbol.length > 20
                       ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
                         currency.symbol.length - 5,
@@ -330,8 +330,8 @@ export default function PriceInputPanel({
               }}
             >
               <Flex alignItems="center" justifyContent="space-between">
-                <CurrencyLogo currency={otherCurrency} size="20px" style={{ marginRight: '8px' }} />
-                <Text id="pair" bold style={{ fontSize: '12px' }}>
+                <CurrencyLogo currency={otherCurrency} size="20px" />
+                <Text id="pair" bold style={{ marginLeft: '8px', fontSize: '12px' }}>
                   {(otherCurrency && otherCurrency.symbol && otherCurrency.symbol.length > 20
                     ? `${otherCurrency.symbol.slice(0, 4)}...${otherCurrency.symbol.slice(
                       otherCurrency.symbol.length - 5,

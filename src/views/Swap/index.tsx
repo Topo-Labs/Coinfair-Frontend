@@ -77,7 +77,6 @@ const Label = styled(Text)`
 `
 
 const SwitchIconButton = styled(IconButton)`
-  box-shadow: 0px 0px 10px #ccc;
   .icon-up-down {
     display: none;
   }
@@ -467,8 +466,8 @@ export default function Swap() {
                         id="swap-currency-input"
                         showCommonBases
                         commonBasesType={CommonBasesType.SWAP_LIMITORDER}
+                        zapStyle='noZap'
                       />
-
                       <StyledAutoColumn justify="space-between">
                         <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
                           <SwitchIconButton
@@ -510,6 +509,7 @@ export default function Swap() {
                         id="swap-currency-output"
                         showCommonBases
                         commonBasesType={CommonBasesType.SWAP_LIMITORDER}
+                        zapStyle='noZap'
                       />
                     </div>
                     {isExpertMode && recipient !== null && !showWrap ? (

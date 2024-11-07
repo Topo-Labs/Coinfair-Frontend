@@ -379,14 +379,14 @@ export default function CurrencyInputPanel({
                   {pair ? (
                     <DoubleCurrencyLogo currency0={pair.token0} currency1={pair.token1} size={16} margin />
                   ) : currency ? (
-                    <CurrencyLogo currency={currency} size="20px" style={{ marginRight: '8px' }} />
+                    <CurrencyLogo currency={currency} size="20px" />
                   ) : null}
                   {pair ? (
-                    <Text id="pair" bold style={{ fontSize: '12px' }}>
+                    <Text id="pair" bold style={{ marginLeft: '8px', fontSize: '12px' }}>
                       {pair?.token0.symbol}:{pair?.token1.symbol}
                     </Text>
                   ) : (
-                    <Text id="pair" bold style={{ fontSize: '12px' }}>
+                    <Text id="pair" bold style={{ marginLeft: '8px', fontSize: '12px' }}>
                       {(currency && currency.symbol && currency.symbol.length > 20
                         ? `${currency.symbol.slice(0, 4)}...${currency.symbol.slice(
                           currency.symbol.length - 5,

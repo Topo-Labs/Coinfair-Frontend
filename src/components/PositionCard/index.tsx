@@ -274,8 +274,35 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
   )
   const [showMore, setShowMore] = useState(false)
 
-  const currency0 = unwrappedToken(pair.token0)
-  const currency1 = unwrappedToken(pair.token1)
+  let currency0;
+  let currency1;
+
+  switch (pair.poolType) {
+    case 1:
+      currency0 = unwrappedToken(pair.token0);
+      currency1 = unwrappedToken(pair.token1);
+      break;
+    case 2:
+      currency0 = unwrappedToken(pair.token0);
+      currency1 = unwrappedToken(pair.token1);
+      break;
+    case 3:
+      currency0 = unwrappedToken(pair.token1);
+      currency1 = unwrappedToken(pair.token0);
+      break;
+    case 4:
+      currency0 = unwrappedToken(pair.token0);
+      currency1 = unwrappedToken(pair.token1);
+      break;
+    case 5:
+      currency0 = unwrappedToken(pair.token1);
+      currency1 = unwrappedToken(pair.token0);
+      break;
+    default:
+      currency0 = unwrappedToken(pair.token1);
+      currency1 = unwrappedToken(pair.token0);
+      break;
+  }
 
   const { totalUSDValue, poolTokenPercentage, token0Deposited, token1Deposited, userPoolBalance } = useLPValues(
     account,
@@ -303,11 +330,9 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
       10: '0.10%',
     };
   
-    // 获取 poolName 和 fee 的描述
     const poolName = poolNames[pair.poolType];
     const fee = feeMap[pair.fee];
   
-    // 如果 poolName 和 fee 都存在，返回相应描述
     return poolName && fee ? `${poolName} · ${fee}` : '';
   };  
 
@@ -406,7 +431,7 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
                     </Button>
                     <Button
                       as={NextLinkFromReactRouter}
-                      to={`/add/${currencyId(currency1)}/${currencyId(currency0)}/${pair.poolType}/${pair.fee}?step=1`}
+                      to={`/add/${currencyId(currency0)}/${currencyId(currency1)}/${pair.poolType}/${pair.fee}?step=1`}
                       variant="text"
                       startIcon={<AddIcon color="primary" />}
                       width="100%"

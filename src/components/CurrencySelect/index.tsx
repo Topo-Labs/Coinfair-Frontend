@@ -86,13 +86,13 @@ export const CurrencySelect = ({
     <Box width="100%" {...props}>
       <DropDownContainer p={0} onClick={onPresentCurrencyModal}>
         <DropDownHeader>
-          <Text id="pair" color={!selectedCurrency ? 'text' : undefined}>
+          <Text id="pair" style={{ marginLeft: '8px' }} color={!selectedCurrency ? 'text' : undefined}>
             {!selectedCurrency ? (
               <>{t('Select')}</>
             ) : (
               <Flex alignItems="center" justifyContent="space-between">
-                <CurrencyLogo currency={selectedCurrency} size="24px" style={{ marginRight: '8px' }} />
-                <Text id="pair" bold>
+                <CurrencyLogo currency={selectedCurrency} size="24px" />
+                <Text id="pair" style={{ marginLeft: '8px' }} bold>
                   {selectedCurrency && selectedCurrency.symbol && selectedCurrency.symbol.length > 20
                     ? `${selectedCurrency.symbol.slice(0, 4)}...${selectedCurrency.symbol.slice(
                       selectedCurrency.symbol.length - 5,

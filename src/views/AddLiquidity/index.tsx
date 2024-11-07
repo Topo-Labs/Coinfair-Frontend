@@ -606,7 +606,7 @@ export default function AddLiquidity() {
   const noAnyInputAmount = !parsedAmounts[Field.CURRENCY_A] && !parsedAmounts[Field.CURRENCY_B]
 
   const showAddLiquidity =
-    (!!currencies[Field.CURRENCY_A] && !!currencies[Field.CURRENCY_B] && steps === Steps.Add) || !canZap
+    (!!currencies[Field.CURRENCY_A] && !!currencies[Field.CURRENCY_B] && steps === Steps.Add)
 
   const showZapWarning =
     preferZapInstead &&

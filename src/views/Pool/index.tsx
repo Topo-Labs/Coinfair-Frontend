@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Text, Flex, CardBody, CardFooter, Button, AddIcon, ArrowBackIcon, IconButton } from '@pancakeswap/uikit'
 import Link from 'next/link'
@@ -30,6 +30,7 @@ export default function Pool() {
   const { account } = useWeb3React()
   const { t } = useTranslation()
   const theme = useTheme()
+  const [isTimedOut, setIsTimedOut] = useState(false)
 
   // fetch the user's balances of all tracked V2 LP tokens
   const trackedTokenPairs = useTrackedTokenPairs()
@@ -46,6 +47,16 @@ export default function Pool() {
 
   const v2IsLoading = filteredPairs?.length === 0
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (v2IsLoading) {
+        setIsTimedOut(true)
+      }
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [v2IsLoading])
+
   const renderBody = () => {
     if (!account) {
       return (
@@ -54,7 +65,7 @@ export default function Pool() {
         </Text>
       )
     }
-    if (v2IsLoading) {
+    if (v2IsLoading && !isTimedOut) {
       return (
         <Text color="textSubtle" textAlign="center">
           <Dots>{t('Loading')}</Dots>

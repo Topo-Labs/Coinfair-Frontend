@@ -29,12 +29,13 @@ export const StyledInputCurrencyWrapper = styled(Box)`
   border-radius: 20px;
 `
 
-export const Slogen = styled.div`
+export const Slogen = styled.div<{currentLanguage: boolean}>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ currentLanguage }) => (currentLanguage ? 'row' : 'column')};
   align-items: center;
   justify-content: center;
-  margin-top: 86px;
+  margin-top: ${({ currentLanguage }) => (currentLanguage ? '80px' : '50px')};
+  margin-bottom: ${({ currentLanguage }) => (currentLanguage ? '50px' : '20px')};
   @media screen and (max-width: 968px) {
     display: none;
   }
@@ -43,7 +44,7 @@ export const Slogen = styled.div`
 export const SlogenLine = styled.div`
   font-size: 48px;
   font-weight: 900;
-  height: 48px;
+  line-height: 60px;
   white-space: nowrap;
   @media screen and (max-width: 968px) {
     display: none;

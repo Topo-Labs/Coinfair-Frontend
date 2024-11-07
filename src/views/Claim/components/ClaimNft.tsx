@@ -1,6 +1,7 @@
 import { memo, useState, useEffect, useCallback } from 'react';
 import { Contract } from '@ethersproject/contracts';
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
+import { useTranslation } from '@pancakeswap/localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { NETWORK_CONFIG } from 'utils/wallet';
 import useToast from 'hooks/useToast'
@@ -20,6 +21,7 @@ const Claim = () => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const address = new URLSearchParams(window.location.search).get('address'); // 直接从 URL 获取地址
   const { toastSuccess, toastError } = useToast()
+  const { t } = useTranslation()
 
   const fetchData = useCallback(async () => {
     if (!account || !chainId) return;
@@ -99,10 +101,10 @@ const Claim = () => {
     return (
       <>
         <ClaimHeader>
-          <ClaimTitle>Mint & Share NFT</ClaimTitle>
+          <ClaimTitle>{t('mint_limit_text')}</ClaimTitle>
         </ClaimHeader>
         <ClaimNftMain>
-          <p>Please login to view and claim NFT.</p>
+          <p>{t('Please login to view and claim NFT.')}</p>
         </ClaimNftMain>
       </>
     );
@@ -113,7 +115,7 @@ const Claim = () => {
   return (
     <>
       <ClaimHeader>
-        <ClaimTitle>Claim NFT</ClaimTitle>
+        <ClaimTitle>{t('Claim NFT')}</ClaimTitle>
       </ClaimHeader>
       <ClaimNftMain>
         <ClaimNft>
@@ -130,7 +132,7 @@ const Claim = () => {
         </ClaimNft>
       </ClaimNftMain>
       <ClaimFooter>
-        <FooterTitle>Minter Address</FooterTitle>
+        <FooterTitle>{t('Minter Address')}</FooterTitle>
         <MinterAddress>{address}</MinterAddress>
         <ClaimMint
           id="claim_button"
@@ -140,7 +142,7 @@ const Claim = () => {
           onClick={handleClaimNft}
           disabled={isLoading || claimCount > 0} // 如果已领取则禁用
         >
-          {claimCount > 0 ? 'Already Claimed' : 'Claim'}
+          {claimCount > 0 ? t('Already Claimed') : t('Claim')}
         </ClaimMint>
       </ClaimFooter>
     </>

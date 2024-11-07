@@ -1923,5 +1923,9 @@
   "Number": "序号",
   "Reward amount": "奖励金额",
   "Reward Time": "产生时间",
-  "Claimed time": "领取时间"
+  "Claimed time": "领取时间",
+  "Please login to view and claim NFT.": "请登录以查看并领取 NFT。",
+  "Claim NFT": "领取 NFT",
+  "Minter Address": "铸造者地址",
+  "Already Claimed": "已领取"
 }

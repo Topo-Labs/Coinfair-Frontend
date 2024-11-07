@@ -107,7 +107,7 @@ export default function Swap() {
   const theme = useTheme()
   const router = useRouter()
   const loadedUrlParams = useDefaultsFromURLSearch()
-  const { t } = useTranslation()
+  const { t, currentLanguage } = useTranslation()
   const { isMobile } = useMatchBreakpointsContext()
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(userChartPreference)
@@ -416,15 +416,18 @@ export default function Swap() {
     }
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
+  console.log(t, currentLanguage)
+
   return (
     <SwapPage>
       <Flex width="100%" justifyContent="center" position="relative">
         <Flex flexDirection="column">
           <StyledSwapContainer $isChartExpanded={false}>
             <StyledInputCurrencyWrapper mt="0">
-              <Slogen>
-                <SlogenLine>Trade in deep</SlogenLine>
-                <SlogenLine>Rewards you keep</SlogenLine>
+              <Slogen currentLanguage={currentLanguage.locale !== 'en-US'}>
+                <SlogenLine>{t('Trade in deep')}</SlogenLine>
+                {currentLanguage.locale !== 'en-US' ? <SlogenLine>,&nbsp;</SlogenLine> : ''}
+                <SlogenLine>{t('Rewards you keep')}</SlogenLine>
               </Slogen>
               <AppBody>
                 <CurrencyInputHeader

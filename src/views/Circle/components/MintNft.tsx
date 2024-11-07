@@ -1,10 +1,9 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { NETWORK_CONFIG } from 'utils/wallet'
-import { copyText } from 'utils/copyText';
 import useToast from 'hooks/useToast';
-import { FiCopy } from 'react-icons/fi';
 import { Text } from '@pancakeswap/uikit';
+import { useTranslation } from '@pancakeswap/localization'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
@@ -55,7 +54,8 @@ interface ExtendedEthereum extends ExternalProvider {
 
 export default function MintNft() {
   const { account, chainId, active } = useActiveWeb3React();
-  const { toastSuccess, toastError } = useToast()
+  const { toastSuccess, toastError } = useToast();
+  const { t } = useTranslation();
   const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);
@@ -105,12 +105,6 @@ export default function MintNft() {
       setLoading(false);
     }
   }, [chainId, account]);
-
-  // useEffect(() => {
-  //   if (active) {
-  //     fetchNftInfo();
-  //   }
-  // }, [active, fetchNftInfo]);
 
   const confirmMint = useCallback(async () => {
     if (!amount || parseInt(amount as unknown as string, 10) <= 0) {
@@ -178,7 +172,7 @@ export default function MintNft() {
     return (
       <>
         <CircleHeader>
-          <CircleTitle>Mint & Share NFT</CircleTitle>
+          <CircleTitle>{t('Mint NFT')}</CircleTitle>
         </CircleHeader>
 
         <CircleNftMain>
@@ -201,7 +195,7 @@ export default function MintNft() {
   return (
     <ListWrapper>
       <CircleHeader>
-        <CircleTitle>Mint & Share NFT</CircleTitle>
+        <CircleTitle>{t('Mint NFT')}</CircleTitle>
       </CircleHeader>
       <CircleNftMain>
       <CircleNft>
@@ -223,24 +217,15 @@ export default function MintNft() {
           type="number"
           min="1"
           max="500"
-          placeholder="please enter 1~500"
+          placeholder={t('mint_limit_text')}
           value={amount === 0 ? '' : amount.toString()}
           onChange={onChangeAmount}
         />
-        <CircleContentPeople>
-          <Text
-            color="textSubtle"
-            fontSize="14px"
-            style={{ display: 'inline', cursor: 'pointer', maxWidth: '50%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-          >
-            Amount
-          </Text>
-        </CircleContentPeople>
       </CircleContent>
       <CircleMint 
         onClick={confirmMint}
         disabled={loading}>
-        {loading ? 'Minting...' : 'Mint'}
+        {loading ? `${t('Minting')}...` : t('Mint')}
       </CircleMint>
     </ListWrapper>
   );

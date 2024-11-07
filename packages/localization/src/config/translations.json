@@ -2008,5 +2008,9 @@
   "Number": "Number",
   "Reward amount": "Reward amount",
   "Reward Time": "Reward Time",
-  "Claimed time": "Claimed time"
+  "Claimed time": "Claimed time",
+  "Please login to view and claim NFT.": "Please login to view and claim NFT.",
+  "Claim NFT": "Claim NFT",
+  "Minter Address": "Minter Address",
+  "Already Claimed": "Already Claimed"
 }

@@ -12,7 +12,7 @@ import { Position } from "../Dropdown/types"
 import LogoWithText from "../Svg/Icons/LogoWithText";
 
 const ListTitle = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 800;
   font-size: 14px;

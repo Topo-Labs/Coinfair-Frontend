@@ -12,7 +12,7 @@ const SwitchWrapper = styled.div`
 const SwitchItem = styled.div`
   cursor: pointer;
   border-radius: 6px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 14px;

@@ -7,7 +7,7 @@ const LinkInfoWrapper = styled.div`
 `
 
 const WraningInfo = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -30,7 +30,7 @@ const UserAvatar = styled(Image)`
 
 const UserName = styled.div`
   margin-left: 10px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -42,7 +42,7 @@ const UserName = styled.div`
 
 const UserAddress = styled.div`
   margin-top: 5px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -51,7 +51,7 @@ const UserAddress = styled.div`
 `
 
 const CheckTitle = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

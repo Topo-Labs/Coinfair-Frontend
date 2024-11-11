@@ -42,8 +42,8 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
   }, [layerController]);
 
   return (
-    <SubMenuItemWrapper $isMobileOnly={isMobileOnly} {...props}>
-      {isMobile && (
+    <SubMenuItemWrapper style={{ background: '#fff' }} $isMobileOnly={isMobileOnly} {...props}>
+      {/* {isMobile && (
         <LeftMaskLayer
           ref={chevronLeftRef}
           onClick={() => {
@@ -64,12 +64,13 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
         >
           <ChevronRightIcon />
         </RightMaskLayer>
-      )}
+      )} */}
       <StyledSubMenuItems
         justifyContent={[isMobileOnly ? "flex-end" : "start", null, "center"]}
         pl={["12px", null, "0px"]}
         onScroll={debounce(() => requestAnimationFrame(layerController), 50)}
         ref={scrollLayerRef}
+        style={{ background: '#fff' }}
       >
         {items.map(({ label, href, icon, itemProps, type }) => {
           const Icon = icon;

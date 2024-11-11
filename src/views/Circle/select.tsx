@@ -40,7 +40,7 @@ const Line = styled.div`
 `
 
 const OptionLeft = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -50,7 +50,7 @@ const OptionLeft = styled.div`
 `
 
 const OptionRight = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -74,7 +74,7 @@ const SelectBar = styled.div`
 `
 
 const SelectBarLeft = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -84,7 +84,7 @@ const SelectBarLeft = styled.div`
 `
 
 const SelectBarRight = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

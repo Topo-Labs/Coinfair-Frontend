@@ -16,7 +16,6 @@ const ButtonList = styled.div`
   display: flex;
   justify-content: center;
   & > div {
-    font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -52,7 +51,6 @@ const ToPageWrapper = styled.div`
 
 const GoBtn = styled.div`
   cursor: pointer;
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

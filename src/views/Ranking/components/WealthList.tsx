@@ -70,7 +70,7 @@ const UserWrapper = styled.div`
 const UserName = styled.div`
   display: flex;
   align-items: center;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -99,7 +99,7 @@ const UserNameSkeleton = styled.div`
 `
 
 const Address = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -119,7 +119,7 @@ const InfoWrapper = styled.div`
 const ValueWrapper = styled.div`
   margin-right: 36px;
   line-height: 56px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

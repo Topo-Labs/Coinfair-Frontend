@@ -2664,6 +2664,14 @@ export const scrollToken = {
 }
 
 export const baseTokens = {
+  WBTC: new Token(
+    ChainId.BASE,
+    '0x0555E30da8f98308EdB960aa94C0Db47230d2B9c',
+    18,
+    'WBTC',
+    'WBTC',
+    ''
+  ),
   WETH: new Token(
     ChainId.BASE,
     '0x4200000000000000000000000000000000000006',
@@ -2678,6 +2686,46 @@ export const baseTokens = {
     18,
     'USDC',
     'USDC',
+    ''
+  ),
+  USDT: new Token(
+    ChainId.BASE,
+    '0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2',
+    18,
+    'USDT',
+    'USDT',
+    ''
+  ),
+  '1INCH': new Token(
+    ChainId.BASE,
+    '0xc5fecC3a29Fb57B5024eEc8a2239d4621e111CBE',
+    18,
+    '1INCH',
+    '1INCH',
+    ''
+  ),
+  AERO: new Token(
+    ChainId.BASE,
+    '0x940181a94A35A4569E4529A3CDfB74e38FD98631',
+    18,
+    'AERO',
+    'AERO',
+    ''
+  ),
+  ZRX: new Token(
+    ChainId.BASE,
+    '0x3bB4445D30AC020a84c1b5A8A2C6248ebC9779D0',
+    18,
+    'ZRX',
+    'ZRX',
+    ''
+  ),
+  DAI: new Token(
+    ChainId.BASE,
+    '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
+    18,
+    'DAI',
+    'DAI',
     ''
   ),
 }

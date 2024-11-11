@@ -415,8 +415,6 @@ export default function Swap() {
     }
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
-  console.log(t, currentLanguage)
-
   return (
     <SwapPage>
       <Flex width="100%" justifyContent="center" position="relative">

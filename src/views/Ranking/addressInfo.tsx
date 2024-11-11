@@ -60,7 +60,7 @@ const InfoWrapper = styled.div`
 `
 
 const NickName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
@@ -75,7 +75,7 @@ const NickName = styled.div`
 `
 
 const Address = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -114,7 +114,7 @@ const TradeTitle = styled.div`
   display: flex;
   align-items: center;
   height: 34px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
@@ -142,7 +142,7 @@ const ListTitle = styled.div`
   display: flex;
   align-items: center;
   height: 34px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -192,7 +192,7 @@ const ListItem = styled.div`
 `
 
 const No = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
@@ -220,7 +220,7 @@ const ListInfo = styled.div`
 `
 
 const ListItemTitle = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -238,7 +238,7 @@ const ListItemTitle = styled.div`
 `
 
 const ListItemValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -283,7 +283,7 @@ const TradeItemIcon = styled.img`
 
 const TradeItemTokenName = styled.div`
   margin-left: 8px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -296,7 +296,7 @@ const TradeItemTokenName = styled.div`
 
 const TradeItemDesc = styled.div`
   margin-left: 8px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 15px;
@@ -310,7 +310,7 @@ const TradeItemDesc = styled.div`
 
 const TradeItemGains = styled.div`
   margin-left: 24px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -324,7 +324,7 @@ const TradeItemGains = styled.div`
 const TradeItemChg = styled.div`
   width: 100px;
   height: 32px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -343,7 +343,7 @@ const TradeItemChg = styled.div`
 `
 
 const TradeItemSpan = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 15px;

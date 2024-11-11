@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 `
 
 const ProjectPriceValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -30,7 +30,7 @@ const ProjectAvatar = styled(Image)`
 `
 
 const ProjectTokenName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;

@@ -63,7 +63,7 @@ const Icon = styled(Image)`
 `
 
 const ListTitle = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -72,7 +72,7 @@ const ListTitle = styled.div`
 `
 
 const ListDesc = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -81,7 +81,7 @@ const ListDesc = styled.div`
 `
 
 const ListValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

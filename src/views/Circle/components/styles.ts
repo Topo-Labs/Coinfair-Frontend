@@ -7,16 +7,49 @@ export const EarnContainer = styled.div`
   width: 100%;
   @media screen and (max-width: 1200px) {
     padding: 0;
-    /* overflow-x: hidden; */
   }
 `
 
 export const EarnTips = styled.div`
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   @media screen and (max-width: 1200px) {
     margin: 1rem 0;
+  }
+`
+
+export const EarnTipsOnce = styled.div`
+  position: absolute;
+  font-family: "Oswald", sans-serif !important;
+  font-weight: 900;
+  font-size: 300px;
+  color: #F3F3F3;
+  top: 100px;
+  right: -40px;
+  z-index: -1;
+  @media screen and (max-width: 1200px) {
+    font-size: 85px;
+    top: 30px;
+    right: -20px;
+  }
+`
+
+export const EarnTipsDouble = styled.div`
+  position: absolute;
+  font-family: "Oswald", sans-serif !important;
+  font-weight: 900;
+  font-size: 300px;
+  color: #F3F3F3;
+  top: 450px;
+  right: -40px;
+  z-index: -1;
+  @media screen and (max-width: 1200px) {
+    font-size: 85px;
+    top: 130px;
+    right: -1px;
   }
 `
 
@@ -38,29 +71,49 @@ export const EarnTipIcon = styled.div`
 `
 
 export const EarnTipWords = styled.div`
-  font-size: 38px;
+  font-size: 128px;
   font-weight: 900;
   line-height: 45px;
+  font-family: "Oswald", sans-serif !important;
+  color: #333333;
+  &:first-child {
+    text-indent: 0.8em;
+  }
   @media screen and (max-width: 1200px) {
-    font-size: 25px;
-    line-height: 25px;
+    font-size: 48px;
+    line-height: 48px;
   }
 `
 
 export const EarnTipGreen = styled.span`
-  font-size: 38px;
+  font-size: 128px;
   font-weight: 900;
-  color: #0DAE6F;
-  line-height: 45px;
+  color: #56BA93;
+  line-height: 128px;
+  font-family: "Oswald", sans-serif !important;
   @media screen and (max-width: 1200px) {
-    font-size: 25px;
-    line-height: 25px;
+    font-size: 48px;
+    line-height: 48px;
+  }
+`
+
+export const EarnTipRed = styled.span`
+  font-size: 128px;
+  font-weight: 900;
+  color: #CA685B;
+  line-height: 128px;
+  font-family: "Oswald", sans-serif !important;
+  @media screen and (max-width: 1200px) {
+    font-size: 48px;
+    line-height: 48px;
   }
 `
 
 export const EarnStep = styled.div`
   display: flex;
+  justify-content: center;
   margin-top: 100px;
+  z-index: 9999;
   @media screen and (max-width: 1200px) {
     margin-top: 20px;
   }
@@ -70,25 +123,55 @@ export const EarnStepItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex: 1;
-  margin-right: 25px;
+  width: 30%;
+  margin-right: -15px;
   padding: 30px;
-  box-shadow: 0 1px 3px 0 #EDEDED;
   border-radius: 16px;
   color: #CCCCCC;
   transition: all .3s ease;
-  &:hover {
-    box-shadow: 0 6px 16px 4px #EDEDED;
+  cursor: pointer;
+  &:first-child {
+    z-index: 3;
+    background: #EFF5FF;
+    box-shadow: 2px 2px 8px 0 #D7E0EE;
+    &:hover {
+      box-shadow: 0 6px 16px 4px #D7E0EE;
+      z-index: 4;
+      .step-arrow {
+        margin-left: 30px;
+      }
+    }
+  }
+  &:nth-child(2) {
+    z-index: 2;
+    background: #F2FFF3;
+    box-shadow: 2px 2px 8px 0 #CADACB;
+    &:hover {
+      box-shadow: 0 6px 16px 4px #CADACB;
+      z-index: 4;
+      .step-arrow {
+        margin-left: 30px;
+      }
+    }
   }
   &:last-child {
-    margin-right: 0;
+    z-index: 1;
+    background: #FFF7F7;
+    box-shadow: 2px 2px 8px 0 #E2D5D5;
+    &:hover {
+      box-shadow: 0 6px 16px 4px #E2D5D5;
+      z-index: 4;
+      .step-arrow {
+        margin-left: 30px;
+      }
+    }
   }
 `
 
 export const EarnStepItemTop = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-start;
   font-size: 20px;
   font-weight: 900;
@@ -106,6 +189,10 @@ export const EarnStepItemIcon = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -55px;
+  @media screen and (max-width: 1200px) {
+    margin-top: -45px;
+  }
 `
 
 export const EarnStepItemWords = styled.div`
@@ -113,7 +200,7 @@ export const EarnStepItemWords = styled.div`
   font-weight: 600;
   line-height: 24px;
   color: #000000;
-  margin: 20px 0;
+  margin-bottom: 45px;
 `
 
 export const EarnStepShareLink = styled.div`
@@ -125,37 +212,41 @@ export const EarnStepShareLink = styled.div`
   margin: 20px 0 30px 0;
 `
 
-export const EarnStepItemButton = styled(Button)`
+export const EarnStepItemButton = styled.div`
   width: 100%;
-  background: linear-gradient(90deg, #434B34 0%, #000 100%);
+  display: flex;
+  align-items: center;
+  .step-arrow {
+    margin-left: 20px;
+    transition: all .3s ease;
+  }
 `
 
-export const EarnStepItemToScroll = styled(Button)`
+export const EarnStepItemToScroll = styled.div`
   width: 100%;
-  background: #ffffff;
   color: #000000;
-  border: 1px solid #000000;
   transition: all .3s ease;
-  &:hover {
-    background: #000000;
-    opacity: 1;
-    color: #ffffff;
+  display: flex;
+  align-items: center;
+  .step-arrow {
+    margin-left: 20px;
+    transition: all .3s ease;
   }
 `
 
 export const CarouselContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  overflow: hidden;
+  width: 90%;
+  max-width: 500px;
   position: relative;
-  box-shadow: 0 1px 3px 0 #EDEDED;
   border-radius: 20px;
+  margin: 0 auto;
 `;
 
 export const SlideWrapper = styled.div<{translateX: number}>`
   display: flex;
   transition: transform 0.5s ease-in-out;
   transform: translateX(${(props) => props.translateX}%);
+  margin-top: 64px;
 `;
 
 export const Slide = styled.div`
@@ -166,16 +257,49 @@ export const Slide = styled.div`
   align-items: center;
   padding: 15px;
   box-sizing: border-box;
+  border-radius: 16px;
+  transition: all .3s ease;
+  &:first-child {
+    background: #EFF5FF;
+    &:hover {
+      .step-arrow {
+        margin-left: 30px;
+      }
+    }
+  }
+  &:nth-child(2) {
+    z-index: 2;
+    background: #F2FFF3;
+    &:hover {
+      .step-arrow {
+        margin-left: 30px;
+      }
+    }
+  }
+  &:last-child {
+    z-index: 1;
+    background: #FFF7F7;
+    &:hover {
+      .step-arrow {
+        margin-left: 30px;
+      }
+    }
+  }
 `;
 
-export const SlideButton = styled(Button)`
+export const SlideButton = styled.div`
   width: 100%;
-  background: linear-gradient(90deg, #434B34 0%, #000 100%);
-  color: #fff;
+  color: #000;
   border: none;
   cursor: pointer;
   font-size: 16px;
+  margin-bottom: 10px;
   transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  img {
+    margin-left: 20px;
+  }
   &:hover {
     transform: scale(1.05);
   }
@@ -184,7 +308,7 @@ export const SlideButton = styled(Button)`
 export const DotContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 5px;
+  margin-top: 20px;
   padding-bottom: 20px;
 `;
 
@@ -195,6 +319,15 @@ export const Dot = styled.div<{ active: boolean }>`
   margin: 0 2px;
   transition: width 0.3s ease, background-color 0.3s ease;
   cursor: pointer;
+  &:nth-child(1) {
+    background-color: ${(props) => (props.active ? '#4A8BF3' : '#ccc')};
+  }
+  &:nth-child(2) {
+    background-color: ${(props) => (props.active ? '#99E6A0' : '#ccc')};
+  }
+  &:nth-child(3) {
+    background-color: ${(props) => (props.active ? '#F0AEAE' : '#ccc')};
+  }
 `;
 
 export const EarnClaimTable = styled.div`
@@ -544,7 +677,8 @@ export const EarnHistoryTime = styled(EarnHistoryValue)`
 
 export const EarnMintGroup = styled.div`
   display: flex;
-  margin-top: 20px;
+  justify-content: center;
+  margin-top: 90px;
 `
 
 export const EarnMintGroupItem = styled.div`
@@ -552,21 +686,82 @@ export const EarnMintGroupItem = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  flex: 1;
+  width: 30%;
 `
 
 export const EarnMintGroupNumber = styled.span`
-  font-size: 20px;
+  font-size: 50px;
   color: #333333;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
+  text-shadow: 10px -8px 8px rgba(0, 0, 0, 0.15);
+  font-family: "Racing Sans One", sans-serif !important;
 `
 
 export const EarnMintGroupWords = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: #666666;
+  display: flex;
+  align-items: center;
+  transition: all .3s ease;
+  cursor: auto;
+  .amount-arrow {
+    margin-top: 2px;
+    transition: all .3s ease;
+  }
+  &:nth-child(2) {
+    &:hover {
+      .amount-arrow {
+        margin-left: 10px;
+      }
+    }
+  }
 `
+
+export const ToggleSwitch = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  margin-top: 112px;
+`;
+
+export const ToggleBox = styled.div`
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #F5F5F5;
+  border-radius: 50px;
+  border: 8px solid #F5F5F5;
+`;
+
+export const ToggleOption = styled.div<{active: boolean}>`
+  width: 280px;
+  height: 90px;
+  flex: 1;
+  text-align: center;
+  line-height: 90px;
+  font-size: 32px;
+  font-weight: bold;
+  color: ${(props) => (props.active ? '#000' : '#aaa')};
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 1;
+`;
+
+export const ToggleSlider = styled.div<{activeIndex: number}>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(${(props) => (props.activeIndex === 0 ? 0 : '100%')});
+  width: 280px;
+  height: 90px;
+  background-color: #fff;
+  border-radius: 45px;
+  box-shadow: 0px 3px 12px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+`;
 
 export const EarnFAQ = styled.div`
   border-radius: 16px;

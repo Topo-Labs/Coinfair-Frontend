@@ -105,7 +105,7 @@ const ProjectAvatar = styled(Image)`
 const ProjectToken = styled.div``
 
 const ProjectTokenName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -114,7 +114,7 @@ const ProjectTokenName = styled.div`
 `
 
 const ProjectTokenValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -133,7 +133,7 @@ const ProjectPrice = styled.div`
 `
 
 const ProjectPriceValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -170,7 +170,7 @@ const Icon = styled(Image)`
 `
 
 const ListTitle = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -179,7 +179,7 @@ const ListTitle = styled.div`
 `
 
 const ListDesc = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -188,7 +188,7 @@ const ListDesc = styled.div`
 `
 
 const ListValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -208,7 +208,7 @@ const BottomBarInnerLeft = styled.div``
 const BottomBarInnerRight = styled.div``
 
 const BottomBarTitle = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -217,7 +217,7 @@ const BottomBarTitle = styled.div`
 `
 
 const BottomBarDesc = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 10px;

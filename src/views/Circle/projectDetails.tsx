@@ -29,7 +29,7 @@ const NFTImage = styled(Image)`
 `
 
 const NFTName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -47,7 +47,7 @@ const CliamTag = styled.div`
   width: 64px;
   height: 21px;
   line-height: 21px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -64,7 +64,7 @@ const UnCliamTag = styled.div`
   width: 64px;
   height: 21px;
   line-height: 21px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -99,7 +99,7 @@ const ProjectInfoWrapper = styled.div`
 const ProjectInfo = styled.div``
 
 const ProjectName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -109,7 +109,7 @@ const ProjectName = styled.div`
 `
 
 const ProjectAddress = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -126,7 +126,7 @@ const HistoryList = styled.div`
 `
 
 const HistoryText = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -139,7 +139,7 @@ const HistoryText = styled.div`
 `
 
 const TimeStamp = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -154,7 +154,7 @@ const Tab = styled.div`
 `
 
 const TabItem = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

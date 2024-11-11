@@ -131,7 +131,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
               </Flex>
               <TransactionSettings />
             </Flex>
-            <Flex justifyContent="space-between" alignItems="center" mb="24px">
+            {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text style={{ fontSize: '14px' }}>{t('Zap (Beta)')}</Text>
                 <QuestionHelper
@@ -160,8 +160,8 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                   toggleZapMode(!zapMode)
                 }}
               />
-            </Flex>
-            <Flex justifyContent="space-between" alignItems="center" mb="24px">
+            </Flex> */}
+            {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text style={{ fontSize: '14px' }}>{t('Expert Mode')}</Text>
                 <QuestionHelper
@@ -176,7 +176,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 checked={expertMode}
                 onChange={handleExpertModeToggle}
               />
-            </Flex>
+            </Flex> */}
             {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text style={{ fontSize: '14px' }}>{t('Disable Multihops')}</Text>
@@ -192,7 +192,7 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                 }}
               />
             </Flex> */}
-            <Flex justifyContent="space-between" alignItems="center" mb="24px">
+            {/* <Flex justifyContent="space-between" alignItems="center" mb="24px">
               <Flex alignItems="center">
                 <Text style={{ fontSize: '14px' }}>{t('Flippy sounds')}</Text>
                 <QuestionHelper
@@ -201,14 +201,14 @@ const SettingsModal: React.FC<React.PropsWithChildren<InjectedModalProps>> = ({ 
                   ml="4px"
                 />
               </Flex>
-              {/* <PancakeToggle checked={audioPlay} onChange={toggleSetAudioMode} scale="md" /> */}
+              <PancakeToggle checked={audioPlay} onChange={toggleSetAudioMode} scale="md" />
               <Toggle
                 id="toggle-disable-multihop-button"
                 checked={audioPlay}
                 scale="md"
                 onChange={toggleSetAudioMode}
               />
-            </Flex>
+            </Flex> */}
           </>
         )}
       </ScrollableContainer>

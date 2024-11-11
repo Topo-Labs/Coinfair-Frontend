@@ -131,7 +131,6 @@ export function useV3Pairs(currencies: [Currency | undefined, Currency | undefin
               !tokenA.equals(tokenB)
               ? PairV3.getV3Address(tokenA, tokenB, poolType, fee)
               : undefined;
-            // console.log(tokenA.symbol, tokenB.symbol, poolType, fee, address)
             return { pairAddress: address, poolType, fee, tokenA, tokenB };
           } catch (error: any) {
             console.error(

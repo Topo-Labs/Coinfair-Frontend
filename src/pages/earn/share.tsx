@@ -22,7 +22,7 @@ const ProjectInfo = styled.div`
 `;
 
 const ProjectSelect = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -60,7 +60,7 @@ const ProjectPrice = styled.div`
 `;
 
 const ProjectPriceValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -87,7 +87,7 @@ const LinkWrapper = styled.div`
 `
 
 const ProjectTokenName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -101,7 +101,7 @@ const LinkInner = styled.div`
 `
 
 const Input = styled.input`
-font-family: 'PingFang SC';
+
 font-style: normal;
 cursor: pointer;
 font-weight: 500;
@@ -128,7 +128,7 @@ const SelectButton = styled(Button)`
 const InputLabel = styled.span`
   position: relative;
   font-weight: 400;
-  font-family: 'PingFang SC';
+  
   top: 50px;
   left: 25px;
 `;

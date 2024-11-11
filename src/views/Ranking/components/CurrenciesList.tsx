@@ -70,7 +70,7 @@ const Index = styled.div`
 const UserName = styled.div`
   display: flex;
   align-items: center;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -86,7 +86,7 @@ const UserName = styled.div`
 `
 
 const Desc = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -113,7 +113,7 @@ const Rate = styled.div`
   min-width: 82px;
   height: 32px;
   border-radius: 4px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -181,7 +181,7 @@ const UserWrapper2 = styled.div`
 `
 
 const Price = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -200,7 +200,7 @@ const Price = styled.div`
 `
 
 const Vol = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -261,7 +261,7 @@ const SubMenuItem = styled.div`
   cursor: pointer;
   position: relative;
   color: #52525c;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -282,7 +282,7 @@ const Back = styled.div`
 
 
 const Address = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -302,7 +302,7 @@ const InfoWrapper2 = styled.div`
 const ValueWrapper2 = styled.div`
   margin-right: 36px;
   line-height: 56px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -372,7 +372,7 @@ const TokenWrapper = styled.div`
 `
 
 const TokenName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -415,7 +415,6 @@ const FilterTimeWrapper = styled.div`
 `
 
 const FilterTime = styled.div`
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -444,7 +443,7 @@ const TimeMenuItem = styled.div`
   height: 30px;
   line-height: 30px;
   padding-left: 15px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

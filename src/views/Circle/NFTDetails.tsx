@@ -26,7 +26,7 @@ const NFTImage = styled(Image)`
 `
 
 const NFTName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -44,7 +44,7 @@ const CliamTag = styled.div`
   width: 64px;
   height: 21px;
   line-height: 21px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -61,7 +61,7 @@ const UnCliamTag = styled.div`
   width: 64px;
   height: 21px;
   line-height: 21px;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -89,7 +89,7 @@ const NFTInfoItem = styled.div`
 `
 
 const NFTInfoItemLeft = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -97,7 +97,7 @@ const NFTInfoItemLeft = styled.div`
 `
 
 const NFTInfoItemRight = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

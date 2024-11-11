@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { ReactTyped } from "react-typed";
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import ConnectWalletButton from 'components/ConnectWalletButton';
 import CurrencySearchModal from 'components/SearchModal/CurrencySearchModal'
@@ -20,7 +21,7 @@ import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
 import EarnFAQGroup from './components/EarnFAQGroup';
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQItem, EarnFAQBody, EarnQuestion, EarnAnswer, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQItem, EarnFAQBody, EarnQuestion, EarnAnswer, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -94,6 +95,7 @@ export default function Earn() {
   const claimRewardsRef = useRef(null);
   const { isDesktop } = useMatchBreakpointsContext()
   const [activeIndex, setActiveIndex] = useState(0);
+  const [toggleIndex, setToggleIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const startX = useRef(0);
   const endX = useRef(0);
@@ -260,40 +262,60 @@ export default function Earn() {
 
   return (
     <EarnContainer>
+      <EarnTipsOnce>{t('Once')}</EarnTipsOnce>
+      <EarnTipsDouble>{t('Double')}</EarnTipsDouble>
       <EarnTips>
-        <EarnTipIcon><img src="/images/earn-tip.svg" alt="" /></EarnTipIcon>
         <EarnTipRight>
-          <EarnTipWords>{t('Invite friends to trade')}</EarnTipWords>
-          <EarnTipWords>{t('and earn up to')}<EarnTipGreen>{t('30% rebate commission.')}</EarnTipGreen></EarnTipWords>
+          <EarnTipWords><EarnTipGreen>{t('Once')}&nbsp;</EarnTipGreen>{t('Referral')}</EarnTipWords>
+          <EarnTipWords><EarnTipRed>{t('Double')}&nbsp;</EarnTipRed>{t('Rewards')}</EarnTipWords>
         </EarnTipRight>
+        <ReactTyped
+          backSpeed={1}
+          typeSpeed={1}
+          loop
+          backDelay={3000}
+          fadeOut
+          style={
+            isDesktop ?
+            { fontSize: '36px', fontWeight: 600, marginTop: '80px' }
+            :
+            { width: '75%', height: '50px', fontSize: '20px', textAlign: 'center', fontWeight: 600, marginTop: '2rem', lineHeight: '25px' }}
+          strings={[t('Earn up to 30% in trading rebates and 10% in bonus points!')]}
+        />
       </EarnTips>
       {
         isDesktop ? (
           <EarnStep>
-            <EarnStepItem>
-              <EarnStepItemTop>{t('Step 1')}<EarnStepItemIcon><img src="/images/step-nft.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
+            <EarnStepItem onClick={() => onMintNftModal()}>
+              <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-nft.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
                 <EarnStepItemWords>{t('Mint Your NFT')}</EarnStepItemWords>
-                {!account ? <ConnectWalletButton/> : <EarnStepItemButton onClick={() => onMintNftModal()}>{t('Mint NFTs')}</EarnStepItemButton>}
+                {!account ? <ConnectWalletButton/> : <EarnStepItemButton>{t('Mint NFTs')}
+                  <img className='step-arrow' src="/images/step-arrow.svg" alt="" />
+                </EarnStepItemButton>}
               </EarnStepItemBottom>
             </EarnStepItem>
-            <EarnStepItem>
-              <EarnStepItemTop>{t('Step 2')}<EarnStepItemIcon><img src="/images/step-share.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
+            <EarnStepItem onClick={() => copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}>
+              <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-share.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
                 <EarnStepItemWords>{t('Invite friends for your NFT')}</EarnStepItemWords>
-                {!account ? 
+                {
+                  !account ? 
                   <ConnectWalletButton/> : 
-                  <EarnStepItemButton onClick={() => copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}>
-                    <FaShare size={20} style={{ marginRight: '20px' }}/>{t('Invite a friend')}
+                  <EarnStepItemButton>
+                    {t('Invite a friend')}
+                    <img className='step-arrow' src="/images/step-arrow.svg" alt="" />
                   </EarnStepItemButton>
                 }
               </EarnStepItemBottom>
             </EarnStepItem>
-            <EarnStepItem>
-              <EarnStepItemTop>{t('Step 3')}<EarnStepItemIcon><img src="/images/step-command.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
+            <EarnStepItem onClick={handleGoClaimClick}>
+              <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-command.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
                 <EarnStepItemWords>{t('View the rewards pool!')}</EarnStepItemWords>
-                <EarnStepItemToScroll onClick={handleGoClaimClick}>{t('View Rewards')}</EarnStepItemToScroll>
+                <EarnStepItemToScroll>{t('View Rewards')}
+                  <img className='step-arrow' src="/images/step-arrow.svg" alt="" />
+                </EarnStepItemToScroll>
               </EarnStepItemBottom>
             </EarnStepItem>
           </EarnStep>
@@ -305,11 +327,11 @@ export default function Earn() {
           >
             <SlideWrapper translateX={-activeIndex * 100}>
               {slides.map((slide, index) => (
-                <Slide key={slide.id}>
-                  <EarnStepItemTop>{slide.step}<img src={slide.src} alt=''/></EarnStepItemTop>
+                <Slide key={slide.id} onClick={(e) => handleButtonClick(e, index)}>
+                  <EarnStepItemTop><EarnStepItemIcon><img src={slide.src} alt=''/></EarnStepItemIcon></EarnStepItemTop>
                   <EarnStepItemBottom>
                     <EarnStepItemWords>{t(slide.title)}</EarnStepItemWords>
-                    {index !== 2 && !account ? <ConnectWalletButton/> : <SlideButton onClick={(e) => handleButtonClick(e, index)}>{index === 1 ? <FaShare size={20} style={{ marginRight: '20px' }}/> : ''}{t(slide.buttonText)}</SlideButton>}
+                    {index !== 2 && !account ? <ConnectWalletButton/> : <SlideButton>{t(slide.buttonText)}<img src="/images/step-arrow.svg" alt="" /></SlideButton>}
                   </EarnStepItemBottom>
                 </Slide>
               ))}
@@ -333,6 +355,44 @@ export default function Earn() {
           </CarouselContainer>
         )
       }
+      {account &&
+        <EarnMintGroup>
+          <EarnMintGroupItem>
+            <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[1] !== undefined ? nftInfo[1] : '--'}</EarnMintGroupNumber>
+            <EarnMintGroupWords>{t('Minted total')}</EarnMintGroupWords>
+          </EarnMintGroupItem>
+          <EarnMintGroupItem>
+            <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[0] !== undefined ? nftInfo[0] : '--'}</EarnMintGroupNumber>
+            <EarnMintGroupWords style={{ cursor: 'pointer' }}>
+              {t('Already claimed')}
+              {/* <img className='amount-arrow' src="/images/amount-arrow.svg" alt="" /> */}
+            </EarnMintGroupWords>
+          </EarnMintGroupItem>
+          <EarnMintGroupItem>
+            <EarnMintGroupNumber>
+              {
+                nftInfo.length > 1
+                ? !Number.isNaN(Number(nftInfo[1])) && !Number.isNaN(Number(nftInfo[0]))
+                  ? (Number(nftInfo[1]) - Number(nftInfo[0])).toString()
+                  : '--'
+                : '--'
+              }
+            </EarnMintGroupNumber>
+            <EarnMintGroupWords>{t('Remain')}</EarnMintGroupWords>
+          </EarnMintGroupItem>
+        </EarnMintGroup>
+      }
+      {/* <ToggleSwitch>
+        <ToggleBox>
+          <ToggleSlider activeIndex={toggleIndex} />
+          <ToggleOption active={toggleIndex === 0} onClick={() => setToggleIndex(0)}>
+            {t('Trade Rewards')}
+          </ToggleOption>
+          <ToggleOption active={toggleIndex === 1} onClick={() => setToggleIndex(1)}>
+            {t('Points Rewards')}
+          </ToggleOption>
+        </ToggleBox>
+      </ToggleSwitch> */}
       <EarnClaimTable ref={claimRewardsRef}>
         <EarnClaimTop>
           <EarnTitle>{t('Claim Rewards')}</EarnTitle>
@@ -416,30 +476,6 @@ export default function Earn() {
             </EarnHistory>
             <EarnHistory>
               <EarnHistoryTitle>{t('Mint History')}</EarnHistoryTitle>
-              {account &&
-                <EarnMintGroup>
-                  <EarnMintGroupItem>
-                    <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[1] !== undefined ? nftInfo[1] : '--'}</EarnMintGroupNumber>
-                    <EarnMintGroupWords>{t('Minted total')}</EarnMintGroupWords>
-                  </EarnMintGroupItem>
-                  <EarnMintGroupItem>
-                    <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[0] !== undefined ? nftInfo[0] : '--'}</EarnMintGroupNumber>
-                    <EarnMintGroupWords>{t('Already claimed')}</EarnMintGroupWords>
-                  </EarnMintGroupItem>
-                  <EarnMintGroupItem>
-                    <EarnMintGroupNumber>
-                      {
-                        nftInfo.length > 1
-                        ? !Number.isNaN(Number(nftInfo[1])) && !Number.isNaN(Number(nftInfo[0]))
-                          ? (Number(nftInfo[1]) - Number(nftInfo[0])).toString()
-                          : '--'
-                        : '--'
-                      }
-                    </EarnMintGroupNumber>
-                    <EarnMintGroupWords>{t('Remain')}</EarnMintGroupWords>
-                  </EarnMintGroupItem>
-                </EarnMintGroup>
-              }
               {
                 account && mintData && mintData.length ? (
                   <EarnHistoryTHead>
@@ -500,28 +536,6 @@ export default function Earn() {
             </EarnHistory>
             <EarnHistory>
               <EarnHistoryTitle>{t('Mint History')}</EarnHistoryTitle>
-              <EarnMintGroup>
-                <EarnMintGroupItem>
-                  <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[1] !== undefined ? nftInfo[1] : '--'}</EarnMintGroupNumber>
-                  <EarnMintGroupWords>{t('Minted total')}</EarnMintGroupWords>
-                </EarnMintGroupItem>
-                <EarnMintGroupItem>
-                  <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[0] !== undefined ? nftInfo[0] : '--'}</EarnMintGroupNumber>
-                  <EarnMintGroupWords>{t('Already claimed')}</EarnMintGroupWords>
-                </EarnMintGroupItem>
-                <EarnMintGroupItem>
-                  <EarnMintGroupNumber>
-                    {
-                      nftInfo.length > 1
-                      ? !Number.isNaN(Number(nftInfo[1])) && !Number.isNaN(Number(nftInfo[0]))
-                        ? (Number(nftInfo[1]) - Number(nftInfo[0])).toString()
-                        : '--'
-                      : '--'
-                    }
-                  </EarnMintGroupNumber>
-                  <EarnMintGroupWords>{t('Remain')}</EarnMintGroupWords>
-                </EarnMintGroupItem>
-              </EarnMintGroup>
               {
                 mintData && mintData.length ? (
                   <EarnHistoryTHead>

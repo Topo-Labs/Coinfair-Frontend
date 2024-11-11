@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.p`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -20,7 +20,7 @@ const Title = styled.p`
 `
 
 const Desc = styled.p`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

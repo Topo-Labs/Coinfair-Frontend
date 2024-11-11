@@ -54,7 +54,7 @@ const ProjectPrice = styled.div`
 `
 
 const ProjectPriceValue = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -77,7 +77,7 @@ const ToArrow = styled(Image)`
 const ProjectToken = styled.div``
 
 const ProjectSelect = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -88,7 +88,7 @@ const ProjectSelect = styled.div`
 `
 
 const ProjectTokenName = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -97,7 +97,7 @@ const ProjectTokenName = styled.div`
 
 const History = styled.div`
   cursor: pointer;
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 14px;

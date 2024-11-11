@@ -66,7 +66,7 @@ export default function CommonBases({
         )}
       </AutoRow>
       <RowWrapper>
-        <ButtonWrapper>
+        {/* <ButtonWrapper>
           <BaseWrapper
             onClick={() => {
               if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
@@ -78,7 +78,7 @@ export default function CommonBases({
             <CurrencyLogo currency={ETHER} />
             <Text style={{ marginLeft: '8px' }}>{ETHER?.symbol}</Text>
           </BaseWrapper>
-        </ButtonWrapper>
+        </ButtonWrapper> */}
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (

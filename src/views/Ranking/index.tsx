@@ -58,7 +58,7 @@ const MenuContainer = styled.div`
   /* padding-top: 10px; */
 `
 const MenuItem = styled.div`
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
@@ -116,7 +116,7 @@ const SubTab = styled.div`
   & > span {
     max-width: 50%;
     height: 100%;
-    font-family: 'PingFang SC';
+    
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -146,7 +146,6 @@ const Line = styled.div`
 `
 
 const FilterTime = styled.div`
-  font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -196,7 +195,7 @@ const TimeMenuItem = styled.div`
   line-height: 30px;
   padding-left: 15px;
   background-color: ${({ theme }) => theme.colors.backgroundAlt};
-  font-family: 'PingFang SC';
+  
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

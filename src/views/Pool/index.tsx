@@ -103,7 +103,7 @@ export default function Pool() {
         <Body
         >
           {renderBody()}
-          {account && !isTimedOut && (
+          {account && (
             <Flex flexDirection="column" alignItems="center" mt="24px">
               <Text color="textSubtle" mb="8px">
                 {t("Don't see a pool you joined?")}

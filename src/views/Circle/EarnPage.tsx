@@ -286,22 +286,22 @@ export default function Earn() {
       {
         isDesktop ? (
           <EarnStep>
-            <EarnStepItem onClick={() => onMintNftModal()}>
+            <EarnStepItem onClick={() => account && onMintNftModal()}>
               <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-nft.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
                 <EarnStepItemWords>{t('Mint Your NFT')}</EarnStepItemWords>
-                {!account ? <ConnectWalletButton/> : <EarnStepItemButton>{t('Mint NFTs')}
+                {!account ? '' : <EarnStepItemButton>{t('Mint NFTs')}
                   <img className='step-arrow' src="/images/step-arrow.svg" alt="" />
                 </EarnStepItemButton>}
               </EarnStepItemBottom>
             </EarnStepItem>
-            <EarnStepItem onClick={() => copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}>
+            <EarnStepItem onClick={() => account && copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}>
               <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-share.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
                 <EarnStepItemWords>{t('Invite friends for your NFT')}</EarnStepItemWords>
                 {
                   !account ? 
-                  <ConnectWalletButton/> : 
+                  '' : 
                   <EarnStepItemButton>
                     {t('Invite a friend')}
                     <img className='step-arrow' src="/images/step-arrow.svg" alt="" />

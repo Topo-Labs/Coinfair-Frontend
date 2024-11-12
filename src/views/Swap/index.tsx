@@ -151,8 +151,7 @@ export default function Swap() {
     [Field.INPUT]: { currencyId: inputCurrencyId },
     [Field.OUTPUT]: { currencyId: outputCurrencyId },
   } = useSwapState()
-  const ETHCurrencyId = inputCurrencyId === 'BNB' ? undefined : inputCurrencyId
-  const inputCurrency = useCurrency(ETHCurrencyId)
+  const inputCurrency = useCurrency(inputCurrencyId)
   const outputCurrency = useCurrency(outputCurrencyId)
 
   const {

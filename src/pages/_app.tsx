@@ -43,7 +43,7 @@ function GlobalHooks() {
   useAccountEventListener()
   useSentryUser()
   useThemeCookie()
-  // useResetETHER()
+  useResetETHER()
   return null
 }
 
@@ -54,7 +54,7 @@ function MPGlobalHooks() {
   useUserAgent()
   useAccountEventListener()
   useSentryUser()
-  // useResetETHER()
+  useResetETHER()
   return null
 }
 

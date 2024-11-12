@@ -11,7 +11,7 @@ import Skeleton from "../../../packages/uikit/src/components/Skeleton/Skeleton";
 
 const SkeletonP = styled(Skeleton)`
  width: 100%;
- height 60px;
+ height: 60px;
 `
 
 const LinkWrapper = styled.div`

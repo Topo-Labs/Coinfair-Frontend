@@ -7,12 +7,11 @@ import { NETWORK_CONFIG } from 'utils/wallet'
 import { copyText } from 'utils/copyText';
 import useToast from 'hooks/useToast';
 import { MINT_ADDRESS } from 'config/constants/exchange'
-import { FaShare } from "react-icons/fa6";
 import { useModal, useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import { useTranslation } from '@pancakeswap/localization'
 import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers';
-import {isAddress} from "@ethersproject/address"
+import { isAddress } from "@ethersproject/address"
 import { MINT_ABI } from './components/constants';
 import { useRewardsPool, useMintHistory } from './useHistory'
 import EarnClaimItem from './components/EarnClaimItem';
@@ -21,7 +20,7 @@ import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
 import EarnFAQGroup from './components/EarnFAQGroup';
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipIcon, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQItem, EarnFAQBody, EarnQuestion, EarnAnswer, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -87,7 +86,7 @@ export default function Earn() {
   const { chainId, account, active } = useActiveWeb3React();
   const { toastSuccess } = useToast();
   const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(chainId, account);
-  const { data: mintData, loading: mintLoading, error: mintError } = useMintHistory(account);
+  const { data: mintData, loading: mintLoading, error: mintError } = useMintHistory(chainId, account);
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);

@@ -6,8 +6,13 @@ export const clientClaim: Client = createClient({
   exchanges: [cacheExchange, fetchExchange],
 });
 
-export const clientMint: Client = createClient({
+export const clientBase: Client = createClient({
   url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/ETCUAbvTHiyPSfXKznxMmKQ3hUBA8uG8Deg1xkiw77R7',
+  exchanges: [cacheExchange, fetchExchange],
+});
+
+export const clientBSC: Client = createClient({
+  url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/EnUQDfACzhuzv5yeEBUFH55VPvWG53RyoDGNDVoLbxFq',
   exchanges: [cacheExchange, fetchExchange],
 });
 

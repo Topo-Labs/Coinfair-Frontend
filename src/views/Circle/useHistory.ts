@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { clientClaim, CLAIM_HISTORY_DATA, clientMint, MINT_HISTORY_DATA } from 'utils/urqlClient';
+import { clientBSC, clientBase, MINT_HISTORY_DATA } from 'utils/urqlClient';
 
 export function useRewardsPool(chainId, parent) {
   const [data, setData] = useState([]);
@@ -85,16 +85,16 @@ export function useRewardsPool(chainId, parent) {
   };
 }
 
-export function useMintHistory(account: string) {
+export function useMintHistory(chainId, account) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!account) {
+    if (!account || !chainId) {
       setLoading(false);
       setData(null); // 清空数据
-      setError("Missing account information");
+      setError("Missing account or chainId information");
       return undefined;
     }
 
@@ -109,9 +109,17 @@ export function useMintHistory(account: string) {
       }
 
       fetchCount += 1; // 每次请求时增加计数
+
+      // 根据 chainId 选择不同的 client
+      const client = chainId === 8453 ? clientBase : chainId === 56 ? clientBSC : null;
+      if (!client) {
+        setError(`Unsupported chainId: ${chainId}`);
+        return;
+      }
+
       try {
         setLoading(true);
-        const result = await clientMint.query(MINT_HISTORY_DATA, { minter: account }).toPromise();
+        const result = await client.query(MINT_HISTORY_DATA, { minter: account }).toPromise();
 
         if (result.error) {
           setError(result.error.message);
@@ -141,7 +149,7 @@ export function useMintHistory(account: string) {
       isMounted = false;
       clearInterval(interval);
     };
-  }, [account]);
+  }, [chainId, account]);
 
   return {
     data,

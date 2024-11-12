@@ -180,7 +180,7 @@ export const BUSD: Record<ChainId, Token> = {
 export const bscTokens = {
   wbnb: WBNB[ChainId.BSC],
   pe: PE_MAINNET,
-  pv: PV_MAINNET,
+  // pv: PV_MAINNET,
   // bnb here points to the wbnb contract. Wherever the currency BNB is required, conditional checks for the symbol 'BNB' can be used
   bnb: new Token(
     ChainId.BSC,
@@ -2735,8 +2735,4 @@ export const PE = {
   [ChainId.BSC]: PE_MAINNET,
   [ChainId.BSC_TESTNET]: PE_TESTNET,
   [ChainId.ARB_TESTNET]: arbTestnetTokens.pe,
-}
-
-export const PV = {
-  [ChainId.BSC]: PV_MAINNET
 }

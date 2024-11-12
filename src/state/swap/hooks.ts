@@ -39,7 +39,7 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
 import { parsePoolData, fetchPoolData, FormattedPoolFields } from '../info/queries/pools/poolData'
-import { PE, PV, USDT, opBNBTokens, scrollToken } from "../../config/constants/tokens";
+import { USDT, opBNBTokens, scrollToken } from "../../config/constants/tokens";
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -272,8 +272,8 @@ function validatedRecipient(recipient: any): string | null {
 }
 
 export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: string): SwapState {
-  let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || chainId.toString() !== "56" ? DEFAULT_INPUT_CURRENCY : USDT[chainId]?.address
-  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency) || chainId.toString() !== "56" ? PE[chainId]?.address : PV[chainId]?.address
+  let inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
+  let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
 
   switch (chainId.toString()) {
     case "204":

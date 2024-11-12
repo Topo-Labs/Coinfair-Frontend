@@ -5,7 +5,10 @@ import { ChainTokenList } from './types'
 
 export const ROUTER_ADDRESS = {
   [ChainId.GOERLI]: '0x76155E29e441559B7b047d75E079F13b8F9179b9',
-  [ChainId.BSC]: '0x8099414Dde7A1f06fa5a877E6E424E4B62A032e6',
+  [ChainId.BSC]: {
+    hot: '0x7D979eB42e55c7741e7837FfCCDA5F21505a2811',
+    warm: '0xc44A31cC31Ee4b947546DC1De82EDD49102e8B8f'
+  },
   [ChainId.BSC_TESTNET]: '0x66378b7abED49802798923998a8239f6f57cF39D',
   [ChainId.ARB_TESTNET]: '0x0B0c953Ac2DB11c469aA90D780594A3B6B87F7e3',
   [ChainId.opBNB]: {
@@ -28,7 +31,8 @@ export const AIRDOP_ADDRESS = {
 export const MINT_ADDRESS = {
   [ChainId.BSC_TESTNET]: '0x0FDD73F79Bcb84Ac6c81805b50A452a61Bb0B2Cc',
   [ChainId.opBNB]: '0x9d90Fe0b276d8c4c34e65DF78bA3B01FF7867962',
-  [ChainId.BASE]: '0xbA7d2Acab5D3844280Cd20566cDB2E0B06e3EC95'
+  [ChainId.BASE]: '0xbA7d2Acab5D3844280Cd20566cDB2E0B06e3EC95',
+  [ChainId.BSC]: '0x9b0E558394024d05dc935C9131568CC9aDd6E55f'
 }
 
 export const HAND_NFT_ADDRESS = {
@@ -40,13 +44,11 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
   [ChainId.BSC]: [
     bscTokens.wbnb,
-    bscTokens.pe,
     bscTokens.busd,
     bscTokens.usdt,
     bscTokens.btcb,
     bscTokens.eth,
     bscTokens.usdc,
-    bscTokens.pv
   ],
   [ChainId.BASE]: [baseTokens.WBTC, baseTokens.WETH, baseTokens.USDC, baseTokens.USDT, baseTokens['1INCH'], baseTokens.AERO, baseTokens.DAI, baseTokens.ZRX],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.testToken, bscTestnetTokens.testToken1],
@@ -80,7 +82,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.usdt, bscTokens.pv, bscTokens.usdc],
+  [ChainId.BSC]: [bscTokens.usdt, bscTokens.usdc],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.testToken, bscTestnetTokens.testToken1, bscTestnetTokens.testToken2, bscTestnetTokens.pe, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
@@ -96,7 +98,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.pe, bscTokens.busd, bscTokens.usdt],
+  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.busd, bscTokens.usdt],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.pe, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
@@ -111,7 +113,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   [ChainId.BSC]: [
-    [bscTokens.pe, bscTokens.wbnb],
+    [bscTokens.busd, bscTokens.wbnb],
     [bscTokens.busd, bscTokens.usdt],
     [bscTokens.dai, bscTokens.usdt],
   ],

@@ -271,7 +271,7 @@ export default function Earn() {
           <EarnTipWords><EarnTipGreen>{t('Once')}&nbsp;</EarnTipGreen>{t('Referral')}</EarnTipWords>
           <EarnTipWords><EarnTipRed>{t('Double')}&nbsp;</EarnTipRed>{t('Rewards')}</EarnTipWords>
         </EarnTipRight>
-        {/* <ReactTyped
+        <ReactTyped
           backSpeed={1}
           typeSpeed={1}
           loop
@@ -283,7 +283,7 @@ export default function Earn() {
             :
             { width: '75%', height: '50px', fontSize: '20px', textAlign: 'center', fontWeight: 600, marginTop: '2rem', lineHeight: '25px' }}
           strings={[t('Earn up to 30% in trading rebates and 10% in bonus points!')]}
-        /> */}
+        />
       </EarnTips>
       {
         isDesktop ? (
@@ -384,7 +384,7 @@ export default function Earn() {
           </EarnMintGroupItem>
         </EarnMintGroup>
       }
-      <ToggleSwitch>
+      {/* <ToggleSwitch>
         <ToggleBox>
           <ToggleSlider activeIndex={toggleIndex} />
           <ToggleOption active={toggleIndex === 0} onClick={() => setToggleIndex(0)}>
@@ -394,7 +394,7 @@ export default function Earn() {
             {t('Points Rewards')}
           </ToggleOption>
         </ToggleBox>
-      </ToggleSwitch>
+      </ToggleSwitch> */}
       {
         toggleIndex === 0 ? (
           <>

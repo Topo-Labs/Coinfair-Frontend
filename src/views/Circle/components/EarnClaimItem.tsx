@@ -103,7 +103,8 @@ export default function EarnClaimItem({ token }) {
                   ) : (
                     <EarnTokenNoLogo>
                       {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
-                      <img src={getTokenLogoURL(token.address)} alt="" />
+                      {/* eslint-disable */}
+                      <img onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.address)} alt="" />
                     </EarnTokenNoLogo>
                   )}
               </EarnTokenIcon>
@@ -126,7 +127,8 @@ export default function EarnClaimItem({ token }) {
                   ) : (
                     <EarnTokenNoLogo>
                       {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
-                      <img src={getTokenLogoURL(token.address)} alt="" />
+                      {/* eslint-disable */}
+                      <img onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.address)} alt="" />
                     </EarnTokenNoLogo>
                   )}
                 </EarnTokenIcon>

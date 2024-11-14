@@ -27,6 +27,7 @@ const StyledBalanceText = styled(Text)`
   white-space: nowrap;
   overflow: hidden;
   max-width: 5rem;
+  width: 200px;
   text-overflow: ellipsis;
 `
 

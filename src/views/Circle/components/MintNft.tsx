@@ -62,7 +62,7 @@ export default function MintNft({ onDismiss = () => null }) {
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);
 
-  const MintSuccess = ({onDismiss = () => null}) => {
+  const MintSuccess = () => {
 
     const displayTooltip = () => {
       toastSuccess('Copyied success!', 'You can share link with your friends and circle')
@@ -76,8 +76,8 @@ export default function MintNft({ onDismiss = () => null }) {
     return (
       <MintSuccessModal>
         <MintSuccessTitle>
-          <div></div>
           {t('Mint Success')}
+          {/* eslint-disable */ }
           <img onClick={() => onDismiss?.()} src="/images/mint-close.svg" alt="" />
         </MintSuccessTitle>
         <MintSuccessNft src="/images/mint-success.svg" alt="" />
@@ -220,6 +220,7 @@ export default function MintNft({ onDismiss = () => null }) {
     <ListWrapper>
       <CircleHeader>
         <CircleTitle>{t('Mint NFT')}</CircleTitle>
+        {/* eslint-disable */ }
         <img onClick={() => onDismiss?.()} src="/images/mint-close.svg" alt="" />
       </CircleHeader>
       <CircleNftMain>

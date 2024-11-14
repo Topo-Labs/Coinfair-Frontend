@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function PointsTask() {
-  <div></div>
+  <div>123</div>
 }

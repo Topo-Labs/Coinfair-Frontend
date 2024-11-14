@@ -1,16 +1,16 @@
 export const SwapSvg = ({ stroke }) => {
   <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="20" cy="20" r="19" stroke={stroke} stroke-width="2"/>
-    <path d="M27.6528 18.2178H12" stroke={stroke} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M22.4352 13L27.6528 18.2176" stroke={stroke} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M12.3473 22.5654H28.0001" stroke={stroke} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M12.3473 22.5654L17.5649 27.783" stroke={stroke} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="20" cy="20" r="19" stroke={stroke} strokeWidth="2"/>
+    <path d="M27.6528 18.2178H12" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M22.4352 13L27.6528 18.2176" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12.3473 22.5654H28.0001" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12.3473 22.5654L17.5649 27.783" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 }
 
 export const MintSvg = ({ stroke }) => {
   <svg width="36" height="38" viewBox="0 0 36 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M35 10.6923L30.75 8.26831M35 10.6923V14.8462M35 10.6923L30.75 13.1163M1 10.6923L5.25 8.26831M1 10.6923L5.25 13.1163M1 10.6923V14.8462M18 20.3846L22.25 17.9606M18 20.3846L13.75 17.9606M18 20.3846V24.5385M18 37L22.25 34.576M18 37V32.8462M18 37L13.75 34.576M13.75 3.42215L18 1L22.25 3.424M35 23.1538V27.3077L30.75 29.7317M5.25 29.7317L1 27.3077V23.1538" stroke={stroke} stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M35 10.6923L30.75 8.26831M35 10.6923V14.8462M35 10.6923L30.75 13.1163M1 10.6923L5.25 8.26831M1 10.6923L5.25 13.1163M1 10.6923V14.8462M18 20.3846L22.25 17.9606M18 20.3846L13.75 17.9606M18 20.3846V24.5385M18 37L22.25 34.576M18 37V32.8462M18 37L13.75 34.576M13.75 3.42215L18 1L22.25 3.424M35 23.1538V27.3077L30.75 29.7317M5.25 29.7317L1 27.3077V23.1538" stroke={stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 }
 

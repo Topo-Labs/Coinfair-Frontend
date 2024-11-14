@@ -19,6 +19,7 @@ import EarnMintItem from './components/EarnMintItem';
 import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
 import EarnFAQGroup from './components/EarnFAQGroup';
+import HoverCard from './components/PointsTask'
 import faqData from './FAQ.json'
 import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank } from './components/styles';
 
@@ -383,7 +384,7 @@ export default function Earn() {
           </EarnMintGroupItem>
         </EarnMintGroup>
       }
-      {/* <ToggleSwitch>
+      <ToggleSwitch>
         <ToggleBox>
           <ToggleSlider activeIndex={toggleIndex} />
           <ToggleOption active={toggleIndex === 0} onClick={() => setToggleIndex(0)}>
@@ -393,7 +394,7 @@ export default function Earn() {
             {t('Points Rewards')}
           </ToggleOption>
         </ToggleBox>
-      </ToggleSwitch> */}
+      </ToggleSwitch>
       {
         toggleIndex === 0 ? (
           <>
@@ -569,6 +570,7 @@ export default function Earn() {
           </>
         ) : (
           <>
+            <HoverCard/>
             {/* <EarnClaimTable ref={claimRewardsRef}>
               <EarnClaimTop>
                 <EarnTitle>{t('Leaderboard')}</EarnTitle>

@@ -121,13 +121,12 @@ export default function EarnClaimItem({ token }) {
             <EarnClaimTItem>
               <EarnTokenInfo>
                 <EarnTokenIcon>
-                  {token ? (
-                    <img src={getTokenLogoURL(token.address)} alt="" />
-                  ) : token.tokenInfo ? (
-                    <img src={token.tokenInfo?.logoURI} alt="" />
+                  {token.symbol === 'ETH' ? (
+                    <img src='/images/tokens/eth.png' alt="" />
                   ) : (
                     <EarnTokenNoLogo>
                       {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
+                      <img src={getTokenLogoURL(token.address)} alt="" />
                     </EarnTokenNoLogo>
                   )}
                 </EarnTokenIcon>

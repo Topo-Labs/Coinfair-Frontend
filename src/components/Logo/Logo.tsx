@@ -17,6 +17,9 @@ const DefaultCurrencyLogo = styled.div`
   align-items: center;
   background: #333333;
   color: #ffffff;
+  font-size: 14px;
+  font-weight: 900;
+  position: relative;
 `
 
 /**

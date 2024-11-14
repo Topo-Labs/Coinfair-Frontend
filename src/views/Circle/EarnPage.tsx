@@ -227,11 +227,13 @@ export default function Earn() {
   const handleGoClaimClick = () => {
     if (claimRewardsRef.current) {
       const offset = 100;
-      const elementTop = claimRewardsRef.current.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementTop - offset,
-        behavior: 'smooth',
-      });
+      setTimeout(() => {
+        const elementTop = claimRewardsRef.current.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: elementTop - offset,
+          behavior: 'smooth',
+        });
+      }, 100); // 设置适当的延迟
     }
   };
 
@@ -268,7 +270,7 @@ export default function Earn() {
           <EarnTipWords><EarnTipGreen>{t('Once')}&nbsp;</EarnTipGreen>{t('Referral')}</EarnTipWords>
           <EarnTipWords><EarnTipRed>{t('Double')}&nbsp;</EarnTipRed>{t('Rewards')}</EarnTipWords>
         </EarnTipRight>
-        <ReactTyped
+        {/* <ReactTyped
           backSpeed={1}
           typeSpeed={1}
           loop
@@ -280,7 +282,7 @@ export default function Earn() {
             :
             { width: '75%', height: '50px', fontSize: '20px', textAlign: 'center', fontWeight: 600, marginTop: '2rem', lineHeight: '25px' }}
           strings={[t('Earn up to 30% in trading rebates and 10% in bonus points!')]}
-        />
+        /> */}
       </EarnTips>
       {
         isDesktop ? (
@@ -308,7 +310,7 @@ export default function Earn() {
                 }
               </EarnStepItemBottom>
             </EarnStepItem>
-            <EarnStepItem onClick={handleGoClaimClick}>
+            <EarnStepItem onClick={() => handleGoClaimClick()}>
               <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-command.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
                 <EarnStepItemWords>{t('View the rewards pool!')}</EarnStepItemWords>
@@ -567,7 +569,6 @@ export default function Earn() {
           </>
         ) : (
           <>
-
             {/* <EarnClaimTable ref={claimRewardsRef}>
               <EarnClaimTop>
                 <EarnTitle>{t('Leaderboard')}</EarnTitle>

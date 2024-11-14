@@ -566,6 +566,10 @@ export const EarnTokenNoLogo = styled.div`
   height: 30px;
   font-size: 14px;
   font-weight: 900;
+  position: relative;
+  img {
+    position: absolute;
+  }
 `
 
 export const EarnAmountTotal = styled.div`
@@ -625,6 +629,84 @@ export const PointsCard = styled.div`
   display: flex;
   flex-direction: column;
 `
+
+export const Card = styled.div`
+  position: relative;
+  width: 250px;
+  height: 150px;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, color 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+    color: #ffffff;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #434B34 0%, #000 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 15px;
+    z-index: 1;
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+`;
+
+export const CardContent = styled.div`
+  position: relative;
+  z-index: 2;
+`;
+
+export const CardTitle = styled.h3`
+  font-size: 18px;
+  margin: 0;
+  transition: color 0.3s ease;
+
+  ${Card}:hover & {
+    color: #ffffff;
+  }
+`;
+
+export const CardDescription = styled.p`
+  font-size: 14px;
+  color: #666;
+  margin: 10px 0 0;
+  transition: color 0.3s ease;
+
+  ${Card}:hover & {
+    color: #ffffff;
+  }
+`;
+
+export const CardButton = styled.button`
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #333;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+
+  ${Card}:hover & {
+    background-color: #ffffff;
+    color: #333;
+    border-color: #ffffff;
+  }
+`;
 
 export const EarnMiddleBox = styled.div`
   display: flex;

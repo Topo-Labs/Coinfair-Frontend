@@ -89,6 +89,8 @@ export default function EarnClaimItem({ token }) {
     }
   };
 
+  console.log(getTokenLogoURL(token.address))
+
   return (
     <>
       {
@@ -98,13 +100,10 @@ export default function EarnClaimItem({ token }) {
               <EarnTokenIcon>
                   {token.symbol === 'ETH' ? (
                     <img src='/images/tokens/eth.png' alt="" />
-                  ) : getTokenLogoURL(token.address) ? (
-                    <img src={getTokenLogoURL(token.address)} alt="" />
-                  ) : token.tokenInfo ? (
-                    <img src={token.tokenInfo?.logoURI} alt="" />
                   ) : (
                     <EarnTokenNoLogo>
                       {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
+                      <img src={getTokenLogoURL(token.address)} alt="" />
                     </EarnTokenNoLogo>
                   )}
               </EarnTokenIcon>

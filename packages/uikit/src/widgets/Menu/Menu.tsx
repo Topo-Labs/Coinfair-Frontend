@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow-x: clip;
   z-index: 1; /* 确保内容在 Vanta 之上 */
 `;
 

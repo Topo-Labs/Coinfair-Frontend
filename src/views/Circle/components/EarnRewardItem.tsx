@@ -6,7 +6,7 @@ import { EarnClaimTItem, EarnHistoryReward, EarnHistoryTime, EarnHistoryValue } 
 
 const formatAddress = (address: string) => {
   if (!address) return '';
-  const start = address.slice(0, 6);   // 前6位
+  const start = address.slice(0, 4);   // 前6位
   const end = address.slice(-4);       // 后4位
   return `${start}...${end}`;
 };
@@ -15,7 +15,7 @@ export default function EarnRewardItem({ info, index }) {
 
   const { isDesktop } = useMatchBreakpointsContext()
 
-  const formattedParentAmount = parseFloat(formatUnits(info.parentAmount, info.decimals)).toFixed(5);
+  const formattedParentAmount = parseFloat(formatUnits(info.parentAmount, info.decimals)).toFixed(3);
 
   const formattedTimestamp = isDesktop ? moment.unix(info.blockTimestamp).format('YYYY-MM-DD HH:mm') : moment.unix(info.blockTimestamp).format('YYYY-MM-DD');
 

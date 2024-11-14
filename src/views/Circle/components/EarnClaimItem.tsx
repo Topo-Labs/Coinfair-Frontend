@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 import { Contract } from '@ethersproject/contracts';
 import { formatUnits } from '@ethersproject/units';
-import { TREASURY_ADDRESS } from '@pancakeswap/sdk';
+import { ETHER, Token, TREASURY_ADDRESS } from '@pancakeswap/sdk';
 import { useTranslation } from '@pancakeswap/localization';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import TreasuryABI from '@pancakeswap/sdk/src/abis/Coinfair_Treasury.json';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
+import useHttpLocations from 'hooks/useHttpLocations';
+import getTokenLogoURL from 'utils/getTokenLogoURL';
+import { WrappedTokenInfo } from 'state/types';
+import Logo from 'components/Logo/Logo';
 import { EarnAmountTotal, EarnClaimAmount, EarnClaimButton, EarnClaimedAomunt, EarnClaimGroup, EarnClaimLast, EarnClaimSelect, EarnClaimTBottom, EarnClaimTItem, EarnTBottomGroup, EarnTBottomName, EarnTokenIcon, EarnTokenInfo, EarnTokenNoLogo } from './styles';
+
+const StyledLogo = styled(Logo)<{ size: string }>`
+  width: ${({ size }) => size};
+  height: ${({ size }) => size};
+  border-radius: 50%;
+  background: #fff;
+`
 
 export default function EarnClaimItem({ token }) {
   const { chainId, account, library } = useActiveWeb3React();
@@ -84,13 +96,17 @@ export default function EarnClaimItem({ token }) {
           <EarnClaimTItem>
             <EarnTokenInfo>
               <EarnTokenIcon>
-                {token.tokenInfo ? (
-                  <img src={token.tokenInfo?.logoURI} alt="" />
-                ) : (
-                  <EarnTokenNoLogo>
-                    {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
-                  </EarnTokenNoLogo>
-                )}
+                  {token.symbol === 'ETH' ? (
+                    <img src='/images/tokens/eth.png' alt="" />
+                  ) : getTokenLogoURL(token.address) ? (
+                    <img src={getTokenLogoURL(token.address)} alt="" />
+                  ) : token.tokenInfo ? (
+                    <img src={token.tokenInfo?.logoURI} alt="" />
+                  ) : (
+                    <EarnTokenNoLogo>
+                      {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
+                    </EarnTokenNoLogo>
+                  )}
               </EarnTokenIcon>
               {token.symbol}
             </EarnTokenInfo>
@@ -106,7 +122,9 @@ export default function EarnClaimItem({ token }) {
             <EarnClaimTItem>
               <EarnTokenInfo>
                 <EarnTokenIcon>
-                  {token.tokenInfo ? (
+                  {token ? (
+                    <img src={getTokenLogoURL(token.address)} alt="" />
+                  ) : token.tokenInfo ? (
                     <img src={token.tokenInfo?.logoURI} alt="" />
                   ) : (
                     <EarnTokenNoLogo>

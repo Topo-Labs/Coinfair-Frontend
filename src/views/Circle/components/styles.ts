@@ -1,5 +1,5 @@
 import { Button } from '@pancakeswap/uikit';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const EarnContainer = styled.div`
   padding: 0 100px;
@@ -419,6 +419,7 @@ export const EarnNoDataIcon = styled(EarnStepItemIcon)`
 
 export const EarnTName = styled.span`
   flex: 1;
+  min-width: 30px;
   display: flex;
   font-size: 14px;
   color: #666666;
@@ -608,6 +609,21 @@ export const EarnClaimSelect = styled.img<{ isOpen: boolean }>`
   margin-left: 15px;
   transition: transform 0.3s ease;
   transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+`
+
+export const EarnMyLeaderboard = styled.div`
+  display: flex;
+`
+
+export const EarnMyRank = styled.div``
+
+export const PointsTask = styled.div`
+  display: flex;
+`
+
+export const PointsCard = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 export const EarnMiddleBox = styled.div`
@@ -847,7 +863,7 @@ export const PlusMinusIcon = styled.div<{ isOpen: boolean }>`
 `;
 
 export const ListWrapper = styled.div`
-  width: 100%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -1037,6 +1053,51 @@ export const CircleMint = styled(Button)`
   margin-bottom: 30px;
 `;
 
+export const MintSuccessModal = styled.div`
+  background: #fff;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  z-index: 999;
+`
+
+export const MintSuccessTitle = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 600;
+`
+
+const floatAnimation = keyframes`
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(1px, -30px); }
+  100% { transform: translate(0, 0); }
+`;
+
+export const MintSuccessNft = styled.img`
+  margin: 70px 0;
+  animation: ${floatAnimation} 2.5s ease infinite;
+`
+
+export const MintSuccessBottom = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const CopyMyLink = styled(Button)`
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
+  transition: all .3s ease;
+  flex: 1;
+  padding: 15px 20px;
+`
+
 export const Tooltip = styled.div<{
   isTooltipDisplayed: boolean
   tooltipTop: number
@@ -1056,4 +1117,4 @@ export const Tooltip = styled.div<{
   opacity: 0.7;
   width: max-content;
   font-size: 12px
-`
+`;

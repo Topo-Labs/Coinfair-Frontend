@@ -20,7 +20,7 @@ import EarnRewardItem from './components/EarnRewardItem';
 import MintNft from './components/MintNft';
 import EarnFAQGroup from './components/EarnFAQGroup';
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -288,7 +288,7 @@ export default function Earn() {
             <EarnStepItem onClick={() => account && onMintNftModal()}>
               <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-nft.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
-                <EarnStepItemWords>{t('Mint Your NFT')}</EarnStepItemWords>
+                <EarnStepItemWords>{t('Mint your NFT')}</EarnStepItemWords>
                 {!account ? '' : <EarnStepItemButton>{t('Mint NFTs')}
                   <img className='step-arrow' src="/images/step-arrow.svg" alt="" />
                 </EarnStepItemButton>}
@@ -358,12 +358,12 @@ export default function Earn() {
         <EarnMintGroup>
           <EarnMintGroupItem>
             <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[1] !== undefined ? nftInfo[1] : '--'}</EarnMintGroupNumber>
-            <EarnMintGroupWords>{t('Minted total')}</EarnMintGroupWords>
+            <EarnMintGroupWords>{t('Minted')}</EarnMintGroupWords>
           </EarnMintGroupItem>
           <EarnMintGroupItem>
             <EarnMintGroupNumber>{nftInfo.length > 1 && nftInfo[0] !== undefined ? nftInfo[0] : '--'}</EarnMintGroupNumber>
             <EarnMintGroupWords style={{ cursor: 'pointer' }}>
-              {t('Already claimed')}
+              {t('Claimed')}
               {/* <img className='amount-arrow' src="/images/amount-arrow.svg" alt="" /> */}
             </EarnMintGroupWords>
           </EarnMintGroupItem>
@@ -392,103 +392,40 @@ export default function Earn() {
           </ToggleOption>
         </ToggleBox>
       </ToggleSwitch> */}
-      <EarnClaimTable ref={claimRewardsRef}>
-        <EarnClaimTop>
-          <EarnTitle>{t('Claim Rewards')}</EarnTitle>
-          {account && <EarnClaimImport onClick={() => onPresentCurrencyModal()}>{t('Select else')} +</EarnClaimImport>}
-        </EarnClaimTop>
-        {
-          account && selectedTokens.length > 0 && (
-            isDesktop ? 
-              (
-                <EarnClaimTHead>
-                  <EarnTName>{t('Name')}</EarnTName>
-                  <EarnTName>{t('Pending amount')}</EarnTName>
-                  <EarnTName>{t('Claimed amount')}</EarnTName>
-                  <EarnTName>{t('Total amount')}</EarnTName>
-                  <EarnTOpration>{t('Operation')}</EarnTOpration>
-                </EarnClaimTHead>
-              ) : (
-                <EarnClaimTHead>
-                  <EarnTNameToken>{t('Name')}</EarnTNameToken>
-                  <EarnTNamePending>{t('Pending amount')}</EarnTNamePending>
-                  <EarnTOpration>{t('Operation')}</EarnTOpration>
-                  <EarnTSelect/>
-                </EarnClaimTHead>
-              )
-          )
-        }
-        <EarnTBody>
-          {account ?
-            selectedTokens.length > 0 ? (
-              selectedTokens.map(item =>
-                <EarnClaimItem token={item}/>
-              )
-            ) : (
-              <EarnNoData>
-                <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                {t('No Data')}
-              </EarnNoData>
-            ) : (
-              <EarnNoData>
-                <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                {t('Please connect your wallet.')}
-              </EarnNoData>
-            )
-          }
-        </EarnTBody>
-      </EarnClaimTable>
       {
-        isDesktop ? (
-          <EarnMiddleBox>
-            <EarnHistory>
-              <EarnHistoryTitle>{t('Rewords Pool')}</EarnHistoryTitle>
+        toggleIndex === 0 ? (
+          <>
+            <EarnClaimTable ref={claimRewardsRef}>
+              <EarnClaimTop>
+                <EarnTitle>{t('Claim Rewards')}</EarnTitle>
+                {account && <EarnClaimImport onClick={() => onPresentCurrencyModal()}>{t('Select else')} +</EarnClaimImport>}
+              </EarnClaimTop>
               {
-                account && claimData && claimData.length ? (
-                  <EarnHistoryTHead>
-                    <EarnTName>{t('Number')}</EarnTName>
-                    <EarnTReward>{t('Reward amount')}</EarnTReward>
-                    <EarnTName>{t('Address')}</EarnTName>
-                    <EarnTTime>{t('Reward Time')}</EarnTTime>
-                  </EarnHistoryTHead>
-                ) : ''
-              }
-              <EarnTBody>
-              {account ?
-                claimData && claimData.length ? (
-                  [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                    <EarnRewardItem info={hty} index={index} />
-                  )
-                ) : (
-                  <EarnNoData>
-                    <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                    {t('No Data')}
-                  </EarnNoData>
-                ) : (
-                  <EarnNoData>
-                    <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                    {t('Please connect your wallet.')}
-                  </EarnNoData>
+                account && selectedTokens.length > 0 && (
+                  isDesktop ? 
+                    (
+                      <EarnClaimTHead>
+                        <EarnTName>{t('Name')}</EarnTName>
+                        <EarnTName>{t('Pending amount')}</EarnTName>
+                        <EarnTName>{t('Claimed amount')}</EarnTName>
+                        <EarnTName>{t('Total amount')}</EarnTName>
+                        <EarnTOpration>{t('Operation')}</EarnTOpration>
+                      </EarnClaimTHead>
+                    ) : (
+                      <EarnClaimTHead>
+                        <EarnTNameToken>{t('Name')}</EarnTNameToken>
+                        <EarnTNamePending>{t('Pending')}</EarnTNamePending>
+                        <EarnTOpration>{t('Operation')}</EarnTOpration>
+                        <EarnTSelect/>
+                      </EarnClaimTHead>
+                    )
                 )
-              }
-              </EarnTBody>
-            </EarnHistory>
-            <EarnHistory>
-              <EarnHistoryTitle>{t('Mint History')}</EarnHistoryTitle>
-              {
-                account && mintData && mintData.length ? (
-                  <EarnHistoryTHead>
-                    <EarnTName>{t('Number')}</EarnTName>
-                    <EarnTName>{t('Address')}</EarnTName>
-                    <EarnTTime>{t('Claimed time')}</EarnTTime>
-                  </EarnHistoryTHead>
-                ) : ''
               }
               <EarnTBody>
                 {account ?
-                  mintData && mintData.length ? (
-                    [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                      <EarnMintItem info={hty} index={index}/>
+                  selectedTokens.length > 0 ? (
+                    selectedTokens.map(item =>
+                      <EarnClaimItem token={item}/>
                     )
                   ) : (
                     <EarnNoData>
@@ -503,62 +440,181 @@ export default function Earn() {
                   )
                 }
               </EarnTBody>
-            </EarnHistory>
-          </EarnMiddleBox>
+            </EarnClaimTable>
+            {
+              isDesktop ? (
+                <EarnMiddleBox>
+                  <EarnHistory>
+                    <EarnHistoryTitle>{t('Rewords Pool')}</EarnHistoryTitle>
+                    {
+                      account && claimData && claimData.length ? (
+                        <EarnHistoryTHead>
+                          <EarnTName>{t('Number')}</EarnTName>
+                          <EarnTReward>{t('Reward amount')}</EarnTReward>
+                          <EarnTName>{t('Address')}</EarnTName>
+                          <EarnTTime>{t('Time')}</EarnTTime>
+                        </EarnHistoryTHead>
+                      ) : ''
+                    }
+                    <EarnTBody>
+                    {account ?
+                      claimData && claimData.length ? (
+                        [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                          <EarnRewardItem info={hty} index={index} />
+                        )
+                      ) : (
+                        <EarnNoData>
+                          <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                          {t('No Data')}
+                        </EarnNoData>
+                      ) : (
+                        <EarnNoData>
+                          <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                          {t('Please connect your wallet.')}
+                        </EarnNoData>
+                      )
+                    }
+                    </EarnTBody>
+                  </EarnHistory>
+                  <EarnHistory>
+                    <EarnHistoryTitle>{t('Claim History')}</EarnHistoryTitle>
+                    {
+                      account && mintData && mintData.length ? (
+                        <EarnHistoryTHead>
+                          <EarnTName>{t('Number')}</EarnTName>
+                          <EarnTName>{t('Address')}</EarnTName>
+                          <EarnTTime>{t('time')}</EarnTTime>
+                        </EarnHistoryTHead>
+                      ) : ''
+                    }
+                    <EarnTBody>
+                      {account ?
+                        mintData && mintData.length ? (
+                          [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                            <EarnMintItem info={hty} index={index}/>
+                          )
+                        ) : (
+                          <EarnNoData>
+                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                            {t('No Data')}
+                          </EarnNoData>
+                        ) : (
+                          <EarnNoData>
+                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                            {t('Please connect your wallet.')}
+                          </EarnNoData>
+                        )
+                      }
+                    </EarnTBody>
+                  </EarnHistory>
+                </EarnMiddleBox>
+              ) : (
+                <>
+                  <EarnHistory>
+                    <EarnHistoryTitle>{t('Rewords Pool')}</EarnHistoryTitle>
+                    {
+                      claimData && claimData.length ? (
+                        <EarnHistoryTHead>
+                          <EarnTReward>{t('Amount')}</EarnTReward>
+                          <EarnTAddress>{t('Address')}</EarnTAddress>
+                          <EarnTTime>{t('Time')}</EarnTTime>
+                        </EarnHistoryTHead>
+                      ) : ''
+                    }
+                    <EarnTBody>
+                    {
+                      claimData && claimData.length ? (
+                        [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                          <EarnRewardItem info={hty} index={index} />
+                        )
+                      ) : (
+                        <EarnNoData>
+                          <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                          {t('No Data')}
+                        </EarnNoData>
+                      )
+                    }
+                    </EarnTBody>
+                  </EarnHistory>
+                  <EarnHistory>
+                    <EarnHistoryTitle>{t('Claim History')}</EarnHistoryTitle>
+                    {
+                      mintData && mintData.length ? (
+                        <EarnHistoryTHead>
+                          <EarnTName>{t('Address')}</EarnTName>
+                          <EarnTTime>{t('Time')}</EarnTTime>
+                        </EarnHistoryTHead>
+                      ) : ''
+                    }
+                    <EarnTBody>
+                      {
+                        mintData && mintData.length ? (
+                          [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                            <EarnMintItem info={hty} index={index}/>
+                          )
+                        ) : (
+                          <EarnNoData>
+                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                            {t('No Data')}
+                          </EarnNoData>
+                        )
+                      }
+                    </EarnTBody>
+                  </EarnHistory>
+                </>
+              )
+            }
+          </>
         ) : (
           <>
-            <EarnHistory>
-              <EarnHistoryTitle>{t('Rewords Pool')}</EarnHistoryTitle>
+
+            {/* <EarnClaimTable ref={claimRewardsRef}>
+              <EarnClaimTop>
+                <EarnTitle>{t('Leaderboard')}</EarnTitle>
+                <EarnMyRank></EarnMyRank>
+                {account && <EarnClaimImport onClick={() => onPresentCurrencyModal()}>{t('Select else')} +</EarnClaimImport>}
+              </EarnClaimTop>
               {
-                claimData && claimData.length ? (
-                  <EarnHistoryTHead>
-                    <EarnTReward>{t('Reward amount')}</EarnTReward>
-                    <EarnTAddress>{t('Address')}</EarnTAddress>
-                    <EarnTTime>{t('Reward Time')}</EarnTTime>
-                  </EarnHistoryTHead>
-                ) : ''
-              }
-              <EarnTBody>
-              {
-                claimData && claimData.length ? (
-                  [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                    <EarnRewardItem info={hty} index={index} />
-                  )
-                ) : (
-                  <EarnNoData>
-                    <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                    {t('No Data')}
-                  </EarnNoData>
+                account && selectedTokens.length > 0 && (
+                  isDesktop ? 
+                    (
+                      <EarnClaimTHead>
+                        <EarnTName>{t('Name')}</EarnTName>
+                        <EarnTName>{t('Pending amount')}</EarnTName>
+                        <EarnTName>{t('Claimed amount')}</EarnTName>
+                        <EarnTName>{t('Total amount')}</EarnTName>
+                        <EarnTOpration>{t('Operation')}</EarnTOpration>
+                      </EarnClaimTHead>
+                    ) : (
+                      <EarnClaimTHead>
+                        <EarnTNameToken>{t('Name')}</EarnTNameToken>
+                        <EarnTNamePending>{t('Pending amount')}</EarnTNamePending>
+                        <EarnTOpration>{t('Operation')}</EarnTOpration>
+                        <EarnTSelect/>
+                      </EarnClaimTHead>
+                    )
                 )
               }
-              </EarnTBody>
-            </EarnHistory>
-            <EarnHistory>
-              <EarnHistoryTitle>{t('Mint History')}</EarnHistoryTitle>
-              {
-                mintData && mintData.length ? (
-                  <EarnHistoryTHead>
-                    <EarnTName>{t('Number')}</EarnTName>
-                    <EarnTName>{t('Address')}</EarnTName>
-                    <EarnTTime>{t('Claimed time')}</EarnTTime>
-                  </EarnHistoryTHead>
-                ) : ''
-              }
               <EarnTBody>
-                {
-                  mintData && mintData.length ? (
-                    [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                      <EarnMintItem info={hty} index={index}/>
+                {account ?
+                  selectedTokens.length > 0 ? (
+                    selectedTokens.map(item =>
+                      <EarnClaimItem token={item}/>
                     )
                   ) : (
                     <EarnNoData>
                       <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
                       {t('No Data')}
                     </EarnNoData>
+                  ) : (
+                    <EarnNoData>
+                      <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                      {t('Please connect your wallet.')}
+                    </EarnNoData>
                   )
                 }
               </EarnTBody>
-            </EarnHistory>
+            </EarnClaimTable> */}
           </>
         )
       }

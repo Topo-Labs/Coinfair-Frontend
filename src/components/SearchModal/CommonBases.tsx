@@ -57,6 +57,8 @@ export default function CommonBases({
   const { t } = useTranslation()
   const pinTokenDescText = commonBasesType === CommonBasesType.SWAP_LIMITORDER ? t('Common tokens') : t('Common bases')
 
+  console.log(SUGGESTED_BASES)
+
   return (
     <AutoColumn gap="md">
       <AutoRow>

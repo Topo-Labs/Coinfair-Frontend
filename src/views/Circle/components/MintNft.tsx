@@ -2,14 +2,16 @@ import { useState, useCallback } from 'react';
 import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { NETWORK_CONFIG } from 'utils/wallet'
 import useToast from 'hooks/useToast';
-import { Text } from '@pancakeswap/uikit';
+import { useModal } from '@pancakeswap/uikit';
+import { BiSolidCheckCircle } from "react-icons/bi";
+import { copyText } from 'utils/copyText';
 import { useTranslation } from '@pancakeswap/localization'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
 import { MINT_ADDRESS } from 'config/constants/exchange'
 import { MINT_ABI } from './constants';
-import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, ListWrapper, MintAmount, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
+import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, CopyMyLink, ListWrapper, MintAmount, MintSuccessBottom, MintSuccessModal, MintSuccessNft, MintSuccessTitle, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -52,14 +54,41 @@ interface ExtendedEthereum extends ExternalProvider {
   removeListener?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
 }
 
-export default function MintNft() {
+export default function MintNft({ onDismiss = () => null }) {
   const { account, chainId, active } = useActiveWeb3React();
   const { toastSuccess, toastError } = useToast();
   const { t } = useTranslation();
   const [amount, setAmount] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);
-  const [isTooltipDisplayed, setIsTooltipDisplayed] = useState(false)
+
+  const MintSuccess = ({onDismiss = () => null}) => {
+
+    const displayTooltip = () => {
+      toastSuccess('Copyied success!', 'You can share link with your friends and circle')
+    }
+
+    const handleCopy = () => {
+      onDismiss?.()
+      copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)
+    }
+
+    return (
+      <MintSuccessModal>
+        <MintSuccessTitle>
+          <div></div>
+          {t('Mint Success')}
+          <img onClick={() => onDismiss?.()} src="/images/mint-close.svg" alt="" />
+        </MintSuccessTitle>
+        <MintSuccessNft src="/images/mint-success.svg" alt="" />
+        <MintSuccessBottom>
+          <CopyMyLink onClick={handleCopy}>{t('Copy link and share your friends')}</CopyMyLink>
+        </MintSuccessBottom>
+      </MintSuccessModal>
+    )
+  }
+
+  const [onMintSuccess] = useModal(<MintSuccess/>)
 
   const onChangeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value, 10);
@@ -158,7 +187,9 @@ export default function MintNft() {
 
       const tx = await contract.mint(amount, { value: totalCost });
       await tx.wait();
-      toastSuccess('Success to mint', 'Go notify your friends to claim now!')
+      onDismiss?.()
+      onMintSuccess()
+      // toastSuccess('Success to mint', 'Go notify your friends to claim now!')
       await fetchNftInfo(); // 在 mint 成功后再次获取 NFT 信息
     } catch (error: any) {
       toastError('Failed to mint', `${error.message}`)
@@ -183,19 +214,13 @@ export default function MintNft() {
     );
   }
 
-  const displayTooltip = () => {
-    setIsTooltipDisplayed(true)
-    setTimeout(() => {
-      setIsTooltipDisplayed(false)
-    }, 1000)
-  }
-
   const layers = Array.from({ length: 5 }, (_, i) => i - 5);
 
   return (
     <ListWrapper>
       <CircleHeader>
         <CircleTitle>{t('Mint NFT')}</CircleTitle>
+        <img onClick={() => onDismiss?.()} src="/images/mint-close.svg" alt="" />
       </CircleHeader>
       <CircleNftMain>
       <CircleNft>

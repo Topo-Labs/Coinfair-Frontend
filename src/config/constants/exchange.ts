@@ -44,7 +44,6 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
   [ChainId.BSC]: [
     bscTokens.wbnb,
-    bscTokens.busd,
     bscTokens.usdt,
     bscTokens.btcb,
     bscTokens.eth,
@@ -82,7 +81,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.usdt, bscTokens.usdc],
+  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc, bscTokens.btcb, bscTokens.dai],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.testToken, bscTestnetTokens.testToken1, bscTestnetTokens.testToken2, bscTestnetTokens.pe, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
@@ -98,7 +97,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
 // used to construct the list of all pairs we consider by default in the frontend
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.busd, bscTokens.usdt],
+  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdc, bscTokens.usdt],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.pe, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
@@ -113,8 +112,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   [ChainId.BSC]: [
-    [bscTokens.busd, bscTokens.wbnb],
-    [bscTokens.busd, bscTokens.usdt],
+    [bscTokens.usdc, bscTokens.wbnb],
+    [bscTokens.usdc, bscTokens.usdt],
     [bscTokens.dai, bscTokens.usdt],
   ],
 }

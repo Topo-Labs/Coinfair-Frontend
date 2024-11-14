@@ -5,8 +5,8 @@ import { ChainTokenList } from './types'
 
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.dai, bscTokens.busd, bscTokens.usdt],
-  [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.pe, bscTestnetTokens.busd],
+  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.dai, bscTokens.usdc, bscTokens.usdt],
+  [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.pe, bscTestnetTokens.usdc],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
   [ChainId.BASE]: [baseTokens.WBTC, baseTokens.WETH, baseTokens.USDC, baseTokens.USDT, baseTokens['1INCH'], baseTokens.AERO, baseTokens.DAI, baseTokens.ZRX],
@@ -20,7 +20,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
   [ChainId.BSC]: [
-    [bscTokens.busd, bscTokens.wbnb],
+    [bscTokens.usdc, bscTokens.wbnb],
     // [bscTokens.busd, bscTokens.usdt],
     // [bscTokens.dai, bscTokens.usdt],
   ],

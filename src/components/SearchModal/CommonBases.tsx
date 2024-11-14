@@ -57,8 +57,6 @@ export default function CommonBases({
   const { t } = useTranslation()
   const pinTokenDescText = commonBasesType === CommonBasesType.SWAP_LIMITORDER ? t('Common tokens') : t('Common bases')
 
-  console.log(SUGGESTED_BASES)
-
   return (
     <AutoColumn gap="md">
       <AutoRow>
@@ -68,7 +66,7 @@ export default function CommonBases({
         )}
       </AutoRow>
       <RowWrapper>
-        <ButtonWrapper>
+        {/* <ButtonWrapper>
           <BaseWrapper
             onClick={() => {
               if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
@@ -80,7 +78,7 @@ export default function CommonBases({
             <CurrencyLogo currency={ETHER} />
             <Text style={{ marginLeft: '8px' }}>{ETHER?.symbol}</Text>
           </BaseWrapper>
-        </ButtonWrapper>
+        </ButtonWrapper> */}
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (

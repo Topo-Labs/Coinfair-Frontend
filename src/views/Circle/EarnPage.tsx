@@ -21,7 +21,7 @@ import MintNft from './components/MintNft';
 import EarnFAQGroup from './components/EarnFAQGroup';
 import HoverCard from './components/PointsTask'
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -81,6 +81,46 @@ const slides = [
     src: '/images/step-command.svg'
   },
 ];
+
+const swapTask = {
+  key: 'swap',
+  title: 'Trade on Coinfair',
+  desc: 'New users earn 200 points for their first swap trade; subsequent trades earn 100 points each.',
+  link: 'swap',
+  linkWords: 'Swap now'
+}
+
+const mintTask = {
+  key: 'mint',
+  title: 'Mint NFT',
+  desc: 'Earn 500 points each time you mint an NFT as an inviter, and subsequently receive a 10% point rebate from each NFT claimer.',
+  link: 'mint',
+  linkWords: 'Mint'
+}
+
+const claimTask = {
+  key: 'claim',
+  title: 'Claim NFT',
+  desc: 'Each user can claim only one NFT per chain. The first claim rewards 1000 points.',
+  link: 'claim',
+  linkWords: 'Get a link from your inviter to claim NFT.'
+}
+
+const XTask = {
+  key: 'X',
+  title: 'Follow X account',
+  desc: 'New users earn a one-time reward of 200 points for following X.',
+  link: 'https://x.com/CoinfairGlobal',
+  linkWords: 'Follow us'
+}
+
+const TGTask = {
+  key: 'TG',
+  title: 'Join Telegram Group',
+  desc: 'New users earn a one-time reward of 200 points for joining the Telegram group.',
+  link: 'https://t.me/Coinfair_Global',
+  linkWords: 'Join us'
+}
 
 export default function Earn() {
 
@@ -384,7 +424,7 @@ export default function Earn() {
           </EarnMintGroupItem>
         </EarnMintGroup>
       }
-      {/* <ToggleSwitch>
+      <ToggleSwitch>
         <ToggleBox>
           <ToggleSlider activeIndex={toggleIndex} />
           <ToggleOption active={toggleIndex === 0} onClick={() => setToggleIndex(0)}>
@@ -394,7 +434,7 @@ export default function Earn() {
             {t('Points Rewards')}
           </ToggleOption>
         </ToggleBox>
-      </ToggleSwitch> */}
+      </ToggleSwitch>
       {
         toggleIndex === 0 ? (
           <>
@@ -569,22 +609,30 @@ export default function Earn() {
             }
           </>
         ) : (
-          <>
-            <HoverCard/>
-            {/* <EarnClaimTable ref={claimRewardsRef}>
+          <PointsContainer>
+            <PointsCard>
+              <HoverCard content={swapTask}/>
+              <HoverCard content={mintTask}/>
+              <HoverCard content={claimTask}/>
+            </PointsCard>
+            <PointsCard>
+              <HoverCard content={XTask}/>
+              <HoverCard content={TGTask}/>
+              <HoverCard content={null}/>
+            </PointsCard>
+            {/* <EarnClaimTable>
               <EarnClaimTop>
                 <EarnTitle>{t('Leaderboard')}</EarnTitle>
                 <EarnMyRank></EarnMyRank>
-                {account && <EarnClaimImport onClick={() => onPresentCurrencyModal()}>{t('Select else')} +</EarnClaimImport>}
               </EarnClaimTop>
               {
                 account && selectedTokens.length > 0 && (
                   isDesktop ? 
                     (
                       <EarnClaimTHead>
-                        <EarnTName>{t('Name')}</EarnTName>
-                        <EarnTName>{t('Pending amount')}</EarnTName>
-                        <EarnTName>{t('Claimed amount')}</EarnTName>
+                        <EarnTName>{t('Rank')}</EarnTName>
+                        <EarnTName>{t('Points')}</EarnTName>
+                        <EarnTName>{t('User')}</EarnTName>
                         <EarnTName>{t('Total amount')}</EarnTName>
                         <EarnTOpration>{t('Operation')}</EarnTOpration>
                       </EarnClaimTHead>
@@ -618,7 +666,7 @@ export default function Earn() {
                 }
               </EarnTBody>
             </EarnClaimTable> */}
-          </>
+          </PointsContainer>
         )
       }
       <EarnFAQ>

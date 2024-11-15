@@ -58,7 +58,7 @@ export const NETWORK_CONFIG = {
   // },
 
   [ChainId.BSC]: {
-    name: 'BNB Smart Chain',
+    name: 'BNB Chain',
     network: 'bsc',
     scanURL: 'https://bscscan.com',
     rpcUrls: [

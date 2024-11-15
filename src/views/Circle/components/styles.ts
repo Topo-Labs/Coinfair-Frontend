@@ -621,31 +621,32 @@ export const EarnMyLeaderboard = styled.div`
 
 export const EarnMyRank = styled.div``
 
-export const PointsTask = styled.div`
-  display: flex;
+export const PointsContainer = styled.div`
+  margin-top: 60px;
 `
 
 export const PointsCard = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 `
 
 export const Card = styled.div`
   position: relative;
-  width: 250px;
-  height: 150px;
-  background-color: #f5f5f5;
+  flex: 1;
+  margin: 20px 40px 20px 0;
+  background-color: #fff;
   border-radius: 15px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.3s ease, color 0.3s ease;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.2) rotate(2deg);;
+    z-index: 99;
     color: #ffffff;
   }
   &::before {
@@ -664,17 +665,33 @@ export const Card = styled.div`
   &:hover::before {
     opacity: 1;
   }
+  &:last-child {
+    margin-right: 0;
+  }
 `;
 
 export const CardContent = styled.div`
+  width: 100%;
+  height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   z-index: 2;
+  ${Card}:hover & {
+    color: #ffffff;
+  }
 `;
 
 export const CardTitle = styled.h3`
-  font-size: 18px;
+  width: 100%;
+  font-size: 28px;
   margin: 0;
   transition: color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 28px;
 
   ${Card}:hover & {
     color: #ffffff;
@@ -684,26 +701,32 @@ export const CardTitle = styled.h3`
 export const CardDescription = styled.p`
   font-size: 14px;
   color: #666;
-  margin: 10px 0 0;
+  margin: 10px 0 40px;
   transition: color 0.3s ease;
-
+  line-height: 16px;
   ${Card}:hover & {
     color: #ffffff;
   }
 `;
 
-export const CardButton = styled.button`
+export const CardButton = styled(Button)`
   background-color: transparent;
   border: 1px solid #333;
   color: #333;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: all .3s ease;
+
+  &:hover {
+    background-color: #fff !important;
+    color: #000 !important;
+    opacity: 1 !important;
+  }
 
   ${Card}:hover & {
-    background-color: #ffffff;
-    color: #333;
+    background-color: transparent;
+    color: #fff;
     border-color: #ffffff;
   }
 `;
@@ -822,7 +845,7 @@ export const ToggleSwitch = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
-  margin-top: 112px;
+  margin-top: 80px;
 `;
 
 export const ToggleBox = styled.div`

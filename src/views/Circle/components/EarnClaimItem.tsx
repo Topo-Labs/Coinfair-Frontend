@@ -75,11 +75,9 @@ export default function EarnClaimItem({ token }) {
         const tx = await contract.withdrawFee(token.address); // 调用合约中的 withdrawFee 函数
         console.log('Transaction hash:', tx.hash);
 
-        // 等待交易确认
         const receipt = await tx.wait();
         console.log('Claim successful!', receipt);
 
-        // 成功后，更新奖励状态
         setHasRewards(false);
         fetchClaims(contract);
     } catch (err) {
@@ -88,8 +86,6 @@ export default function EarnClaimItem({ token }) {
         setIsClaiming(false);
     }
   };
-
-  console.log(getTokenLogoURL(token.address))
 
   return (
     <>

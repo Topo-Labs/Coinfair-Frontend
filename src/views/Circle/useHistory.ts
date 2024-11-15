@@ -9,7 +9,6 @@ export function useRewardsPool(chainId, parent) {
   useEffect(() => {
     if (!chainId || !parent) {
       setLoading(false);
-      setData([]);
       setError("Missing chainId or parent");
       return undefined;
     }

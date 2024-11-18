@@ -29,13 +29,13 @@ const HoverCard = ({ content }: { content?: any }) => {
         return <TGSvg stroke={strokeColor} />
     
       default:
-        break;
+        return ''
     }
   }
 
   const onTask = (link: string) => {
     if (link === 'swap') {
-      location.href = `/${link}`
+      window.location.href = `/${link}`
     } else if (link === 'mint') {
       onMintNftModal()
     } else if (link.includes('http')) {

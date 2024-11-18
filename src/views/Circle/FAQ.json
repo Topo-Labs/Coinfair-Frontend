@@ -1,26 +1,23 @@
 [
   {
     "question": "What is Coinfair Earn?",
-    "answer": "Coinfair Earn is your one-stop earning hub on the Coinfair exchange. Here, you can view all your current rewards and explore potential earning opportunities. Think of it as a revenue dashboard for community NFT minters."
+    "answer": "Coinfair Earn is your one-stop earning hub on the Coinfair exchange. Here you can earn and check all your current referral rebates and point rewards."
+  },
+  {
+    "question": "What are Coinfair points used for?",
+    "answer": "Coinfair Point is the only credential for redeeming tokens on the Coinfair platform. The specific exchange ratio and time will be announced in the platform announcement. Stay tuned!"
   },
   {
     "question": "How does Coinfair Earn work?",
-    "answer": "Starting Coinfair Earn is straightforward—simply mint NFTs and promote it. You’ll earn a share of the trading fees from users who claim your NFTs, based on their trading activity."
-  },
-  {
-    "question": "Am I eligible to mint NFTs?",
-    "answer": "Yes! As long as you hold enough tokens to cover the minting fees, you’re ready to go."
+    "answer": "Starting Coinfair Earn is easy. Simply mint NFTs and promote it, and you will earn a share of the trading fees from users who claim your NFTs, based on their trading activity."
   },
   {
     "question": "How do I start earning?",
     "answer": "To start earning, you need to mint NFTs that friends or community members can claim. Once claimed, if the holder trades on the platform, you will begin receiving a share of their trading fees."
   },
   {
-    "question": "How soon do I get my earning rewards?",
-    "answer": "Rewards are credited in real-time. As soon as a user holding one of your minted NFTs makes a trade, your reward is instantly available."
-  },
-  {
-    "question": "What are the benefits of claiming an NFT?",
-    "answer": "By claiming an NFT, you gain access to exclusive insights from the NFT minter, unlocking potential earning opportunities. Plus, through Coinfair’s trade mining mechanism, you’ll earn cashback on every trade."
+    "question": "How long does it take for Coinfair rewards to arrive?",
+    "answer": "The distribution of trading rebate rewards is instantaneous, and once the user who holds the NFT you issue trades, you can immediately get this part of the rebate reward.",
+    "seconds": "For point rewards, airdrop campaign and other event points will be distributed after the event. Points earned on the platform will generally arrive in your account within 1 to 10 minutes. If it has not been received for a long time, please contact us by telegram, etc."
   }
 ]

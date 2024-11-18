@@ -17,7 +17,7 @@ export default function EarnRewardItem({ info, index }) {
 
   const formattedParentAmount = parseFloat(formatUnits(info.parentAmount, info.decimals)).toFixed(3);
 
-  const formattedTimestamp = isDesktop ? moment.unix(info.blockTimestamp).format('YYYY-MM-DD HH:mm') : moment.unix(info.blockTimestamp).format('YYYY-MM-DD');
+  const formattedTimestamp = moment.unix(info.blockTimestamp).format('MMM DD HH:mm:ss')
 
   return (
     <EarnClaimTItem>

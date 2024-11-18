@@ -423,6 +423,11 @@ export const EarnTName = styled.span`
   display: flex;
   font-size: 14px;
   color: #666666;
+  &.rank-tname {
+    @media screen and (max-width: 1200px) {
+      flex: 1;
+    }
+  }
   @media screen and (max-width: 1200px) {
     flex: 0;
   }
@@ -496,9 +501,83 @@ export const EarnClaimGroup = styled.div<{isOpen: boolean}>`
 
 export const EarnClaimTItem = styled.div`
   display: flex;
-  border-radius: 4px;
   transition: all .3s ease;
-  padding: 9px 28px;
+  padding: 15px 28px;
+  &.rank-item {
+    padding: 15px 28px;
+    span {
+      font-size: 18px;
+    }
+    @media screen and (max-width: 1200px) {
+      padding: 10px 15px;
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+  &.rank-1 {
+    padding: 15px 28px;
+    background: linear-gradient(90deg, #E0B14C, #FFEEC9, #FFFFFF);
+    span {
+      font-size: 18px;
+      color: #976800;
+    }
+    :hover {
+      background: linear-gradient(90deg, #E0B14C, #FFEEC9, #FFFFFF);
+      transform: scale(1.1);
+    }
+    @media screen and (max-width: 1200px) {
+      padding: 10px 15px;
+      :hover {
+        transform: none;
+      }
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+  &.rank-2 {
+    padding: 15px 28px;
+    background: linear-gradient(90deg, #989898, #DEDEDE, #FFFFFF);
+    span {
+      font-size: 18px;
+      color: #404040;
+    }
+    :hover {
+      background: linear-gradient(90deg, #989898, #DEDEDE, #FFFFFF);
+      transform: scale(1.1);
+    }
+    @media screen and (max-width: 1200px) {
+      padding: 10px 15px;
+      :hover {
+        transform: none;
+      }
+      span {
+        font-size: 16px;
+      }
+    }
+  }
+  &.rank-3 {
+    padding: 15px 28px;
+    background: linear-gradient(90deg, #AE8365, #F1D1B4, #FFFFFF);
+    span {
+      font-size: 18px;
+      color: #6A2C00;
+    }
+    :hover {
+      background: linear-gradient(90deg, #AE8365, #F1D1B4, #FFFFFF);
+      transform: scale(1.1);
+    }
+    @media screen and (max-width: 1200px) {
+      padding: 10px 15px;
+      :hover {
+        transform: none;
+      }
+      span {
+        font-size: 16px;
+      }
+    }
+  }
   :hover {
     background: #f6f6f6;
   }
@@ -621,6 +700,22 @@ export const EarnMyLeaderboard = styled.div`
 
 export const EarnMyRank = styled.div``
 
+export const MyPoints = styled.span`
+  font-size: 20px;
+  margin-right: 50px;
+  @media screen and (max-width: 1200px) {
+    font-size: 14px;
+    margin-right: 10px;
+  }
+`
+
+export const MyRank = styled.span`
+  font-size: 20px;
+  @media screen and (max-width: 1200px) {
+    font-size: 14px;
+  }
+`
+
 export const PointsContainer = styled.div`
   margin-top: 60px;
 `
@@ -667,6 +762,14 @@ export const Card = styled.div`
   }
   &:last-child {
     margin-right: 0;
+  }
+  @media screen and (max-width: 1200px) {
+    margin-right: 0;
+    &:hover {
+      transform: rotate(2deg);;
+      z-index: 99;
+      color: #ffffff;
+    }
   }
 `;
 
@@ -751,8 +854,29 @@ export const EarnHistory = styled.div`
   }
 `
 
+export const EarnClaimedHis = styled.div`
+  width: 50%;
+  border-radius: 16px;
+  padding: 28px 0;
+  margin-top: 40px;
+  margin-right: 27px;
+  background: #fff;
+  z-index: 99;
+  &:last-child {
+    margin-right: 0;
+  }
+  @media screen and (max-width: 1200px) {
+    width: 80%;
+    margin-right: 0;
+    padding: 15px 0;
+  }
+`
+
 export const EarnHistoryTitle = styled(EarnTitle)`
   padding: 0 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   @media screen and (max-width: 1200px) {
     padding: 0 15px;
   }
@@ -770,6 +894,9 @@ export const EarnHistoryValue = styled.span`
   font-size: 14px;
   @media screen and (max-width: 1200px) {
     justify-content: flex-end;
+    &.rank-value {
+      justify-content: flex-start;
+    }
   }
 `
 
@@ -794,6 +921,8 @@ export const EarnHistoryReward = styled.span`
 
 export const EarnHistoryTime = styled(EarnHistoryValue)`
   justify-content: flex-end;
+  font-weight: normal;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
 `
 
 export const EarnMintGroup = styled.div`
@@ -846,6 +975,9 @@ export const ToggleSwitch = styled.div`
   align-items: center;
   padding: 20px;
   margin-top: 80px;
+  @media screen and (max-width: 1200px) {
+    padding: 10px;
+  }
 `;
 
 export const ToggleBox = styled.div`
@@ -855,6 +987,10 @@ export const ToggleBox = styled.div`
   background-color: #F5F5F5;
   border-radius: 50px;
   border: 8px solid #F5F5F5;
+  @media screen and (max-width: 1200px) {
+    border-radius: 40px;
+    border-width: 4px;
+  }
 `;
 
 export const ToggleOption = styled.div<{active: boolean}>`
@@ -869,6 +1005,12 @@ export const ToggleOption = styled.div<{active: boolean}>`
   cursor: pointer;
   transition: color 0.3s ease;
   z-index: 1;
+  @media screen and (max-width: 1200px) {
+    font-size: 16px;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+  }
 `;
 
 export const ToggleSlider = styled.div<{activeIndex: number}>`
@@ -882,6 +1024,11 @@ export const ToggleSlider = styled.div<{activeIndex: number}>`
   border-radius: 45px;
   box-shadow: 0px 3px 12px 0 rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  @media screen and (max-width: 1200px) {
+    font-size: 16px;
+    width: 150px;
+    height: 50px;
+  }
 `;
 
 export const EarnFAQ = styled.div`

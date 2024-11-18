@@ -14,7 +14,7 @@ export default function EarnMintItem({ info, index }) {
 
   const { isDesktop } = useMatchBreakpointsContext()
 
-  const formattedTimestamp = moment.unix(info.blockTimestamp).format('YYYY-MM-DD HH:mm');
+  const formattedTimestamp = moment.unix(info.blockTimestamp).format('MMM DD HH:mm:ss')
 
   return (
     <EarnClaimTItem>

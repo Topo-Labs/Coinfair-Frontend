@@ -157,3 +157,82 @@ export function useMintHistory(chainId, account) {
   };
 }
 
+export function usePointsRank(chainId, account) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!chainId || !account) {
+      setLoading(false);
+      setError("Missing chainId or account");
+      return undefined;
+    }
+  
+    let isMounted = true;
+    let fetchCount = 0;
+    const maxFetchCount = 120;
+  
+    const fetchTokens = async () => {
+      if (fetchCount >= maxFetchCount) {
+        clearInterval(interval);
+        return;
+      }
+  
+      fetchCount += 1;
+      try {
+        setLoading(true);
+        const response = await fetch(`https://coinfair.xyz/get_usr_info`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chain_id: chainId,
+            addr: account,
+          }),
+        });
+  
+        if (!response.ok) {
+          console.log(`Error fetching tokens: ${response.statusText}`);
+          throw new Error(`Error fetching tokens: ${response.statusText}`);
+        }
+  
+        const result = await response.json();
+        if (isMounted) {
+          setData(result || []);
+          setError(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          if (err instanceof Error) {
+            console.error("Error fetching tokens:", err.message);
+            setError(err.message);
+          } else {
+            console.error("Unknown error:", err);
+            setError(String(err));
+          }
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchTokens();
+  
+    const interval = setInterval(fetchTokens, 30000);
+  
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [chainId, account]);
+
+  return {
+    data,
+    loading,
+    error,
+  };
+}

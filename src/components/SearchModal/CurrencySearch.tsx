@@ -4,7 +4,6 @@ import { Currency, ETHER, Token } from '@pancakeswap/sdk'
 import { Text, Input, Box, useMatchBreakpointsContext } from '@pancakeswap/uikit'
 import { useTranslation } from '@pancakeswap/localization'
 import { FixedSizeList } from 'react-window'
-import { useAudioModeManager } from 'state/user/hooks'
 import useDebounce from 'hooks/useDebounce'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useAllLists, useInactiveListUrls } from 'state/lists/hooks'
@@ -17,8 +16,6 @@ import CommonBases from './CommonBases'
 import CurrencyList from './CurrencyList'
 import { useSortedTokensByQuery, createFilterToken } from './filtering'
 import useTokenComparator from './sorting'
-import { getSwapSound } from './swapSound'
-
 import ImportRow from './ImportRow'
 
 interface CurrencySearchProps {
@@ -105,8 +102,6 @@ function CurrencySearch({
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
 
-  const [audioPlay] = useAudioModeManager()
-
   const showBNB: boolean = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
     return s === '' || s === 'b' || s === 'bn' || s === 'bnb' || s === 'e' || s === 'et' || s === 'eth'
@@ -127,11 +122,8 @@ function CurrencySearch({
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
       onCurrencySelect(currency)
-      if (audioPlay) {
-        getSwapSound().play()
-      }
     },
-    [audioPlay, onCurrencySelect],
+    [onCurrencySelect],
   )
 
   // manage focus on modal show

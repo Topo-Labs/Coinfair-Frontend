@@ -113,7 +113,6 @@ export abstract class Router {
           methodName = 'swapExactTokensForTokensSupportingFeeOnTransferTokens'
           // (uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
           args = [amountIn, amountOut, path, [poolType], [fee], to, deadline]
-          // console.log(args, 666)
           value = ZERO_HEX
         }
         break
@@ -133,7 +132,6 @@ export abstract class Router {
           methodName = 'swapTokensForExactTokens'
           // (uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
           args = [amountOut, amountIn, path, [poolType], [fee], to, deadline]
-          // console.log(args, 777)
           value = ZERO_HEX
         }
         break

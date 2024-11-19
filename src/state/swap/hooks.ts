@@ -1,4 +1,4 @@
-import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS, TokenAmount, PairV3 } from '@pancakeswap/sdk'
+import { ChainId, Currency, CurrencyAmount, Pair, Trade, TREASURY_ADDRESS, TokenAmount, PairV3, ETHER } from '@pancakeswap/sdk'
 import { Contract } from '@ethersproject/contracts'
 import { formatUnits, parseUnits } from '@ethersproject/units'
 import TreasuryABI from 'config/abi/Coinfair_Treasury.json'
@@ -39,7 +39,7 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
 import { parsePoolData, fetchPoolData, FormattedPoolFields } from '../info/queries/pools/poolData'
-import { USDT, opBNBTokens, scrollToken } from "../../config/constants/tokens";
+import { USDT, bscTokens, opBNBTokens, scrollToken } from "../../config/constants/tokens";
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -248,7 +248,7 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
   if (typeof urlParam === 'string') {
     const valid = isAddress(urlParam)
     if (valid) return valid
-    if (urlParam.toUpperCase() === 'BNB' || urlParam.toUpperCase() === 'ETH') return 'BNB'
+    // if (urlParam.toUpperCase() === 'BNB' || urlParam.toUpperCase() === 'ETH') return 'BNB'
     if (valid === false) return 'BNB'
   }
   return ''
@@ -276,15 +276,16 @@ export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: st
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
 
   switch (chainId.toString()) {
-    case "204":
-      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || opBNBTokens.PV001.address
-      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || opBNBTokens.PV002.address
+    case "56":
+      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || ETHER.symbol
+      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
       break;
 
-    case "534352":
-    //   inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.WBTC.address
-      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || scrollToken.USDT.address
+    case "8453":
+      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || ETHER.symbol
+      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
       break;
+
     default:
       break;
   }
@@ -327,7 +328,7 @@ export function useDefaultsFromURLSearch():
 
   useEffect(() => {
     if (!chainId) return
-    const parsed = queryParametersToSwapState(query, chainId)
+    const parsed = queryParametersToSwapState(query, chainId.toString())
 
     dispatch(
       replaceSwapState({

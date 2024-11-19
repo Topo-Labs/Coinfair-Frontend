@@ -285,7 +285,6 @@ export default function CurrencyInputPanel({
           ) : labelType === 'swap-balance' ? (
             <Flex alignItems="center" justifyContent="space-between" style={{ padding: '0 12px', paddingTop: '10px' }}>
               <Text style={{ fontSize: '12px' }}>{label}</Text>
-              {/* <Text>balance</Text> */}
               {account && (
                 <Text
                   onClick={!disabled && onMax}
@@ -305,7 +304,6 @@ export default function CurrencyInputPanel({
           ) : (
             <Flex alignItems="center" justifyContent="space-between" style={{ padding: '0 15px', paddingTop: '10px' }}>
               <Text style={{ fontSize: '12px' }}>INPUT</Text>
-              {/* <Text>balance: </Text> */}
               {account && (
                 <Text
                   onClick={!disabled && onMax}
@@ -349,20 +347,6 @@ export default function CurrencyInputPanel({
                 {t('Max').toLocaleUpperCase(locale)}
               </Button>
             )}
-            {/* {account && currency && !disabled && showWithDraw && (
-              <ClaimButton
-                onClick={handleClaimToken}
-                scale="xs"
-                variant="secondary"
-                disabled={!hasRewards}
-                style={{
-                  color: hasRewards ? theme.colors.inputCat : '#999',
-                  border: `1px solid ${hasRewards ? theme.colors.inputCat : '#999'}`
-                }}
-              >
-                {isClaiming ? 'Claiming...' : 'Claim'}
-              </ClaimButton>
-            )} */}
             <Flex>
               {beforeButton}
               <CurrencySelectButton
@@ -398,43 +382,8 @@ export default function CurrencyInputPanel({
                   {!disableCurrencySelect && <ChevronDownIcon />}
                 </Flex>
               </CurrencySelectButton>
-              {/* {token && tokenAddress ? (
-                <Flex style={{ gap: '4px' }} ml="4px" alignItems="center">
-                  <CopyButton
-                    width="16px"
-                    buttonColor="textSubtle"
-                    text={tokenAddress}
-                    tooltipMessage={t('Token address copied')}
-                    tooltipTop={-20}
-                    tooltipRight={40}
-                    tooltipFontSize={12}
-                  />
-                  <AddToWalletButton
-                    variant="text"
-                    p="0"
-                    height="auto"
-                    width="fit-content"
-                    tokenAddress={tokenAddress}
-                    tokenSymbol={token.symbol}
-                    tokenDecimals={token.decimals}
-                    tokenLogo={token instanceof WrappedTokenInfo ? token.logoURI : undefined}
-                  />
-                </Flex>
-              ) : null} */}
             </Flex>
           </LabelRow>
-          {/* <InputRow selected={disableCurrencySelect}>
-            {!!currency && showBUSD && Number.isFinite(amountInDollar) && (
-              <Text fontSize="12px" color="textSubtle" mr="12px">
-                ~{formatNumber(amountInDollar)} USD
-              </Text>
-            )}
-            {account && currency && !disabled && showMaxButton && label !== 'To' && (
-              <Button onClick={onMax} scale="xs" variant="secondary">
-                {t('Max').toLocaleUpperCase(locale)}
-              </Button>
-            )}
-          </InputRow> */}
         </Container>
         {disabled && <Overlay />}
       </InputPanel>

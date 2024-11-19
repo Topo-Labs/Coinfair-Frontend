@@ -2,7 +2,6 @@ import { ChainId, Currency, currencyEquals, ETHER, Token } from '@pancakeswap/sd
 import { Text } from '@pancakeswap/uikit'
 import styled from 'styled-components'
 import { useTranslation } from '@pancakeswap/localization'
-
 import { SUGGESTED_BASES } from 'config/constants/exchange'
 import { AutoColumn } from '../Layout/Column'
 import QuestionHelper from '../QuestionHelper'
@@ -66,24 +65,11 @@ export default function CommonBases({
         )}
       </AutoRow>
       <RowWrapper>
-        {/* <ButtonWrapper>
-          <BaseWrapper
-            onClick={() => {
-              if (!selectedCurrency || !currencyEquals(selectedCurrency, ETHER)) {
-                onSelect(ETHER)
-              }
-            }}
-            disable={selectedCurrency === ETHER}
-          >
-            <CurrencyLogo currency={ETHER} />
-            <Text style={{ marginLeft: '8px' }}>{ETHER?.symbol}</Text>
-          </BaseWrapper>
-        </ButtonWrapper> */}
         {(chainId ? SUGGESTED_BASES[chainId] : []).map((token: Token) => {
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (
             <ButtonWrapper key={token.address}>
-              <BaseWrapper onClick={() => !selected && onSelect(token)} disable={selected}>
+              <BaseWrapper onClick={() => { !selected && onSelect(token)}} disable={selected}>
                 <CurrencyLogo currency={token} style={{ borderRadius: '50%' }} />
                 <Text style={{ marginLeft: '8px' }}>{token.symbol}</Text>
               </BaseWrapper>

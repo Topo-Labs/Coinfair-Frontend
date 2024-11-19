@@ -521,7 +521,7 @@ export default function Earn() {
               isDesktop ? (
                 <EarnMiddleBox>
                   <EarnHistory>
-                    <EarnHistoryTitle>{t('Rewords Pool')}</EarnHistoryTitle>
+                    <EarnHistoryTitle>{t('Rewards Pool')}</EarnHistoryTitle>
                     {
                       account && claimData && claimData.length ? (
                         <EarnHistoryTHead>
@@ -556,7 +556,7 @@ export default function Earn() {
               ) : (
                 <>
                   <EarnHistory>
-                    <EarnHistoryTitle>{t('Rewords Pool')}</EarnHistoryTitle>
+                    <EarnHistoryTitle>{t('Rewards Pool')}</EarnHistoryTitle>
                     {
                       claimData && claimData.length ? (
                         <EarnHistoryTHead>

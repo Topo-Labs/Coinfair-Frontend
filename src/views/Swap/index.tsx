@@ -25,7 +25,7 @@ import { maxAmountSpend } from 'utils/maxAmountSpend'
 import shouldShowSwapWarning from 'utils/shouldShowSwapWarning'
 import { useSwapActionHandlers } from 'state/swap/useSwapActionHandlers'
 import useGoogleAnalysis from 'hooks/useGoogleAnalysis'
-import { useCurrencyBalance } from 'state/wallet/hooks'
+import { useCurrencyBalance, useCurrencyBalances, useTokenBalances } from 'state/wallet/hooks'
 import useRefreshBlockNumberID from './hooks/useRefreshBlockNumber'
 import AddressInputPanel from './components/AddressInputPanel'
 import { GreyCard } from '../../components/Card'
@@ -437,15 +437,6 @@ export default function Swap() {
                 />
                 <Wrapper id="swap-page" style={{ minHeight: '325px' }}>
                   <AutoColumn style={{ display: 'block' }}>
-                    {/* {
-                      ammType ?
-                        (
-                          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0px', marginBottom: '-16px' }}>
-                            <Text style={{ marginRight: '20px' }}>{swapFormulaList[ammType - 1].label}</Text>
-                            <Text>{swapFormulaList[ammType - 1].alias}</Text>
-                          </div>
-                        ) : null
-                    } */}
                     <div>
                       <CurrencyInputPanel
                         label={
@@ -453,7 +444,6 @@ export default function Swap() {
                         }
                         labelType="swap"
                         value={formattedAmounts[Field.INPUT]}
-                        // value={renderOnInput(currencies[Field.INPUT])}
                         showMaxButton={!atMaxAmountInput}
                         showWithDraw
                         currency={currencies[Field.INPUT]}
@@ -542,14 +532,12 @@ export default function Swap() {
                             </>
                           )}
                         </RowBetween>
-                        {/* <RowBetween align="center"> */}
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '10px 0' }}>
                           <Label style={{ color: theme.colors.dark }}>{t('Slippage Tolerance')}</Label>
                           <Text bold color="primary" style={{ marginLeft: '10px', color: theme.colors.dark }}>
                             {allowedSlippage / 100}%
                           </Text>
                         </div>
-                        {/* </RowBetween> */}
                       </AutoColumn>
                     )}
                   </AutoColumn>

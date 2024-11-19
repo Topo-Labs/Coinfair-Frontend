@@ -69,7 +69,7 @@ export default function CommonBases({
           const selected = selectedCurrency instanceof Token && selectedCurrency.address === token.address
           return (
             <ButtonWrapper key={token.address}>
-              <BaseWrapper onClick={() => { !selected && onSelect(token)}} disable={selected}>
+              <BaseWrapper onClick={() => !selected && onSelect(token)} disable={selected}>
                 <CurrencyLogo currency={token} style={{ borderRadius: '50%' }} />
                 <Text style={{ marginLeft: '8px' }}>{token.symbol}</Text>
               </BaseWrapper>

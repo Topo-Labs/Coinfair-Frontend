@@ -305,7 +305,7 @@ export default function Earn() {
     }
   };
 
-  const ClaimedHistory = ({onDismiss}) => (
+  const ClaimedHistory = ({onDismiss = () => null}) => (
     <EarnClaimedHis>
       {/* eslint-disable */}
       <EarnHistoryTitle>{t('Claim History')}<img onClick={() => onDismiss?.()} src="/images/mint-close.svg" alt="" /></EarnHistoryTitle>
@@ -334,7 +334,7 @@ export default function Earn() {
     </EarnClaimedHis>
   )
 
-  const [onClaimedHistoryModal] = useModal(<ClaimedHistory/>)
+  const [onClaimedHistoryModal] = useModal(<ClaimedHistory />)
 
   return (
     <EarnContainer>

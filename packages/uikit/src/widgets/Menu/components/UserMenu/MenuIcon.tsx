@@ -4,6 +4,7 @@ import { Variant, variants } from "./types";
 import { Image } from "../../../../components/Image";
 import { RefreshIcon, WalletFilledIcon, WarningIcon } from "../../../../components/Svg";
 import { Colors } from "../../../../theme/types";
+import { useMatchBreakpoints } from "../../../../hooks";
 
 const MenuIconWrapper = styled.div<{ borderColor: keyof Colors }>`
   align-items: center;
@@ -59,6 +60,8 @@ const MenuIcon: React.FC<React.PropsWithChildren<{ avatarSrc?: string; variant: 
   avatarSrc,
   variant,
 }) => {
+  const { isMobile } = useMatchBreakpoints();
+
   if (variant === variants.DANGER) {
     return <DangerMenuIcon />;
   }
@@ -72,7 +75,7 @@ const MenuIcon: React.FC<React.PropsWithChildren<{ avatarSrc?: string; variant: 
   }
 
   if (!avatarSrc) {
-    return 'Select a Network';
+    return isMobile ? 'Network' : 'Select a Network';
   }
 
   return <ProfileIcon src={avatarSrc} height={20} width={20} />;

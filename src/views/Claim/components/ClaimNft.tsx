@@ -6,8 +6,9 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { NETWORK_CONFIG } from 'utils/wallet';
 import useToast from 'hooks/useToast'
 import { MINT_ADDRESS } from 'config/constants/exchange'
+import { DogSvg } from 'components/Svg/Dog';
 import { MINT_ABI } from './constants';
-import { ClaimFooter, ClaimHeader, ClaimImg, ClaimImgWrapper, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress, NftMessage, NftTotal } from './styles';
+import { ClaimFooter, ClaimHeader, ClaimImgWrapper, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress } from './styles';
 
 interface ExtendedEthereum extends ExternalProvider {
   on?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
@@ -121,11 +122,15 @@ const Claim = () => {
         <ClaimNft>
           <ClaimImgWrapper>
             {layers.map((depth) => (
-              <ClaimImg
+              <DogSvg
                 key={depth}
-                src="/images/circle/nft_dog.png"
-                alt="NFT"
-                depth={depth}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  transform: `translateZ(${depth * 0.5}px)`,
+                  opacity: 1 - depth * 0.1,
+                }}
               />
             ))}
           </ClaimImgWrapper>

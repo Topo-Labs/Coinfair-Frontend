@@ -3,15 +3,15 @@ import useActiveWeb3React from 'hooks/useActiveWeb3React';
 import { NETWORK_CONFIG } from 'utils/wallet'
 import useToast from 'hooks/useToast';
 import { useModal } from '@pancakeswap/uikit';
-import { BiSolidCheckCircle } from "react-icons/bi";
 import { copyText } from 'utils/copyText';
 import { useTranslation } from '@pancakeswap/localization'
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider, ExternalProvider, JsonRpcProvider } from '@ethersproject/providers';
 import {isAddress} from "@ethersproject/address"
 import { MINT_ADDRESS } from 'config/constants/exchange'
+import { DogSvg } from 'components/Svg/Dog';
 import { MINT_ABI } from './constants';
-import { CircleContent, CircleContentPeople, CircleHeader, CircleImg, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyBtn, CopyLink, CopyMain, CopyMyLink, ListWrapper, MintAmount, MintSuccessBottom, MintSuccessModal, MintSuccessNft, MintSuccessTitle, NftMessage, NftRemain, NftTotal, Tooltip } from './styles';
+import { CircleContent, CircleHeader, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyMyLink, ListWrapper, MintAmount, MintSuccessBottom, MintSuccessModal, MintSuccessNft, MintSuccessTitle } from './styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -214,7 +214,7 @@ export default function MintNft({ onDismiss = () => null }) {
     );
   }
 
-  const layers = Array.from({ length: 5 }, (_, i) => i - 5);
+  const layers = Array.from({ length: 10 }, (_, i) => i - 5);
 
   return (
     <ListWrapper>
@@ -227,11 +227,15 @@ export default function MintNft({ onDismiss = () => null }) {
       <CircleNft>
         <CircleImgWrapper>
           {layers.map((depth) => (
-            <CircleImg
+            <DogSvg
               key={depth}
-              src="/images/circle/nft_dog.png"
-              alt="NFT"
-              depth={depth}
+              style={{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                transform: `translateZ(${depth * 0.5}px)`,
+                opacity: 1 - depth * 0.1,
+              }}
             />
           ))}
         </CircleImgWrapper>

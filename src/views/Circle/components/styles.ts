@@ -922,7 +922,6 @@ export const EarnHistoryReward = styled.span`
 export const EarnHistoryTime = styled(EarnHistoryValue)`
   justify-content: flex-end;
   font-weight: normal;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif !important;
 `
 
 export const EarnMintGroup = styled.div`

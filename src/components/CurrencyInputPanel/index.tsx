@@ -239,7 +239,7 @@ export default function CurrencyInputPanel({
   return (
     <Box position="relative" id={id}>
       {noLiquidity ? (
-        <StyledText style={{ fontSize: '12px', marginBottom: '2px', marginLeft: '15px' }}>
+        <StyledText style={{ fontSize: '12px', margin: '10px 0 10px 15px' }}>
           {label === 'X' ? t('tokensIssued') : label === 'Y' ? t('tokensRaised') : ''}
         </StyledText>
       ) :

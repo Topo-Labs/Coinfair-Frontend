@@ -312,7 +312,7 @@ export default function Earn() {
       {
         mintData && mintData.length ? (
           <EarnHistoryTHead>
-            <EarnTName>{t('Address')}</EarnTName>
+            <EarnTName>{t('User')}</EarnTName>
             <EarnTTime>{t('Time')}</EarnTTime>
           </EarnHistoryTHead>
         ) : ''
@@ -528,7 +528,7 @@ export default function Earn() {
                         <EarnHistoryTHead>
                           <EarnTName>{t('Number')}</EarnTName>
                           <EarnTReward>{t('Reward amount')}</EarnTReward>
-                          <EarnTName>{t('Address')}</EarnTName>
+                          <EarnTName>{t('User')}</EarnTName>
                           <EarnTTime>{t('Time')}</EarnTTime>
                         </EarnHistoryTHead>
                       ) : ''
@@ -553,37 +553,6 @@ export default function Earn() {
                     }
                     </EarnTBody>
                   </EarnHistory>
-                  {/* <EarnHistory>
-                    <EarnHistoryTitle>{t('Claim History')}</EarnHistoryTitle>
-                    {
-                      account && mintData && mintData.length ? (
-                        <EarnHistoryTHead>
-                          <EarnTName>{t('Number')}</EarnTName>
-                          <EarnTName>{t('Address')}</EarnTName>
-                          <EarnTTime>{t('time')}</EarnTTime>
-                        </EarnHistoryTHead>
-                      ) : ''
-                    }
-                    <EarnTBody>
-                      {account ?
-                        mintData && mintData.length ? (
-                          [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                            <EarnMintItem info={hty} index={index}/>
-                          )
-                        ) : (
-                          <EarnNoData>
-                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                            {t('No Data')}
-                          </EarnNoData>
-                        ) : (
-                          <EarnNoData>
-                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                            {t('Please connect your wallet.')}
-                          </EarnNoData>
-                        )
-                      }
-                    </EarnTBody>
-                  </EarnHistory> */}
                 </EarnMiddleBox>
               ) : (
                 <>
@@ -593,7 +562,7 @@ export default function Earn() {
                       claimData && claimData.length ? (
                         <EarnHistoryTHead>
                           <EarnTReward>{t('Amount')}</EarnTReward>
-                          <EarnTAddress>{t('Address')}</EarnTAddress>
+                          <EarnTAddress>{t('User')}</EarnTAddress>
                           <EarnTTime>{t('Time')}</EarnTTime>
                         </EarnHistoryTHead>
                       ) : ''
@@ -611,31 +580,6 @@ export default function Earn() {
                         </EarnNoData>
                       )
                     }
-                    </EarnTBody>
-                  </EarnHistory>
-                  <EarnHistory>
-                    <EarnHistoryTitle>{t('Claim History')}</EarnHistoryTitle>
-                    {
-                      mintData && mintData.length ? (
-                        <EarnHistoryTHead>
-                          <EarnTName>{t('Address')}</EarnTName>
-                          <EarnTTime>{t('Time')}</EarnTTime>
-                        </EarnHistoryTHead>
-                      ) : ''
-                    }
-                    <EarnTBody>
-                      {
-                        mintData && mintData.length ? (
-                          [...mintData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                            <EarnMintItem info={hty} index={index}/>
-                          )
-                        ) : (
-                          <EarnNoData>
-                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                            {t('No Data')}
-                          </EarnNoData>
-                        )
-                      }
                     </EarnTBody>
                   </EarnHistory>
                 </>

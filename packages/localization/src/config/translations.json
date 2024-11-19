@@ -1758,7 +1758,6 @@
   "Your": "Your",
   "Current Prize Pot": "Current Prize Pot",
   "Stake to get your tickets NOW": "Stake to get your tickets NOW",
-  "Rewards": "Rewards",
   "Fees": "Fees",
   "Split Breakdown": "Split Breakdown",
   "The staking rewards of funds": "The staking rewards of funds",
@@ -2018,5 +2017,12 @@
   "Please login to view and claim NFT.": "Please login to view and claim NFT.",
   "Claim NFT": "Claim NFT",
   "Minter Address": "Minter Address",
-  "Already Claimed": "Already Claimed"
+  "Already Claimed": "Already Claimed",
+  "Trade Rewards": "Trade Rewards",
+  "Points Rewards": "Points Rewards",
+  "Earn up to 30% in trading rebates and 10% in bonus points!": "Earn up to 30% in trading rebates and 10% in bonus points!",
+  "Once": "Once",
+  "Double": "Double",
+  "Referral": "Referral",
+  "Rewards": "Rewards"
 }

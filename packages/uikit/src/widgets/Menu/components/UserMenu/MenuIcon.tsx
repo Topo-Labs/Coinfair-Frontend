@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useTranslation } from '@pancakeswap/localization'
 import { Variant, variants } from "./types";
 import { Image } from "../../../../components/Image";
 import { RefreshIcon, WalletFilledIcon, WarningIcon } from "../../../../components/Svg";
@@ -61,6 +62,7 @@ const MenuIcon: React.FC<React.PropsWithChildren<{ avatarSrc?: string; variant: 
   variant,
 }) => {
   const { isMobile } = useMatchBreakpoints();
+  const { t } =  useTranslation()
 
   if (variant === variants.DANGER) {
     return <DangerMenuIcon />;
@@ -75,7 +77,7 @@ const MenuIcon: React.FC<React.PropsWithChildren<{ avatarSrc?: string; variant: 
   }
 
   if (!avatarSrc) {
-    return isMobile ? 'Network' : 'Select a Network';
+    return isMobile ? t('Network') : t('Select a Network');
   }
 
   return <ProfileIcon src={avatarSrc} height={20} width={20} />;

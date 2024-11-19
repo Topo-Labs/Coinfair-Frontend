@@ -662,7 +662,7 @@ export default function AddLiquidity() {
                 }
               </Text>
               <FeeRate feeType={feeType} setFeeType={setFeeType} feeTypes={feeTypes} />
-              <AutoColumn gap="20px">
+              <AutoColumn style={{ display: 'block' }}>
                 {noLiquidity && (
                   <PriceInputPanel
                     formulaList={swapFormulaList[ammType - 1].value}
@@ -723,7 +723,7 @@ export default function AddLiquidity() {
                     noLiquidity={noLiquidity}
                   />
                   <StyledColumnCenter>
-                    <AddIcon width="16px" />
+                    <AddIcon width="16px" marginTop="20px" />
                   </StyledColumnCenter>
                   <CurrencyInputPanel
                     showBUSD
@@ -840,7 +840,7 @@ export default function AddLiquidity() {
                   </RowFixed>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                  <Text bold fontSize="12px" color="secondary" style={{ color: theme.colors.dark, fontSize: '12px' }}>
+                  <Text bold fontSize="12px" color="secondary" style={{ color: theme.colors.dark, fontSize: '12px', margin: '10px 0' }}>
                     {t('Slippage Tolerance')}
                   </Text>
                   <Text bold color="primary" style={{ marginLeft: '10px', color: theme.colors.dark, fontSize: '12px' }}>

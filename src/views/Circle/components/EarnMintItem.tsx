@@ -18,7 +18,6 @@ export default function EarnMintItem({ info, index }) {
 
   return (
     <EarnClaimTItem>
-      {isDesktop ? <EarnHistoryValue>{index + 1}</EarnHistoryValue> : ''}
       <EarnHistoryAddress>{formatAddress(info.claimer)}</EarnHistoryAddress>
       <EarnHistoryTime>{formattedTimestamp}</EarnHistoryTime>
     </EarnClaimTItem>

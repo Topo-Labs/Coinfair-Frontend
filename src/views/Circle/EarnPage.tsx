@@ -130,7 +130,6 @@ export default function Earn() {
   const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(chainId, account);
   const { data: mintData, loading: mintLoading, error: mintError } = useMintHistory(chainId, account);
   const { data: rankData, loading: rankLoading, error: rankError } = usePointsRank(chainId, account);
-  console.log(rankData)
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);

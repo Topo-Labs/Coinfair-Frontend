@@ -1,13 +1,8 @@
 import { createClient, gql, Client } from 'urql';
 import { cacheExchange, fetchExchange } from '@urql/core';
 
-export const clientClaim: Client = createClient({
-  url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/HBvQgCQCSvNyTY5VdyPGf2tZpVrhjmwkuKwYJDX7M7SQ',
-  exchanges: [cacheExchange, fetchExchange],
-});
-
 export const clientBase: Client = createClient({
-  url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/ETCUAbvTHiyPSfXKznxMmKQ3hUBA8uG8Deg1xkiw77R7',
+  url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/D515zBVQeT2z1tdigboztUikJkfUTWHfFqF8kLxKpH3N',
   exchanges: [cacheExchange, fetchExchange],
 });
 

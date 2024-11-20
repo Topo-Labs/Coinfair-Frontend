@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useTranslation } from '@pancakeswap/localization';
-import { EarnAnswer, EarnFAQItem, EarnQuestion, EarnAnswerWrapper, PlusMinusIcon } from './styles'
+import { EarnAnswer, EarnFAQItem, EarnQuestion, EarnAnswerWrapper, PlusMinusIcon, EarnQ } from './styles'
 
 type EarnFAQGroupProps = {
   question: string;
@@ -29,7 +29,7 @@ export default function EarnFAQGroup({ question, answer, faqItem, isOpen, toggle
   return (
     <EarnFAQItem>
       <EarnQuestion onClick={() => toggleOpen(index)}>
-        Q: {t(question)}
+        <EarnQ>Q: {t(question)}</EarnQ>
         <PlusMinusIcon isOpen={isOpen}/>
       </EarnQuestion>
       <EarnAnswerWrapper isOpen={isOpen} height={height}>

@@ -1,11 +1,42 @@
 import { Button } from '@pancakeswap/uikit';
 import styled, { keyframes } from 'styled-components';
 
+const spinScale = keyframes`
+  0% {
+    transform: scale(0.8) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+  }
+  100% {
+    transform: scale(0.8) rotate(360deg);
+  }
+`;
+
+export const LoadingRing = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(0, 0, 0, 0.2);
+    border-top: 5px solid black;
+    border-radius: 50%;
+    animation: ${spinScale} 1.5s infinite ease-in-out;
+  }
+`;
+
 export const EarnContainer = styled.div`
   padding: 0 100px;
   padding-top: 100px;
   width: 100%;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 0;
   }
 `
@@ -16,7 +47,7 @@ export const EarnTips = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     margin: 1rem 0;
   }
 `
@@ -30,7 +61,7 @@ export const EarnTipsOnce = styled.div`
   top: 100px;
   right: -40px;
   z-index: -1;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 85px;
     top: 30px;
     right: -20px;
@@ -46,7 +77,7 @@ export const EarnTipsDouble = styled.div`
   top: 450px;
   right: -40px;
   z-index: -1;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 85px;
     top: 130px;
     right: -1px;
@@ -58,7 +89,7 @@ export const EarnTipRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     margin-left: 1rem;
   }
 `
@@ -79,7 +110,7 @@ export const EarnTipWords = styled.div`
   &:first-child {
     text-indent: 0.8em;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 48px;
     line-height: 48px;
   }
@@ -91,7 +122,7 @@ export const EarnTipGreen = styled.span`
   color: #56BA93;
   line-height: 128px;
   font-family: "Oswald", sans-serif !important;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 48px;
     line-height: 48px;
   }
@@ -103,7 +134,7 @@ export const EarnTipRed = styled.span`
   color: #CA685B;
   line-height: 128px;
   font-family: "Oswald", sans-serif !important;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 48px;
     line-height: 48px;
   }
@@ -114,7 +145,7 @@ export const EarnStep = styled.div`
   justify-content: center;
   margin-top: 100px;
   z-index: 9999;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     margin-top: 20px;
   }
 `
@@ -190,7 +221,7 @@ export const EarnStepItemIcon = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: -55px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     margin-top: -45px;
   }
 `
@@ -335,7 +366,7 @@ export const EarnClaimTable = styled.div`
   padding: 28px 0;
   box-shadow: 0 1px 3px 0 #EDEDED;
   margin-top: 40px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding-top: 15px;
     padding-bottom: 0;
     overflow: hidden;
@@ -348,8 +379,20 @@ export const EarnClaimTop = styled.div`
   align-items: center;
   margin-bottom: 20px;
   padding: 0 28px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 0 15px;
+  }
+`
+
+export const PointsRankTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 28px;
+  @media screen and (max-width: 800px) {
+    padding: 0 15px;
+    margin-bottom: 0;
   }
 `
 
@@ -358,7 +401,7 @@ export const EarnTitle = styled.h2`
   font-weight: 900;
   color: #000000;
   line-height: 24px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 18px;
   }
 `
@@ -377,7 +420,7 @@ export const EarnClaimImport = styled(Button)`
     background: #000000;
     color: #ffffff
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 0;
     border: 0;
     color: #666666;
@@ -392,12 +435,19 @@ export const EarnClaimTHead = styled.div`
   display: flex;
   margin-bottom: 15px;
   padding: 0 28px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 0 15px;
   }
 `
 
 export const EarnTBody = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+export const PointsTBody = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 `
@@ -424,11 +474,11 @@ export const EarnTName = styled.span`
   font-size: 14px;
   color: #666666;
   &.rank-tname {
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 800px) {
       flex: 1;
     }
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     flex: 0;
   }
 `
@@ -452,7 +502,7 @@ export const EarnTReward = styled.span`
   display: flex;
   font-size: 14px;
   color: #666666;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     flex: 1;
   }
 `
@@ -462,7 +512,7 @@ export const EarnTAddress = styled.span`
   display: flex;
   font-size: 14px;
   color: #666666;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     flex: 1;
     justify-content: flex-end;
     margin-right: 10px;
@@ -471,7 +521,7 @@ export const EarnTAddress = styled.span`
 
 export const EarnTTime = styled(EarnTName)`
   justify-content: flex-end;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     flex: 1;
   }
 `
@@ -482,7 +532,7 @@ export const EarnTOpration = styled.span`
   display: flex;
   justify-content: flex-end;
   width: 8%;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     width: 30%;
   }
 `
@@ -499,6 +549,25 @@ export const EarnClaimGroup = styled.div<{isOpen: boolean}>`
   box-shadow: ${({ isOpen }) => (isOpen ? 'inset 0 0 4px 0 #EEEEEE' : 'none')};
 `
 
+export const PointGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  transition: all .3s ease;
+  padding: 15px;
+  border-bottom: 1px solid #f2f2f2;
+`
+
+export const PointItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  &:last-child {
+    margin-bottom: 0;
+  }
+`
+
 export const EarnClaimTItem = styled.div`
   display: flex;
   transition: all .3s ease;
@@ -508,7 +577,7 @@ export const EarnClaimTItem = styled.div`
     span {
       font-size: 18px;
     }
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 800px) {
       padding: 10px 15px;
       span {
         font-size: 16px;
@@ -526,7 +595,7 @@ export const EarnClaimTItem = styled.div`
       background: linear-gradient(90deg, #E0B14C, #FFEEC9, #FFFFFF);
       transform: scale(1.1);
     }
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 800px) {
       padding: 10px 15px;
       :hover {
         transform: none;
@@ -547,7 +616,7 @@ export const EarnClaimTItem = styled.div`
       background: linear-gradient(90deg, #989898, #DEDEDE, #FFFFFF);
       transform: scale(1.1);
     }
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 800px) {
       padding: 10px 15px;
       :hover {
         transform: none;
@@ -568,7 +637,7 @@ export const EarnClaimTItem = styled.div`
       background: linear-gradient(90deg, #AE8365, #F1D1B4, #FFFFFF);
       transform: scale(1.1);
     }
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 800px) {
       padding: 10px 15px;
       :hover {
         transform: none;
@@ -581,7 +650,7 @@ export const EarnClaimTItem = styled.div`
   :hover {
     background: #f6f6f6;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 9px 15px;
     border-radius: none;
     :hover {
@@ -674,7 +743,7 @@ export const EarnClaimLast = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 8%;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     width: auto;
   }
 `
@@ -698,20 +767,53 @@ export const EarnMyLeaderboard = styled.div`
   display: flex;
 `
 
-export const EarnMyRank = styled.div``
+export const EarnMyRank = styled.div`
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 800px) {
+    justify-content: center;
+    padding: 15px;
+  }
+`
 
 export const MyPoints = styled.span`
   font-size: 20px;
   margin-right: 50px;
-  @media screen and (max-width: 1200px) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .3s ease;
+  padding: 15px;
+  padding-right: 3px;
+  border-radius: 5px;
+  cursor: pointer;
+  img {
+    margin-top: 2px;
+    width: 20px;
+    transition: all .3s ease;
+  }
+  &:hover {
+    background: #f1f1f1;
+    img {
+      margin-left: 10px;
+    }
+  }
+  @media screen and (max-width: 800px) {
     font-size: 14px;
     margin-right: 10px;
+    padding-right: 3px;
+    &:hover {
+      background: none;
+      img {
+        margin-left: 0;
+      }
+    }
   }
 `
 
 export const MyRank = styled.span`
   font-size: 20px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 14px;
   }
 `
@@ -763,7 +865,7 @@ export const Card = styled.div`
   &:last-child {
     margin-right: 0;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     margin-right: 0;
     &:hover {
       transform: rotate(2deg);;
@@ -848,7 +950,7 @@ export const EarnHistory = styled.div`
   &:last-child {
     margin-right: 0;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     margin-right: 0;
     padding: 15px 0;
   }
@@ -865,7 +967,7 @@ export const EarnClaimedHis = styled.div`
   &:last-child {
     margin-right: 0;
   }
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     width: 80%;
     margin-right: 0;
     padding: 15px 0;
@@ -877,7 +979,7 @@ export const EarnHistoryTitle = styled(EarnTitle)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 0 15px;
   }
 `
@@ -892,7 +994,7 @@ export const EarnHistoryValue = styled.span`
   flex: 1;
   color: #000;
   font-size: 14px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     justify-content: flex-end;
     &.rank-value {
       justify-content: flex-start;
@@ -906,7 +1008,27 @@ export const EarnHistoryAddress = styled.span`
   flex: 1;
   color: #000;
   font-size: 14px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+  }
+`
+
+export const PointValue = styled.span`
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-size: 14px;
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+  }
+`
+
+export const PointTime = styled.span`
+  display: flex;
+  align-items: center;
+  color: #999;
+  font-size: 14px;
+  @media screen and (max-width: 800px) {
     justify-content: flex-start;
   }
 `
@@ -917,6 +1039,14 @@ export const EarnHistoryReward = styled.span`
   width: 30%;
   color: #0DAE6F;
   font-size: 14px;
+`
+
+export const PointReward = styled.span`
+  display: flex;
+  align-items: center;
+  color: #0DAE6F;
+  font-size: 16px;
+  font-weight: 600;
 `
 
 export const EarnHistoryTime = styled(EarnHistoryValue)`
@@ -974,7 +1104,7 @@ export const ToggleSwitch = styled.div`
   align-items: center;
   padding: 20px;
   margin-top: 80px;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     padding: 10px;
   }
 `;
@@ -986,7 +1116,7 @@ export const ToggleBox = styled.div`
   background-color: #F5F5F5;
   border-radius: 50px;
   border: 8px solid #F5F5F5;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     border-radius: 40px;
     border-width: 4px;
   }
@@ -1004,7 +1134,7 @@ export const ToggleOption = styled.div<{active: boolean}>`
   cursor: pointer;
   transition: color 0.3s ease;
   z-index: 1;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 16px;
     width: 150px;
     height: 50px;
@@ -1023,7 +1153,7 @@ export const ToggleSlider = styled.div<{activeIndex: number}>`
   border-radius: 45px;
   box-shadow: 0px 3px 12px 0 rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  @media screen and (max-width: 1200px) {
+  @media screen and (max-width: 800px) {
     font-size: 16px;
     width: 150px;
     height: 50px;
@@ -1056,14 +1186,20 @@ export const EarnFAQItem = styled.div`
 `
 
 export const EarnQuestion = styled.div`
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 20px;
   padding: 20px 28px;
   border-top: 1px solid #EDEDED;
   display: flex;
   justify-content: space-between;
   align-items: center;
+`
+
+export const EarnQ = styled.div`
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+  }
 `
 
 export const EarnAnswerWrapper = styled.div<{ isOpen: boolean; height: number }>`

@@ -11,8 +11,6 @@ const formatAddress = (address: string) => {
 
 export default function EarnRewardItem({ info }) {
 
-  const { isDesktop } = useMatchBreakpointsContext()
-
   return (
     <EarnClaimTItem className={info?.rank <= 3 ? `rank-${info?.rank}` : 'rank-item'}>
       <EarnHistoryValue className='rank-value'>{info?.rank}</EarnHistoryValue>

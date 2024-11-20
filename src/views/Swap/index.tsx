@@ -484,7 +484,6 @@ export default function Swap() {
                       </StyledAutoColumn>
                       <CurrencyInputPanel
                         value={formattedAmounts[Field.OUTPUT]}
-                        // value={renderOnInput()}
                         onUserInput={handleTypeOutput}
                         onClaim={handleClaimToken}
                         label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}

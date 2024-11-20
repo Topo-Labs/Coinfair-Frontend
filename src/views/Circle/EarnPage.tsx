@@ -13,9 +13,7 @@ import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { isAddress } from "@ethersproject/address"
 import { MINT_ABI } from './components/constants';
-import { useRewardsPool, usePointsRank, useMyPointsHistory } from './useHistory'
-import EarnClaimItem from './components/EarnClaimItem';
-import EarnMintItem from './components/EarnMintItem';
+import { useRewardsPool, usePointsRank } from './useHistory'
 import EarnRewardItem from './components/EarnRewardItem';
 import PointRankItem from './components/PointRankItem';
 import MintNft from './components/MintNft';
@@ -23,8 +21,9 @@ import EarnFAQGroup from './components/EarnFAQGroup';
 import HoverCard from './components/PointsTask'
 import ClaimedHistory from './components/ClaimedHistory';
 import PointsHistory from './components/PointsHistory';
+import EarnTokenList from './components/EarnTokenList';
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnClaimTop, EarnTitle, EarnClaimImport, EarnClaimTHead, EarnTName, EarnTOpration, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTNamePending, EarnTNameToken, EarnTSelect, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer, MyPoints, MyRank, EarnClaimedHis, PointsRankTop, LoadingRing } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnTitle, EarnClaimTHead, EarnTName, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer, MyPoints, MyRank, PointsRankTop, LoadingRing } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -444,7 +443,8 @@ export default function Earn() {
       {
         toggleIndex === 0 ? (
           <>
-            <EarnClaimTable ref={claimRewardsRef}>
+            <EarnTokenList />
+            {/* <EarnClaimTable ref={claimRewardsRef}>
               <EarnClaimTop>
                 <EarnTitle>{t('Claim Rewards')}</EarnTitle>
                 {account && <EarnClaimImport onClick={() => onPresentCurrencyModal()}>{t('Select else')} +</EarnClaimImport>}
@@ -489,7 +489,7 @@ export default function Earn() {
                   )
                 }
               </EarnTBody>
-            </EarnClaimTable>
+            </EarnClaimTable> */}
             {
               isDesktop ? (
                 <EarnMiddleBox>

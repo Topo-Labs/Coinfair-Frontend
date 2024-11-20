@@ -361,6 +361,97 @@ export const Dot = styled.div<{ active: boolean }>`
   }
 `;
 
+// export const EarnTokenItem = styled.div<{isHovered: boolean, x: number, y: number, lastX: number, lastY: number}>`
+//   flex: 1 1 calc(33.333% - 20px);
+//   max-width: calc(33.333% - 20px);
+//   margin-bottom: 20px;
+//   background: ${(props) =>
+//     props.isHovered
+//       ? `radial-gradient(circle at ${props.x}% ${props.y}%, #999, #f1f1f1)`
+//       : `radial-gradient(circle at ${props.lastX}% ${props.lastY}%, #f1f1f1, #f1f1f1)`};
+//   border-radius: 10px;
+//   clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 20px);
+//   height: 300px;
+//   transition: all 0.3s ease;
+//   display: flex;
+//   flex-direction: column;
+// `
+
+export const EarnTokenContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 50px;
+`;
+
+export const EarnTokenItem = styled.div`
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: calc(33.333% - 20px);
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 0% 100%, 0% 20px);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fafafa;
+  overflow: hidden;
+  box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.05);
+  &:hover {
+    box-shadow: inset 0px 4px 30px rgba(0, 0, 0, 0.15);
+  }
+`;
+
+export const EarnTokenItemInfo = styled.div``
+
+export const EarnTokenTop = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`
+
+export const EarnTokenNumLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+`
+
+export const EarnNumItem = styled.div`
+  display: flex;
+  align-items: center;
+  color: #999;
+  font-size: 18px;
+`
+
+export const EarnTotalItem = styled.div`
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-size: 18px;
+`
+
+export const EarnTokenClaimed = styled.div`
+  display: flex;
+  align-items: center;
+  color: #999;
+  margin-left: 10px;
+`
+
+export const EarnTokenTotal = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+`
+
+export const EarnTokenClaim = styled(Button)`
+  background: linear-gradient(135deg, #434B34 0%, #000 100%);
+  font-size: 20px;
+  margin-top: 35px;
+`
+
 export const EarnClaimTable = styled.div`
   border-radius: 16px;
   padding: 28px 0;
@@ -689,13 +780,13 @@ export const EarnTokenInfo = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 25px;
   font-weight: 500;
 `
 
 export const EarnTokenIcon = styled.div`
-  width: 30px;
-  height: 30px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   margin-right: 12px;
@@ -710,9 +801,9 @@ export const EarnTokenNoLogo = styled.div`
   justify-content: center;
   border-radius: 100%;
   color: #ffffff;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
+  width: 100%;
+  height: 100%;
+  font-size: 25px;
   font-weight: 900;
   position: relative;
   img {
@@ -734,9 +825,12 @@ export const EarnClaimedAomunt = styled(EarnAmountTotal)`
   color: #999999;
 `
 
-export const EarnClaimAmount = styled(EarnAmountTotal)`
-  color: #0DAE6F;
-  flex: 1;
+export const EarnClaimAmount = styled.span`
+  display: flex;
+  align-items: center;
+  font-size: 36px;
+  font-weight: 500;
+  color: #0DAE6F;  
 `
 
 export const EarnClaimLast = styled.div`

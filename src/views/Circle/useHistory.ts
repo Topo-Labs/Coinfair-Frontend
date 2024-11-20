@@ -293,3 +293,86 @@ export function useMyPointsHistory(chainId, account) {
     error,
   };
 }
+
+export function useTokenRewards(chainId, account) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [reload, setReload] = useState(0);
+
+  useEffect(() => {
+    if (!chainId || !account) {
+      setLoading(false);
+      setError("Missing chainId or account");
+      return undefined;
+    }
+
+    let isMounted = true;
+    const timeoutId = setTimeout(() => {
+      if (isMounted) {
+        setLoading(false);
+      }
+    }, 3000);
+
+    const fetchTokens = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch(`https://coinfair.xyz/get_usr_reward_tokens`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chain_id: chainId,
+            owner_addr: account,
+          }),
+        });
+
+        if (!response.ok) {
+          console.log(`Error fetching tokens: ${response.statusText}`);
+          throw new Error(`Error fetching tokens: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+        if (isMounted) {
+          setData(result || []);
+          setError(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          if (err instanceof Error) {
+            console.error("Error fetching tokens:", err.message);
+            setError(err.message);
+          } else {
+            console.error("Unknown error:", err);
+            setError(String(err));
+          }
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+          clearTimeout(timeoutId);
+        }
+      }
+    };
+
+    fetchTokens();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
+  }, [chainId, account, reload]);
+
+  const refetch = () => {
+    setReload((prev) => prev + 1);
+  };
+
+  return {
+    data,
+    loading,
+    error,
+    refetch,
+  };
+}
+

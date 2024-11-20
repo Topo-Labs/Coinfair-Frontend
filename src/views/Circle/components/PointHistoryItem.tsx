@@ -30,8 +30,11 @@ export default function PointHistoryItem({ info }) {
       case 5:
         return 'Claim NFT';
 
+      case 6:
+        return 'Claim NFT';
+
       default:
-        break;
+        return '';
     }
   }
 

@@ -84,7 +84,6 @@ const EarnTokenList = () => {
         refetch();
     } catch (err) {
         console.error('claimed error:', err);
-    } finally {
     }
   };
 

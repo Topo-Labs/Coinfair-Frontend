@@ -384,6 +384,10 @@ export const EarnTokenContainer = styled.div`
   width: 100%;
   justify-content: flex-start;
   margin-top: 50px;
+  @media screen and (max-width: 1200px) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 `;
 
 export const EarnTokenItem = styled.div`
@@ -402,6 +406,10 @@ export const EarnTokenItem = styled.div`
   box-shadow: inset 0px 4px 10px rgba(0, 0, 0, 0.05);
   &:hover {
     box-shadow: inset 0px 4px 30px rgba(0, 0, 0, 0.15);
+  }
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+    max-width: 100%;
   }
 `;
 

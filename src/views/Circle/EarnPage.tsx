@@ -95,7 +95,7 @@ const swapTask = {
 const mintTask = {
   key: 'mint',
   title: 'Mint NFT',
-  desc: 'Earn 500 points each time you mint an NFT as an inviter, and subsequently receive a 10% point rebate from each NFT claimer.',
+  desc: 'Earn 300 points each time you mint NFTs that are successfully claimed, and subsequently receive a 10% point rebate from each NFT claimer.',
   link: 'mint',
   linkWords: 'Mint'
 }
@@ -268,7 +268,7 @@ export default function Earn() {
 
   const handleGoClaimClick = () => {
     if (claimRewardsRef.current) {
-      const offset = 100;
+      const offset = 70;
       setTimeout(() => {
         const elementTop = claimRewardsRef.current.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
@@ -324,7 +324,7 @@ export default function Earn() {
           fadeOut
           style={
             isDesktop ?
-            { fontSize: '36px', fontWeight: 600, marginTop: '80px' }
+            { minHeight: '80px', fontSize: '36px', fontWeight: 600, marginTop: '80px', lineHeight: '30px', textAlign: 'center', }
             :
             { width: '75%', height: '50px', fontSize: '20px', textAlign: 'center', fontWeight: 600, marginTop: '2rem', lineHeight: '25px' }}
           strings={[t('Earn up to 30% in trading rebates and 10% in bonus points!')]}
@@ -429,7 +429,7 @@ export default function Earn() {
           </EarnMintGroupItem>
         </EarnMintGroup>
       }
-      <ToggleSwitch>
+      <ToggleSwitch ref={claimRewardsRef}>
         <ToggleBox>
           <ToggleSlider activeIndex={toggleIndex} />
           <ToggleOption active={toggleIndex === 0} onClick={() => setToggleIndex(0)}>
@@ -444,52 +444,6 @@ export default function Earn() {
         toggleIndex === 0 ? (
           <>
             <EarnTokenList />
-            {/* <EarnClaimTable ref={claimRewardsRef}>
-              <EarnClaimTop>
-                <EarnTitle>{t('Claim Rewards')}</EarnTitle>
-                {account && <EarnClaimImport onClick={() => onPresentCurrencyModal()}>{t('Select else')} +</EarnClaimImport>}
-              </EarnClaimTop>
-              {
-                account && selectedTokens.length > 0 && (
-                  isDesktop ? 
-                    (
-                      <EarnClaimTHead>
-                        <EarnTName>{t('Name')}</EarnTName>
-                        <EarnTName>{t('Pending amount')}</EarnTName>
-                        <EarnTName>{t('Claimed amount')}</EarnTName>
-                        <EarnTName>{t('Total amount')}</EarnTName>
-                        <EarnTOpration>{t('Operation')}</EarnTOpration>
-                      </EarnClaimTHead>
-                    ) : (
-                      <EarnClaimTHead>
-                        <EarnTNameToken>{t('Name')}</EarnTNameToken>
-                        <EarnTNamePending>{t('Pending')}</EarnTNamePending>
-                        <EarnTOpration>{t('Operation')}</EarnTOpration>
-                        <EarnTSelect/>
-                      </EarnClaimTHead>
-                    )
-                )
-              }
-              <EarnTBody>
-                {account ?
-                  selectedTokens.length > 0 ? (
-                    selectedTokens.map(item =>
-                      <EarnClaimItem token={item}/>
-                    )
-                  ) : (
-                    <EarnNoData>
-                      <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                      {t('No Data')}
-                    </EarnNoData>
-                  ) : (
-                    <EarnNoData>
-                      <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                      {t('Please connect your wallet.')}
-                    </EarnNoData>
-                  )
-                }
-              </EarnTBody>
-            </EarnClaimTable> */}
             {
               isDesktop ? (
                 <EarnMiddleBox>

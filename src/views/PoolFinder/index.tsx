@@ -218,73 +218,7 @@ export default function PoolFinder() {
               ) : ''
             ) : prerequisiteMessage
           }
-
-          {/* {currency0 && currency1 ? (
-            pairState === PairState.EXISTS ? (
-              hasPosition && pair ? (
-                <>
-                  <MinimalPositionCard pair={pair} />
-                  <Button as={NextLinkFromReactRouter} to="/liquidity" variant="secondary" width="100%">
-                    {t('Manage this pool')}
-                  </Button>
-                </>
-              ) : (
-                <LightCard padding="45px 10px">
-                  <AutoColumn gap="sm" justify="center">
-                    <Text textAlign="center">{t('You don’t have liquidity in this pool yet.')}</Text>
-                    <Button
-                      as={NextLinkFromReactRouter}
-                      to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
-                      variant="secondary"
-                    >
-                      {t('Add Liquidity')}
-                    </Button>
-                  </AutoColumn>
-                </LightCard>
-              )
-            ) : validPairNoLiquidity ? (
-              <LightCard padding="45px 10px">
-                <AutoColumn gap="sm" justify="center">
-                  <Text textAlign="center">{t('No pool found.')}</Text>
-                  <Button
-                    as={NextLinkFromReactRouter}
-                    to={`/add/${currencyId(currency0)}/${currencyId(currency1)}`}
-                    variant="secondary"
-                  >
-                    {t('Create pool')}
-                  </Button>
-                </AutoColumn>
-              </LightCard>
-            ) : pairState === PairState.INVALID ? (
-              <LightCard padding="45px 10px">
-                <AutoColumn gap="sm" justify="center">
-                  <Text textAlign="center" fontWeight={500}>
-                    {t('Invalid pair.')}
-                  </Text>
-                </AutoColumn>
-              </LightCard>
-            ) : pairState === PairState.LOADING ? (
-              <LightCard padding="45px 10px">
-                <AutoColumn gap="sm" justify="center">
-                  <Text textAlign="center">
-                    {t('Loading')}
-                    <Dots />
-                  </Text>
-                </AutoColumn>
-              </LightCard>
-            ) : null
-          ) : (
-            prerequisiteMessage
-          )} */}
         </AutoColumn>
-
-        {/* <CurrencySearchModal
-          isOpen={showSearch}
-          onCurrencySelect={handleCurrencySelect}
-          onDismiss={handleSearchDismiss}
-          showCommonBases
-          selectedCurrency={(activeField === Fields.TOKEN0 ? currency1 : currency0) ?? undefined}
-        /> */}
       </AppBody>
     </Page>
   )

@@ -24,6 +24,11 @@ export const ClaimMain = styled.div`
   }
 `;
 
+export const ClaimTips = styled.div`
+  font-size: 13px;
+  padding: 15px 0;
+`
+
 export const ClaimHeader = styled.div`
   width: 100%;
   display: flex;

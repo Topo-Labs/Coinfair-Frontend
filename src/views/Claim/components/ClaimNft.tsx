@@ -8,8 +8,7 @@ import useToast from 'hooks/useToast'
 import { MINT_ADDRESS } from 'config/constants/exchange'
 import { DogSvg } from 'components/Svg/Dog';
 import { MINT_ABI } from './constants';
-import { ClaimFooter, ClaimHeader, ClaimImgWrapper, ClaimMint, ClaimNft, ClaimNftMain, ClaimTitle, FooterTitle, MinterAddress } from './styles';
-import { CircleTips } from 'views/Circle/components/styles';
+import { ClaimFooter, ClaimHeader, ClaimImgWrapper, ClaimMint, ClaimNft, ClaimNftMain, ClaimTips, ClaimTitle, FooterTitle, MinterAddress } from './styles';
 
 interface ExtendedEthereum extends ExternalProvider {
   on?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
@@ -140,7 +139,7 @@ const Claim = () => {
       <ClaimFooter>
         <FooterTitle>{t('Minter Address')}</FooterTitle>
         <MinterAddress>{address}</MinterAddress>
-        <CircleTips>{t('Claim an NFT, register for trade mining, and earn token rewards.')}</CircleTips>
+        <ClaimTips>{t('Claim an NFT, register for trade mining, and earn token rewards.')}</ClaimTips>
         <ClaimMint
           id="claim_button"
           role="button"

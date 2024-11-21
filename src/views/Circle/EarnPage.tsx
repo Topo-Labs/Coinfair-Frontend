@@ -103,7 +103,7 @@ const mintTask = {
 const claimTask = {
   key: 'claim',
   title: 'Claim NFT',
-  desc: 'Each user can claim only one NFT per chain. The first claim rewards 1000 points.',
+  desc: 'Each user can claim only one NFT per chain. The first claim rewards 200 points.',
   link: 'claim',
   linkWords: 'Get a link from your inviter to claim NFT.'
 }
@@ -552,7 +552,7 @@ export default function Earn() {
                         {t('My Points')}:&nbsp;&nbsp;{rankData?.user_info?.points.toLocaleString()}
                         <img className='amount-arrow' src="/images/amount-arrow.svg" alt="" />
                       </MyPoints>
-                      <MyRank>{t('My Rank')}:&nbsp;&nbsp;{rankData?.user_info?.rank}9</MyRank>
+                      <MyRank>{t('My Rank')}:&nbsp;&nbsp;{rankData?.user_info?.rank}</MyRank>
                     </EarnMyRank>
                   ) : ''
                 }
@@ -564,7 +564,7 @@ export default function Earn() {
                       {t('My Points')}:&nbsp;&nbsp;{rankData?.user_info?.points.toLocaleString() || 0}
                       <img className='amount-arrow' src="/images/amount-arrow.svg" alt="" />
                     </MyPoints>
-                    <MyRank>{t('My Rank')}:&nbsp;&nbsp;{rankData?.user_info?.rank}9</MyRank>
+                    <MyRank>{t('My Rank')}:&nbsp;&nbsp;{rankData?.user_info?.rank}</MyRank>
                   </EarnMyRank>
                 ) : ''
               }

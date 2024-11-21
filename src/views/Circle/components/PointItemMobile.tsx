@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment-timezone'
-import { EarnClaimTItem, EarnHistoryAddress, EarnHistoryReward, EarnHistoryTime, EarnHistoryValue, PointGroup, PointItem, PointReward, PointTime, PointValue } from './styles';
+import { useTranslation } from '@pancakeswap/localization';
+import { PointGroup, PointItem, PointReward, PointTime, PointValue } from './styles';
 
 const formatAddress = (address: string) => {
   if (!address) return '';
@@ -11,27 +12,28 @@ const formatAddress = (address: string) => {
 
 export default function PointHistoryItem({ info }) {
 
+  const { t } =  useTranslation()
   const formattedTimestamp = moment.unix(info.timestamp).format('MMM DD HH:mm:ss')
 
   const renderType = () => {
     switch (info.source) {
       case 1:
-        return 'Trade on Coinfair';
+        return t('Referral trade bonus');
 
       case 2:
-        return 'Trade on Coinfair';
+        return t('Trade on Coinfair');
 
       case 3:
-        return 'Claim NFT';
+        return t('Mint NFT');
 
       case 4:
-        return 'Claim NFT';
+        return t('Referral claim bonus');
 
       case 5:
-        return 'Claim NFT';
+        return t('Claim NFT');
 
       case 6:
-        return 'Claim NFT';
+        return t('Referral mint bonus');
 
       default:
         return '';
@@ -41,7 +43,7 @@ export default function PointHistoryItem({ info }) {
   return (
     <PointGroup>
       <PointItem>
-        <PointReward>+{info.points}</PointReward>
+        <PointReward>+ {info.points}</PointReward>
         <PointValue>{formatAddress(info.addr)}</PointValue>
       </PointItem>
       <PointItem>

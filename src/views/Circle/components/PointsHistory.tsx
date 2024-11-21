@@ -11,7 +11,6 @@ const PointsHistory = ({myPoints, onDismiss = () => null}) => {
   const { chainId, account } = useActiveWeb3React();
   const { isDesktop } = useMatchBreakpointsContext()
   const { data: pHistoryData, loading: pHistoryLoading, error: pHistoryError } = useMyPointsHistory(chainId, account);
-  console.log(pHistoryData, pHistoryLoading)
   const { t } =  useTranslation()
 
   return (

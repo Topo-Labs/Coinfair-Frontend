@@ -192,7 +192,6 @@ export const MinterAddress = styled.div`
   padding: 20px;
   background: #f0f0f0;
   border-radius: 8px;
-  margin-bottom: 30px;
   margin-top: 5px;
   overflow-x: hidden;
   text-overflow: ellipsis;

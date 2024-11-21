@@ -1838,7 +1838,7 @@
   "Earn up to 30% in trading rebates and 10% in bonus points!": "最高可以拿到 30% 的交易回饋，還有 10% 的額外點數回饋喔！",
   "Once": "單次",
   "Double": "雙倍",
-  "Referral": "推薦",
+  "Referral": "邀請",
   "Rewards": "獎勵",
   "Trade on Coinfair": "在 Coinfair 進行交易。",
   "Mint NFT": "鑄造 NFT",
@@ -1852,5 +1852,17 @@
   "New users earn a one-time reward of 200 points for joining the Telegram group.": "新用戶加入 Telegram 群組可一次性獲得 200 點數獎勵。",
   "Swap now": "立即兌換",
   "Follow us": "關注我們",
-  "Join us": "加入我們"
+  "Join us": "加入我們",
+  "Mint Success": "打造成功",
+  "Claim History": "領取記錄",
+  "Mint an NFT and share it with your friends to claim, and the referral relationship will be established.": "鑄造 NFT 並分享給朋友領取後，即可綁定返佣關係。",
+  "Copy link and share your friends": "複製連結，分享給你的朋友",
+  "My Points": "我的點數",
+  "My Rank": "我的排名",
+  "Referral trade bonus": "好友交易回饋",
+  "Referral claim bonus": "好友領取 NFT 回饋",
+  "Referral mint bonus": "好友鑄造 NFT 回饋",
+  "Rank": "排名",
+  "Type": "類型",
+  "Claim an NFT, register for trade mining, and earn token rewards.": "領取 NFT，報名交易挖礦，獲得代幣獎勵"
 }

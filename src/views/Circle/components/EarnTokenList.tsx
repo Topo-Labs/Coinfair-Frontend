@@ -101,7 +101,7 @@ const EarnTokenList = () => {
                       <EarnTokenNoLogo>
                         {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
                         {/* eslint-disable */}
-                        <img style={{ width: '48px', height: '48px' }} onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.address)} alt="" />
+                        <img style={{ width: '48px', height: '48px' }} onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.token)} alt="" />
                       </EarnTokenNoLogo>
                     )}
                 </EarnTokenIcon>

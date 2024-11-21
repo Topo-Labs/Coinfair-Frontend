@@ -11,7 +11,7 @@ import {isAddress} from "@ethersproject/address"
 import { MINT_ADDRESS } from 'config/constants/exchange'
 import { DogSvg } from 'components/Svg/Dog';
 import { MINT_ABI } from './constants';
-import { CircleContent, CircleHeader, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTitle, CopyMyLink, ListWrapper, MintAmount, MintSuccessBottom, MintSuccessModal, MintSuccessNft, MintSuccessTitle } from './styles';
+import { CircleContent, CircleHeader, CircleImgWrapper, CircleMint, CircleNft, CircleNftMain, CircleTips, CircleTitle, CopyMyLink, ListWrapper, MintAmount, MintSuccessBottom, MintSuccessModal, MintSuccessNft, MintSuccessTitle } from './styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -252,6 +252,7 @@ export default function MintNft({ onDismiss = () => null }) {
           onChange={onChangeAmount}
         />
       </CircleContent>
+      <CircleTips>{t('Mint an NFT and share it with your friends to claim, and the referral relationship will be established.')}</CircleTips>
       <CircleMint 
         onClick={confirmMint}
         disabled={loading}>

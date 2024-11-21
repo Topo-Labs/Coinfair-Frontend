@@ -1081,6 +1081,9 @@ export const EarnHistoryTitle = styled(EarnTitle)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  img {
+    cursor: pointer;
+  }
   @media screen and (max-width: 800px) {
     padding: 0 15px;
   }
@@ -1395,6 +1398,9 @@ export const CircleHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  img {
+    cursor: pointer;
+  }
 `;
 
 export const CircleTitle = styled.div`
@@ -1498,7 +1504,6 @@ export const CircleContent = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
-  margin-bottom: 30px;
 `;
 
 export const CirclePeopleCount = styled.div`
@@ -1526,6 +1531,11 @@ export const MintAmount = styled.input`
   color: #000;
   width: 100%;
 `;
+
+export const CircleTips = styled.div`
+  font-size: 13px;
+  padding: 15px 0;
+`
 
 export const CircleMint = styled(Button)`
   width: 100%;
@@ -1557,6 +1567,9 @@ export const MintSuccessTitle = styled.div`
   align-items: center;
   font-size: 28px;
   font-weight: 600;
+  img {
+    cursor: pointer;
+  }
 `
 
 const floatAnimation = keyframes`

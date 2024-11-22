@@ -13,7 +13,7 @@ import { Contract } from '@ethersproject/contracts'
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { isAddress } from "@ethersproject/address"
 import { MINT_ABI } from './components/constants';
-import { useRewardsPool, usePointsRank } from './useHistory'
+import { useRewardsPool, usePointsRank, useTokenRewards } from './useHistory'
 import EarnRewardItem from './components/EarnRewardItem';
 import PointRankItem from './components/PointRankItem';
 import MintNft from './components/MintNft';
@@ -21,9 +21,10 @@ import EarnFAQGroup from './components/EarnFAQGroup';
 import HoverCard from './components/PointsTask'
 import ClaimedHistory from './components/ClaimedHistory';
 import PointsHistory from './components/PointsHistory';
+import EarnClaimItem from './components/EarnClaimItem';
 import EarnTokenList from './components/EarnTokenList';
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnTitle, EarnClaimTHead, EarnTName, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer, MyPoints, MyRank, PointsRankTop, LoadingRing } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnTitle, EarnClaimTHead, EarnTName, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer, MyPoints, MyRank, PointsRankTop, LoadingRing, EarnClaimTop, EarnClaimImport, EarnTOpration, EarnTNameToken, EarnTNamePending, EarnTSelect } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -129,6 +130,7 @@ export default function Earn() {
   const { toastSuccess } = useToast();
   const { data: claimData, loading: claimLoading, error: claimError } = useRewardsPool(chainId, account);
   const { data: rankData, loading: rankLoading, error: rankError } = usePointsRank(chainId, account);
+  const { data: tokenData, loading: tokenLoading, error: tokenError, refetch } = useTokenRewards(chainId, account);
   const [selectedTokens, setSelectedTokens] = useState([]);
   const [loading, setLoading] = useState(false);
   const [nftInfo, setNftInfo] = useState<string[]>([]);
@@ -443,14 +445,60 @@ export default function Earn() {
       {
         toggleIndex === 0 ? (
           <>
-            <EarnTokenList />
+            <EarnClaimTable>
+              <EarnClaimTop>
+                <EarnTitle>{t('Claim Rewards')}</EarnTitle>
+              </EarnClaimTop>
+              {
+                account && tokenData && tokenData.tokens > 0 && (
+                  isDesktop ? 
+                    (
+                      <EarnClaimTHead>
+                        <EarnTName>{t('Name')}</EarnTName>
+                        <EarnTName>{t('Pending amount')}</EarnTName>
+                        <EarnTName>{t('Claimed amount')}</EarnTName>
+                        <EarnTName>{t('Total amount')}</EarnTName>
+                        <EarnTOpration>{t('Operation')}</EarnTOpration>
+                      </EarnClaimTHead>
+                    ) : (
+                      <EarnClaimTHead>
+                        <EarnTNameToken>{t('Name')}</EarnTNameToken>
+                        <EarnTNamePending>{t('Pending')}</EarnTNamePending>
+                        <EarnTOpration>{t('Operation')}</EarnTOpration>
+                        <EarnTSelect/>
+                      </EarnClaimTHead>
+                    )
+                )
+              }
+              <EarnTBody>
+                {
+                  tokenLoading ? (
+                    <LoadingRing/>
+                  ) : account ? tokenData && tokenData.tokens > 0 ? (
+                    tokenData?.tokens?.map(item =>
+                      <EarnClaimItem token={item} refetch={refetch}/>
+                    )
+                  ) : (
+                    <EarnNoData>
+                      <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                      {t('No Data')}
+                    </EarnNoData>
+                  ) : (
+                    <EarnNoData>
+                      <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                      {t('Please connect your wallet.')}
+                    </EarnNoData>
+                  )
+                }
+              </EarnTBody>
+            </EarnClaimTable>
             {
               isDesktop ? (
                 <EarnMiddleBox>
                   <EarnHistory>
                     <EarnHistoryTitle>{t('Rewards Pool')}</EarnHistoryTitle>
                     {
-                      account && !claimLoading ? (
+                      account && claimData && claimData.length ? (
                         <EarnHistoryTHead>
                           <EarnTName>{t('Number')}</EarnTName>
                           <EarnTReward>{t('Reward amount')}</EarnTReward>
@@ -487,7 +535,7 @@ export default function Earn() {
                   <EarnHistory>
                     <EarnHistoryTitle>{t('Rewards Pool')}</EarnHistoryTitle>
                     {
-                      !claimLoading ? (
+                      claimData && claimData.length ? (
                         <EarnHistoryTHead>
                           <EarnTReward>{t('Amount')}</EarnTReward>
                           <EarnTAddress>{t('User')}</EarnTAddress>

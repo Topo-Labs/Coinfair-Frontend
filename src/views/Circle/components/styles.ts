@@ -788,13 +788,13 @@ export const EarnTokenInfo = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-  font-size: 25px;
+  font-size: 18px;
   font-weight: 500;
 `
 
 export const EarnTokenIcon = styled.div`
-  width: 48px;
-  height: 48px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   margin-right: 12px;
@@ -811,7 +811,7 @@ export const EarnTokenNoLogo = styled.div`
   color: #ffffff;
   width: 100%;
   height: 100%;
-  font-size: 25px;
+  font-size: 14px;
   font-weight: 900;
   position: relative;
   img {
@@ -833,12 +833,9 @@ export const EarnClaimedAomunt = styled(EarnAmountTotal)`
   color: #999999;
 `
 
-export const EarnClaimAmount = styled.span`
-  display: flex;
-  align-items: center;
-  font-size: 36px;
-  font-weight: 500;
-  color: #0DAE6F;  
+export const EarnClaimAmount = styled(EarnAmountTotal)`
+  color: #0DAE6F;
+  flex: 1;
 `
 
 export const EarnClaimLast = styled.div`

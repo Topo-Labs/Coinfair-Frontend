@@ -20,7 +20,7 @@ const StyledLogo = styled(Logo)<{ size: string }>`
   background: #fff;
 `
 
-export default function EarnClaimItem({ token }) {
+export default function EarnClaimItem({ token, refetch }) {
   const { chainId, account, library } = useActiveWeb3React();
   const [contract, setContract] = useState(null);
   const [claimTotal, setClaimTotal] = useState('0');
@@ -32,31 +32,6 @@ export default function EarnClaimItem({ token }) {
   const { isDesktop } = useMatchBreakpointsContext()
 
   const { t } =  useTranslation()
-
-  const fetchClaims = async (_contract) => {
-    try {
-      const total = await _contract.CoinfairUsrTreasuryTotal(account, token.address);
-      const pending = await _contract.CoinfairUsrTreasury(account, token.address);
-      const amount = total.sub(pending);
-
-      setClaimTotal(formatUnits(total, token.decimals).slice(0, formatUnits(total, token.decimals).indexOf('.') + 6));
-      setClaimAmount(formatUnits(amount, token.decimals).slice(0, formatUnits(amount, token.decimals).indexOf('.') + 6));
-      setClaimPending(formatUnits(pending, token.decimals).slice(0, formatUnits(pending, token.decimals).indexOf('.') + 6));
-      setHasRewards(pending.gt(0)); // 如果返佣奖励大于 0，启用按钮
-    } catch (err) {
-      setHasRewards(false);
-      fetchClaims(contract); // 领取成功后重新请求三个值
-      console.error('查询返佣奖励失败:', err);
-    }
-  };
-
-  useEffect(() => {
-    if (account && token.address && chainId && library && TREASURY_ADDRESS[chainId]) {
-      const _contract = new Contract(TREASURY_ADDRESS[chainId], TreasuryABI, library.getSigner(account));
-      setContract(_contract);
-      fetchClaims(_contract); // 领取成功后重新请求三个值
-    }
-  }, [account, token?.address, chainId, library]);
 
   const handleClaimToken = async () => {
     if (!contract) {
@@ -78,8 +53,7 @@ export default function EarnClaimItem({ token }) {
         const receipt = await tx.wait();
         console.log('Claim successful!', receipt);
 
-        setHasRewards(false);
-        fetchClaims(contract);
+        refetch();
     } catch (err) {
         console.error('领取失败:', err);
     } finally {

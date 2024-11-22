@@ -23,15 +23,35 @@ const StyledLogo = styled(Logo)<{ size: string }>`
 export default function EarnClaimItem({ token, refetch }) {
   const { chainId, account, library } = useActiveWeb3React();
   const [contract, setContract] = useState(null);
-  const [claimTotal, setClaimTotal] = useState('0');
-  const [claimAmount, setClaimAmount] = useState('0');
-  const [claimPending, setClaimPending] = useState('0');
-  const [hasRewards, setHasRewards] = useState(false);
-  const [isClaiming, setIsClaiming] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const { isDesktop } = useMatchBreakpointsContext()
 
   const { t } =  useTranslation()
+
+  useEffect(() => {
+    if (account && chainId && library && TREASURY_ADDRESS[chainId]) {
+      const _contract = new Contract(TREASURY_ADDRESS[chainId], TreasuryABI, library.getSigner(account));
+      setContract(_contract);
+    }
+  }, [account, chainId, library]);
+
+  const tokenRewards = (pending, decimals) => formatUnits(pending, decimals).slice(0, formatUnits(pending, decimals).indexOf('.') + 6)
+
+  const tokenClaimed = (pending, total, decimals) => {
+    if (!pending || !total || typeof decimals === 'undefined') {
+      console.error('Invalid inputs for tokenClaimed:', { pending, total, decimals });
+      return '0';
+    }
+    try {
+      const result = total.sub(pending);
+      const formatted = formatUnits(result, decimals);
+      const decimalIndex = formatted.indexOf('.');
+      return formatted.slice(0, decimalIndex + 6);
+    } catch (error) {
+      console.error('Error in tokenClaimed:', error);
+      return '0';
+    }
+  };
 
   const handleClaimToken = async () => {
     if (!contract) {
@@ -44,10 +64,8 @@ export default function EarnClaimItem({ token, refetch }) {
       return;
     }
 
-    setIsClaiming(true);
-
     try {
-        const tx = await contract.withdrawFee(token.address); // 调用合约中的 withdrawFee 函数
+        const tx = await contract.withdrawFee(token.token); // 调用合约中的 withdrawFee 函数
         console.log('Transaction hash:', tx.hash);
 
         const receipt = await tx.wait();
@@ -56,8 +74,6 @@ export default function EarnClaimItem({ token, refetch }) {
         refetch();
     } catch (err) {
         console.error('领取失败:', err);
-    } finally {
-        setIsClaiming(false);
     }
   };
 
@@ -74,17 +90,17 @@ export default function EarnClaimItem({ token, refetch }) {
                     <EarnTokenNoLogo>
                       {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
                       {/* eslint-disable */}
-                      <img onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.address)} alt="" />
+                      <img onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.token)} alt="" />
                     </EarnTokenNoLogo>
                   )}
               </EarnTokenIcon>
               {token.symbol}
             </EarnTokenInfo>
-            <EarnClaimAmount>{claimPending}</EarnClaimAmount>
-            <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
-            <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
+            <EarnClaimAmount>{tokenRewards(token.pending_balance, token.decimals)}</EarnClaimAmount>
+            <EarnClaimedAomunt>{tokenClaimed(token.pending_balance, token.total_balance, token.decimals)}</EarnClaimedAomunt>
+            <EarnAmountTotal>{tokenRewards(token.total_balance, token.decimals)}</EarnAmountTotal>
             <EarnClaimLast>
-              <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
+              <EarnClaimButton disabled={!tokenRewards(token.pending_balance, token.decimals)} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
             </EarnClaimLast>
           </EarnClaimTItem>
         ) : (
@@ -104,20 +120,20 @@ export default function EarnClaimItem({ token, refetch }) {
                 </EarnTokenIcon>
                 {token.symbol}
               </EarnTokenInfo>
-              <EarnClaimAmount>{claimPending}</EarnClaimAmount>
+              <EarnClaimAmount>{tokenRewards(token.pending_balance, token.decimals)}</EarnClaimAmount>
               <EarnClaimLast>
-                <EarnClaimButton disabled={!hasRewards} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
+                <EarnClaimButton disabled={!tokenRewards(token.pending_balance, token.decimals)} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
               </EarnClaimLast>
               <EarnClaimSelect onClick={() => setIsOpen((prev) => !prev)} src='/images/item-arrow.svg' isOpen={isOpen}/>
             </EarnClaimTItem>
             <EarnClaimTBottom isOpen={isOpen}>
               <EarnTBottomGroup>
                 <EarnTBottomName>{t('Claimed')}</EarnTBottomName>
-                <EarnClaimedAomunt>{claimAmount}</EarnClaimedAomunt>
+                <EarnClaimedAomunt>{tokenClaimed(token.pending_balance, token.total_balance, token.decimals)}</EarnClaimedAomunt>
               </EarnTBottomGroup>
               <EarnTBottomGroup>
                 <EarnTBottomName>{t('Total')}</EarnTBottomName>
-                <EarnAmountTotal>{claimTotal}</EarnAmountTotal>
+                <EarnAmountTotal>{tokenRewards(token.total_balance, token.decimals)}</EarnAmountTotal>
               </EarnTBottomGroup>
             </EarnClaimTBottom>
           </EarnClaimGroup>

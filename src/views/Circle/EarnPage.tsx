@@ -450,7 +450,7 @@ export default function Earn() {
                 <EarnTitle>{t('Claim Rewards')}</EarnTitle>
               </EarnClaimTop>
               {
-                account && tokenData && tokenData.tokens > 0 && (
+                account && tokenData && tokenData.tokens.length > 0 && (
                   isDesktop ? 
                     (
                       <EarnClaimTHead>
@@ -474,15 +474,17 @@ export default function Earn() {
                 {
                   tokenLoading ? (
                     <LoadingRing/>
-                  ) : account ? tokenData && tokenData.tokens > 0 ? (
-                    tokenData?.tokens?.map(item =>
-                      <EarnClaimItem token={item} refetch={refetch}/>
+                  ) : account ? (
+                    tokenData && tokenData.tokens.length > 0 ? (
+                      tokenData.tokens.map(item =>
+                        <EarnClaimItem token={item} refetch={refetch}/>
+                      )
+                    ) : (
+                      <EarnNoData>
+                        <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                        {t('No Data')}
+                      </EarnNoData>
                     )
-                  ) : (
-                    <EarnNoData>
-                      <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                      {t('No Data')}
-                    </EarnNoData>
                   ) : (
                     <EarnNoData>
                       <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
@@ -496,7 +498,7 @@ export default function Earn() {
               isDesktop ? (
                 <EarnMiddleBox>
                   <EarnHistory>
-                    <EarnHistoryTitle>{t('Rewards Pool')}</EarnHistoryTitle>
+                    <EarnHistoryTitle>{t('Rewards History')}</EarnHistoryTitle>
                     {
                       account && claimData && claimData.length ? (
                         <EarnHistoryTHead>
@@ -533,7 +535,7 @@ export default function Earn() {
               ) : (
                 <>
                   <EarnHistory>
-                    <EarnHistoryTitle>{t('Rewards Pool')}</EarnHistoryTitle>
+                    <EarnHistoryTitle>{t('Rewards History')}</EarnHistoryTitle>
                     {
                       claimData && claimData.length ? (
                         <EarnHistoryTHead>

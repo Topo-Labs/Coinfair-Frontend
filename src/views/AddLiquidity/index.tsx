@@ -878,7 +878,7 @@ export default function AddLiquidity() {
                 ) : (
                   <AutoColumn gap="md">
                     {shouldShowApprovalGroup && (
-                      <RowBetween style={{ gap: '8px' }}>
+                      <RowBetween style={{ gap: '8px', marginTop: '20px' }}>
                         {showFieldAApproval && (
                           <StyledButton
                             onClick={approveACallback}

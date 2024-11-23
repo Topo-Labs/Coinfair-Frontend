@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Contract } from '@ethersproject/contracts';
 import { formatUnits } from '@ethersproject/units';
@@ -48,7 +48,6 @@ export default function EarnClaimItem({ token, refetch }) {
       const decimalIndex = formatted.indexOf('.');
       return formatted.slice(0, decimalIndex + 6);
     } catch (error) {
-      console.error('Error in tokenClaimed:', error);
       return '0';
     }
   };
@@ -59,7 +58,7 @@ export default function EarnClaimItem({ token, refetch }) {
         return;
     }
 
-    if (!token.address) {
+    if (!token.token) {
       console.error('token位置领取失败');
       return;
     }
@@ -100,7 +99,7 @@ export default function EarnClaimItem({ token, refetch }) {
             <EarnClaimedAomunt>{tokenClaimed(token.pending_balance, token.total_balance, token.decimals)}</EarnClaimedAomunt>
             <EarnAmountTotal>{tokenRewards(token.total_balance, token.decimals)}</EarnAmountTotal>
             <EarnClaimLast>
-              <EarnClaimButton disabled={!tokenRewards(token.pending_balance, token.decimals)} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
+              <EarnClaimButton disabled={tokenRewards(token.pending_balance, token.decimals) === '0.0' || tokenRewards(token.pending_balance, token.decimals) === '0'} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
             </EarnClaimLast>
           </EarnClaimTItem>
         ) : (
@@ -114,7 +113,7 @@ export default function EarnClaimItem({ token, refetch }) {
                     <EarnTokenNoLogo>
                       {token.symbol?.substring(0, 1) || token.name?.substring(0, 1)}
                       {/* eslint-disable */}
-                      <img onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.address)} alt="" />
+                      <img onError={(e) => {e.currentTarget.style.opacity = '0'}} src={getTokenLogoURL(token.token)} alt="" />
                     </EarnTokenNoLogo>
                   )}
                 </EarnTokenIcon>
@@ -122,7 +121,7 @@ export default function EarnClaimItem({ token, refetch }) {
               </EarnTokenInfo>
               <EarnClaimAmount>{tokenRewards(token.pending_balance, token.decimals)}</EarnClaimAmount>
               <EarnClaimLast>
-                <EarnClaimButton disabled={!tokenRewards(token.pending_balance, token.decimals)} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
+                <EarnClaimButton disabled={tokenRewards(token.pending_balance, token.decimals) === '0.0' || tokenRewards(token.pending_balance, token.decimals) === '0'} onClick={handleClaimToken}>{t('Claim')}</EarnClaimButton>
               </EarnClaimLast>
               <EarnClaimSelect onClick={() => setIsOpen((prev) => !prev)} src='/images/item-arrow.svg' isOpen={isOpen}/>
             </EarnClaimTItem>

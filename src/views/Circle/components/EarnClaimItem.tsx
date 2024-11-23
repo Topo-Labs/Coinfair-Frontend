@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Contract } from '@ethersproject/contracts';
 import { formatUnits } from '@ethersproject/units';
+import { BigNumber } from '@ethersproject/bignumber';
 import { ETHER, Token, TREASURY_ADDRESS } from '@pancakeswap/sdk';
 import { useTranslation } from '@pancakeswap/localization';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
@@ -43,7 +44,9 @@ export default function EarnClaimItem({ token, refetch }) {
       return '0';
     }
     try {
-      const result = total.sub(pending);
+      const totalBN = BigNumber.from(total);
+      const pendingBN = BigNumber.from(pending);
+      const result = totalBN.sub(pendingBN);
       const formatted = formatUnits(result, decimals);
       const decimalIndex = formatted.indexOf('.');
       return formatted.slice(0, decimalIndex + 6);

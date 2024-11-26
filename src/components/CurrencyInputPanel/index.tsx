@@ -208,7 +208,7 @@ export default function CurrencyInputPanel({
     setClaimError(null);
 
     try {
-        const tx = await contract.withdrawFee(tokenAddress); // 调用合约中的 withdrawFee 函数
+        const tx = await contract.withdrawFee(tokenAddress);
         console.log('Transaction hash:', tx.hash);
 
         // 等待交易确认
@@ -217,10 +217,10 @@ export default function CurrencyInputPanel({
 
         // 成功后，更新奖励状态
         setHasRewards(false);
-        toastSuccess('Claim successful!', `You claimed ${rewards} ${token.symbol}.`)
+        toastSuccess(t('Claim successful!'), `You claimed ${rewards} ${token.symbol}.`)
     } catch (err) {
         console.error('领取失败:', err);
-        setClaimError(err || '领取失败');  // 使用新的错误变量
+        setClaimError(err || '领取失败');
     } finally {
         setIsClaiming(false);
     }

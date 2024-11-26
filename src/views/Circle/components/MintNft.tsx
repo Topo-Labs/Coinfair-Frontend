@@ -65,7 +65,7 @@ export default function MintNft({ onDismiss = () => null }) {
   const MintSuccess = () => {
 
     const displayTooltip = () => {
-      toastSuccess('Copyied success!', 'You can share link with your friends and circle')
+      toastSuccess(t('Copyied success!'), 'You can share link with your friends and circle')
     }
 
     const handleCopy = () => {

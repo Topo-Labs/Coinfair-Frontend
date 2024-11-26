@@ -70,7 +70,7 @@ const Claim = () => {
       const totalCost = cost.add(gasPrice.mul(estimatedGasLimit));
 
       if (balance.lt(totalCost)) {
-        toastError('Failed to claim', 'Insufficient funds to cover gas fees and claim costs.')
+        toastError(t('Claim failed'), t('Insufficient funds to cover gas fees and claim costs.'))
         console.error('Insufficient funds to cover gas fees and claim costs.');
         return;
       }
@@ -83,14 +83,14 @@ const Claim = () => {
 
       await tx.wait();
       setClaimCount((prev) => prev + 1);
-      toastSuccess('Success to claim');
+      toastSuccess(t('Claim successful!'));
       fetchData(); // 更新状态
 
     } catch (error: any) {
       if (account.toLocaleLowerCase() === address.toLocaleLowerCase()) {
-        toastError('Failed to claim', `Cannot claim your own NFT.`);
+        toastError(t('Claim failed'), t('Cannot claim your own NFT.'));
       } else {
-        toastError('Failed to claim', `${error.message}`);
+        toastError(t('Claim failed'), `${error.message}`);
       }
       console.error('Claim failed:', error);
     } finally {

@@ -24,7 +24,7 @@ import PointsHistory from './components/PointsHistory';
 import EarnClaimItem from './components/EarnClaimItem';
 import EarnTokenList from './components/EarnTokenList';
 import faqData from './FAQ.json'
-import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnTitle, EarnClaimTHead, EarnTName, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer, MyPoints, MyRank, PointsRankTop, LoadingRing, EarnClaimTop, EarnClaimImport, EarnTOpration, EarnTNameToken, EarnTNamePending, EarnTSelect } from './components/styles';
+import { EarnContainer, EarnTips, EarnTipRight, EarnTipWords, EarnTipGreen, EarnStep, EarnStepItem, EarnStepItemIcon, EarnStepItemTop, EarnStepItemWords, EarnStepItemButton, EarnStepItemToScroll, EarnClaimTable, EarnTitle, EarnClaimTHead, EarnTName, EarnHistory, EarnMiddleBox, EarnFAQ, EarnStepItemBottom, EarnTBody, EarnNoData, EarnNoDataIcon, EarnHistoryTHead, EarnTTime, EarnTReward, EarnMintGroup, EarnMintGroupItem, EarnMintGroupNumber, EarnMintGroupWords, EarnFAQBody, EarnFAQTitle, EarnHistoryTitle, CarouselContainer, SlideWrapper, Slide, DotContainer, Dot, SlideButton, EarnTAddress, EarnTipRed, EarnTipsOnce, EarnTipsDouble, ToggleSwitch, ToggleBox, ToggleSlider, ToggleOption, EarnMyRank, PointsCard, PointsContainer, MyPoints, MyRank, PointsRankTop, LoadingRing, EarnClaimTop, EarnClaimImport, EarnTOpration, EarnTNameToken, EarnTNamePending, EarnTSelect, EarnFarm } from './components/styles';
 
 const retryAsync = async (fn: () => Promise<any>, retries = 3, delay = 1000) => {
   const promises = [];
@@ -265,7 +265,7 @@ export default function Earn() {
   const [onMintNftModal] = useModal(<MintNft/>)
 
   const displayTooltip = () => {
-    toastSuccess('Copyied success!', 'You can share link with your friends and circle')
+    toastSuccess(t('Copyied success!'), t('You can share link with your friends and circle'))
   }
 
   const handleGoClaimClick = () => {
@@ -277,7 +277,7 @@ export default function Earn() {
           top: elementTop - offset,
           behavior: 'smooth',
         });
-      }, 100); // 设置适当的延迟
+      }, 100);
     }
   };
 
@@ -440,6 +440,9 @@ export default function Earn() {
           <ToggleOption active={toggleIndex === 1} onClick={() => setToggleIndex(1)}>
             {t('Points Rewards')}
           </ToggleOption>
+          <ToggleOption active={toggleIndex === 2} onClick={() => setToggleIndex(2)}>
+            {t('Trade Mining')}
+          </ToggleOption>
         </ToggleBox>
       </ToggleSwitch>
       {
@@ -566,7 +569,8 @@ export default function Earn() {
               )
             }
           </>
-        ) : (
+        ) : 
+        toggleIndex === 1 ? (
           <PointsContainer>
             {
               isDesktop ? (
@@ -659,6 +663,11 @@ export default function Earn() {
               </EarnTBody>
             </EarnClaimTable>
           </PointsContainer>
+        ) : (
+          <EarnFarm>
+            <span>{t('持有 NFT 的用户可以根据累计交易金额自动参与挖矿！')}</span>
+            <span>{t('未来可以根据交易金额获得代币空投奖励！')}</span>
+          </EarnFarm>
         )
       }
       <EarnFAQ>

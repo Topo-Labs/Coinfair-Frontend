@@ -1865,5 +1865,12 @@
   "Referral mint bonus": "好友鑄造 NFT 回饋",
   "Rank": "排名",
   "Type": "類型",
-  "Claim an NFT, register for trade mining, and earn token rewards.": "領取 NFT，報名交易挖礦，獲得代幣獎勵"
+  "Claim an NFT, register for trade mining, and earn token rewards.": "領取 NFT，報名交易挖礦，獲得代幣獎勵",
+  "Trade Mining": "交易挖礦",
+  "Claim successful!": "領取成功！",
+  "Claim failed": "領取失敗",
+  "Cannot claim your own NFT.": "無法領取自己的NFT。",
+  "Copyied success!": "複製成功！",
+  "You can share link with your friends and circle": "你可以與朋友和圈子分享連結",
+  "Insufficient funds to cover gas fees and claim costs.": "資金不足，無法支付 gas 費用和領取費用。"
 }

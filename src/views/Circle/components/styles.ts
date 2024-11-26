@@ -1035,6 +1035,24 @@ export const CardButton = styled(Button)`
   }
 `;
 
+export const EarnFarm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 0;
+  span {
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 30px;
+  }
+  @media screen and (max-width: 800px) {
+    padding: 50px 0;
+    padding-bottom: 0;
+  }
+`;
+
 export const EarnMiddleBox = styled.div`
   display: flex;
 `
@@ -1237,10 +1255,10 @@ export const ToggleOption = styled.div<{active: boolean}>`
   transition: color 0.3s ease;
   z-index: 1;
   @media screen and (max-width: 800px) {
-    font-size: 16px;
-    width: 150px;
-    height: 50px;
-    line-height: 50px;
+    font-size: 14px;
+    width: 120px;
+    height: 45px;
+    line-height: 45px;
   }
 `;
 
@@ -1248,7 +1266,7 @@ export const ToggleSlider = styled.div<{activeIndex: number}>`
   position: absolute;
   top: 0;
   left: 0;
-  transform: translateX(${(props) => (props.activeIndex === 0 ? 0 : '100%')});
+  transform: translateX(${(props) => (props.activeIndex === 0 ? 0 : props.activeIndex === 1 ? '100%' : '200%')});
   width: 280px;
   height: 90px;
   background-color: #fff;
@@ -1257,8 +1275,8 @@ export const ToggleSlider = styled.div<{activeIndex: number}>`
   transition: all 0.3s ease;
   @media screen and (max-width: 800px) {
     font-size: 16px;
-    width: 150px;
-    height: 50px;
+    width: 120px;
+    height: 45px;
   }
 `;
 

@@ -2050,5 +2050,12 @@
   "Referral mint bonus": "Referral mint bonus",
   "Rank": "Rank",
   "Type": "Type",
-  "Claim an NFT, register for trade mining, and earn token rewards.": "Claim an NFT, register for trade mining, and earn token rewards."
+  "Claim an NFT, register for trade mining, and earn token rewards.": "Claim an NFT, register for trade mining, and earn token rewards.",
+  "Trade Mining": "Trade Mining",
+  "Claim successful!": "Claim successful!",
+  "Claim failed": "Claim failed",
+  "Cannot claim your own NFT.": "Cannot claim your own NFT.",
+  "Copyied success!": "Copyied success!",
+  "You can share link with your friends and circle": "You can share link with your friends and circle",
+  "Insufficient funds to cover gas fees and claim costs.": "Insufficient funds to cover gas fees and claim costs."
 }

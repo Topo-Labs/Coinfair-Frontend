@@ -70,7 +70,7 @@ export default function MintNft({ onDismiss = () => null }) {
 
     const handleCopy = () => {
       onDismiss?.()
-      copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)
+      copyText(`${t('Claiming the NFT will grant you the eligibility to trade to mine')}: https://coinfair.xyz/claim?address=${account}`, displayTooltip)
     }
 
     return (

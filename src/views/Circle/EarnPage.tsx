@@ -71,7 +71,7 @@ const slides = [
   },
   {
     id: 2,
-    title: 'Invite friends for your NFT',
+    title: 'Invite your friends to claim NFTs',
     buttonText: 'Invite a friend',
     step: 'step 2',
     src: '/images/step-share.svg'
@@ -88,9 +88,9 @@ const slides = [
 const swapTask = {
   key: 'swap',
   title: 'Trade on Coinfair',
-  desc: 'New users earn 200 points for their first swap trade; subsequent trades earn 100 points each.',
+  desc: 'New users will earn 200 points on their first swap trade; subsequent trades earn 10 points each.',
   link: 'swap',
-  linkWords: 'Swap now'
+  linkWords: 'Swap now!'
 }
 
 const mintTask = {
@@ -106,23 +106,23 @@ const claimTask = {
   title: 'Claim NFT',
   desc: 'Each user can claim only one NFT per chain. The first claim rewards 200 points.',
   link: 'claim',
-  linkWords: 'Get a link from your inviter to claim NFT.'
+  linkWords: 'Get a link from your inviter to claim an NFT.'
 }
 
 const XTask = {
   key: 'X',
-  title: 'Follow X account',
-  desc: 'New users earn a one-time reward of 200 points for following X.',
+  title: 'Follow our X account',
+  desc: 'New users earn a one-time reward of 200 points for following Coinfair on X.',
   link: 'https://x.com/CoinfairGlobal',
-  linkWords: 'Follow us'
+  linkWords: 'Follow us!'
 }
 
 const TGTask = {
   key: 'TG',
-  title: 'Join Telegram Group',
+  title: 'Join the Telegram Chat',
   desc: 'New users earn a one-time reward of 200 points for joining the Telegram group.',
   link: 'https://t.me/Coinfair_Global',
-  linkWords: 'Join us'
+  linkWords: 'Join us!'
 }
 
 export default function Earn() {
@@ -293,7 +293,7 @@ export default function Earn() {
         break;
 
       case 1:
-        copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)
+        copyText(`${t('Claiming the NFT will grant you the eligibility to trade to mine')}: https://coinfair.xyz/claim?address=${account}`, displayTooltip)
         break;
 
       case 2:
@@ -329,7 +329,7 @@ export default function Earn() {
             { minHeight: '80px', fontSize: '36px', fontWeight: 600, marginTop: '80px', lineHeight: '30px', textAlign: 'center', }
             :
             { width: '75%', height: '50px', fontSize: '20px', textAlign: 'center', fontWeight: 600, marginTop: '2rem', lineHeight: '25px' }}
-          strings={[t('Earn up to 30% in trading rebates and 10% in bonus points!')]}
+          strings={[t('Earn up to 30% in trading rebates and 10% in Bonus Points!')]}
         />
       </EarnTips>
       {
@@ -344,10 +344,10 @@ export default function Earn() {
                 </EarnStepItemButton>}
               </EarnStepItemBottom>
             </EarnStepItem>
-            <EarnStepItem onClick={() => account && copyText(`Buy Coinfair with my link: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}>
+            <EarnStepItem onClick={() => account && copyText(`${t('Claiming the NFT will grant you the eligibility to trade to mine')}: https://coinfair.xyz/claim?address=${account}`, displayTooltip)}>
               <EarnStepItemTop><EarnStepItemIcon><img src="/images/step-share.svg" alt="" /></EarnStepItemIcon></EarnStepItemTop>
               <EarnStepItemBottom>
-                <EarnStepItemWords>{t('Invite friends for your NFT')}</EarnStepItemWords>
+                <EarnStepItemWords>{t('Invite your friends to claim NFTs')}</EarnStepItemWords>
                 {
                   !account ? 
                   '' : 
@@ -441,7 +441,7 @@ export default function Earn() {
             {t('Points Rewards')}
           </ToggleOption>
           <ToggleOption active={toggleIndex === 2} onClick={() => setToggleIndex(2)}>
-            {t('Trade Mining')}
+            {t('Trade to Mine')}
           </ToggleOption>
         </ToggleBox>
       </ToggleSwitch>
@@ -665,6 +665,8 @@ export default function Earn() {
           </PointsContainer>
         ) : (
           <EarnFarm>
+            NFT holders can automatically participate in mining based on accumulated trading volume.
+            In the future, users can collect token airdrop rewards based on the trading volume!
             <span>{t('持有 NFT 的用户可以根据累计交易金额自动参与挖矿！')}</span>
             <span>{t('未来可以根据交易金额获得代币空投奖励！')}</span>
           </EarnFarm>

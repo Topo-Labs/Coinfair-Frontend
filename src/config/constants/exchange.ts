@@ -46,7 +46,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.testToken, bscTestnetTokens.testToken1],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
-  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC, baseTokens.USDT],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
@@ -105,11 +105,11 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {
-  [ChainId.BSC]: [
-    [bscTokens.usdc, bscTokens.wbnb],
-    [bscTokens.usdc, bscTokens.usdt],
-    [bscTokens.dai, bscTokens.usdt],
-  ],
+  // [ChainId.BSC]: [
+  //   [bscTokens.usdc, bscTokens.wbnb],
+  //   [bscTokens.usdc, bscTokens.usdt],
+  //   [bscTokens.dai, bscTokens.usdt],
+  // ],
 }
 
 export const BIG_INT_ZERO = JSBI.BigInt(0)

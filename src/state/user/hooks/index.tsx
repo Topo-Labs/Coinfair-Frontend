@@ -153,7 +153,7 @@ export function useUserSingleHopOnly(): [boolean, (newSingleHopOnly: boolean) =>
     [dispatch],
   )
 
-  return [!singleHopOnly, setSingleHopOnly]
+  return [singleHopOnly, setSingleHopOnly]
 }
 
 export function useUserSlippageTolerance(): [number, (slippage: number) => void] {
@@ -501,12 +501,12 @@ export function useTrackedTokenPairs(): [Token, Token][] {
       return [deserializeToken(forChain[pairId].token0), deserializeToken(forChain[pairId].token1)]
     })
   }, [savedSerializedPairs, chainId])
-  // const combinedList = useMemo(
-  //   () => userPairs.concat(generatedPairs).concat(pinnedPairs).concat(farmPairs),
-  //   [generatedPairs, pinnedPairs, userPairs, farmPairs],
-  // )
+  const combinedList = useMemo(
+    () => userPairs.concat(generatedPairs).concat(pinnedPairs),
+    [generatedPairs, pinnedPairs, userPairs],
+  )
 
-  const combinedList = useMemo(() => userPairs.concat(generatedPairs), [generatedPairs, userPairs])
+  // const combinedList = useMemo(() => userPairs.concat(generatedPairs), [generatedPairs, userPairs])
 
   // const combinedList = useMemo(() => generatedPairs, [generatedPairs])
 

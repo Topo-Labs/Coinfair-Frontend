@@ -42,17 +42,11 @@ export const HAND_NFT_ADDRESS = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [
-    bscTokens.wbnb,
-    bscTokens.usdt,
-    bscTokens.btcb,
-    bscTokens.eth,
-    bscTokens.usdc,
-  ],
-  [ChainId.BASE]: [baseTokens.WBTC, baseTokens.WETH, baseTokens.USDC, baseTokens.USDT, baseTokens['1INCH'], baseTokens.AERO, baseTokens.DAI, baseTokens.ZRX],
+  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.testToken, bscTestnetTokens.testToken1],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
@@ -104,7 +98,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
-  [ChainId.BASE]: [baseTokens.WBTC, baseTokens.WETH, baseTokens.USDC, baseTokens.USDT, baseTokens['1INCH'], baseTokens.AERO, baseTokens.DAI, baseTokens.ZRX],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
   [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]

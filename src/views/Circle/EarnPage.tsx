@@ -665,10 +665,8 @@ export default function Earn() {
           </PointsContainer>
         ) : (
           <EarnFarm>
-            NFT holders can automatically participate in mining based on accumulated trading volume.
-            In the future, users can collect token airdrop rewards based on the trading volume!
-            <span>{t('持有 NFT 的用户可以根据累计交易金额自动参与挖矿！')}</span>
-            <span>{t('未来可以根据交易金额获得代币空投奖励！')}</span>
+            <span>{t('NFT holders can automatically participate in mining based on accumulated trading volume.')}</span>
+            <span>{t('In the future, users can collect token airdrop rewards based on the trading volume!')}</span>
           </EarnFarm>
         )
       }

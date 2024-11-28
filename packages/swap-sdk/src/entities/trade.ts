@@ -255,59 +255,59 @@ export class Trade {
     currencyAmountIn: CurrencyAmount,
     currencyOut: Currency,
     { maxNumResults = 3, maxHops = 3 }: BestTradeOptions = {},
-    // used in recursion.
     currentPairs: PairV3[] = [],
     originalAmountIn: CurrencyAmount = currencyAmountIn,
     bestTrades: Trade[] = []
   ): Trade[] {
-    invariant(pairs.length > 0, 'PAIRS');
-    invariant(maxHops > 0, 'MAX_HOPS');
-    invariant(originalAmountIn === currencyAmountIn, 'INVALID_RECURSION');
+  
+    // 确保有有效的 pairs 和 maxHops
+    if (pairs.length === 0 || maxHops <= 0) return bestTrades;
+  
     const chainId: ChainId | undefined =
       currencyAmountIn instanceof TokenAmount
         ? currencyAmountIn.token.chainId
         : currencyOut instanceof Token
-          ? currencyOut.chainId
-          : undefined;
-    invariant(chainId !== undefined, 'CHAIN_ID');
+        ? currencyOut.chainId
+        : undefined;
+    if (!chainId) throw new Error('CHAIN_ID is undefined');
+  
     const amountIn = wrappedAmount(currencyAmountIn, chainId);
     const tokenOut = wrappedCurrency(currencyOut, chainId);
-
+    
     for (let i = 0; i < pairs.length; i++) {
-      const pair = pairs[i];
-      
-      // 只处理相关的 pair
+      const pair = pairs[i];  
+      // 确保当前pair包含输入代币
       if (!pair.token0.equals(amountIn.token) && !pair.token1.equals(amountIn.token)) continue;
       if (pair.reserve0.equalTo(ZERO) || pair.reserve1.equalTo(ZERO)) continue;
-      
+  
       let amountOut: TokenAmount;
       try {
         [amountOut] = pair.getOutputAmount(amountIn);
       } catch (error) {
-        // 输入金额太低，跳过该 pair
         if ((error as InsufficientInputAmountError).isInsufficientInputAmountError) {
+          console.warn(`Skipping pair ${pair.token0.symbol}-${pair.token1.symbol} due to insufficient input amount.`);
           continue;
         }
         throw error;
       }
-      // 如果已经达到目标 token，构建最终交易路径
+    
+      // 如果找到了符合条件的交易路径
       if (amountOut.token.equals(tokenOut)) {
         sortedInsert(
           bestTrades,
           new Trade(
             new Route([...currentPairs, pair], originalAmountIn.currency, currencyOut),
             originalAmountIn,
-            TradeType.EXACT_INPUT,
+            TradeType.EXACT_INPUT
           ),
           maxNumResults,
           tradeComparator
         );
-      } 
-      // 如果还没有达到目标 token，递归调用
-      else if (maxHops > 1 && pairs.length > 1) {
-        const pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length));
-
-        // 考虑所有其他路径，递归调用
+      } else if (maxHops > 1 && pairs.length > 1) {
+        // 递归调用，排除当前pair继续寻找路径
+        const pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1));
+  
+        // 递归调用时保证 `originalAmountIn` 不变
         Trade.bestTradeExactIn(
           pairsExcludingThisPair,
           amountOut,
@@ -317,13 +317,14 @@ export class Trade {
             maxHops: maxHops - 1,
           },
           [...currentPairs, pair],
-          originalAmountIn,
+          originalAmountIn,  // 传递原始金额，保证不被修改
           bestTrades
         );
       }
     }
+  
     return bestTrades;
-  }
+  }  
 
   /**
    * similar to the above method but instead targets a fixed output amount
@@ -348,28 +349,32 @@ export class Trade {
     currentPairs: PairV3[] = [],
     originalAmountOut: CurrencyAmount = currencyAmountOut,
     bestTrades: Trade[] = []
-  ): Trade[] {  
-    invariant(pairs.length > 0, 'PAIRS');
-    invariant(maxHops > 0, 'MAX_HOPS');
-    invariant(originalAmountOut === currencyAmountOut || currentPairs.length > 0, 'INVALID_RECURSION');
-    
+): Trade[] {
+    // 移除 invariant 检查，直接处理
+    if (pairs.length === 0 || maxHops <= 0) return bestTrades;
+
+    if (originalAmountOut !== currencyAmountOut && currentPairs.length === 0) {
+      // 递归保护：如果原始的输出金额被修改，且没有跳跃过一次
+      return bestTrades;
+    }
+
     const chainId: ChainId | undefined = currencyAmountOut instanceof TokenAmount
       ? currencyAmountOut.token.chainId
       : currencyIn instanceof Token
-        ? currencyIn.chainId
-        : undefined;
-    invariant(chainId !== undefined, 'CHAIN_ID');
-  
+      ? currencyIn.chainId
+      : undefined;
+    if (chainId === undefined) return bestTrades;
+
     const amountOut = wrappedAmount(currencyAmountOut, chainId);
     const tokenIn = wrappedCurrency(currencyIn, chainId);
-  
+
     for (let i = 0; i < pairs.length; i++) {
       const pair = pairs[i];
-  
+
       // 跳过与当前输出代币无关的交易对
       if (!pair.token0.equals(amountOut.token) && !pair.token1.equals(amountOut.token)) continue;
       if (pair.reserve0.equalTo(ZERO) || pair.reserve1.equalTo(ZERO)) continue;
-  
+
       let amountIn: TokenAmount;
       try {
         [amountIn] = pair.getInputAmount(amountOut);
@@ -380,8 +385,8 @@ export class Trade {
         }
         throw error;
       }
-  
-      // 如果到达了输入代币
+
+        // 如果到达了输入代币
       if (amountIn.token.equals(tokenIn)) {
         sortedInsert(
           bestTrades,
@@ -396,15 +401,15 @@ export class Trade {
       } else if (maxHops > 1 && pairs.length > 1) {
         // 如果未到达输入代币且还能继续跳跃
         const pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length));
-  
+
         // 递归调用 bestTradeExactOut，继续尝试其它路径
         Trade.bestTradeExactOut(
           pairsExcludingThisPair,
           currencyIn,
           amountIn,  // 使用此跳的输出作为下一跳的输入
           {
-            maxNumResults,
-            maxHops: maxHops - 1,
+              maxNumResults,
+              maxHops: maxHops - 1,
           },
           [pair, ...currentPairs],
           originalAmountOut,
@@ -412,8 +417,8 @@ export class Trade {
         );
       }
     }
-  
     return bestTrades;
-  }
+}
+
   
 }

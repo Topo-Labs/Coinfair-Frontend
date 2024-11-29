@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { clientBSC, clientBase, MINT_HISTORY_DATA } from 'utils/urqlClient';
+import { clientEth, clientBSC, clientBase, MINT_HISTORY_DATA } from 'utils/urqlClient';
 
 export function useRewardsPool(chainId, parent) {
   const [data, setData] = useState([]);
@@ -99,7 +99,7 @@ export function useMintHistory(chainId, account) {
 
     const fetchMintHistory = async () => {
       // 根据 chainId 选择不同的 client
-      const client = chainId === 8453 ? clientBase : chainId === 56 ? clientBSC : null;
+      const client = chainId === 1 ? clientEth : (chainId === 8453 ? clientBase : chainId === 56 ? clientBSC : null);
       if (!client) {
         setError(`Unsupported chainId: ${chainId}`);
         return;

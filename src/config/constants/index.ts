@@ -1,6 +1,6 @@
 // used to construct the list of all pairs we consider by default in the frontend
 import { ChainId, Token } from '@pancakeswap/sdk'
-import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens } from './tokens'
+import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens, ethTokens } from './tokens'
 import { ChainTokenList } from './types'
 
 export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
@@ -8,7 +8,7 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BSC]: [bscTokens.wbnb, bscTokens.dai, bscTokens.usdc, bscTokens.usdt],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.pe],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
-  [ChainId.ETHEREUM]: [],
+  [ChainId.ETHEREUM]: [ethTokens.WETH, ethTokens.WBTC, ethTokens.USDT, ethTokens.USDC],
   [ChainId.BASE]: [baseTokens.WBTC, baseTokens.WETH, baseTokens.USDC, baseTokens.USDT, baseTokens['1INCH'], baseTokens.AERO, baseTokens.DAI, baseTokens.ZRX],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002],
   [ChainId.ARB]: [],

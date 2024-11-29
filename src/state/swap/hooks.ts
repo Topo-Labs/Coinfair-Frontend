@@ -276,6 +276,11 @@ export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: st
   let outputCurrency = parseCurrencyFromURLParameter(parsedQs.outputCurrency)
 
   switch (chainId.toString()) {
+    case "1":
+      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || ETHER.symbol
+      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
+      break;
+
     case "56":
       inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || ETHER.symbol
       outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)

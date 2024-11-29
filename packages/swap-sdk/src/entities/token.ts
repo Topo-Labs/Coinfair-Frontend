@@ -73,14 +73,14 @@ export function currencyEquals(currencyA: Currency, currencyB: Currency): boolea
 //     'Wrapped Ether',
 //     'https://weth.io'
 //   ),
-//   [ChainId.RINKEBY]: new Token(
-//     ChainId.RINKEBY,
-//     '0xc778417E063141139Fce010982780140Aa0cD5Ab',
-//     18,
-//     'WETH',
-//     'Wrapped Ether',
-//     'https://weth.io'
-//   )
+//   // [ChainId.RINKEBY]: new Token(
+//   //   ChainId.RINKEBY,
+//   //   '0xc778417E063141139Fce010982780140Aa0cD5Ab',
+//   //   18,
+//   //   'WETH',
+//   //   'Wrapped Ether',
+//   //   'https://weth.io'
+//   // )
 // }
 
 export const WBNB = {
@@ -150,9 +150,19 @@ export const WBNB = {
   ),
 }
 
+export const WETH = {
+  [ChainId.ETHEREUM]: new Token(
+    ChainId.ETHEREUM,
+    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    18,
+    'WETH',
+    'Wrapped Ether',
+    ''
+  ),
+}
+
 export const WNATIVE = {
-  // [ChainId.ETHEREUM]: WETH9[ChainId.ETHEREUM],
-  // [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
+  [ChainId.ETHEREUM]: WETH[ChainId.ETHEREUM],
   [ChainId.GOERLI]: WBNB[ChainId.GOERLI],
   [ChainId.BSC]: WBNB[ChainId.BSC],
   [ChainId.BASE]: WBNB[ChainId.BASE],

@@ -41,22 +41,21 @@ export const NETWORK_CONFIG = {
   //   testnet: true,
   // },
 
-  // [ChainId.ETHEREUM]: {
-  //   name: 'Ethereum',
-  //   network: 'ether',
-  //   scanURL: 'https://etherscan.io',
-  //   rpcUrls: ['https://mainnet.infura.io/v3/'],
-  //   scan: 'ETHScan',
-  //   decimals: 18,
-  //   tokenName: 'ETH',
-  //   symbol: 'ETH',
-  //   multicall: {
-  //     address: '0xd8855b79656E023F1D14E3697aBF1222d61ddD5d',
-  //     blockCreated: 9105236,
-  //   },
-  //   testnet: false,
-  // },
-
+  [ChainId.ETHEREUM]: {
+    name: 'Ethereum',
+    network: 'ether',
+    scanURL: 'https://etherscan.io',
+    rpcUrls: ['https://rpc.ankr.com/eth/9c9763b95d62a8269670b0aa089f1ba82604d70f86115ee5185f54c6a837166f'],
+    scan: 'ETHScan',
+    decimals: 18,
+    tokenName: 'ETH',
+    symbol: 'ETH',
+    multicall: {
+      address: '0xd8855b79656E023F1D14E3697aBF1222d61ddD5d',
+      blockCreated: 9105236,
+    },
+    testnet: false,
+  },
   [ChainId.BSC]: {
     name: 'BNB Chain',
     network: 'bsc',

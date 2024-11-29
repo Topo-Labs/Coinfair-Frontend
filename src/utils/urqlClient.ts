@@ -1,13 +1,18 @@
 import { createClient, gql, Client } from 'urql';
 import { cacheExchange, fetchExchange } from '@urql/core';
 
+export const clientEth: Client = createClient({
+  url: 'https://gateway.thegraph.com/api/9a78d6010b39f533aba5209e0a99bc7d/subgraphs/id/FWZ5hkYqRDMpo4s2Rdnc3b3nPfPPE6PTcxEdupYS7qN',
+  exchanges: [cacheExchange, fetchExchange],
+});
+
 export const clientBase: Client = createClient({
-  url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/D515zBVQeT2z1tdigboztUikJkfUTWHfFqF8kLxKpH3N',
+  url: 'https://gateway.thegraph.com/api/9a78d6010b39f533aba5209e0a99bc7d/subgraphs/id/FdWtjVoHKznZjvTUEua54Hiogi9swwwe2e5imE9a4yXe',
   exchanges: [cacheExchange, fetchExchange],
 });
 
 export const clientBSC: Client = createClient({
-  url: 'https://gateway.thegraph.com/api/d24439ea36740b0a941d4851ddf60e1d/subgraphs/id/EnUQDfACzhuzv5yeEBUFH55VPvWG53RyoDGNDVoLbxFq',
+  url: 'https://gateway.thegraph.com/api/9a78d6010b39f533aba5209e0a99bc7d/subgraphs/id/84gyab1peMD1esN7LdKTg9VyoGJhtmUQugvfgcoZMqJJ',
   exchanges: [cacheExchange, fetchExchange],
 });
 

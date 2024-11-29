@@ -1,23 +1,26 @@
 import { ChainId, JSBI, Percent, Token } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
-import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens } from './tokens'
+import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens, ethTokens } from './tokens'
 import { ChainTokenList } from './types'
 
 export const ROUTER_ADDRESS = {
-  [ChainId.GOERLI]: '0x76155E29e441559B7b047d75E079F13b8F9179b9',
+  [ChainId.ETHEREUM]: {
+    hot: '0x2b5970d94908664aC5023c08FCd48Bf4DBE3E034',
+    warm: '0xD6A8BDc4Ef9f323C0769A6A833328bbf9E78d482',
+  },
   [ChainId.BSC]: {
-    hot: '0x07566ddBA177ee128093a9A382CAf343B4d2Ce31',
-    warm: '0xfFcE0c148A6B2114465Cf42f98b1EbBD80A9DED0'
+    hot: '0x2b5970d94908664aC5023c08FCd48Bf4DBE3E034',
+    warm: '0xD6A8BDc4Ef9f323C0769A6A833328bbf9E78d482'
   },
   [ChainId.BSC_TESTNET]: '0x66378b7abED49802798923998a8239f6f57cF39D',
   [ChainId.ARB_TESTNET]: '0x0B0c953Ac2DB11c469aA90D780594A3B6B87F7e3',
   [ChainId.opBNB]: {
-    hot: '0x763F42a0F56A05848B9Ed72BD401753C7bbdBb5F',
-    warm: '0xe3b00Db03282ee9f630f33FBD88A9c6782096bfD',
+    hot: '0x2b5970d94908664aC5023c08FCd48Bf4DBE3E034',
+    warm: '0xD6A8BDc4Ef9f323C0769A6A833328bbf9E78d482',
   },
   [ChainId.BASE]: {
-    hot: '0x09d99b8a32DCed88bd896692C963946DABF918FB',
-    warm: '0x575afF1C0713dC0f52A6871555891e2E896440fC',
+    hot: '0x2b5970d94908664aC5023c08FCd48Bf4DBE3E034',
+    warm: '0xD6A8BDc4Ef9f323C0769A6A833328bbf9E78d482',
   },
   [ChainId.SCROLL_TESTNET]: '0xDC80625F25C2d78082F78610eEAC7dc28b5259F2',
   [ChainId.SCROLL]: '0x95074bFCC3bF400E6De39cd553e3b51Bd7619925'
@@ -29,10 +32,11 @@ export const AIRDOP_ADDRESS = {
 }
 
 export const MINT_ADDRESS = {
+  [ChainId.ETHEREUM]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE',
   [ChainId.BSC_TESTNET]: '0x0FDD73F79Bcb84Ac6c81805b50A452a61Bb0B2Cc',
-  [ChainId.opBNB]: '0x9d90Fe0b276d8c4c34e65DF78bA3B01FF7867962',
-  [ChainId.BASE]: '0xf09681D7b190A43384fbb7f94d3C5f065A1c861B',
-  [ChainId.BSC]: '0x39B284a977E4f7d47CdFff4d6F247aaB619eD90A'
+  [ChainId.opBNB]: '0x137384a3E059CBaa18EA2F0DDE0866aE6BD1f7F5',
+  [ChainId.BASE]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE',
+  [ChainId.BSC]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE'
 }
 
 export const HAND_NFT_ADDRESS = {
@@ -45,7 +49,7 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.testToken, bscTestnetTokens.testToken1],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
-  [ChainId.ETHEREUM]: [],
+  [ChainId.ETHEREUM]: [ethTokens.WETH, ethTokens.USDT, ethTokens.USDC],
   [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC, baseTokens.USDT],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.ARB]: [],
@@ -78,7 +82,7 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc, bscTokens.btcb, bscTokens.dai],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.testToken, bscTestnetTokens.testToken1, bscTestnetTokens.testToken2, bscTestnetTokens.pe, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
-  [ChainId.ETHEREUM]: [],
+  [ChainId.ETHEREUM]: [ethTokens.WETH, ethTokens.WBTC, ethTokens.USDT, ethTokens.USDC, ethTokens['1INCH'], ethTokens.AAVE, ethTokens.ZRX],
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
@@ -94,11 +98,11 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdc, bscTokens.usdt],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.pe, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
-  [ChainId.ETHEREUM]: [],
+  [ChainId.ETHEREUM]: [ethTokens.WETH, ethTokens.USDT, ethTokens.USDC],
   [ChainId.ARB]: [],
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
-  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC],
+  [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC, baseTokens.USDT],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
   [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]

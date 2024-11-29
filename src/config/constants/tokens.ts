@@ -1,5 +1,64 @@
 import { ChainId, Token, WBNB } from '@pancakeswap/sdk'
 
+export const ethTokens = {
+  WETH: new Token(
+    ChainId.ETHEREUM,
+    '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+    18,
+    'WETH',
+    'WETH',
+    ''
+  ),
+  WBTC: new Token(
+    ChainId.ETHEREUM,
+    '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+    18,
+    'WBTC',
+    'WBTC',
+    ''
+  ),
+  USDC: new Token(
+    ChainId.ETHEREUM,
+    '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+    18,
+    'USDC',
+    'USDC',
+    ''
+  ),
+  USDT: new Token(
+    ChainId.ETHEREUM,
+    '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    18,
+    'USDT',
+    'USDT',
+    ''
+  ),
+  '1INCH': new Token(
+    ChainId.ETHEREUM,
+    '0x111111111117dC0aa78b770fA6A738034120C302',
+    18,
+    '1INCH',
+    '1INCH',
+    ''
+  ),
+  AAVE: new Token(
+    ChainId.ETHEREUM,
+    '0xFFC97d72E13E01096502Cb8Eb52dEe56f74DAD7B',
+    18,
+    'AAVE',
+    'AAVE',
+    ''
+  ),
+  ZRX: new Token(
+    ChainId.ETHEREUM,
+    '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
+    18,
+    'ZRX',
+    'ZRX',
+    ''
+  ),
+}
+
 const CAKE_MAINNET = new Token(
   ChainId.BSC,
   '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
@@ -175,6 +234,7 @@ export const BUSD: Record<ChainId, Token> = {
     'USDT',
     ''
   ),
+  [ChainId.BASE]: undefined
 }
 
 export const bscTokens = {

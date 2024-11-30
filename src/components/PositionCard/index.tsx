@@ -274,35 +274,8 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
   )
   const [showMore, setShowMore] = useState(false)
 
-  let currency0;
-  let currency1;
-
-  switch (pair.poolType) {
-    case 1:
-      currency0 = unwrappedToken(pair.token0);
-      currency1 = unwrappedToken(pair.token1);
-      break;
-    case 2:
-      currency0 = unwrappedToken(pair.token0);
-      currency1 = unwrappedToken(pair.token1);
-      break;
-    case 3:
-      currency0 = unwrappedToken(pair.token1);
-      currency1 = unwrappedToken(pair.token0);
-      break;
-    case 4:
-      currency0 = unwrappedToken(pair.token0);
-      currency1 = unwrappedToken(pair.token1);
-      break;
-    case 5:
-      currency0 = unwrappedToken(pair.token1);
-      currency1 = unwrappedToken(pair.token0);
-      break;
-    default:
-      currency0 = unwrappedToken(pair.token1);
-      currency1 = unwrappedToken(pair.token0);
-      break;
-  }
+  let currency0 = pair.reserve0.token;
+  let currency1 = pair.reserve1.token;
 
   const { totalUSDValue, poolTokenPercentage, token0Deposited, token1Deposited, userPoolBalance } = useLPValues(
     account,

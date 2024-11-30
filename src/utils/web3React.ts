@@ -37,7 +37,7 @@ export const connectorsByName = {
   [ConnectorNames.BSC]: bscConnector,
   [ConnectorNames.Blocto]: async () => {
     const { BloctoConnector } = await import('@blocto/blocto-connector')
-    return new BloctoConnector({ chainId: ChainId.BSC, rpc: 'https://rpc.ankr.com/bsc/9c9763b95d62a8269670b0aa089f1ba82604d70f86115ee5185f54c6a837166f' })
+    return new BloctoConnector({ chainId: ChainId.BSC, rpc: 'https://rpc.ankr.com/bsc' })
   },
   [ConnectorNames.WalletLink]: async () => {
     const { WalletLinkConnector } = await import('@web3-react/walletlink-connector')

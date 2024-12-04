@@ -1,7 +1,6 @@
 import { Token } from '../token'
 import { TokenAmount } from './tokenAmount'
 import { currencyEquals } from '../token'
-import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 
 import { BigintIsh, Rounding, TEN } from '../../constants'
@@ -52,14 +51,20 @@ export class Price extends Fraction {
   }
 
   public multiply(other: Price): Price {
-    invariant(currencyEquals(this.quoteCurrency, other.baseCurrency), 'TOKEN')
+    if (!currencyEquals(this.quoteCurrency, other.baseCurrency)) {
+      console.error('Currency mismatch in multiply method: expected quoteCurrency of this Price to be equal to baseCurrency of other Price')
+      throw new Error('Currency mismatch in multiply method')
+    }
     const fraction = super.multiply(other)
     return new Price(this.baseCurrency, other.quoteCurrency, fraction.denominator, fraction.numerator)
   }
 
   // performs floor division on overflow
   public quote(currencyAmount: CurrencyAmount): CurrencyAmount {
-    invariant(currencyEquals(currencyAmount.currency, this.baseCurrency), 'TOKEN')
+    if (!currencyEquals(currencyAmount.currency, this.baseCurrency)) {
+      console.error('Currency mismatch in quote method: expected currencyAmount.currency to be equal to baseCurrency of this Price')
+      throw new Error('Currency mismatch in quote method')
+    }
     if (this.quoteCurrency instanceof Token) {
       return new TokenAmount(this.quoteCurrency, super.multiply(currencyAmount.raw).quotient)
     }

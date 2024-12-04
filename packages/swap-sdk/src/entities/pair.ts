@@ -310,23 +310,28 @@ export class PairV3 {
   }
   
   public getOutputAmount(inputAmount: TokenAmount): [TokenAmount, PairV3] {
-    invariant(this.involvesToken(inputAmount.token), 'TOKEN')
+    if (!this.involvesToken(inputAmount.token)) {
+      console.error('TOKEN validation failed')
+      throw new Error('TOKEN validation failed')
+    }
+  
     if (JSBI.equal(this.reserve0.raw, ZERO) || JSBI.equal(this.reserve1.raw, ZERO)) {
+      console.error('Insufficient reserves')
       throw new InsufficientReservesError()
     }
-
+  
     const inputReserve = this.reserveOf(inputAmount.token)
     const outputReserve = this.reserveOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
     const inputExponent = this.exponentOf(inputAmount.token)
     const outputExponent = this.exponentOf(inputAmount.token.equals(this.token0) ? this.token1 : this.token0)
-
-    const feeBigInt = JSBI.BigInt(this.fee);
-    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10));
+  
+    const feeBigInt = JSBI.BigInt(this.fee)
+    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10))
     const FEES_NUM = JSBI.subtract(JSBI.BigInt(10000), tenTimesFee)
-
+  
     // Fees I*F_N/F_D  
     const inputAmountWithFee = JSBI.divide(JSBI.multiply(inputAmount.raw, FEES_NUM), FEES_DENOMINATOR)
-
+  
     const outputDecimals = inputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
     const K = JSBI.multiply(
       this.exp(inputReserve.raw, +inputExponent, 32, inputAmount.currency.decimals),
@@ -339,37 +344,44 @@ export class PairV3 {
       inputAmount.currency.decimals
     )
     const tmp = this.exp(JSBI.divide(K, X), 32, +outputExponent, outputDecimals)
-
+  
     if (JSBI.LE(JSBI.BigInt(outputReserve.raw), tmp)) {
+      console.error('Insufficient input amount')
       throw new InsufficientInputAmountError()
     }
+  
     let outputAmount = new TokenAmount(
       inputAmount.token.equals(this.token0) ? this.token1 : this.token0,
       JSBI.subtract(JSBI.BigInt(outputReserve.raw), tmp)
     )
-
+  
     return [outputAmount, new PairV3(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), this.poolType, this.fee)]
   }
-
+  
   public getInputAmount(outputAmount: TokenAmount): [TokenAmount, PairV3] {
-    invariant(this.involvesToken(outputAmount.token), 'TOKEN')
+    if (!this.involvesToken(outputAmount.token)) {
+      console.error('TOKEN validation failed')
+      throw new Error('TOKEN validation failed')
+    }
+  
     if (
       JSBI.equal(this.reserve0.raw, ZERO) ||
       JSBI.equal(this.reserve1.raw, ZERO) ||
       JSBI.greaterThanOrEqual(outputAmount.raw, this.reserveOf(outputAmount.token).raw)
     ) {
+      console.error('Insufficient reserves')
       throw new InsufficientReservesError()
     }
-
+  
     const outputReserve = this.reserveOf(outputAmount.token)
     const inputReserve = this.reserveOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
     const outputExponent = this.exponentOf(outputAmount.token)
     const inputExponent = this.exponentOf(outputAmount.token.equals(this.token0) ? this.token1 : this.token0)
-
+  
     const inputDecimals = outputAmount.token.equals(this.token0) ? this.token1.decimals : this.token0.decimals
     const K = JSBI.multiply(
       this.exp(inputReserve.raw, +inputExponent, 32, inputDecimals),
-      this.exp(outputReserve.raw, +outputExponent, 32, outputAmount.token.decimals)
+      this.exp(outputReserve.raw, +outputExponent, 32,  outputAmount.token.decimals)
     )
     const Y = this.exp(
       JSBI.subtract(outputReserve.raw, outputAmount.raw),
@@ -378,14 +390,16 @@ export class PairV3 {
       outputAmount.currency.decimals
     )
     const tmp = this.exp(JSBI.divide(K, Y), 32, +inputExponent, inputDecimals)
+  
     if (JSBI.LT(tmp, JSBI.BigInt(inputReserve.raw))) {
+      console.error('Insufficient input amount')
       throw new InsufficientInputAmountError()
     }
-
-    const feeBigInt = JSBI.BigInt(this.fee);
-    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10));
+  
+    const feeBigInt = JSBI.BigInt(this.fee)
+    const tenTimesFee = JSBI.multiply(feeBigInt, JSBI.BigInt(10))
     const FEES_NUM = JSBI.subtract(JSBI.BigInt(10000), tenTimesFee)
-
+  
     let inputAmount = new TokenAmount(
       outputAmount.token.equals(this.token0) ? this.token1 : this.token0,
       JSBI.divide(
@@ -393,9 +407,9 @@ export class PairV3 {
         FEES_NUM
       )
     )
-
+  
     return [inputAmount, new PairV3(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), this.poolType, this.fee)]
-  }
+  }  
 
   public getLiquidityMinted(
     totalSupply: TokenAmount,

@@ -1,4 +1,3 @@
-import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 import _Big from 'big.js'
 import toFormat from 'toformat'
@@ -36,12 +35,16 @@ export class CurrencyAmount extends Fraction {
   }
 
   public add(other: CurrencyAmount): CurrencyAmount {
-    invariant(currencyEquals(this.currency, other.currency), 'TOKEN')
+    if (!currencyEquals(this.currency, other.currency)) {
+      console.error('Currency mismatch in add method: expected currencies to be equal')
+    }
     return new CurrencyAmount(this.currency, JSBI.add(this.raw, other.raw))
   }
 
   public subtract(other: CurrencyAmount): CurrencyAmount {
-    invariant(currencyEquals(this.currency, other.currency), 'TOKEN')
+    if (!currencyEquals(this.currency, other.currency)) {
+      console.error('Currency mismatch in subtract method: expected currencies to be equal')
+    }
     return new CurrencyAmount(this.currency, JSBI.subtract(this.raw, other.raw))
   }
 
@@ -58,7 +61,9 @@ export class CurrencyAmount extends Fraction {
     format?: object,
     rounding: Rounding = Rounding.ROUND_DOWN
   ): string {
-    invariant(decimalPlaces <= this.currency.decimals, 'DECIMALS')
+    if (decimalPlaces > this.currency.decimals) {
+      console.error('Decimal places exceed currency decimals in toFixed method')
+    }
     return super.toFixed(decimalPlaces, format, rounding)
   }
 

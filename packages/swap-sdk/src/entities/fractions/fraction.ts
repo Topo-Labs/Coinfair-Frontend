@@ -1,4 +1,3 @@
-import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 import _Decimal from 'decimal.js-light'
 import _Big from 'big.js'
@@ -18,24 +17,9 @@ const toSignificantRounding = {
 }
 
 const enum RoundingMode {
-  /**
-   * Rounds towards zero.
-   * I.e. truncate, no rounding.
-   */
   RoundDown = 0,
-  /**
-   * Rounds towards nearest neighbour.
-   * If equidistant, rounds away from zero.
-   */
   RoundHalfUp = 1,
-  /**
-   * Rounds towards nearest neighbour.
-   * If equidistant, rounds towards even neighbour.
-   */
   RoundHalfEven = 2,
-  /**
-   * Rounds away from zero.
-   */
   RoundUp = 3,
 }
 
@@ -52,7 +36,11 @@ export class Fraction {
   public constructor(numerator: BigintIsh, denominator: BigintIsh = ONE) {
     this.numerator = parseBigintIsh(numerator)
     this.denominator = parseBigintIsh(denominator)
-    invariant(!JSBI.equal(this.denominator, JSBI.BigInt(0)), 'Denominator cannot be zero')
+    
+    if (JSBI.equal(this.denominator, JSBI.BigInt(0))) {
+      console.error('Denominator cannot be zero')
+      throw new Error('Denominator cannot be zero')
+    }
   }
 
   // performs floor division
@@ -72,28 +60,35 @@ export class Fraction {
   public add(other: Fraction | BigintIsh): Fraction {
     const otherParsed = other instanceof Fraction ? other : new Fraction(parseBigintIsh(other))
 
-    invariant(!JSBI.equal(this.denominator, JSBI.BigInt(0)), 'Denominator of this fraction cannot be zero')
-    invariant(!JSBI.equal(otherParsed.denominator, JSBI.BigInt(0)), 'Denominator of other fraction cannot be zero')
+    if (JSBI.equal(this.denominator, JSBI.BigInt(0))) {
+      console.error('Denominator of this fraction cannot be zero')
+      throw new Error('Denominator of this fraction cannot be zero')
+    }
+    if (JSBI.equal(otherParsed.denominator, JSBI.BigInt(0))) {
+      console.error('Denominator of other fraction cannot be zero')
+      throw new Error('Denominator of other fraction cannot be zero')
+    }
 
     if (JSBI.equal(this.denominator, otherParsed.denominator)) {
-        return new Fraction(JSBI.add(this.numerator, otherParsed.numerator), this.denominator)
+      return new Fraction(JSBI.add(this.numerator, otherParsed.numerator), this.denominator)
     }
 
     return new Fraction(
-        JSBI.add(
-            JSBI.multiply(this.numerator, otherParsed.denominator),
-            JSBI.multiply(otherParsed.numerator, this.denominator)
-        ),
-        JSBI.multiply(this.denominator, otherParsed.denominator)
+      JSBI.add(
+        JSBI.multiply(this.numerator, otherParsed.denominator),
+        JSBI.multiply(otherParsed.numerator, this.denominator)
+      ),
+      JSBI.multiply(this.denominator, otherParsed.denominator)
     )
   }
 
-
   public subtract(other: Fraction | BigintIsh): Fraction {
     const otherParsed = other instanceof Fraction ? other : new Fraction(parseBigintIsh(other))
+
     if (JSBI.equal(this.denominator, otherParsed.denominator)) {
       return new Fraction(JSBI.subtract(this.numerator, otherParsed.numerator), this.denominator)
     }
+
     return new Fraction(
       JSBI.subtract(
         JSBI.multiply(this.numerator, otherParsed.denominator),
@@ -148,8 +143,14 @@ export class Fraction {
     format: object = { groupSeparator: '' },
     rounding: Rounding = Rounding.ROUND_HALF_UP
   ): string {
-    invariant(Number.isInteger(significantDigits), `${significantDigits} is not an integer.`)
-    invariant(significantDigits > 0, `${significantDigits} is not positive.`)
+    if (!Number.isInteger(significantDigits)) {
+      console.error(`${significantDigits} is not an integer.`)
+      throw new Error(`${significantDigits} is not an integer.`)
+    }
+    if (significantDigits <= 0) {
+      console.error(`${significantDigits} is not positive.`)
+      throw new Error(`${significantDigits} is not positive.`)
+    }
 
     Decimal.set({ precision: significantDigits + 1, rounding: toSignificantRounding[rounding] })
     const quotient = new Decimal(this.numerator.toString())
@@ -163,8 +164,14 @@ export class Fraction {
     format: object = { groupSeparator: '' },
     rounding: Rounding = Rounding.ROUND_HALF_UP
   ): string {
-    invariant(Number.isInteger(decimalPlaces), `${decimalPlaces} is not an integer.`)
-    invariant(decimalPlaces >= 0, `${decimalPlaces} is negative.`)
+    if (!Number.isInteger(decimalPlaces)) {
+      console.error(`${decimalPlaces} is not an integer.`)
+      throw new Error(`${decimalPlaces} is not an integer.`)
+    }
+    if (decimalPlaces < 0) {
+      console.error(`${decimalPlaces} is negative.`)
+      throw new Error(`${decimalPlaces} is negative.`)
+    }
 
     Big.DP = decimalPlaces
     Big.RM = toFixedRounding[rounding]

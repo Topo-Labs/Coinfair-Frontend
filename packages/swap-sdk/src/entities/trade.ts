@@ -355,11 +355,9 @@ export class Trade {
     originalAmountOut: CurrencyAmount = currencyAmountOut,
     bestTrades: Trade[] = []
 ): Trade[] {
-    // 移除 invariant 检查，直接处理
     if (pairs.length === 0 || maxHops <= 0) return bestTrades;
 
     if (originalAmountOut !== currencyAmountOut && currentPairs.length === 0) {
-      // 递归保护：如果原始的输出金额被修改，且没有跳跃过一次
       return bestTrades;
     }
 

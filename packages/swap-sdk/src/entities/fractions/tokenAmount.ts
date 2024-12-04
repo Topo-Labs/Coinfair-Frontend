@@ -1,6 +1,5 @@
 import { CurrencyAmount } from './currencyAmount'
 import { Token } from '../token'
-import invariant from 'tiny-invariant'
 import JSBI from 'jsbi'
 
 import { BigintIsh } from '../../constants'
@@ -15,12 +14,18 @@ export class TokenAmount extends CurrencyAmount {
   }
 
   public add(other: TokenAmount): TokenAmount {
-    invariant(this.token.equals(other.token), 'TOKEN')
+    if (!this.token.equals(other.token)) {
+      console.error('Token mismatch in add method: expected tokens to be equal')
+      throw new Error('Token mismatch in add method')
+    }
     return new TokenAmount(this.token, JSBI.add(this.raw, other.raw))
   }
 
   public subtract(other: TokenAmount): TokenAmount {
-    invariant(this.token.equals(other.token), 'TOKEN')
+    if (!this.token.equals(other.token)) {
+      console.error('Token mismatch in subtract method: expected tokens to be equal')
+      throw new Error('Token mismatch in subtract method')
+    }
     return new TokenAmount(this.token, JSBI.subtract(this.raw, other.raw))
   }
 }

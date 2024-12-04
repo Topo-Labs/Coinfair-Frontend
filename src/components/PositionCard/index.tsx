@@ -255,7 +255,6 @@ export function MinimalPositionCard({ pair, pairV3, showUnwrapped = false }: Pos
           );
         })
       ) : (
-        // 可选的空状态显示逻辑
         ''
       )}
     </>
@@ -274,8 +273,8 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
   )
   const [showMore, setShowMore] = useState(false)
 
-  let currency0 = pair.reserve0.token;
-  let currency1 = pair.reserve1.token;
+  const currency0 = pair.reserve0.token;
+  const currency1 = pair.reserve1.token;
 
   const { totalUSDValue, poolTokenPercentage, token0Deposited, token1Deposited, userPoolBalance } = useLPValues(
     account,

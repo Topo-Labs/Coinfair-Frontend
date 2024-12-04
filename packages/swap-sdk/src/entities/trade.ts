@@ -1,5 +1,4 @@
 /* eslint-disable no-continue */
-import invariant from 'tiny-invariant'
 import JSBI from 'jsbi';
 import { InsufficientInputAmountError, InsufficientReservesError } from '..'
 
@@ -37,25 +36,26 @@ interface InputOutput {
 // comparator function that allows sorting trades by their output amounts, in decreasing order, and then input amounts
 // in increasing order. i.e. the best trades have the most outputs for the least inputs and are sorted first
 export function inputOutputComparator(a: InputOutput, b: InputOutput): number {
-  // must have same input and output token for comparison
-  invariant(currencyEquals(a.inputAmount.currency, b.inputAmount.currency), 'INPUT_CURRENCY')
-  invariant(currencyEquals(a.outputAmount.currency, b.outputAmount.currency), 'OUTPUT_CURRENCY')
+  if (!currencyEquals(a.inputAmount.currency, b.inputAmount.currency)) {
+    console.error('INPUT_CURRENCY mismatch');
+  }
+  if (!currencyEquals(a.outputAmount.currency, b.outputAmount.currency)) {
+    console.error('OUTPUT_CURRENCY mismatch');
+  }
   if (a.outputAmount.equalTo(b.outputAmount)) {
     if (a.inputAmount.equalTo(b.inputAmount)) {
-      return 0
+      return 0;
     }
-    // trade A requires less input than trade B, so A should come first
     if (a.inputAmount.lessThan(b.inputAmount)) {
-      return -1
+      return -1;
     } else {
-      return 1
+      return 1;
     }
   } else {
-    // tradeA has less output than trade B, so should come second
     if (a.outputAmount.lessThan(b.outputAmount)) {
-      return 1
+      return 1;
     } else {
-      return -1
+      return -1;
     }
   }
 }
@@ -91,15 +91,19 @@ export interface BestTradeOptions {
  * the input currency amount.
  */
 function wrappedAmount(currencyAmount: CurrencyAmount, chainId: ChainId): TokenAmount {
-  if (currencyAmount instanceof TokenAmount) return currencyAmount
-  if (currencyAmount.currency === ETHER) return new TokenAmount(WNATIVE[chainId], currencyAmount.raw)
-  invariant(false, 'CURRENCY')
+  if (currencyAmount instanceof TokenAmount) return currencyAmount;
+  if (currencyAmount.currency === ETHER) return new TokenAmount(WNATIVE[chainId], currencyAmount.raw);
+
+  console.error('Invalid currency type passed to wrappedAmount');
+  return new TokenAmount(WNATIVE[chainId], ZERO);
 }
 
 function wrappedCurrency(currency: Currency, chainId: ChainId): Token {
-  if (currency instanceof Token) return currency
-  if (currency === ETHER) return WNATIVE[chainId]
-  invariant(false, 'CURRENCY')
+  if (currency instanceof Token) return currency;
+  if (currency === ETHER) return WNATIVE[chainId];
+
+  console.error('Invalid currency type passed to wrappedCurrency');
+  return WNATIVE[chainId];
 }
 
 /**
@@ -155,25 +159,29 @@ export class Trade {
   }
 
   public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType) {
-    const amounts: TokenAmount[] = new Array(route.path.length)
-    const nextPairs: PairV3[] = new Array(route.pairs.length)
+    const amounts: TokenAmount[] = new Array(route.path.length);
+    const nextPairs: PairV3[] = new Array(route.pairs.length);
     if (tradeType === TradeType.EXACT_INPUT) {
-      invariant(currencyEquals(amount.currency, route.input), 'INPUT')
-      amounts[0] = wrappedAmount(amount, route.chainId)
+      if (!currencyEquals(amount.currency, route.input)) {
+        console.error('INPUT mismatch');
+      }
+      amounts[0] = wrappedAmount(amount, route.chainId);
       for (let i = 0; i < route.path.length - 1; i++) {
-        const pair = route.pairs[i]
-        const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i])
-        amounts[i + 1] = outputAmount
-        nextPairs[i] = nextPair
+        const pair = route.pairs[i];
+        const [outputAmount, nextPair] = pair.getOutputAmount(amounts[i]);
+        amounts[i + 1] = outputAmount;
+        nextPairs[i] = nextPair;
       }
     } else {
-      invariant(currencyEquals(amount.currency, route.output), 'OUTPUT')
-      amounts[amounts.length - 1] = wrappedAmount(amount, route.chainId)
+      if (!currencyEquals(amount.currency, route.output)) {
+        console.error('OUTPUT mismatch');
+      }
+      amounts[amounts.length - 1] = wrappedAmount(amount, route.chainId);
       for (let i = route.path.length - 1; i > 0; i--) {
-        const pair = route.pairs[i - 1]
-        const [inputAmount, nextPair] = pair.getInputAmount(amounts[i])
-        amounts[i - 1] = inputAmount
-        nextPairs[i - 1] = nextPair
+        const pair = route.pairs[i - 1];
+        const [inputAmount, nextPair] = pair.getInputAmount(amounts[i]);
+        amounts[i - 1] = inputAmount;
+        nextPairs[i - 1] = nextPair;
       }
     }
 
@@ -206,17 +214,14 @@ export class Trade {
    * @param slippageTolerance tolerance of unfavorable slippage from the execution price of this trade
    */
   public minimumAmountOut(slippageTolerance: Percent): CurrencyAmount {
-    invariant(!slippageTolerance.lessThan(ZERO), 'SLIPPAGE_TOLERANCE')
+    if (slippageTolerance.lessThan(ZERO)) {
+      console.error('SLIPPAGE_TOLERANCE is invalid');
+    }
     if (this.tradeType === TradeType.EXACT_OUTPUT) {
-      return this.outputAmount
+      return this.outputAmount;
     } else {
-      const slippageAdjustedAmountOut = new Fraction(ONE)
-        .add(slippageTolerance)
-        .invert()
-        .multiply(this.outputAmount.raw).quotient
-      return this.outputAmount instanceof TokenAmount
-        ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut)
-        : CurrencyAmount.ether(slippageAdjustedAmountOut)
+      const slippageAdjustedAmountOut = new Fraction(ONE).add(slippageTolerance).invert().multiply(this.outputAmount.raw).quotient;
+      return this.outputAmount instanceof TokenAmount ? new TokenAmount(this.outputAmount.token, slippageAdjustedAmountOut) : CurrencyAmount.ether(slippageAdjustedAmountOut);
     }
   }
 
@@ -225,14 +230,14 @@ export class Trade {
    * @param slippageTolerance tolerance of unfavorable slippage from the execution price of this trade
    */
   public maximumAmountIn(slippageTolerance: Percent): CurrencyAmount {
-    invariant(!slippageTolerance.lessThan(ZERO), 'SLIPPAGE_TOLERANCE')
+    if (slippageTolerance.lessThan(ZERO)) {
+      console.error('SLIPPAGE_TOLERANCE is invalid');
+    }
     if (this.tradeType === TradeType.EXACT_INPUT) {
-      return this.inputAmount
+      return this.inputAmount;
     } else {
-      const slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient
-      return this.inputAmount instanceof TokenAmount
-        ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn)
-        : CurrencyAmount.ether(slippageAdjustedAmountIn)
+      const slippageAdjustedAmountIn = new Fraction(ONE).add(slippageTolerance).multiply(this.inputAmount.raw).quotient;
+      return this.inputAmount instanceof TokenAmount ? new TokenAmount(this.inputAmount.token, slippageAdjustedAmountIn) : CurrencyAmount.ether(slippageAdjustedAmountIn);
     }
   }
 
@@ -420,5 +425,4 @@ export class Trade {
     return bestTrades;
 }
 
-  
 }

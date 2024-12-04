@@ -236,25 +236,23 @@ export class PairV3 {
     const decimal = 38
     const decimal2 = 77
     if (a === b) {
-      // console.info("1:1")
       return n
     }
-    // console.info(a, b)
-    // 扩充到48位
+    const precisionThreshold = JSBI.BigInt(10 ** 8); // 设定一个精度保护阈值
+    if (JSBI.lessThan(n, precisionThreshold)) {
+      // 当n非常小的时候，先放大一定的倍数
+      n = JSBI.multiply(n, JSBI.BigInt(1000)); // 通过放大倍数来保留精度
+    }
     if (a === 32 && b === 8) {
-      // console.info("4:1")
       n = JSBI.divide(JSBI.multiply(JSBI.multiply(n, n), JSBI.multiply(n, n)), JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimal2)))
     } else if ((a === 32 && b === 1)) {
-      // console.info("32:1")
       const pow64 = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimal));
       let q = n;
       for (let i = 0; i < 31; i++) {
         q = JSBI.divide(JSBI.multiply(q, n), pow64);
       }
-      // n = JSBI.divide(JSBI.multiply(q, n), pow64)
       return q
     } else if (a === 1 && b === 32) {
-      // console.info("1:32")
       let result = n;
       for (let i = 0; i < 5; i++) {
         const exponent = JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimal));
@@ -263,7 +261,6 @@ export class PairV3 {
       }
       return result;
     } else if (a === 8 && b === 32) {
-      // console.info("1:4")
       n = this.floorSqrt(this.floorSqrt(JSBI.multiply(n, JSBI.exponentiate(JSBI.BigInt(10), JSBI.BigInt(decimal2)))))
     }
     return n

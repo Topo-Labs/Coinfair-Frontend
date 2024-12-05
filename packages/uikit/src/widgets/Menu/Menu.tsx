@@ -244,7 +244,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
           <StyledWrapper />
         )}
 
-        <BodyWrapper mt={isDesktop && !location.pathname.startsWith('/swap') && !location.pathname.startsWith('/earn') ? `${totalTopMenuHeight + 56}px` : "0"}>
+        <BodyWrapper mt={isDesktop && !location.pathname.startsWith('/home') && !location.pathname.startsWith('/swap') && !location.pathname.startsWith('/earn') ? `${totalTopMenuHeight + 56}px` : "0"}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
           </Inner>

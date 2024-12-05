@@ -338,7 +338,7 @@ function useContract<T extends Contract = Contract>(
   const { library, account, chainId } = useActiveWeb3React()
   const signer = useMemo(
     () =>
-      withSignerIfPossible ? getProviderOrSigner(library, account) : chainId === ChainId.BSC ? bscRpcProvider : library,
+      withSignerIfPossible ? getProviderOrSigner(library, account) : library,
     [withSignerIfPossible, library, account, chainId],
   )
 

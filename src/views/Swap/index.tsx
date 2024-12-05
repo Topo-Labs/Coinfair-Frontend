@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
+import { Drawer } from '@mui/material';
 import { CurrencyAmount, Token, Trade } from '@pancakeswap/sdk'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/exchange'
 import {
@@ -13,6 +14,7 @@ import {
   ArrowUpDownIcon,
   Skeleton,
   useMatchBreakpointsContext,
+  BottomDrawer,
 } from '@pancakeswap/uikit'
 import Airdop from 'components/Airdop'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
@@ -65,6 +67,7 @@ import CurrencyInputHeader from './components/CurrencyInputHeader'
 import ImportTokenWarningModal from '../../components/ImportTokenWarningModal'
 import { CommonBasesType } from '../../components/SearchModal/types'
 import { swapFormulaList } from '../../utils'
+import CandlestickChart from './components/ViewChart'
 
 const SwapPage = styled(Page)`
   position: relative;
@@ -112,6 +115,7 @@ export default function Swap() {
   const [isChartDisplayed, setIsChartDisplayed] = useState(userChartPreference)
   const [current, setCurrent] = useState('')
   const [fee, setFee] = useState('')
+  const [openChart, setOpenChart] = useState(false)
   const { refreshBlockNumber, isLoading } = useRefreshBlockNumberID()
   useGoogleAnalysis("swap", "")
 
@@ -434,6 +438,7 @@ export default function Swap() {
                   isChartDisplayed={isChartDisplayed}
                   hasAmount={hasAmount}
                   onRefreshPrice={onRefreshPrice}
+                  setOpenChart={setOpenChart}
                 />
                 <Wrapper id="swap-page" style={{ minHeight: '325px' }}>
                   <AutoColumn style={{ display: 'block' }}>
@@ -658,6 +663,15 @@ export default function Swap() {
         </Flex>
       </Flex>
       <Airdop />
+      <Drawer
+        anchor="bottom"
+        open={openChart}
+        onClose={() => setOpenChart(false)}
+      >
+        <div style={{ width: '100%', padding: '20px', paddingTop: '80px' }}>
+          <CandlestickChart />
+        </div>
+      </Drawer>
       <BTC>
         <img src="/images/coins/BTC.svg" alt="" />
       </BTC>

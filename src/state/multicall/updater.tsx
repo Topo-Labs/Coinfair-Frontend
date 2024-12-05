@@ -151,10 +151,12 @@ export default function Updater(): null {
   const cancellations = useRef<{ blockNumber: number; cancellations: (() => void)[] }>()
 
   const listeningKeys: { [callKey: string]: number } = useMemo(() => {
+    console.debug("Active listening keys:", activeListeningKeys(debouncedListeners, chainId))
     return activeListeningKeys(debouncedListeners, chainId)
   }, [debouncedListeners, chainId])
 
   const unserializedOutdatedCallKeys = useMemo(() => {
+    console.debug("Outdated listening keys:", outdatedListeningKeys(debouncedcallResults, listeningKeys, chainId, currentBlock))
     return outdatedListeningKeys(debouncedcallResults, listeningKeys, chainId, currentBlock)
   }, [chainId, debouncedcallResults, listeningKeys, currentBlock])
 

@@ -21,6 +21,7 @@ const ResetCSS = createGlobalStyle`
     font-size: 100%;
     vertical-align: baseline;
     color: #000;
+    overscroll-behavior-y: none;
   }
   /* HTML5 display-role reset for older browsers */
   /* prettier-ignore */

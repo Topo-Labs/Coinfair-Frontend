@@ -35,11 +35,9 @@ export const LoadingRing = styled.div`
   }
 `;
 
-const CandlestickChart = ({}) => {
+const CandlestickChart = () => {
   const chartContainerRef = useRef(null);
   const { data, loading, error } = useChartData();
-
-  console.log(data, loading);
 
   useEffect(() => {
     if (chartContainerRef.current && !loading && data && data.length > 0) {
@@ -54,9 +52,9 @@ const CandlestickChart = ({}) => {
           secondsVisible: true,
         },
       });
-
+  
       const candlestickSeries = chart.addCandlestickSeries();
-
+  
       const formattedData = data.map(item => ({
         time: moment.unix(item.time).tz("UTC").local().unix(),
         open: parseFloat(item.open),
@@ -64,22 +62,24 @@ const CandlestickChart = ({}) => {
         low: parseFloat(item.low),
         close: parseFloat(item.close),
       }));
-
+  
       candlestickSeries.setData(formattedData as unknown as CandlestickData[]);
-
+  
       const resizeObserver = new ResizeObserver(() => {
         chart.resize(chartContainerRef.current.clientWidth, chartContainerRef.current.clientHeight);
       });
-
+  
       resizeObserver.observe(chartContainerRef.current);
-
-      // Cleanup: 在组件卸载时清理 chart 实例和 resizeObserver
+  
       return () => {
         resizeObserver.disconnect();
         chart.remove();
       };
     }
+  
+    return undefined;
   }, [data, loading]);
+  
 
   if (loading) {
     return (

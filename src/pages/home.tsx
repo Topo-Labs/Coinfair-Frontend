@@ -1,159 +1,191 @@
-import { useEffect, useState, useRef } from 'react';
-import { motion, useScroll } from 'framer-motion';
-import { Box, Typography } from '@mui/material';
-import { styled } from '@mui/system';
-
-const Section = styled(Box)(({ theme }) => ({
-  height: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'rgba(0, 0, 0, .9)',
-  willChange: 'transform, opacity',
-}));
-
-const GradientTypography = styled(Typography)(({ theme }) => ({
-  fontSize: '80px',
-  textAlign: 'center',
-  background: 'linear-gradient(90deg, #fff, #ffffff)', // 从深灰色到白色的渐变
-  backgroundClip: 'text',
-  WebkitBackgroundClip: 'text', // Safari 和 Chrome 兼容
-  color: 'transparent',
-  lineHeight: '1.2', // 行距
-  backgroundSize: '200% auto',
-  animation: 'shine 6s linear infinite',
-  textShadow: '1px 2px 5px rgba(0, 0, 0, 1), 0 0 15px rgba(255, 255, 255, 1)', // 立体感的阴影
-  '@keyframes shine': {
-    '0%': { backgroundPosition: '200% right' },
-    '100%': { backgroundPosition: '-200% center' },
-  },
-}));
+import React, { useState, Suspense, memo } from "react";
+import Link from "next/link";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float, Lightformer, ContactShadows, Environment, MeshTransmissionMaterial, Text } from "@react-three/drei";
+import { Bloom, EffectComposer, N8AO, TiltShift2 } from "@react-three/postprocessing";
+import { easing } from "maath";
+import { Button } from "@pancakeswap/uikit";
 
 const Home = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const scrollYRef = useRef(0);
-  const lastTimeRef = useRef(0);
-  const { scrollYProgress } = useScroll();
-
-  // 控制滚动事件触发频率
-  const handleScroll = () => {
-    const currentTime = Date.now();
-    if (currentTime - lastTimeRef.current > 20) {  // 控制滚动更新频率
-      scrollYRef.current = window.scrollY;
-      setScrollY(scrollYRef.current);  // 仅在滚动偏移较大时更新状态
-      lastTimeRef.current = currentTime;
-    }
-  };
-
-  useEffect(() => {
-    const handleWheel = () => {
-      handleScroll();
-    };
-
-    window.addEventListener('scroll', handleWheel, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleWheel);
-    };
-  }, []);
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <Box>
-      {/* 第一个Section: 缩放与文字颜色动画 */}
-      <Section>
-        <motion.div
-          style={{
-            textAlign: 'center',
-            transformOrigin: 'center center',
-          }}
-          initial={{ scale: 2, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-        >
-          <GradientTypography variant="h1">New DEX leading the future</GradientTypography>
-          <GradientTypography variant="h1">And dominating Crypto trading</GradientTypography>
-        </motion.div>
-        <motion.svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-          <motion.g
-            transform="translate(50, 50)"
-            style={{ opacity: scrollYProgress }}
-          >
-            <motion.circle
-              cx="50"
-              cy="50"
-              r="40"
-              fill="blue"
-              animate={{ r: [40, 60, 40] }}
-              transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
-            />
-            <motion.rect
-              x="120"
-              y="30"
-              width="60"
-              height="60"
-              fill="green"
-              animate={{ x: [120, 150, 120] }}
-              transition={{ duration: 1, repeat: Infinity, repeatType: "loop" }}
-            />
-          </motion.g>
-        </motion.svg>
-      </Section>
+    <>
+      <Canvas
+        eventSource={document.getElementById("root")}
+        eventPrefix="client"
+        shadows
+        camera={{ position: [0, 0, 20], fov: 50 }}
+        dpr={[1, 2]}
+      >
+        <color attach="background" args={["#e0e0e0"]} />
+        <spotLight position={[20, 20, 10]} penumbra={1} castShadow angle={0.2} />
+        <Status />
 
-      {/* 第二个Section: 滚动时元素上下移动 */}
-      <Section>
-        <motion.div
-          style={{
-            textAlign: 'center',
-            transformOrigin: 'center center',
-          }}
-          initial={{ y: 100, opacity: 0 }}
-          animate={{
-            y: scrollY > 500 ? 0 : 100,
-            opacity: scrollY > 500 ? 1 : 0,
-          }}
-          transition={{ duration: 0.8 }}
-        >
-          <GradientTypography variant="h1">第二部分</GradientTypography>
-          <GradientTypography variant="h1">当你滚动到这部分时，元素会出现并移动到原始位置</GradientTypography>
-        </motion.div>
-      </Section>
+        <Suspense fallback={null}>
+          <Float floatIntensity={2}>
+            <Torus hovered={hovered} setHovered={setHovered} />
+          </Float>
+          <ContactShadows scale={100} position={[0, -7.5, 0]} blur={1} far={100} opacity={0.85} />
+          <Environment preset="city">
+            <Lightformer intensity={8} position={[15, 5, 0]} scale={[10, 50, 1]} onUpdate={(self) => self.lookAt(0, 0, 0)} />
+          </Environment>
+        </Suspense>
 
-      {/* 第三个Section: 滚动时放大 */}
-      <Section>
-        <motion.div
-          style={{
-            textAlign: 'center',
-            transformOrigin: 'center center',
-          }}
-          initial={{ scale: 0 }}
-          animate={{ scale: scrollY > 1000 ? 1 : 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <GradientTypography variant="h1">第三部分</GradientTypography>
-          <GradientTypography variant="h1">此部分的元素会在滚动到指定位置时放大</GradientTypography>
-        </motion.div>
-      </Section>
+        <EffectComposer enableNormalPass={false}>
+          <N8AO aoRadius={1} intensity={1.5} />
+          <Bloom mipmapBlur luminanceThreshold={0.8} intensity={1.5} levels={6} />
+          <TiltShift2 blur={0.15} />
+        </EffectComposer>
 
-      {/* 第四个Section: 滚动时从左到右渐入 */}
-      <Section>
-        <motion.div
+        <Rig />
+      </Canvas>
+
+      {/* 右上角的去交易按钮 */}
+      <Link href="/swap">
+        <Button
           style={{
-            textAlign: 'center',
-            transformOrigin: 'center center',
+            position: "fixed",
+            top: "20px",
+            right: "20px",
+            color: "#fff",
+            borderRadius: "30px",
+            padding: "12px 24px",
+            fontSize: "16px",
+            fontWeight: "bold",
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
           }}
-          initial={{ x: '-100%', opacity: 0 }}
-          animate={{
-            x: scrollY > 1500 ? 0 : '-100%',
-            opacity: scrollY > 1500 ? 1 : 0,
-          }}
-          transition={{ duration: 1, ease: 'easeOut' }}
         >
-          <GradientTypography variant="h1">第四部分</GradientTypography>
-          <GradientTypography variant="h1">滚动时从左到右渐入</GradientTypography>
-        </motion.div>
-      </Section>
-    </Box>
+          Go to Trade
+        </Button>
+      </Link>
+
+      {/* 显示文字 */}
+      <div
+        style={{
+          width: '100%',
+          height: '100vh',
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 999,
+          pointerEvents: "none",
+          opacity: hovered ? 1 : 0,  // 控制显示与隐藏
+          transition: "opacity 0.6s ease",  // 过渡效果
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "20%",
+            left: "10%",
+            transform: "translateY(-50%)",
+            color: "white",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            lineHeight: '20px',
+            padding: '0 20px',
+            background: 'rgba(0, 0, 0, .5)',
+            width: '200px',
+            height: '200px',
+            borderRadius: '20px',
+            fontSize: "20px",
+          }}
+        >
+          From AMM to BMM, trading depth comparable to top-tier CEX
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "10%",
+            transform: "translateY(-50%)",
+            color: "white",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            lineHeight: '20px',
+            padding: '0 20px',
+            background: 'rgba(0, 0, 0, .5)',
+            width: '200px',
+            height: '200px',
+            borderRadius: '20px',
+            fontSize: "20px",
+          }}
+        >
+          DRS (Decentralized Rebate System) commissions profit feedback to the users
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10%",
+            left: "30%",
+            transform: "translateX(-50%)",
+            color: "white",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            lineHeight: '20px',
+            padding: '0 20px',
+            background: 'rgba(0, 0, 0, .5)',
+            width: '200px',
+            height: '200px',
+            borderRadius: '20px',
+            fontSize: "20px",
+          }}
+        >
+          100% of platform revenue is distributed to users
+        </div>
+      </div>
+    </>
   );
 };
+
+// 控制相机角度的 Rig 组件
+const Rig = memo(() => {
+  useFrame((state, delta) => {
+    easing.damp3(
+      state.camera.position,
+      [Math.sin(-state.pointer.x) * 15, state.pointer.y * 3.5, 15 + Math.cos(state.pointer.x) * 10],
+      0.2,
+      delta,
+    )
+    state.camera.lookAt(0, 0, 0)
+  })
+  return null;
+})
+
+// Torus 组件，负责显示 Torus 几何体，并根据 hover 状态控制事件
+const Torus = ({ hovered, setHovered }) => {
+  return (
+    <mesh
+      receiveShadow
+      castShadow
+      onPointerEnter={() => setHovered(true)}  // 鼠标悬停事件
+      onPointerLeave={() => setHovered(false)}  // 鼠标移出事件
+    >
+      <torusGeometry args={[4, 1.2, 128, 64]} />
+      <MeshTransmissionMaterial
+        backsideThickness={5}
+        thickness={1}
+        transmission={1.2}
+        color={[1, 1, 1]}
+      />
+    </mesh>
+  )
+};
+
+// 状态文字显示组件
+const Status = memo(() => {
+  return (
+    <Text fontSize={14} letterSpacing={-0.1} color="#000" position={[0, 0, -60]}>
+      New DEX leading the future
+    </Text>
+  );
+})
 
 export default Home;

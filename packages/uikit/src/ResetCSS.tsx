@@ -66,6 +66,7 @@ const ResetCSS = createGlobalStyle`
   }
   * {
     font-family: outfit !important;
+    font-display: swap;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

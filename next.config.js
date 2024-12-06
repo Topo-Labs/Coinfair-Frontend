@@ -100,7 +100,7 @@ const config = {
     return [
       {
         source: '/',
-        destination: '/swap',
+        destination: '/home',
         permanent: true,
       },
       {

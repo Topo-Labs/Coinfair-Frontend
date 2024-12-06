@@ -196,7 +196,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
               {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
               <StyledNav>
                 <Flex>
-                  <Logo isDark={isDark} href={"/swap"} />
+                  <Logo isDark={isDark} href={"/home"} />
                 </Flex>
                 <HeaderNav>
                   <Flex>

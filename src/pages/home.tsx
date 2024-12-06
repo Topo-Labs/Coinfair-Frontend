@@ -1,10 +1,27 @@
 import React, { useState, Suspense, memo } from "react";
 import Link from "next/link";
+import styled from "styled-components";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, ContactShadows, Environment, MeshTransmissionMaterial, Text } from "@react-three/drei";
 import { Bloom, EffectComposer, N8AO, TiltShift2 } from "@react-three/postprocessing";
 import { easing } from "maath";
 import { Button } from "@pancakeswap/uikit";
+
+const JoinUsButton = styled(Button)`
+  color: #000;
+  background: transparent;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 16px;
+  border: 1px solid #000;
+  margin-left: 10px;
+  cursor: pointer;
+  &:hover {
+    background: #000;
+    color: #fff;
+    opacity: 1;
+  }
+`
 
 const Home = () => {
   const [hovered, setHovered] = useState(false);
@@ -40,25 +57,37 @@ const Home = () => {
 
         <Rig />
       </Canvas>
-
-      {/* 右上角的去交易按钮 */}
-      <Link href="/swap">
-        <Button
-          style={{
-            position: "fixed",
-            top: "20px",
-            right: "20px",
-            color: "#fff",
-            borderRadius: "30px",
-            padding: "12px 24px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-          }}
+      
+      <div
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 999,
+          display: 'flex',
+          justifyContent: 'flex-end'
+        }}
+      >
+        <Link href="/swap">
+          <Button
+            style={{
+              color: "#fff",
+              borderRadius: "30px",
+              padding: "12px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            Go to Trade
+          </Button>
+        </Link>
+        <JoinUsButton
+          onClick={() => window.open('https://t.me/Coinfair_Global')}  // 按钮跳转到加入我们页面
         >
-          Go to Trade
-        </Button>
-      </Link>
+          Join Us
+        </JoinUsButton>
+      </div>
 
       {/* 显示文字 */}
       <div

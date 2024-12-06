@@ -52,9 +52,9 @@ const CandlestickChart = () => {
           secondsVisible: true,
         },
       });
-  
+
       const candlestickSeries = chart.addCandlestickSeries();
-  
+
       const formattedData = data.map(item => ({
         time: moment.unix(item.time).tz("UTC").local().unix(),
         open: parseFloat(item.open),
@@ -62,24 +62,30 @@ const CandlestickChart = () => {
         low: parseFloat(item.low),
         close: parseFloat(item.close),
       }));
-  
+
       candlestickSeries.setData(formattedData as unknown as CandlestickData[]);
-  
+
+      const priceScale = chart.priceScale('right');
+      priceScale.applyOptions({
+        autoScale: true,
+        borderColor: '#f0f0f0',
+        minimumWidth: 1
+      });
+
       const resizeObserver = new ResizeObserver(() => {
         chart.resize(chartContainerRef.current.clientWidth, chartContainerRef.current.clientHeight);
       });
-  
+
       resizeObserver.observe(chartContainerRef.current);
-  
+
       return () => {
         resizeObserver.disconnect();
         chart.remove();
       };
     }
-  
+
     return undefined;
   }, [data, loading]);
-  
 
   if (loading) {
     return (

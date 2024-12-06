@@ -191,35 +191,39 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
       {/* 背景 Vanta 组件 */}
       {/* {!isMobile && <Vanta />} */}
       <Wrapper>
-        <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
-          {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
-          <StyledNav>
-            <Flex>
-              <Logo isDark={isDark} href={"/swap"} />
-            </Flex>
-            <HeaderNav>
-              <Flex>
-                {isDesktop ? (
-                  <SubMenuItems style={{ marginTop: 8 }} items={subLinksWithoutMobile} activeItem={activeSubItem} />
-                ) : null}
-              </Flex>
-            </HeaderNav>
-            <Flex alignItems="center" justifyContent={"center"} height="100%">
-              <Box>
-                <LangSelector
-                  currentLang={currentLang}
-                  langs={langs}
-                  setLang={setLang}
-                  buttonScale="xs"
-                  color="textSubtle"
-                  hideLanguage
-                />
-              </Box>
-              {rightSide}
-            </Flex>
-          </StyledNav>
-        </FixedContainer>
-
+        {
+          !location.pathname.startsWith('/home') ?(
+            <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
+              {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
+              <StyledNav>
+                <Flex>
+                  <Logo isDark={isDark} href={"/swap"} />
+                </Flex>
+                <HeaderNav>
+                  <Flex>
+                    {isDesktop ? (
+                      <SubMenuItems style={{ marginTop: 8 }} items={subLinksWithoutMobile} activeItem={activeSubItem} />
+                    ) : null}
+                  </Flex>
+                </HeaderNav>
+                <Flex alignItems="center" justifyContent={"center"} height="100%">
+                  <Box>
+                    <LangSelector
+                      currentLang={currentLang}
+                      langs={langs}
+                      setLang={setLang}
+                      buttonScale="xs"
+                      color="textSubtle"
+                      hideLanguage
+                    />
+                  </Box>
+                  {rightSide}
+                </Flex>
+              </StyledNav>
+            </FixedContainer>
+          ) : (
+            ''
+          )}
         {!isDesktop ? (
           <>
             {subLinks && (
@@ -243,22 +247,27 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
         ) : (
           <StyledWrapper />
         )}
-
         <BodyWrapper mt={isDesktop && !location.pathname.startsWith('/home') && !location.pathname.startsWith('/swap') && !location.pathname.startsWith('/earn') ? `${totalTopMenuHeight + 56}px` : "0"}>
           <Inner isPushed={false} showMenu={showMenu}>
             {children}
           </Inner>
-          <Footer
-            items={footerLinks}
-            isDark={isDark}
-            toggleTheme={toggleTheme}
-            langs={langs}
-            setLang={setLang}
-            currentLang={currentLang}
-            cakePriceUsd={cakePriceUsd}
-            buyCakeLabel={buyCakeLabel}
-            mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
-          />
+          {
+            !location.pathname.startsWith('/home') ?(
+              <Footer
+                items={footerLinks}
+                isDark={isDark}
+                toggleTheme={toggleTheme}
+                langs={langs}
+                setLang={setLang}
+                currentLang={currentLang}
+                cakePriceUsd={cakePriceUsd}
+                buyCakeLabel={buyCakeLabel}
+                mb={[`${MOBILE_MENU_HEIGHT}px`, null, "0px"]}
+              />
+            ) : (
+              ''
+            )
+          }
         </BodyWrapper>
       </Wrapper>
     </MenuContext.Provider>

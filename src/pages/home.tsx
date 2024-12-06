@@ -27,7 +27,7 @@ const Home = () => {
             <Torus hovered={hovered} setHovered={setHovered} />
           </Float>
           <ContactShadows scale={100} position={[0, -7.5, 0]} blur={1} far={100} opacity={0.85} />
-          <Environment preset="city">
+          <Environment>
             <Lightformer intensity={8} position={[15, 5, 0]} scale={[10, 50, 1]} onUpdate={(self) => self.lookAt(0, 0, 0)} />
           </Environment>
         </Suspense>

@@ -9,6 +9,7 @@ import MenuItems from "../../components/MenuItems/MenuItems";
 import { SubMenuItems } from "../../components/SubMenuItems";
 import { useMatchBreakpoints } from "../../hooks";
 import Logo from "./components/Logo";
+import { LogoWithTextIcon } from "../../components/Svg";
 // import Vanta from './components/Vanta'; // 引入 Sketch 组件作为背景
 import { MENU_HEIGHT, MOBILE_MENU_HEIGHT, TOP_BANNER_HEIGHT, TOP_BANNER_HEIGHT_MOBILE } from "./config";
 import { NavProps } from "./types";
@@ -195,9 +196,7 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
             <FixedContainer showMenu={showMenu} height={totalTopMenuHeight}>
               {banner && <TopBannerContainer height={topBannerHeight}>{banner}</TopBannerContainer>}
               <StyledNav>
-                <Flex>
-                  <Logo isDark={isDark} href={"/home"} />
-                </Flex>
+                <Logo isDark={isDark} href={"/home"} />
                 <HeaderNav>
                   <Flex>
                     {isDesktop ? (

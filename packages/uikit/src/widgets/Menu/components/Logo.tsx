@@ -37,7 +37,7 @@ const Logo: React.FC<React.PropsWithChildren<Props>> = ({ isDark, href }) => {
 
   return (
     <>
-      <StyledLink as={linkComponent} href={href} aria-label="EquitySwap page">
+      <StyledLink as={linkComponent} href={href} aria-label="Coinfair page">
         <LogoWithTextIcon />
       </StyledLink>
     </>

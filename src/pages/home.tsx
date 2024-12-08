@@ -5,12 +5,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, ContactShadows, Environment, MeshTransmissionMaterial, Text } from "@react-three/drei";
 import { Bloom, EffectComposer, N8AO, TiltShift2 } from "@react-three/postprocessing";
 import { easing } from "maath";
-import { useMatchBreakpointsContext, Button } from "@pancakeswap/uikit";
+import { useMatchBreakpointsContext, Button, Logo, LogoWithTextIcon } from "@pancakeswap/uikit";
 
 const JoinUsButton = styled(Button)`
+  width: 120px;
   color: #000;
   background: transparent;
-  padding: 12px 24px;
   border-radius: 30px;
   font-size: 16px;
   border: 1px solid #000;
@@ -41,10 +41,35 @@ const MobileSlogan = styled.div`
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 `
 
+const MobileDesc = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  span {
+    font-size: 0.9rem;
+    line-height: 1.1rem;
+  }
+`
+
 const MobileBtns = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+`
+
+const DesktopLogo = styled(LogoWithTextIcon)`
+  margin-left: 45px;
+  transform: scale(1.2);
+`
+
+const MobileLogo = styled(LogoWithTextIcon)`
+  position: fixed;
+  top: 10px;
+  left: 45%;
+  margin: 0 auto;
+  transform: scale(0.8) translateX(-45%);
 `
 
 const DesktopHome = () => {
@@ -89,35 +114,40 @@ const DesktopHome = () => {
           right: '20px',
           zIndex: 999,
           display: 'flex',
-          justifyContent: 'flex-end'
+          width: '99%',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <Link href="/swap">
-          <Button
-            style={{
-              color: "#fff",
-              borderRadius: "30px",
-              padding: "12px 24px",
-              fontSize: "16px",
-              fontWeight: "bold",
-              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-            }}
+        <DesktopLogo/>
+        <div>
+          <Link href="/swap">
+            <Button
+              style={{
+                width: '120px',
+                color: "#fff",
+                borderRadius: "30px",
+                fontSize: "16px",
+                fontWeight: "bold",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              Trade
+            </Button>
+          </Link>
+          <JoinUsButton
+            onClick={() => window.open('https://t.co/hhsIVrD2TY')}  // 按钮跳转到加入我们页面
           >
-            Go to Trade
-          </Button>
-        </Link>
-        <JoinUsButton
-          onClick={() => window.open('https://t.me/Coinfair_Global')}  // 按钮跳转到加入我们页面
-        >
-          Join Us
-        </JoinUsButton>
+            Join Us
+          </JoinUsButton>
+        </div>
       </div>
 
       {/* 显示文字 */}
       <div
         style={{
-          width: '100%',
-          height: '100vh',
+          width: '90%',
+          height: '90vh',
           position: "absolute",
           top: "50%",
           left: "50%",
@@ -139,21 +169,20 @@ const DesktopHome = () => {
             justifyContent: 'center',
             alignItems: 'center',
             lineHeight: '20px',
-            padding: '0 20px',
+            padding: '20px',
             background: 'rgba(0, 0, 0, .5)',
-            width: '200px',
-            height: '200px',
+            width: '300px',
             borderRadius: '20px',
             fontSize: "20px",
           }}
         >
-          From AMM to BMM, trading depth comparable to top-tier CEX
+          From AMM to BMM, trading depth comparable to top-tier CEXs
         </div>
 
         <div
           style={{
             position: "absolute",
-            top: "50%",
+            top: "30%",
             right: "10%",
             transform: "translateY(-50%)",
             color: "white",
@@ -161,15 +190,14 @@ const DesktopHome = () => {
             justifyContent: 'center',
             alignItems: 'center',
             lineHeight: '20px',
-            padding: '0 20px',
+            padding: '20px',
             background: 'rgba(0, 0, 0, .5)',
-            width: '200px',
-            height: '200px',
+            width: '300px',
             borderRadius: '20px',
             fontSize: "20px",
           }}
         >
-          DRS (Decentralized Rebate System) commissions profit feedback to the users
+          DRS enables commission profit feedback to the users
         </div>
 
         <div
@@ -183,10 +211,9 @@ const DesktopHome = () => {
             justifyContent: 'center',
             alignItems: 'center',
             lineHeight: '20px',
-            padding: '0 20px',
+            padding: '20px',
             background: 'rgba(0, 0, 0, .5)',
-            width: '200px',
-            height: '200px',
+            width: '300px',
             borderRadius: '20px',
             fontSize: "20px",
           }}
@@ -243,94 +270,36 @@ const Status = memo(() => {
 const MobileHome = () => {
   return (
     <MobileHomeCotainer>
+      <MobileLogo/>
       <MobileSlogan>New DEX</MobileSlogan>
       <MobileSlogan>Leading the future</MobileSlogan>
+      <MobileDesc>
+        <span>From AMM to BMM,</span>
+        <span>trading depth comparable to top-tier CEXs.</span>
+        <span>DRS enables commission profit feedback to the users.</span>
+        <span>100% of platform revenue is distributed to users.</span>
+      </MobileDesc>
       <MobileBtns>
         <Link href="/swap">
           <Button
             style={{
+              width: '120px',
               color: "#fff",
               borderRadius: "30px",
-              padding: "12px 24px",
               fontSize: "16px",
               fontWeight: "bold",
               boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
             }}
           >
-            Go to Trade
+            Trade
           </Button>
         </Link>
         <JoinUsButton
-          onClick={() => window.open('https://t.me/Coinfair_Global')}  // 按钮跳转到加入我们页面
+          onClick={() => window.open('https://t.co/hhsIVrD2TY')}  // 按钮跳转到加入我们页面
         >
           Join Us
         </JoinUsButton>
       </MobileBtns>
-      <div
-        style={{
-          position: "absolute",
-          top: "50px",
-          left: "20px",
-          color: "white",
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          lineHeight: '14px',
-          padding: '0 20px',
-          background: 'rgba(0, 0, 0, .5)',
-          boxShadow: '0 0 100px rgba(0, 0, 0, .3)',
-          width: '150px',
-          height: '150px',
-          borderRadius: '20px',
-          fontSize: "14px",
-        }}
-      >
-        From AMM to BMM, trading depth comparable to top-tier CEX
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          top: "130px",
-          right: "20px",
-          color: "white",
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          lineHeight: '14px',
-          padding: '0 20px',
-          background: 'rgba(0, 0, 0, .5)',
-          boxShadow: '0 0 100px rgba(0, 0, 0, .3)',
-          width: '150px',
-          height: '150px',
-          borderRadius: '20px',
-          fontSize: "14px",
-        }}
-      >
-        DRS (Decentralized Rebate System) commissions profit feedback to the users
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          bottom: "5%",
-          left: "100px",
-          color: "white",
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          lineHeight: '14px',
-          padding: '0 20px',
-          background: 'rgba(0, 0, 0, .5)',
-          boxShadow: '0 0 100px rgba(0, 0, 0, .3)',
-          width: '150px',
-          height: '150px',
-          borderRadius: '20px',
-          fontSize: "14px",
-        }}
-      >
-        100% of platform revenue is distributed to users
-      </div>
     </MobileHomeCotainer>
   )
 }

@@ -37,7 +37,7 @@ const MobileSlogan = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 50px;
+  font-size: 2.5rem;
   line-height: 50px;
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 `
@@ -314,7 +314,7 @@ const MobileHome = () => {
       <div
         style={{
           position: "absolute",
-          bottom: "80px",
+          bottom: "5%",
           left: "100px",
           color: "white",
           display: 'flex',

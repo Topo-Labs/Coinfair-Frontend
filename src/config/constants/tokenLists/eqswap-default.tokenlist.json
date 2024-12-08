@@ -1,6 +1,54 @@
 {
   "tokens": [
     {
+      "name": "CF01",
+      "symbol": "CF01",
+      "address": "0x9E5A21E6E2f2199bB40FE58bBCB53C3a11Ce6752",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/0x9E5A21E6E2f2199bB40FE58bBCB53C3a11Ce6752.png"
+    },
+    {
+      "name": "cfUSD",
+      "symbol": "cfUSD",
+      "address": "0xD5BB98A353331014F8D7F344e44e9361a718E81D",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/0xD5BB98A353331014F8D7F344e44e9361a718E81D.png"
+    },
+    {
+      "name": "cfAMM",
+      "symbol": "cfAMM",
+      "address": "0xD254a8B56903B3FB790D3b6FaaCd7477f898c570",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/0xD254a8B56903B3FB790D3b6FaaCd7477f898c570.png"
+    },
+    {
+      "name": "lqUSDT",
+      "symbol": "lqUSDT",
+      "address": "0x327E3EE136c52c34a0b24c8713ee943360A6Ac9b",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/0x327E3EE136c52c34a0b24c8713ee943360A6Ac9b.png"
+    },
+    {
+      "name": "cfAMM1",
+      "symbol": "cfAMM1",
+      "address": "0xcA089874D35B79253557B1fD81eF389598c0245e",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/0xcA089874D35B79253557B1fD81eF389598c0245e.png"
+    },
+    {
+      "name": "cfBMM",
+      "symbol": "cfBMM",
+      "address": "0xdfDfc0ba5b2F1e5Bed4C713928aC0A2d8e54F369",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "/images/0xdfDfc0ba5b2F1e5Bed4C713928aC0A2d8e54F369.png"
+    },
+    {
       "name": "Tether USD",
       "symbol": "USDT",
       "address": "0x55d398326f99059fF775485246999027B3197955",

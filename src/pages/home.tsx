@@ -6,6 +6,7 @@ import { Float, Lightformer, ContactShadows, Environment, MeshTransmissionMateri
 import { Bloom, EffectComposer, N8AO, TiltShift2 } from "@react-three/postprocessing";
 import { easing } from "maath";
 import { Button } from "@pancakeswap/uikit";
+import { useMatchBreakpointsContext } from "@pancakeswap/uikit";
 
 const JoinUsButton = styled(Button)`
   color: #000;
@@ -23,7 +24,31 @@ const JoinUsButton = styled(Button)`
   }
 `
 
-const Home = () => {
+const MobileHomeCotainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #e0e0e0;
+`
+
+const MobileSlogan = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  line-height: 50px;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+`
+
+const MobileBtns = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+`
+
+const DesktopHome = () => {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -208,7 +233,6 @@ const Torus = ({ hovered, setHovered }) => {
   )
 };
 
-// 状态文字显示组件
 const Status = memo(() => {
   return (
     <Text fontSize={14} letterSpacing={-0.1} color="#000" position={[0, 0, -60]}>
@@ -216,5 +240,113 @@ const Status = memo(() => {
     </Text>
   );
 })
+
+const MobileHome = () => {
+  return (
+    <MobileHomeCotainer>
+      <MobileSlogan>New DEX</MobileSlogan>
+      <MobileSlogan>Leading the future</MobileSlogan>
+      <MobileBtns>
+        <Link href="/swap">
+          <Button
+            style={{
+              color: "#fff",
+              borderRadius: "30px",
+              padding: "12px 24px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            Go to Trade
+          </Button>
+        </Link>
+        <JoinUsButton
+          onClick={() => window.open('https://t.me/Coinfair_Global')}  // 按钮跳转到加入我们页面
+        >
+          Join Us
+        </JoinUsButton>
+      </MobileBtns>
+      <div
+        style={{
+          position: "absolute",
+          top: "50px",
+          left: "20px",
+          color: "white",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          lineHeight: '14px',
+          padding: '0 20px',
+          background: 'rgba(0, 0, 0, .5)',
+          boxShadow: '0 0 100px rgba(0, 0, 0, .3)',
+          width: '150px',
+          height: '150px',
+          borderRadius: '20px',
+          fontSize: "14px",
+        }}
+      >
+        From AMM to BMM, trading depth comparable to top-tier CEX
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          top: "130px",
+          right: "20px",
+          color: "white",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          lineHeight: '14px',
+          padding: '0 20px',
+          background: 'rgba(0, 0, 0, .5)',
+          boxShadow: '0 0 100px rgba(0, 0, 0, .3)',
+          width: '150px',
+          height: '150px',
+          borderRadius: '20px',
+          fontSize: "14px",
+        }}
+      >
+        DRS (Decentralized Rebate System) commissions profit feedback to the users
+      </div>
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "80px",
+          left: "100px",
+          color: "white",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          lineHeight: '14px',
+          padding: '0 20px',
+          background: 'rgba(0, 0, 0, .5)',
+          boxShadow: '0 0 100px rgba(0, 0, 0, .3)',
+          width: '150px',
+          height: '150px',
+          borderRadius: '20px',
+          fontSize: "14px",
+        }}
+      >
+        100% of platform revenue is distributed to users
+      </div>
+    </MobileHomeCotainer>
+  )
+}
+
+const Home = () => {
+
+  const { isDesktop } = useMatchBreakpointsContext()
+
+  return (
+    <>
+      {
+        isDesktop ? <DesktopHome /> : <MobileHome/>
+      }
+    </>
+  )
+}
 
 export default Home;

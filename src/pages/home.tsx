@@ -5,8 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Lightformer, ContactShadows, Environment, MeshTransmissionMaterial, Text } from "@react-three/drei";
 import { Bloom, EffectComposer, N8AO, TiltShift2 } from "@react-three/postprocessing";
 import { easing } from "maath";
-import { Button } from "@pancakeswap/uikit";
-import { useMatchBreakpointsContext } from "@pancakeswap/uikit";
+import { useMatchBreakpointsContext, Button } from "@pancakeswap/uikit";
 
 const JoinUsButton = styled(Button)`
   color: #000;

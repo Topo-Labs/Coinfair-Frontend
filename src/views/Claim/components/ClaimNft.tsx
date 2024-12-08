@@ -111,7 +111,7 @@ const Claim = () => {
     );
   }
 
-  const layers = Array.from({ length: 5 }, (_, i) => i - 5);
+  const layers = Array.from({ length: 10 }, (_, i) => i - 5);
 
   return (
     <>

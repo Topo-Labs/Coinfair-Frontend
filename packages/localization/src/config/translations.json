@@ -2060,5 +2060,7 @@
   "Insufficient funds to cover gas fees and claim costs.": "Insufficient funds to cover gas fees and claim costs.",
   "Claiming the NFT will grant you the eligibility to trade to mine": "Claiming the NFT will grant you the eligibility to trade to mine",
   "NFT holders can automatically participate in mining based on accumulated trading volume.": "NFT holders can automatically participate in mining based on accumulated trading volume.",
-  "In the future, users can collect token airdrop rewards based on the trading volume!": "In the future, users can collect token airdrop rewards based on the trading volume!"
+  "In the future, users can collect token airdrop rewards based on the trading volume!": "In the future, users can collect token airdrop rewards based on the trading volume!",
+  "Claim Faucet": "Claim Faucet",
+  "Each user can only claim the cfUSD test token once.": "Each user can only claim the cfUSD test token once."
 }

@@ -82,7 +82,7 @@ const UserMenu = () => {
         if (err.message.includes('execution reverted: not sufficient funds')) {
           toastError(t('Insufficient funds for gas. Please check your wallet balance.'))
         } else {
-          toastError(t('Error claiming faucet. Please try again later.'))
+          toastError(t('Each user can only claim the cfUSD test token once.'))
         }
       } else {
         toastError(t('Unknown error occurred while claiming faucet.'))

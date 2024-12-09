@@ -1875,5 +1875,7 @@
   "Insufficient funds to cover gas fees and claim costs.": "資金不足，無法支付 gas 費用和領取費用。",
   "Claiming the NFT will grant you the eligibility to trade to mine": "領取NFT即可獲得交易挖礦獎勵",
   "NFT holders can automatically participate in mining based on accumulated trading volume.": "持有 NFT 的使用者可以根據累積交易金額自動參與挖礦！",
-  "In the future, users can collect token airdrop rewards based on the trading volume!": "未來可以根據交易金額獲得代幣空投獎勳！"
+  "In the future, users can collect token airdrop rewards based on the trading volume!": "未來可以根據交易金額獲得代幣空投獎勳！",
+  "Claim Faucet": "領取水龍頭",
+  "Each user can only claim the cfUSD test token once.": "每位使用者只能領取一次 cfUSD 測試幣"
 }

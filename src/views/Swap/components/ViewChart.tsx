@@ -1,8 +1,36 @@
 import { useEffect, useRef } from 'react';
 import { CandlestickData, createChart } from 'lightweight-charts';
-import moment from 'moment-timezone';  // 引入 moment-timezone
+import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
+import moment from 'moment-timezone';
 import styled, { keyframes } from 'styled-components';
 import { useChartData } from '../hooks/useChartData';
+
+const formatNumber = (num: number | string | undefined | null): string => {
+  if (typeof num === 'string') {
+    num = parseFloat(num);
+  }
+
+  if (typeof num !== 'number' || isNaN(num)) {
+    return '--';
+  }
+
+  if (num >= 1e12) {
+    return (num / 1e12).toFixed(2) + 'T';
+  }
+  if (num >= 1e9) {
+    return (num / 1e9).toFixed(2) + 'B';
+  }
+  if (num >= 1e6) {
+    return (num / 1e6).toFixed(2) + 'M';
+  }
+  if (num >= 1e4) {
+    return (num / 1e4).toFixed(2) + 'W';
+  }
+  if (num >= 1e3) {
+    return (num / 1e3).toFixed(2) + 'K';
+  }
+  return num.toFixed(2);
+};
 
 const spinScale = keyframes`
   0% {
@@ -15,6 +43,61 @@ const spinScale = keyframes`
     transform: scale(0.8) rotate(360deg);
   }
 `;
+
+export const ChartBody = styled.div`
+  display: flex;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
+`
+
+export const Charts = styled.div`
+  position: relative;
+  width: 80%;
+  height: 400px;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    height: 300px;
+    margin-right: -20px;
+  }
+`
+
+export const ChartInfo = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
+
+export const ChartInfoItem = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #EDEDED;
+  border-radius: 8px;
+  @media screen and (max-width: 900px) {
+    flex: 1 1 calc(33.333% - 10px);
+    max-width: calc(33.333% - 10px);
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 10px 0;
+    justify-content: flex-start;
+  }
+`
+
+export const ChartInfoTitle = styled.div`
+  text-align: center;
+  font-size: 12px;
+  color: #9D9D9D;
+  margin-bottom: 5px;
+`
+
+export const ChartInfoValue = styled.div`
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+`
 
 export const LoadingRing = styled.div`
   width: 100%;
@@ -36,8 +119,9 @@ export const LoadingRing = styled.div`
 `;
 
 const CandlestickChart = () => {
-  const chartContainerRef = useRef(null);
-  const { data, loading, error } = useChartData();
+  const chartContainerRef = useRef<HTMLDivElement | null>(null);
+  const { data, info, loading, error } = useChartData();
+  const { isDesktop } = useMatchBreakpointsContext();
 
   useEffect(() => {
     if (chartContainerRef.current && !loading && data && data.length > 0) {
@@ -55,8 +139,8 @@ const CandlestickChart = () => {
 
       const candlestickSeries = chart.addCandlestickSeries();
 
-      const formattedData = data.map(item => ({
-        time: moment.unix(item.time).tz("UTC").local().unix(),
+      const formattedData = data.map((item) => ({
+        time: moment.unix(item.time).tz('UTC').local().unix(),
         open: parseFloat(item.open),
         high: parseFloat(item.high),
         low: parseFloat(item.low),
@@ -69,14 +153,30 @@ const CandlestickChart = () => {
       priceScale.applyOptions({
         autoScale: true,
         borderColor: '#f0f0f0',
-        minimumWidth: 1
+        minimumWidth: 1,
       });
+
+      const updateRightOffset = () => {
+        const containerWidth = chartContainerRef.current?.clientWidth || 0;
+        const dataPointWidth = 10;
+        const calculatedRightOffset =
+          (containerWidth / dataPointWidth - data.length) / 2;
+        chart.timeScale().applyOptions({
+          rightOffset: calculatedRightOffset > 0 ? calculatedRightOffset : 0,
+        });
+      };
+
+      updateRightOffset();
 
       const resizeObserver = new ResizeObserver(() => {
-        chart.resize(chartContainerRef.current.clientWidth, chartContainerRef.current.clientHeight);
+        chart.resize(
+          chartContainerRef?.current?.clientWidth || 0,
+          chartContainerRef?.current?.clientHeight || 0,
+        );
+        updateRightOffset();
       });
 
-      resizeObserver.observe(chartContainerRef.current);
+      resizeObserver.observe(chartContainerRef?.current);
 
       return () => {
         resizeObserver.disconnect();
@@ -103,7 +203,96 @@ const CandlestickChart = () => {
     );
   }
 
-  return <div ref={chartContainerRef} style={{ position: 'relative', width: '100%', height: '400px' }} />;
+  return (
+    <ChartBody style={{ display: 'flex' }}>
+      <Charts
+        ref={chartContainerRef}
+      />
+      {
+        isDesktop ? (
+          <ChartInfo>
+            <ChartInfoItem>
+              <div>
+                <ChartInfoTitle>Current Price</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.currentPrice) : '--'}</ChartInfoValue>
+              </div>
+            </ChartInfoItem>
+            <ChartInfoItem>
+              <div>
+                <ChartInfoTitle>Market Cap</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.marketCap) : '--'}</ChartInfoValue>
+              </div>
+            </ChartInfoItem>
+            <ChartInfoItem>
+              <div>
+                <ChartInfoTitle>cfUSD Quantity</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.quantity) : '--'}</ChartInfoValue>
+              </div>
+              <div>
+                <ChartInfoTitle>CF01 Liquidity</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.cf01Liquidity) : '--'}</ChartInfoValue>
+              </div>
+            </ChartInfoItem>
+            <ChartInfoItem>
+            <div>
+                <ChartInfoTitle>cfUSD Liquidity</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.cfUSDLiquidity) : '--'}</ChartInfoValue>
+              </div>
+            </ChartInfoItem>
+            <ChartInfoItem>
+              <div>
+                <ChartInfoTitle>1% Depth of Volatility</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.volatility) : '--'}</ChartInfoValue>
+              </div>
+            </ChartInfoItem>
+          </ChartInfo>
+        ) : (
+          <ChartInfo>
+            <div style={{ display: 'flex' }}>
+              <ChartInfoItem>
+                <div style={{ width: '100%' }}>
+                  <ChartInfoTitle>Current Price</ChartInfoTitle>
+                  <ChartInfoValue>{info ? formatNumber(info.currentPrice) : '--'}</ChartInfoValue>
+                </div>
+              </ChartInfoItem>
+              <ChartInfoItem>
+                <div style={{ width: '100%' }}>
+                  <ChartInfoTitle>Market Cap</ChartInfoTitle>
+                  <ChartInfoValue>{info ? formatNumber(info.marketCap) : '--'}</ChartInfoValue>
+                </div>
+              </ChartInfoItem>
+              <ChartInfoItem>
+                <div style={{ width: '100%' }}>
+                  <ChartInfoTitle>cfUSD Liquidity</ChartInfoTitle>
+                  <ChartInfoValue>{info ? formatNumber(info.cfUSDLiquidity) : '--'}</ChartInfoValue>
+                </div>
+              </ChartInfoItem>
+            </div>
+            <div style={{ display: 'flex' }}>
+              <ChartInfoItem>
+                <div style={{ width: '100%' }}>
+                  <ChartInfoTitle>CF01 Liquidity</ChartInfoTitle>
+                  <ChartInfoValue>{info ? formatNumber(info.cf01Liquidity) : '--'}</ChartInfoValue>
+                </div>
+              </ChartInfoItem>
+              <ChartInfoItem>
+                <div style={{ width: '100%' }}>
+                  <ChartInfoTitle>cfUSD Quantity</ChartInfoTitle>
+                  <ChartInfoValue>{info ? formatNumber(info.quantity) : '--'}</ChartInfoValue>
+                </div>
+              </ChartInfoItem>
+              <ChartInfoItem>
+                <div style={{ width: '100%' }}>
+                  <ChartInfoTitle>1% Depth of Volatility</ChartInfoTitle>
+                  <ChartInfoValue>{info ? formatNumber(info.volatility) : '--'}</ChartInfoValue>
+                </div>
+              </ChartInfoItem>
+            </div>
+          </ChartInfo>
+        )
+      }
+    </ChartBody>
+  );
 };
 
 export default CandlestickChart;

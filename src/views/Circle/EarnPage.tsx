@@ -513,25 +513,25 @@ export default function Earn() {
                       ) : ''
                     }
                     <EarnTBody>
-                    {account ?
-                      claimLoading ? (
-                        <LoadingRing />
-                      ) : claimData && claimData.length ? (
-                        [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
-                          <EarnRewardItem info={hty} index={index} />
+                      {account ?
+                        claimLoading ? (
+                          <LoadingRing />
+                        ) : claimData && claimData.length ? (
+                          [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                            <EarnRewardItem info={hty} index={index} />
+                          )
+                        ) : (
+                          <EarnNoData>
+                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                            {t('No Data')}
+                          </EarnNoData>
+                        ) : (
+                          <EarnNoData>
+                            <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
+                            {t('Please connect your wallet.')}
+                          </EarnNoData>
                         )
-                      ) : (
-                        <EarnNoData>
-                          <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                          {t('No Data')}
-                        </EarnNoData>
-                      ) : (
-                        <EarnNoData>
-                          <EarnNoDataIcon><img src="/images/noData.svg" alt="" /></EarnNoDataIcon>
-                          {t('Please connect your wallet.')}
-                        </EarnNoData>
-                      )
-                    }
+                      }
                     </EarnTBody>
                   </EarnHistory>
                 </EarnMiddleBox>

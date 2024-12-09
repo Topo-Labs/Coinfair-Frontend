@@ -136,7 +136,7 @@ const DesktopHome = () => {
             </Button>
           </Link>
           <JoinUsButton
-            onClick={() => window.open('https://t.co/hhsIVrD2TY')}  // 按钮跳转到加入我们页面
+            onClick={() => window.open('https://t.co/hhsIVrD2TY')}
           >
             Join Us
           </JoinUsButton>
@@ -154,8 +154,8 @@ const DesktopHome = () => {
           transform: "translate(-50%, -50%)",
           zIndex: 999,
           pointerEvents: "none",
-          opacity: hovered ? 1 : 0,  // 控制显示与隐藏
-          transition: "opacity 0.6s ease",  // 过渡效果
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 0.6s ease",
         }}
       >
         <div

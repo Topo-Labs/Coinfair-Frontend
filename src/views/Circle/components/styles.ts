@@ -540,6 +540,8 @@ export const EarnClaimTHead = styled.div`
 `
 
 export const EarnTBody = styled.div`
+  max-height: 400px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 `

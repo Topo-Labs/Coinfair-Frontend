@@ -6,30 +6,36 @@ import styled, { keyframes } from 'styled-components';
 import { useChartData } from '../hooks/useChartData';
 
 const formatNumber = (num: number | string | undefined | null): string => {
+  let parsedNum: number;
+
   if (typeof num === 'string') {
-    num = parseFloat(num);
+    parsedNum = parseFloat(num);
+  } else if (typeof num === 'number') {
+    parsedNum = num;
+  } else {
+    return '0.00';
   }
 
-  if (typeof num !== 'number' || isNaN(num)) {
-    return '--';
+  if (Number.isNaN(parsedNum)) {
+    return '0.00';
   }
 
-  if (num >= 1e12) {
-    return (num / 1e12).toFixed(2) + 'T';
+  if (parsedNum >= 1e12) {
+    return `${(parsedNum / 1e12).toFixed(2)}T`;
   }
-  if (num >= 1e9) {
-    return (num / 1e9).toFixed(2) + 'B';
+  if (parsedNum >= 1e9) {
+    return `${(parsedNum / 1e9).toFixed(2)}B`;
   }
-  if (num >= 1e6) {
-    return (num / 1e6).toFixed(2) + 'M';
+  if (parsedNum >= 1e6) {
+    return `${(parsedNum / 1e6).toFixed(2)}M`;
   }
-  if (num >= 1e4) {
-    return (num / 1e4).toFixed(2) + 'W';
+  if (parsedNum >= 1e4) {
+    return `${(parsedNum / 1e4).toFixed(2)}W`;
   }
-  if (num >= 1e3) {
-    return (num / 1e3).toFixed(2) + 'K';
+  if (parsedNum >= 1e3) {
+    return `${(parsedNum / 1e3).toFixed(2)}K`;
   }
-  return num.toFixed(2);
+  return parsedNum.toFixed(2);
 };
 
 const spinScale = keyframes`
@@ -228,7 +234,7 @@ const CandlestickChart = () => {
                 <ChartInfoTitle>cfUSD Quantity</ChartInfoTitle>
                 <ChartInfoValue>{info ? formatNumber(info.quantity) : '--'}</ChartInfoValue>
               </div>
-              <div>
+              <div style={{ marginLeft: '10px' }}>
                 <ChartInfoTitle>CF01 Liquidity</ChartInfoTitle>
                 <ChartInfoValue>{info ? formatNumber(info.cf01Liquidity) : '--'}</ChartInfoValue>
               </div>

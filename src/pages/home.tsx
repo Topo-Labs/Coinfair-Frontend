@@ -66,10 +66,10 @@ const DesktopLogo = styled(LogoWithTextIcon)`
 
 const MobileLogo = styled(LogoWithTextIcon)`
   position: fixed;
-  top: 10px;
-  left: 45%;
+  top: 50px;
+  left: 52%;
   margin: 0 auto;
-  transform: scale(0.8) translateX(-45%);
+  transform: scale(1.2) translateX(-52%);
 `
 
 const DesktopHome = () => {

@@ -92,7 +92,7 @@ export default function MintNft({ onDismiss = () => null }) {
 
   const onChangeAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value, 10);
-    if (!Number.isNaN(value) && value >= 1 && value <= 500) {
+    if (!Number.isNaN(value) && value >= 1 && value <= 350) {
       setAmount(value);
     } else {
       setAmount(0);
@@ -246,7 +246,7 @@ export default function MintNft({ onDismiss = () => null }) {
           id="mint_amount"
           type="number"
           min="1"
-          max="500"
+          max="350"
           placeholder={t('mint_limit_text')}
           value={amount === 0 ? '' : amount.toString()}
           onChange={onChangeAmount}

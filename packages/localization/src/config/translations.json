@@ -1939,7 +1939,7 @@
   "airdop_n_can_claim": "You have already claimed for today. Please come back after 24 hours",
   "mintNFT_share": "Mint & Share NFT",
   "Claim_NFT": "Claim NFT",
-  "mint_limit_text": "Number 1-500",
+  "mint_limit_text": "Number 1-350",
   "paste_proj_addr_text": "Please paste the address of the project:",
   "leader_address": "The wallet address of community leader:",
   "Mint_success": "Mint Success!",

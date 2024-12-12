@@ -1855,7 +1855,7 @@
   "airdop_n_can_claim": "今日已领取，请24小时后再来",
   "mintNFT_share": "铸造和分享NFT",
   "Claim_NFT": "领取NFT",
-  "mint_limit_text": "数量 1～350",
+  "mint_limit_text": "数量 1～500",
   "paste_proj_addr_text": "请粘贴项目地址：",
   "leader_address": "社区长钱包地址：",
   "Mint_success": "铸造成功！",

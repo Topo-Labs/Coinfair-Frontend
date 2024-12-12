@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { CandlestickData, createChart } from 'lightweight-charts';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
+import { useTranslation } from '@pancakeswap/localization';
+import { Tooltip } from '@mui/material';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import { GrCircleQuestion } from "react-icons/gr";
 import moment from 'moment-timezone';
 import styled, { keyframes } from 'styled-components';
 import { useChartData } from '../hooks/useChartData';
@@ -128,6 +132,7 @@ const CandlestickChart = () => {
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
   const { data, info, loading, error } = useChartData();
   const { isDesktop } = useMatchBreakpointsContext();
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (chartContainerRef.current && !loading && data && data.length > 0) {
@@ -231,8 +236,8 @@ const CandlestickChart = () => {
             </ChartInfoItem>
             <ChartInfoItem>
               <div>
-                <ChartInfoTitle>cfUSD Quantity</ChartInfoTitle>
-                <ChartInfoValue>{info ? formatNumber(info.quantity) : '--'}</ChartInfoValue>
+                <ChartInfoTitle>cfUSD Liquidity</ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.cfUSDLiquidity) : '--'}</ChartInfoValue>
               </div>
               <div style={{ marginLeft: '10px' }}>
                 <ChartInfoTitle>CF01 Liquidity</ChartInfoTitle>
@@ -240,14 +245,24 @@ const CandlestickChart = () => {
               </div>
             </ChartInfoItem>
             <ChartInfoItem>
-            <div>
-                <ChartInfoTitle>cfUSD Liquidity</ChartInfoTitle>
-                <ChartInfoValue>{info ? formatNumber(info.cfUSDLiquidity) : '--'}</ChartInfoValue>
+              <div>
+                <ChartInfoTitle style={{ display: 'flex', alignItems: 'center' }}>
+                  Equivalent USD Liquidity
+                  <Tooltip arrow title={'123123'} placement='top' sx={{ marginLeft: '10px' }}>
+                    <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
+                  </Tooltip>
+                </ChartInfoTitle>
+                <ChartInfoValue>{info ? formatNumber(info.quantity) : '--'}</ChartInfoValue>
               </div>
             </ChartInfoItem>
             <ChartInfoItem>
               <div>
-                <ChartInfoTitle>1% Depth of Volatility</ChartInfoTitle>
+                <ChartInfoTitle style={{ display: 'flex', alignItems: 'center' }}>
+                  1% Depth of Volatility
+                  <Tooltip arrow title={'123123'} placement='top' sx={{ marginLeft: '10px' }}>
+                    <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
+                  </Tooltip>
+                </ChartInfoTitle>
                 <ChartInfoValue>{info ? formatNumber(info.volatility) : '--'}</ChartInfoValue>
               </div>
             </ChartInfoItem>

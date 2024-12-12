@@ -34,6 +34,7 @@ export function useChartData() {
         }
   
         const result = await response.json();
+        console.log(result)
         if (isMounted) {
           setData(result?.kline_data || []);
           setInfo({

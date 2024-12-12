@@ -667,9 +667,14 @@ export default function Swap() {
         anchor="bottom"
         open={openChart}
         onClose={() => setOpenChart(false)}
+        style={{ zIndex: 200 }}
       >
         <div style={{ width: '100%', padding: '20px', paddingTop: '5px', maxHeight: '500px', overflowY: 'auto' }}>
-          <div style={{ padding: '40px 0', fontSize: '24px', fontWeight: 600 }}>cfUSD/CF01</div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img style={{ width: '40px', height: '40px' }} src="/images/0x9E5A21E6E2f2199bB40FE58bBCB53C3a11Ce6752.png" alt="" />
+            <img style={{ width: '40px', height: '40px', marginLeft: '-12px' }} src="/images/0xD5BB98A353331014F8D7F344e44e9361a718E81D.png" alt="" />
+            <div style={{ padding: '40px 0', fontSize: '24px', fontWeight: 600, marginLeft: '10px' }}>CF01/cfUSD</div>
+          </div>
           <CandlestickChart />
         </div>
       </Drawer>

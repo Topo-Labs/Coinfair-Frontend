@@ -1978,5 +1978,7 @@
   "NFT holders can automatically participate in mining based on accumulated trading volume.": "持有 NFT 的用户可以根据累计交易金额自动参与挖矿！",
   "In the future, users can collect token airdrop rewards based on the trading volume!": "未来可以根据交易金额获得代币空投奖励！",
   "Claim Faucet": "领取水龙头",
-  "Each user can only claim the cfUSD test token once.": "每个用户只能领取一次 cfUSD 测试币"
+  "Each user can only claim the cfUSD test token once.": "每个用户只能领取一次 cfUSD 测试币",
+  "Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.": "等效流动性：BMM相对于常规AMM算法增强流动性提升60%(举例：BMM 1000万 USDT提供的流动性，相当于常规AMM1600万 USDT提供的流动性)，可大幅降低项目获得流动性的成本，大幅降低用户交易滑点。",
+  "1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.": "1% Depth指单笔交易使代币价格波动1%对应买卖的USD数量，体现交易深度。BMM可以辅助项目获得比肩顶级CEX的交易深度。"
 }

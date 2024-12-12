@@ -248,7 +248,7 @@ const CandlestickChart = () => {
               <div>
                 <ChartInfoTitle style={{ display: 'flex', alignItems: 'center' }}>
                   Equivalent USD Liquidity
-                  <Tooltip arrow title={'123123'} placement='top' sx={{ marginLeft: '10px' }}>
+                  <Tooltip arrow title={t('Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.')} placement='top' sx={{ marginLeft: '10px' }}>
                     <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
                   </Tooltip>
                 </ChartInfoTitle>
@@ -259,7 +259,7 @@ const CandlestickChart = () => {
               <div>
                 <ChartInfoTitle style={{ display: 'flex', alignItems: 'center' }}>
                   1% Depth of Volatility
-                  <Tooltip arrow title={'123123'} placement='top' sx={{ marginLeft: '10px' }}>
+                  <Tooltip arrow title={t('1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.')} placement='top' sx={{ marginLeft: '10px' }}>
                     <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
                   </Tooltip>
                 </ChartInfoTitle>

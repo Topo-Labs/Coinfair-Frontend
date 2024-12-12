@@ -2062,5 +2062,7 @@
   "NFT holders can automatically participate in mining based on accumulated trading volume.": "NFT holders can automatically participate in mining based on accumulated trading volume.",
   "In the future, users can collect token airdrop rewards based on the trading volume!": "In the future, users can collect token airdrop rewards based on the trading volume!",
   "Claim Faucet": "Claim Faucet",
-  "Each user can only claim the cfUSD test token once.": "Each user can only claim the cfUSD test token once."
+  "Each user can only claim the cfUSD test token once.": "Each user can only claim the cfUSD test token once.",
+  "Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.": "Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.",
+  "1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.": "1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX."
 }

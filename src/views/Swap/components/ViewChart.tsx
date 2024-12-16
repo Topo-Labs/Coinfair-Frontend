@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { CandlestickData, createChart, TickMarkType } from 'lightweight-charts';
+import { CandlestickData, createChart } from 'lightweight-charts';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import { useTranslation } from '@pancakeswap/localization';
 import { Tooltip } from '@mui/material';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import { GrCircleQuestion } from "react-icons/gr";
 import moment from 'moment-timezone';
 import styled, { keyframes } from 'styled-components';
 import { useChartData } from '../hooks/useChartData';
@@ -34,9 +33,6 @@ const formatNumber = (num: number | string | undefined | null): string => {
   }
   if (parsedNum >= 1e6) {
     return `${(parsedNum / 1e6).toFixed(2)}M`;
-  }
-  if (parsedNum >= 1e4) {
-    return `${(parsedNum / 1e4).toFixed(2)}W`;
   }
   if (parsedNum >= 1e3) {
     return `${(parsedNum / 1e3).toFixed(2)}K`;
@@ -138,7 +134,6 @@ const CandlestickChart = () => {
 
   useEffect(() => {
     if (chartContainerRef.current && !loading && data && data.length > 0) {
-      // 创建图表
       const chart = createChart(chartContainerRef.current, {
         width: chartContainerRef.current.clientWidth,
         height: chartContainerRef.current.clientHeight,
@@ -147,22 +142,13 @@ const CandlestickChart = () => {
         },
         timeScale: {
           timeVisible: true,
-          secondsVisible: false, // 设置为 false，如果不需要显示秒
-          tickMarkFormatter: (time, tickMarkType, locale) => {
-            const date = moment.unix(time).tz('UTC').local(); // 根据需要调整时区
-
-            switch (tickMarkType) {
-              case TickMarkType.Year:
-                return date.format('YYYY'); // 例如：2024
-              case TickMarkType.Month:
-                return date.format('MMM YYYY'); // 例如：Jan 2024
-              case TickMarkType.DayOfMonth:
-                return date.format('MMM D, YYYY'); // 例如：Jan 1, 2024
-              case TickMarkType.Time:
-                return date.format('HH:mm'); // 例如：14:30
-              default:
-                return date.format('MMM D, YYYY'); // 默认格式
-            }
+          secondsVisible: false,
+        },
+        localization: {
+          locale: 'en-US',
+          dateFormat: 'MMM D, YYYY',
+          timeFormatter: (time) => {
+            return moment.unix(time).tz('UTC').local().format('MMM D, YYYY HH:mm');
           },
         },
       });
@@ -253,11 +239,11 @@ const CandlestickChart = () => {
             </ChartInfoItem>
             <ChartInfoItem>
               <div>
-                <ChartInfoTitle>cfUSD Liquidity</ChartInfoTitle>
+                <ChartInfoTitle>POOLED cfUSD</ChartInfoTitle>
                 <ChartInfoValue>{info ? formatNumber(info.cfUSDLiquidity) : '--'}</ChartInfoValue>
               </div>
               <div style={{ marginLeft: '10px' }}>
-                <ChartInfoTitle>CF01 Liquidity</ChartInfoTitle>
+                <ChartInfoTitle>POOLED CF01</ChartInfoTitle>
                 <ChartInfoValue>{info ? formatNumber(info.cf01Liquidity) : '--'}</ChartInfoValue>
               </div>
             </ChartInfoItem>
@@ -325,13 +311,33 @@ const CandlestickChart = () => {
               </ChartInfoItem>
               <ChartInfoItem>
                 <div style={{ width: '100%' }}>
-                  <ChartInfoTitle>cfUSD Quantity</ChartInfoTitle>
+                  <ChartInfoTitle style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '0 10px' }}>
+                    Equivalent USD Liquidity
+                    <Tooltip
+                      arrow
+                      title={t('Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.')}
+                      placement='top'
+                      sx={{ marginLeft: '10px' }}
+                    >
+                      <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
+                    </Tooltip>
+                  </ChartInfoTitle>
                   <ChartInfoValue>{info ? formatNumber(info.quantity) : '--'}</ChartInfoValue>
                 </div>
               </ChartInfoItem>
               <ChartInfoItem>
                 <div style={{ width: '100%' }}>
-                  <ChartInfoTitle>1% Depth of Volatility</ChartInfoTitle>
+                  <ChartInfoTitle style={{ display: 'flex', alignItems: 'center', width: '100%', padding: '0 10px' }}>
+                    1% Depth of Volatility
+                    <Tooltip
+                      arrow
+                      title={t('1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.')}
+                      placement='top'
+                      sx={{ marginLeft: '10px' }}
+                    >
+                      <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
+                    </Tooltip>
+                  </ChartInfoTitle>
                   <ChartInfoValue>{info ? formatNumber(info.volatility) : '--'}</ChartInfoValue>
                 </div>
               </ChartInfoItem>

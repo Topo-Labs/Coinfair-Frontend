@@ -1,6 +1,7 @@
 import debounce from "lodash/debounce";
 import React, { useCallback, useEffect, useRef } from "react";
 import { TiExport } from "react-icons/ti";
+import { useTranslation } from "@pancakeswap/localization";
 import { useMatchBreakpointsContext } from "../../contexts";
 import { Box } from "../Box";
 import { DropdownMenuItemType } from "../DropdownMenu/types";
@@ -23,6 +24,7 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
   isMobileOnly = false,
   ...props
 }) => {
+  const { t } = useTranslation();
   const { isMobile } = useMatchBreakpointsContext();
   const scrollLayerRef = useRef<HTMLDivElement>(null);
   const chevronLeftRef = useRef<HTMLDivElement>(null);
@@ -81,7 +83,7 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
                 as: "a",
                 target: "_blank",
               }
-            : label === 'Doc' ? {
+            : label === t('Research') ? {
               as: "a",
               target: "_blank",
             }
@@ -101,7 +103,7 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
                 >
                   {/* {Icon && <Icon color={href === activeItem ? "secondary" : "textSubtle"} mr="4px" />} */}
                   {label}
-                  { label === 'Doc' && <TiExport size={16} /> }
+                  { label === t('Research') && <TiExport size={16} style={{ marginLeft: '3px' }} /> }
                   {isExternalLink && (
                     <Box display={["none", null, "flex"]} style={{ alignItems: "center" }} ml="4px">
                       <OpenNewIcon color="textSubtle" />

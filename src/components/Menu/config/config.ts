@@ -63,7 +63,7 @@ const config: (
             href: '/earn',
           },
           {
-            label: t('Doc'),
+            label: t('Research'),
             href: 'https://coinfair.gitbook.io/coinfair-docs/research/whitepaper',
           },
           // {
@@ -107,7 +107,7 @@ const config: (
             href: '/earn',
           },
           {
-            label: t('Doc'),
+            label: t('Research'),
             href: 'https://coinfair.gitbook.io/coinfair-docs/research/whitepaper',
           },
           /* {
@@ -140,7 +140,7 @@ const config: (
             href: '/earn',
           },
           {
-            label: t('Doc'),
+            label: t('Research'),
             href: 'https://coinfair.gitbook.io/coinfair-docs/research/whitepaper',
           },
           /* {
@@ -173,7 +173,7 @@ const config: (
             href: '/earn',
           },
           {
-            label: t('Doc'),
+            label: t('Research'),
             href: 'https://coinfair.gitbook.io/coinfair-docs/research/whitepaper',
           },
           /* {
@@ -206,7 +206,7 @@ const config: (
             href: '/earn',
           },
           {
-            label: t('Doc'),
+            label: t('Research'),
             href: 'https://coinfair.gitbook.io/coinfair-docs/research/whitepaper',
           },
           /* {
@@ -239,7 +239,7 @@ const config: (
             href: '/earn',
           },
           {
-            label: t('Doc'),
+            label: t('Research'),
             href: 'https://coinfair.gitbook.io/coinfair-docs/research/whitepaper',
           },
           /* {

@@ -3,6 +3,7 @@ import styled, { useTheme } from 'styled-components'
 import { Drawer } from '@mui/material';
 import { CurrencyAmount, Token, Trade } from '@pancakeswap/sdk'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/exchange'
+import { IoClose } from "react-icons/io5";
 import {
   Button,
   Text,
@@ -669,11 +670,14 @@ export default function Swap() {
         onClose={() => setOpenChart(false)}
         style={{ zIndex: 200 }}
       >
-        <div style={{ width: '100%', padding: '20px', paddingTop: '5px', maxHeight: '500px', overflowY: 'auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img style={{ width: '40px', height: '40px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x9E5A21E6E2f2199bB40FE58bBCB53C3a11Ce6752.png?raw=true" alt="" />
-            <img style={{ width: '40px', height: '40px', marginLeft: '-12px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xd5bb98a353331014f8d7f344e44e9361a718e81d.png?raw=true" alt="" />
-            <div style={{ padding: '40px 0', fontSize: '24px', fontWeight: 600, marginLeft: '10px' }}>CF01/cfUSD</div>
+        <div style={{ width: '100%', padding: '20px', paddingTop: '5px', maxHeight: '1000px', overflowY: 'auto' }}>
+          <div style={{ padding: '20px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ fontSize: '24px', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
+              <img style={{ width: '40px', height: '40px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x9E5A21E6E2f2199bB40FE58bBCB53C3a11Ce6752.png?raw=true" alt="" />
+              <img style={{ width: '40px', height: '40px', marginLeft: '-12px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xd5bb98a353331014f8d7f344e44e9361a718e81d.png?raw=true" alt="" />
+              CF01/cfUSD
+            </div>
+            <IoClose size={22} onClick={() => setOpenChart(false)} />
           </div>
           <CandlestickChart />
         </div>

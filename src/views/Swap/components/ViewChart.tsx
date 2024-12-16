@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { CandlestickData, createChart } from 'lightweight-charts';
+import { CandlestickData, createChart, TickMarkType } from 'lightweight-charts';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import { useTranslation } from '@pancakeswap/localization';
 import { Tooltip } from '@mui/material';
@@ -8,6 +8,8 @@ import { GrCircleQuestion } from "react-icons/gr";
 import moment from 'moment-timezone';
 import styled, { keyframes } from 'styled-components';
 import { useChartData } from '../hooks/useChartData';
+
+moment.locale('en');
 
 const formatNumber = (num: number | string | undefined | null): string => {
   let parsedNum: number;
@@ -59,7 +61,7 @@ export const ChartBody = styled.div`
   @media screen and (max-width: 900px) {
     flex-direction: column;
   }
-`
+`;
 
 export const Charts = styled.div`
   position: relative;
@@ -70,14 +72,14 @@ export const Charts = styled.div`
     height: 300px;
     margin-right: -20px;
   }
-`
+`;
 
 export const ChartInfo = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
-`
+`;
 
 export const ChartInfoItem = styled.div`
   flex: 1;
@@ -94,20 +96,20 @@ export const ChartInfoItem = styled.div`
     padding: 10px 0;
     justify-content: flex-start;
   }
-`
+`;
 
 export const ChartInfoTitle = styled.div`
   text-align: center;
   font-size: 12px;
   color: #9D9D9D;
   margin-bottom: 5px;
-`
+`;
 
 export const ChartInfoValue = styled.div`
   text-align: center;
   font-size: 15px;
   font-weight: 600;
-`
+`;
 
 export const LoadingRing = styled.div`
   width: 100%;
@@ -132,10 +134,11 @@ const CandlestickChart = () => {
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
   const { data, info, loading, error } = useChartData();
   const { isDesktop } = useMatchBreakpointsContext();
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (chartContainerRef.current && !loading && data && data.length > 0) {
+      // 创建图表
       const chart = createChart(chartContainerRef.current, {
         width: chartContainerRef.current.clientWidth,
         height: chartContainerRef.current.clientHeight,
@@ -144,7 +147,23 @@ const CandlestickChart = () => {
         },
         timeScale: {
           timeVisible: true,
-          secondsVisible: true,
+          secondsVisible: false, // 设置为 false，如果不需要显示秒
+          tickMarkFormatter: (time, tickMarkType, locale) => {
+            const date = moment.unix(time).tz('UTC').local(); // 根据需要调整时区
+
+            switch (tickMarkType) {
+              case TickMarkType.Year:
+                return date.format('YYYY'); // 例如：2024
+              case TickMarkType.Month:
+                return date.format('MMM YYYY'); // 例如：Jan 2024
+              case TickMarkType.DayOfMonth:
+                return date.format('MMM D, YYYY'); // 例如：Jan 1, 2024
+              case TickMarkType.Time:
+                return date.format('HH:mm'); // 例如：14:30
+              default:
+                return date.format('MMM D, YYYY'); // 默认格式
+            }
+          },
         },
       });
 
@@ -171,7 +190,7 @@ const CandlestickChart = () => {
         const containerWidth = chartContainerRef.current?.clientWidth || 0;
         const dataPointWidth = 10;
         const calculatedRightOffset =
-          (containerWidth / dataPointWidth - data.length) / 2;
+          Math.floor(containerWidth / dataPointWidth - data.length / 2);
         chart.timeScale().applyOptions({
           rightOffset: calculatedRightOffset > 0 ? calculatedRightOffset : 0,
         });
@@ -181,13 +200,13 @@ const CandlestickChart = () => {
 
       const resizeObserver = new ResizeObserver(() => {
         chart.resize(
-          chartContainerRef?.current?.clientWidth || 0,
-          chartContainerRef?.current?.clientHeight || 0,
+          chartContainerRef.current?.clientWidth || 0,
+          chartContainerRef.current?.clientHeight || 0,
         );
         updateRightOffset();
       });
 
-      resizeObserver.observe(chartContainerRef?.current);
+      resizeObserver.observe(chartContainerRef.current);
 
       return () => {
         resizeObserver.disconnect();
@@ -216,9 +235,7 @@ const CandlestickChart = () => {
 
   return (
     <ChartBody style={{ display: 'flex' }}>
-      <Charts
-        ref={chartContainerRef}
-      />
+      <Charts ref={chartContainerRef} />
       {
         isDesktop ? (
           <ChartInfo>
@@ -248,7 +265,12 @@ const CandlestickChart = () => {
               <div>
                 <ChartInfoTitle style={{ display: 'flex', alignItems: 'center' }}>
                   Equivalent USD Liquidity
-                  <Tooltip arrow title={t('Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.')} placement='top' sx={{ marginLeft: '10px' }}>
+                  <Tooltip
+                    arrow
+                    title={t('Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.')}
+                    placement='top'
+                    sx={{ marginLeft: '10px' }}
+                  >
                     <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
                   </Tooltip>
                 </ChartInfoTitle>
@@ -259,7 +281,12 @@ const CandlestickChart = () => {
               <div>
                 <ChartInfoTitle style={{ display: 'flex', alignItems: 'center' }}>
                   1% Depth of Volatility
-                  <Tooltip arrow title={t('1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.')} placement='top' sx={{ marginLeft: '10px' }}>
+                  <Tooltip
+                    arrow
+                    title={t('1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.')}
+                    placement='top'
+                    sx={{ marginLeft: '10px' }}
+                  >
                     <HelpOutlineOutlinedIcon sx={{ width: '14px', height: '14px' }} />
                   </Tooltip>
                 </ChartInfoTitle>

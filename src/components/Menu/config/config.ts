@@ -62,6 +62,10 @@ const config: (
             label: t('Earn'),
             href: '/earn',
           },
+          {
+            label: t('Doc'),
+            href: 'https://coinfair.gitbook.io/',
+          },
           // {
           //   label: t('Income'),
           //   href: '/income',
@@ -102,6 +106,10 @@ const config: (
             label: t('Earn'),
             href: '/earn',
           },
+          {
+            label: t('Doc'),
+            href: 'https://coinfair.gitbook.io/',
+          },
           /* {
             label: t('Income'),
             href: '/income',
@@ -130,6 +138,10 @@ const config: (
           {
             label: t('Earn'),
             href: '/earn',
+          },
+          {
+            label: t('Doc'),
+            href: 'https://coinfair.gitbook.io/',
           },
           /* {
             label: t('Income'),
@@ -160,6 +172,10 @@ const config: (
             label: t('Earn'),
             href: '/earn',
           },
+          {
+            label: t('Doc'),
+            href: 'https://coinfair.gitbook.io/',
+          },
           /* {
             label: t('Income'),
             href: '/income',
@@ -189,6 +205,10 @@ const config: (
             label: t('Earn'),
             href: '/earn',
           },
+          {
+            label: t('Doc'),
+            href: 'https://coinfair.gitbook.io/',
+          },
           /* {
             label: t('Income'),
             href: '/income',
@@ -217,6 +237,10 @@ const config: (
           {
             label: t('Earn'),
             href: '/earn',
+          },
+          {
+            label: t('Doc'),
+            href: 'https://coinfair.gitbook.io/',
           },
           /* {
             label: t('Income'),

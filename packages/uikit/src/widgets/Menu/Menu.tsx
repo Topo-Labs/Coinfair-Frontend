@@ -179,7 +179,6 @@ const Menu: React.FC<React.PropsWithChildren<NavProps>> = ({
   }, [totalTopMenuHeight]);
 
   const homeLink = links.find((link) => link.label === "Home");
-
   const subLinksWithoutMobile = subLinks?.filter((subLink) => {
     if (subLink.label !== 'Rank') return !subLink.isMobileOnly;
   });

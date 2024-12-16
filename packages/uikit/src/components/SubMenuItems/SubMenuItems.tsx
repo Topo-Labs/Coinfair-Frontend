@@ -1,5 +1,6 @@
 import debounce from "lodash/debounce";
 import React, { useCallback, useEffect, useRef } from "react";
+import { TiExport } from "react-icons/ti";
 import { useMatchBreakpointsContext } from "../../contexts";
 import { Box } from "../Box";
 import { DropdownMenuItemType } from "../DropdownMenu/types";
@@ -80,7 +81,12 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
                 as: "a",
                 target: "_blank",
               }
-            : {};
+            : label === 'Doc' ? {
+              as: "a",
+              target: "_blank",
+            }
+            :
+            {};
 
           return (
             label && (
@@ -93,8 +99,9 @@ const SubMenuItems: React.FC<React.PropsWithChildren<SubMenuItemsProps>> = ({
                   {...itemProps}
                   {...linkProps}
                 >
-                  {Icon && <Icon color={href === activeItem ? "secondary" : "textSubtle"} mr="4px" />}
+                  {/* {Icon && <Icon color={href === activeItem ? "secondary" : "textSubtle"} mr="4px" />} */}
                   {label}
+                  { label === 'Doc' && <TiExport size={16} /> }
                   {isExternalLink && (
                     <Box display={["none", null, "flex"]} style={{ alignItems: "center" }} ml="4px">
                       <OpenNewIcon color="textSubtle" />

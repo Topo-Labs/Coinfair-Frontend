@@ -56,7 +56,7 @@ const HoverCard = ({ content }: { content?: any }) => {
       </>
       {
         content?.link === 'claim' ?
-        t(content?.linkWords)
+        <div style={{ lineHeight: '18px' }}>{t(content?.linkWords)}</div>
         :
         <CardButton onClick={() => onTask(content?.link)}>{t(content?.linkWords)}</CardButton>
       }

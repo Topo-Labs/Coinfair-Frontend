@@ -517,7 +517,7 @@ export default function Earn() {
                         claimLoading ? (
                           <LoadingRing />
                         ) : claimData && claimData.length ? (
-                          [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                          claimData.map((hty, index) =>
                             <EarnRewardItem info={hty} index={index} />
                           )
                         ) : (
@@ -553,7 +553,7 @@ export default function Earn() {
                       claimLoading ? (
                         <LoadingRing />
                       ) : claimData && claimData.length ? (
-                        [...claimData].sort((a, b) => b.blockTimestamp - a.blockTimestamp).map((hty, index) =>
+                        claimData.map((hty, index) =>
                           <EarnRewardItem info={hty} index={index} />
                         )
                       ) : (

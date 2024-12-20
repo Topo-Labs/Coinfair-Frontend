@@ -31,7 +31,7 @@ interface ExtendedEthereum extends ExternalProvider {
   removeListener?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
 }
 
-const WITHDRAW_ADDRESS = '0x471A310B05C61F6ddCd904BE8c89Be1364301772';
+const WITHDRAW_ADDRESS = '0xa296680a4bf0a1F42D06bae58628Fcd3ee924760';
 
 const Claim = () => {
   const { account, chainId, active } = useActiveWeb3React();
@@ -82,8 +82,8 @@ const Claim = () => {
       console.log('Fetching withdraw data for account:', account);
 
       const [waiting, amount] = await Promise.all([
-        withdrawContract.waitingWithdraw(),
-        withdrawContract.withdrawAmount(account), // 传递 account 作为参数
+        withdrawContract.waitingWithdraw(account),
+        withdrawContract.withdrawAmount(account),
       ]);
 
       setWaitingWithdraw(formatUnits(waiting, 18).slice(0, formatUnits(waiting, 18).indexOf('.') + 6));

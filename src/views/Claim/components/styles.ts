@@ -8,8 +8,8 @@ export const Claim = styled.div`
   border-radius: 20px;
   /* overflow: hidden; */
   background: #000;
-  @media (min-width: 1200px) {
-    max-width: 560px;
+  @media screen and (max-width: 852px){
+    margin-top: 56px !important;
   }
 `;
 
@@ -19,8 +19,8 @@ export const ClaimMain = styled.div`
   flex-direction: column;
   background: #000;
   border-radius: 20px;
-  @media (min-width: 1200px) {
-    min-width: 560px;
+  @media screen and (max-width: 852px){
+    margin-top: 56px !important;
   }
 `;
 
@@ -181,7 +181,7 @@ export const ClaimMint = styled(Button)`
   font-size: 18px;
   background: linear-gradient(90deg, #434B34 0%, #000 100%);
   border-radius: 28px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 export const ClaimFooter = styled.div`
@@ -202,6 +202,32 @@ export const MinterAddress = styled.div`
   text-overflow: ellipsis;
 `
 
+export const ClaimToken = styled.div`
+  /* display: flex; */
+  /* align-items: center; */
+  margin-bottom: 30px;
+`
+
+export const ClaimTokenInfo = styled.div`
+  width: 30%;
+  display: flex;
+  align-items: center;
+`
+
+export const ClaimTokenBtn = styled(Button)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all .3s ease;
+  border-radius: 4px;
+  padding: 15px 0;
+  cursor: pointer;
+  font-size: 18px;
+  background: linear-gradient(90deg, #434B34 0%, #000 100%);
+  border-radius: 28px;
+`;
+
 export const Tooltip = styled.div<{
   isTooltipDisplayed: boolean
   tooltipTop: number
@@ -220,5 +246,5 @@ export const Tooltip = styled.div<{
   border-radius: 16px;
   opacity: 0.7;
   width: max-content;
-  font-size: 12px
+  font-size: 12px;
 `

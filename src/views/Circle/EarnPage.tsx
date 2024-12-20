@@ -88,7 +88,7 @@ const slides = [
 const swapTask = {
   key: 'swap',
   title: 'Trade on Coinfair',
-  desc: 'New users will earn 200 points on their first swap trade; subsequent trades earn 10 points each.',
+  desc: 'Users can earn points for their first 6 swap trades: 200 points for first trade and 10 points for each of the next 5 trades.',
   link: 'swap',
   linkWords: 'Swap now!'
 }

@@ -6,6 +6,7 @@
 
 # dependencies
 /node_modules
+**/node_modules
 /dist
 /.pnp
 .pnp.js
@@ -28,6 +29,7 @@ storybook-static
 
 # misc
 .DS_Store
+**/.DS_Store
 .eslintcache
 
 # local env files
@@ -50,3 +52,4 @@ debug.log*
 
 # turbo
 .turbo
+.yarn

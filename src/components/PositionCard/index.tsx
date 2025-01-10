@@ -306,12 +306,12 @@ export default function FullPositionCard({ pair, pairV3, ...props }: PositionCar
     const fee = feeMap[pair.fee];
   
     return poolName && fee ? `${poolName} · ${fee}` : '';
-  };  
-
+  }; 
+  
   return (
     <>
       {
-        userPoolBalance?.toSignificant(4) !== '0' && (
+        userPoolBalance?.toSignificant(4) > '0' && (
           <Card {...props}>
             <Flex justifyContent="space-between" role="button" onClick={() => setShowMore(!showMore)} p="16px">
               <Flex flexDirection="column">

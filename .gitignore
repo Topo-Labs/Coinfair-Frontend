@@ -52,4 +52,7 @@ debug.log*
 
 # turbo
 .turbo
+
+#yarn
 .yarn
+.yarnrc.yml

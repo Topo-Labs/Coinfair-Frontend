@@ -56,3 +56,5 @@ debug.log*
 #yarn
 .yarn
 .yarnrc.yml
+
+*.ts.swp

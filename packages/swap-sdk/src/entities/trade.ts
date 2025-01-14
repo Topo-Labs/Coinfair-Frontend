@@ -154,6 +154,7 @@ export class Trade {
     return new Trade(route, amountOut, TradeType.EXACT_OUTPUT)
   }
 
+  // TODO
   public constructor(route: Route, amount: CurrencyAmount, tradeType: TradeType) {
     const amounts: TokenAmount[] = new Array(route.path.length)
     const nextPairs: PairV3[] = new Array(route.pairs.length)
@@ -176,7 +177,7 @@ export class Trade {
         nextPairs[i - 1] = nextPair
       }
     }
-
+    
     this.route = route
     this.tradeType = tradeType
     this.inputAmount =
@@ -350,6 +351,7 @@ export class Trade {
     originalAmountOut: CurrencyAmount = currencyAmountOut,
     bestTrades: Trade[] = []
   ): Trade[] {
+    
     // 移除 invariant 检查，直接处理
     if (pairs.length === 0 || maxHops <= 0) return bestTrades;
 
@@ -374,7 +376,6 @@ export class Trade {
       // 跳过与当前输出代币无关的交易对
       if (!pair.token0.equals(amountOut.token) && !pair.token1.equals(amountOut.token)) continue;
       if (pair.reserve0.equalTo(ZERO) || pair.reserve1.equalTo(ZERO)) continue;
-
       let amountIn: TokenAmount;
       try {
         [amountIn] = pair.getInputAmount(amountOut);
@@ -388,16 +389,33 @@ export class Trade {
 
         // 如果到达了输入代币
       if (amountIn.token.equals(tokenIn)) {
-        sortedInsert(
-          bestTrades,
-          new Trade(
-            new Route([pair, ...currentPairs], currencyIn, originalAmountOut.currency),
-            originalAmountOut,
-            TradeType.EXACT_OUTPUT
-          ),
-          maxNumResults,
-          tradeComparator
-        );
+        
+        // sortedInsert(
+        //   bestTrades,
+        //   new Trade(//TODO debug
+        //     new Route([pair, ...currentPairs], currencyIn, originalAmountOut.currency),
+        //     originalAmountOut,
+        //     TradeType.EXACT_OUTPUT
+        //   ),
+        //   maxNumResults,
+        //   tradeComparator
+        // );
+
+        // TODO Solve the error of denominator being zero
+        try {
+          sortedInsert(
+            bestTrades,
+            new Trade(
+              new Route([pair, ...currentPairs], currencyIn, originalAmountOut.currency),
+              originalAmountOut,
+              TradeType.EXACT_OUTPUT
+            ),
+            maxNumResults,
+            tradeComparator
+          );
+        } catch (error) {
+          console.log('error=>',error);
+        }
       } else if (maxHops > 1 && pairs.length > 1) {
         // 如果未到达输入代币且还能继续跳跃
         const pairsExcludingThisPair = pairs.slice(0, i).concat(pairs.slice(i + 1, pairs.length));

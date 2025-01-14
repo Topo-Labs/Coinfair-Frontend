@@ -1,4 +1,8 @@
-{
+{  
+  "Already": "已领取",
+  "Token": "代币",
+  "Unclaimed": "未领取",
+  "Airdrop square": "空投广场",
   "Farm": "农场",
   "Exchange": "兑换",
   "Docs": "文档",

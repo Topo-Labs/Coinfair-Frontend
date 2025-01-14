@@ -1,4 +1,7 @@
 {
+  "Token": "代幣",
+  "Unclaimed": "未領取",
+  "Airdrop square": "空投廣場",
   "Farm": "農場",
   "Exchange": "兌換",
   "Docs": "文件",
@@ -1810,6 +1813,7 @@
   "Minted total": "總鑄造量",
   "Minted": "總名額",
   "Already claimed": "已領取",
+  "Already": "已領取",
   "Remain": "剩餘",
   "Pending amount": "待領取",
   "_Pending": "待領取",

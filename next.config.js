@@ -31,6 +31,7 @@ const sentryWebpackPluginOptions =
 /** @type {import('next').NextConfig} */
 const config = {
   distDir: 'dist',
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: true,
   },

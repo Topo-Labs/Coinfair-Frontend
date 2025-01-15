@@ -45,7 +45,7 @@ const config = {
     scrollRestoration: true,
   },
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   images: {
     domains: ['static-nft.pancakeswap.com', 'p.ipic.vip'],
   },

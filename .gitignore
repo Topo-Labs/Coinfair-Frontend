@@ -29,8 +29,8 @@ storybook-static
 
 # misc
 .DS_Store
-DS_Store
 **/.DS_Store
+.DS_Store?
 .eslintcache
 
 # local env files

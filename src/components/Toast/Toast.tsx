@@ -17,6 +17,16 @@ const StyledToast = styled.div`
   max-width: calc(100% - 32px);
   transition: all 250ms ease-in;
   width: 100%;
+  p{
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 7em;
+    line-height: 1.4em;
+  }
 
   ${({ theme }) => theme.mediaQueries.sm} {
     max-width: 400px;

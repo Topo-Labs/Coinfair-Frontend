@@ -1884,5 +1884,6 @@
   "Each user can only claim the cfUSD test token once.": "每位使用者只能領取一次 cfUSD 測試幣",
   "Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.": "等效流動性：BMM 相對於傳統 AMM 演算法增強流動性提升 60%（舉例：BMM 1000 萬 USDT 提供的流動性，相當於傳統 AMM 1600 萬 USDT 提供的流動性），可大幅降低專案獲得流動性的成本，並顯著減少用戶交易滑點。",
   "1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.": "1% Depth 指單筆交易使代幣價格波動 1% 對應買賣的 USD 數量，體現交易深度。BMM 可以協助專案達成媲美頂級 CEX 的交易深度。",
-  "Research": "探討"
+  "Research": "探討",
+  "Go to the airdrop square to claim tokens.":"請前往空投廣場領取代幣"
 }

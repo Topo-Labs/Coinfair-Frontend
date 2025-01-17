@@ -25,6 +25,7 @@ import {
   FooterTitle,
   MinterAddress,
 } from './styles';
+import EarnButton from './EarnButton';
 
 interface ExtendedEthereum extends ExternalProvider {
   on?: <T = unknown>(event: string, handler: (...args: T[]) => void) => void;
@@ -254,6 +255,11 @@ const Claim = () => {
         <FooterTitle>{t('Minter Address')}</FooterTitle>
         <MinterAddress>{address}</MinterAddress>
         <ClaimTips>{t('Claim an NFT, register for trade mining, and earn token rewards.')}</ClaimTips>
+
+        {/* <Link href="/earn">
+          <ClaimTokenBtn  onClick={handleClaimToken}  style={{display:"block",margin:"20px 0"}}>{t('Earn')}</ClaimTokenBtn>
+        </Link> */}
+
         <ClaimMint
           id="claim_button"
           role="button"
@@ -264,7 +270,12 @@ const Claim = () => {
         >
           {claimCount > 0 ? t('Already Claimed') : t('Claim NFT')}
         </ClaimMint>
-        {chainId === 56 && (
+
+        {
+          chainId === 56 && <EarnButton/>
+        }
+
+        {/* {chainId === 56 && (
           <ClaimToken>
             <ClaimTokenBtn disabled={isClaiming || claimCount <= 0 || waitingWithdraw === '0.0' || waitingWithdraw === '0'} onClick={handleClaimToken}>
               Claim Token
@@ -282,7 +293,7 @@ const Claim = () => {
               <span>Pending: {waitingWithdraw}</span>
             </div>
           </ClaimToken>
-        )}
+        )} */}
       </ClaimFooter>
     </>
   );

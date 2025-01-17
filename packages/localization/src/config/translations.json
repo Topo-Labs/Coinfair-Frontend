@@ -2069,5 +2069,6 @@
   "Each user can only claim the cfUSD test token once.": "Each user can only claim the cfUSD test token once.",
   "Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.": "Equivalent Liquidity: BMM enhances liquidity by 60% compared to AMM algorithms (e.g., BMM provides 10 million USDT of liquidity, which is equivalent to the 16 million USDT of liquidity in AMM), BMM significantly reduces the cost of liquidity acquisition for projects and trading slippage.",
   "1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.": "1% Depth represents the amount of USD required for a single transaction to cause a 1% price fluctuation, reflecting the trading depth. BMM helps projects achieve trading depth comparable to top-tier CEX.",
-  "Research": "Research"
+  "Research": "Research",
+  "Go to the airdrop square to claim tokens.":"Go to the airdrop square to claim tokens"
 }

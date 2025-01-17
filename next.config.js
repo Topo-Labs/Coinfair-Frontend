@@ -44,6 +44,7 @@ const config = {
   },
   compiler: {
     styledComponents: true,
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   experimental: {
     scrollRestoration: true,

@@ -1,5 +1,7 @@
-import { Button } from '@pancakeswap/uikit';
-import styled, { keyframes } from 'styled-components';
+import { color } from 'styled-system'
+import { border } from 'styled-system'
+import { Button } from '@pancakeswap/uikit'
+import styled, { keyframes } from 'styled-components'
 
 const spinScale = keyframes`
   0% {
@@ -11,7 +13,7 @@ const spinScale = keyframes`
   100% {
     transform: scale(0.8) rotate(360deg);
   }
-`;
+`
 
 export const LoadingRing = styled.div`
   width: 100%;
@@ -30,7 +32,7 @@ export const LoadingRing = styled.div`
     border-radius: 50%;
     animation: ${spinScale} 1.5s infinite ease-in-out;
   }
-`;
+`
 
 export const EarnContainer = styled.div`
   padding: 0 100px;
@@ -54,10 +56,10 @@ export const EarnTips = styled.div`
 
 export const EarnTipsOnce = styled.div`
   position: absolute;
-  font-family: "Oswald", sans-serif !important;
+  font-family: 'Oswald', sans-serif !important;
   font-weight: 900;
   font-size: 300px;
-  color: #F3F3F3;
+  color: #f3f3f3;
   top: 100px;
   right: -40px;
   z-index: -1;
@@ -70,10 +72,10 @@ export const EarnTipsOnce = styled.div`
 
 export const EarnTipsDouble = styled.div`
   position: absolute;
-  font-family: "Oswald", sans-serif !important;
+  font-family: 'Oswald', sans-serif !important;
   font-weight: 900;
   font-size: 300px;
-  color: #F3F3F3;
+  color: #f3f3f3;
   top: 450px;
   right: -40px;
   z-index: -1;
@@ -105,7 +107,7 @@ export const EarnTipWords = styled.div`
   font-size: 128px;
   font-weight: 900;
   line-height: 45px;
-  font-family: "Oswald", sans-serif !important;
+  font-family: 'Oswald', sans-serif !important;
   color: #333333;
   &:first-child {
     text-indent: 0.8em;
@@ -119,9 +121,9 @@ export const EarnTipWords = styled.div`
 export const EarnTipGreen = styled.span`
   font-size: 128px;
   font-weight: 900;
-  color: #56BA93;
+  color: #56ba93;
   line-height: 128px;
-  font-family: "Oswald", sans-serif !important;
+  font-family: 'Oswald', sans-serif !important;
   @media screen and (max-width: 800px) {
     font-size: 48px;
     line-height: 48px;
@@ -131,9 +133,9 @@ export const EarnTipGreen = styled.span`
 export const EarnTipRed = styled.span`
   font-size: 128px;
   font-weight: 900;
-  color: #CA685B;
+  color: #ca685b;
   line-height: 128px;
-  font-family: "Oswald", sans-serif !important;
+  font-family: 'Oswald', sans-serif !important;
   @media screen and (max-width: 800px) {
     font-size: 48px;
     line-height: 48px;
@@ -158,15 +160,15 @@ export const EarnStepItem = styled.div`
   margin-right: -15px;
   padding: 30px;
   border-radius: 16px;
-  color: #CCCCCC;
-  transition: all .3s ease;
+  color: #cccccc;
+  transition: all 0.3s ease;
   cursor: pointer;
   &:first-child {
     z-index: 3;
-    background: #EFF5FF;
-    box-shadow: 2px 2px 8px 0 #D7E0EE;
+    background: #eff5ff;
+    box-shadow: 2px 2px 8px 0 #d7e0ee;
     &:hover {
-      box-shadow: 0 6px 16px 4px #D7E0EE;
+      box-shadow: 0 6px 16px 4px #d7e0ee;
       z-index: 4;
       .step-arrow {
         margin-left: 30px;
@@ -175,10 +177,10 @@ export const EarnStepItem = styled.div`
   }
   &:nth-child(2) {
     z-index: 2;
-    background: #F2FFF3;
-    box-shadow: 2px 2px 8px 0 #CADACB;
+    background: #f2fff3;
+    box-shadow: 2px 2px 8px 0 #cadacb;
     &:hover {
-      box-shadow: 0 6px 16px 4px #CADACB;
+      box-shadow: 0 6px 16px 4px #cadacb;
       z-index: 4;
       .step-arrow {
         margin-left: 30px;
@@ -187,10 +189,10 @@ export const EarnStepItem = styled.div`
   }
   &:last-child {
     z-index: 1;
-    background: #FFF7F7;
-    box-shadow: 2px 2px 8px 0 #E2D5D5;
+    background: #fff7f7;
+    box-shadow: 2px 2px 8px 0 #e2d5d5;
     &:hover {
-      box-shadow: 0 6px 16px 4px #E2D5D5;
+      box-shadow: 0 6px 16px 4px #e2d5d5;
       z-index: 4;
       .step-arrow {
         margin-left: 30px;
@@ -206,7 +208,7 @@ export const EarnStepItemTop = styled.div`
   align-items: flex-start;
   font-size: 20px;
   font-weight: 900;
-  color: #CCCCCC;
+  color: #cccccc;
 `
 
 export const EarnStepItemBottom = styled.div`
@@ -238,8 +240,8 @@ export const EarnStepShareLink = styled.div`
   font-size: 24px;
   font-weight: 600;
   line-height: 24px;
-  color: #FAFAFA;
-  border: 1px solid #EDEDED;
+  color: #fafafa;
+  border: 1px solid #ededed;
   margin: 20px 0 30px 0;
 `
 
@@ -249,19 +251,19 @@ export const EarnStepItemButton = styled.div`
   align-items: center;
   .step-arrow {
     margin-left: 20px;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
 `
 
 export const EarnStepItemToScroll = styled.div`
   width: 100%;
   color: #000000;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   .step-arrow {
     margin-left: 20px;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
 `
 
@@ -271,14 +273,14 @@ export const CarouselContainer = styled.div`
   position: relative;
   border-radius: 20px;
   margin: 0 auto;
-`;
+`
 
-export const SlideWrapper = styled.div<{translateX: number}>`
+export const SlideWrapper = styled.div<{ translateX: number }>`
   display: flex;
   transition: transform 0.5s ease-in-out;
   transform: translateX(${(props) => props.translateX}%);
   margin-top: 64px;
-`;
+`
 
 export const Slide = styled.div`
   min-width: 100%;
@@ -289,9 +291,9 @@ export const Slide = styled.div`
   padding: 15px;
   box-sizing: border-box;
   border-radius: 16px;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   &:first-child {
-    background: #EFF5FF;
+    background: #eff5ff;
     &:hover {
       .step-arrow {
         margin-left: 30px;
@@ -300,7 +302,7 @@ export const Slide = styled.div`
   }
   &:nth-child(2) {
     z-index: 2;
-    background: #F2FFF3;
+    background: #f2fff3;
     &:hover {
       .step-arrow {
         margin-left: 30px;
@@ -309,14 +311,14 @@ export const Slide = styled.div`
   }
   &:last-child {
     z-index: 1;
-    background: #FFF7F7;
+    background: #fff7f7;
     &:hover {
       .step-arrow {
         margin-left: 30px;
       }
     }
   }
-`;
+`
 
 export const SlideButton = styled.div`
   width: 100%;
@@ -334,14 +336,14 @@ export const SlideButton = styled.div`
   &:hover {
     transform: scale(1.05);
   }
-`;
+`
 
 export const DotContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
   padding-bottom: 20px;
-`;
+`
 
 export const Dot = styled.div<{ active: boolean }>`
   width: ${(props) => (props.active ? '30px' : '6px')};
@@ -359,7 +361,7 @@ export const Dot = styled.div<{ active: boolean }>`
   &:nth-child(3) {
     background-color: ${(props) => (props.active ? '#F0AEAE' : '#ccc')};
   }
-`;
+`
 
 // export const EarnTokenItem = styled.div<{isHovered: boolean, x: number, y: number, lastX: number, lastY: number}>`
 //   flex: 1 1 calc(33.333% - 20px);
@@ -388,7 +390,7 @@ export const EarnTokenContainer = styled.div`
     flex-direction: column;
     flex-wrap: nowrap;
   }
-`;
+`
 
 export const EarnTokenItem = styled.div`
   flex: 1 1 calc(33.333% - 20px);
@@ -411,7 +413,7 @@ export const EarnTokenItem = styled.div`
     width: 100%;
     max-width: 100%;
   }
-`;
+`
 
 export const EarnTokenItemInfo = styled.div``
 
@@ -455,7 +457,7 @@ export const EarnTokenTotal = styled.div`
 `
 
 export const EarnTokenClaim = styled(Button)`
-  background: linear-gradient(135deg, #434B34 0%, #000 100%);
+  background: linear-gradient(135deg, #434b34 0%, #000 100%);
   font-size: 20px;
   margin-top: 35px;
 `
@@ -463,12 +465,47 @@ export const EarnTokenClaim = styled(Button)`
 export const EarnClaimTable = styled.div`
   border-radius: 16px;
   padding: 28px 0;
-  box-shadow: 0 1px 3px 0 #EDEDED;
+  box-shadow: 0 1px 3px 0 #ededed;
   margin-top: 40px;
   @media screen and (max-width: 800px) {
     padding-top: 15px;
     padding-bottom: 0;
     overflow: hidden;
+  }
+  .airdrop-table-wrapper {
+    padding: 0 28px;
+    .airdrop-table {
+      width: 100%;
+      border-collapse: 'collapse';
+      th {
+        color: #666666;
+        border-bottom: 1px solid #f2f2f2;
+        padding-bottom: 20px !important;
+      }
+      th,
+      td {
+        text-align: center;
+        vertical-align: 'middle';
+        padding: 10px 8px;
+        &:first-child {
+          text-align: left;
+        }
+        &:last-child {
+          text-align: right;
+        }
+      }
+      .airdrop-table-no-data{
+        text-align: center !important;
+        color:rgb(159, 159, 159);
+        padding: 30px;
+      }
+    }
+  }
+  @media screen and (max-width: 800px) {
+    .airdrop-table-wrapper {
+      padding: 0 0;
+      font-size: 14px;
+    }
   }
 `
 
@@ -513,11 +550,11 @@ export const EarnClaimImport = styled(Button)`
   border: 1px solid #000000;
   background: #ffffff;
   color: #000000;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   &:hover {
     opacity: 1;
     background: #000000;
-    color: #ffffff
+    color: #ffffff;
   }
   @media screen and (max-width: 800px) {
     padding: 0;
@@ -559,7 +596,7 @@ export const EarnNoData = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #DDDDDD;
+  color: #dddddd;
   font-size: 18px;
   font-weight: 800;
 `
@@ -642,10 +679,10 @@ export const EarnTSelect = styled.span`
   width: 25px;
 `
 
-export const EarnClaimGroup = styled.div<{isOpen: boolean}>`
+export const EarnClaimGroup = styled.div<{ isOpen: boolean }>`
   display: flex;
   flex-direction: column;
-  transition: all .4s ease;
+  transition: all 0.4s ease;
   background-color: ${({ isOpen }) => (isOpen ? '#FAFAFA' : 'none')};
   box-shadow: ${({ isOpen }) => (isOpen ? 'inset 0 0 4px 0 #EEEEEE' : 'none')};
 `
@@ -654,7 +691,7 @@ export const PointGroup = styled.div`
   display: flex;
   flex-direction: column;
   align-items: space-between;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   padding: 15px;
   border-bottom: 1px solid #f2f2f2;
 `
@@ -671,7 +708,7 @@ export const PointItem = styled.div`
 
 export const EarnClaimTItem = styled.div`
   display: flex;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   padding: 15px 28px;
   &.rank-item {
     padding: 15px 28px;
@@ -687,13 +724,13 @@ export const EarnClaimTItem = styled.div`
   }
   &.rank-1 {
     padding: 15px 28px;
-    background: linear-gradient(90deg, #E0B14C, #FFEEC9, #FFFFFF);
+    background: linear-gradient(90deg, #e0b14c, #ffeec9, #ffffff);
     span {
       font-size: 18px;
       color: #976800;
     }
     :hover {
-      background: linear-gradient(90deg, #E0B14C, #FFEEC9, #FFFFFF);
+      background: linear-gradient(90deg, #e0b14c, #ffeec9, #ffffff);
       transform: scale(1.1);
     }
     @media screen and (max-width: 800px) {
@@ -708,13 +745,13 @@ export const EarnClaimTItem = styled.div`
   }
   &.rank-2 {
     padding: 15px 28px;
-    background: linear-gradient(90deg, #989898, #DEDEDE, #FFFFFF);
+    background: linear-gradient(90deg, #989898, #dedede, #ffffff);
     span {
       font-size: 18px;
       color: #404040;
     }
     :hover {
-      background: linear-gradient(90deg, #989898, #DEDEDE, #FFFFFF);
+      background: linear-gradient(90deg, #989898, #dedede, #ffffff);
       transform: scale(1.1);
     }
     @media screen and (max-width: 800px) {
@@ -729,13 +766,13 @@ export const EarnClaimTItem = styled.div`
   }
   &.rank-3 {
     padding: 15px 28px;
-    background: linear-gradient(90deg, #AE8365, #F1D1B4, #FFFFFF);
+    background: linear-gradient(90deg, #ae8365, #f1d1b4, #ffffff);
     span {
       font-size: 18px;
-      color: #6A2C00;
+      color: #6a2c00;
     }
     :hover {
-      background: linear-gradient(90deg, #AE8365, #F1D1B4, #FFFFFF);
+      background: linear-gradient(90deg, #ae8365, #f1d1b4, #ffffff);
       transform: scale(1.1);
     }
     @media screen and (max-width: 800px) {
@@ -760,9 +797,9 @@ export const EarnClaimTItem = styled.div`
   }
 `
 
-export const EarnClaimTBottom = styled.div<{isOpen: boolean}>`
+export const EarnClaimTBottom = styled.div<{ isOpen: boolean }>`
   display: flex;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   padding: 0 15px;
   /* background: #FAFAFA; */
   /* box-shadow: 'inset 0 0 4px 0 #EEE'; */
@@ -836,7 +873,7 @@ export const EarnClaimedAomunt = styled(EarnAmountTotal)`
 `
 
 export const EarnClaimAmount = styled(EarnAmountTotal)`
-  color: #0DAE6F;
+  color: #0dae6f;
   flex: 1;
 `
 
@@ -854,7 +891,7 @@ export const EarnClaimButton = styled(Button)`
   height: 30px;
   color: #ffffff;
   padding: 0;
-  background: #0DAE6F;
+  background: #0dae6f;
   font-size: 14px;
 `
 
@@ -883,7 +920,7 @@ export const MyPoints = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   padding: 15px;
   padding-right: 3px;
   border-radius: 5px;
@@ -891,7 +928,7 @@ export const MyPoints = styled.span`
   img {
     margin-top: 2px;
     width: 20px;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
   &:hover {
     background: #f1f1f1;
@@ -943,7 +980,7 @@ export const Card = styled.div`
   overflow: hidden;
   transition: transform 0.3s ease, color 0.3s ease;
   &:hover {
-    transform: scale(1.2) rotate(2deg);;
+    transform: scale(1.2) rotate(2deg);
     z-index: 99;
     color: #ffffff;
   }
@@ -954,7 +991,7 @@ export const Card = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #434B34 0%, #000 100%);
+    background: linear-gradient(135deg, #434b34 0%, #000 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
     border-radius: 15px;
@@ -969,12 +1006,12 @@ export const Card = styled.div`
   @media screen and (max-width: 800px) {
     margin-right: 0;
     &:hover {
-      transform: rotate(2deg);;
+      transform: rotate(2deg);
       z-index: 99;
       color: #ffffff;
     }
   }
-`;
+`
 
 export const CardContent = styled.div`
   width: 100%;
@@ -987,7 +1024,7 @@ export const CardContent = styled.div`
   ${Card}:hover & {
     color: #ffffff;
   }
-`;
+`
 
 export const CardTitle = styled.h3`
   width: 100%;
@@ -1002,7 +1039,7 @@ export const CardTitle = styled.h3`
   ${Card}:hover & {
     color: #ffffff;
   }
-`;
+`
 
 export const CardDescription = styled.p`
   font-size: 14px;
@@ -1013,7 +1050,7 @@ export const CardDescription = styled.p`
   ${Card}:hover & {
     color: #ffffff;
   }
-`;
+`
 
 export const CardButton = styled(Button)`
   background-color: transparent;
@@ -1022,7 +1059,7 @@ export const CardButton = styled(Button)`
   padding: 8px 16px;
   border-radius: 25px;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     background-color: #fff !important;
@@ -1035,7 +1072,7 @@ export const CardButton = styled(Button)`
     color: #fff;
     border-color: #ffffff;
   }
-`;
+`
 
 export const EarnFarm = styled.div`
   display: flex;
@@ -1053,7 +1090,7 @@ export const EarnFarm = styled.div`
     padding: 50px 0;
     padding-bottom: 0;
   }
-`;
+`
 
 export const EarnMiddleBox = styled.div`
   display: flex;
@@ -1063,7 +1100,7 @@ export const EarnHistory = styled.div`
   flex: 1;
   border-radius: 16px;
   padding: 28px 0;
-  box-shadow: 0 1px 3px 0 #EDEDED;
+  box-shadow: 0 1px 3px 0 #ededed;
   margin-top: 40px;
   margin-right: 27px;
   &:last-child {
@@ -1159,14 +1196,14 @@ export const EarnHistoryReward = styled.span`
   display: flex;
   align-items: center;
   width: 30%;
-  color: #0DAE6F;
+  color: #0dae6f;
   font-size: 14px;
 `
 
 export const PointReward = styled.span`
   display: flex;
   align-items: center;
-  color: #0DAE6F;
+  color: #0dae6f;
   font-size: 16px;
   font-weight: 600;
 `
@@ -1196,7 +1233,7 @@ export const EarnMintGroupNumber = styled.span`
   font-weight: 500;
   margin-bottom: 30px;
   text-shadow: 10px -8px 8px rgba(0, 0, 0, 0.15);
-  font-family: "Racing Sans One", sans-serif !important;
+  font-family: 'Racing Sans One', sans-serif !important;
 `
 
 export const EarnMintGroupWords = styled.span`
@@ -1205,11 +1242,11 @@ export const EarnMintGroupWords = styled.span`
   color: #666666;
   display: flex;
   align-items: center;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   cursor: auto;
   .amount-arrow {
     margin-top: 2px;
-    transition: all .3s ease;
+    transition: all 0.3s ease;
   }
   &:nth-child(2) {
     &:hover {
@@ -1229,22 +1266,22 @@ export const ToggleSwitch = styled.div`
   @media screen and (max-width: 800px) {
     padding: 10px;
   }
-`;
+`
 
 export const ToggleBox = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   border-radius: 50px;
-  border: 8px solid #F5F5F5;
+  border: 8px solid #f5f5f5;
   @media screen and (max-width: 800px) {
     border-radius: 40px;
     border-width: 4px;
   }
-`;
+`
 
-export const ToggleOption = styled.div<{active: boolean}>`
+export const ToggleOption = styled.div<{ active: boolean }>`
   width: 280px;
   height: 90px;
   flex: 1;
@@ -1262,9 +1299,9 @@ export const ToggleOption = styled.div<{active: boolean}>`
     height: 45px;
     line-height: 45px;
   }
-`;
+`
 
-export const ToggleSlider = styled.div<{activeIndex: number}>`
+export const ToggleSlider = styled.div<{ activeIndex: number }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -1280,12 +1317,12 @@ export const ToggleSlider = styled.div<{activeIndex: number}>`
     width: 120px;
     height: 45px;
   }
-`;
+`
 
 export const EarnFAQ = styled.div`
   border-radius: 16px;
   padding-top: 28px;
-  box-shadow: 0 1px 3px 0 #EDEDED;
+  box-shadow: 0 1px 3px 0 #ededed;
   margin-top: 40px;
   overflow: hidden;
 `
@@ -1301,7 +1338,7 @@ export const EarnFAQBody = styled.div`
 export const EarnFAQItem = styled.div`
   display: flex;
   flex-direction: column;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   &:hover {
     background: #f6f6f6;
   }
@@ -1309,7 +1346,7 @@ export const EarnFAQItem = styled.div`
 
 export const EarnQuestion = styled.div`
   padding: 20px 28px;
-  border-top: 1px solid #EDEDED;
+  border-top: 1px solid #ededed;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1328,7 +1365,7 @@ export const EarnAnswerWrapper = styled.div<{ isOpen: boolean; height: number }>
   overflow: hidden;
   height: ${({ isOpen, height }) => (isOpen ? `${height}px` : '0')};
   transition: height 0.4s ease;
-`;
+`
 
 export const EarnAnswer = styled.div`
   font-size: 16px;
@@ -1369,7 +1406,7 @@ export const PlusMinusIcon = styled.div<{ isOpen: boolean }>`
     transform-origin: center;
     transition: transform 0.3s ease;
   }
-`;
+`
 
 export const ListWrapper = styled.div`
   width: 80%;
@@ -1397,7 +1434,7 @@ export const Circle = styled.div`
   @media (min-width: 1200px) {
     max-width: 560px;
   }
-`;
+`
 
 export const CircleMain = styled.div`
   padding: 20px;
@@ -1408,7 +1445,7 @@ export const CircleMain = styled.div`
   @media (min-width: 1200px) {
     min-width: 560px;
   }
-`;
+`
 
 export const CircleHeader = styled.div`
   width: 100%;
@@ -1418,49 +1455,49 @@ export const CircleHeader = styled.div`
   img {
     cursor: pointer;
   }
-`;
+`
 
 export const CircleTitle = styled.div`
   display: flex;
   font-size: 20px;
   font-weight: 600;
-`;
+`
 
 export const CircleNftMain = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  & p{
+  & p {
     margin-top: 40px;
   }
-`;
+`
 
 export const CircleNft = styled.div`
   width: fit-content;
   border-radius: 16px;
   perspective: 1000px;
-`;
+`
 
 export const NftMessage = styled.div`
   padding: 10px 5px;
-`;
+`
 
 export const NftTotal = styled.div`
   display: flex;
   justify-content: space-between;
-`;
+`
 
 export const NftRemain = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 5px;
-`;
+`
 
 export const CopyMain = styled.div`
   display: flex;
   justify-content: space-between;
-`;
+`
 
 export const CopyLink = styled.span`
   max-width: 150px;
@@ -1469,14 +1506,14 @@ export const CopyLink = styled.span`
   text-overflow: ellipsis;
   font-size: 14px;
   margin-top: 5px;
-`;
+`
 
 export const CopyBtn = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
   position: relative;
-`;
+`
 
 export const CircleImgWrapper = styled.div`
   position: relative;
@@ -1495,23 +1532,23 @@ export const CircleImgWrapper = styled.div`
   }
 `
 
-export const CircleImg = styled.img<{depth: number}>`
+export const CircleImg = styled.img<{ depth: number }>`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  transform: translateZ(${props => props.depth}px);
-  opacity: ${props => 1 - props.depth / 20};
-`;
+  transform: translateZ(${(props) => props.depth}px);
+  opacity: ${(props) => 1 - props.depth / 20};
+`
 
 export const CircleHistoryContent = styled.div`
   max-width: 0;
   overflow: hidden;
   white-space: nowrap;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   padding: 20px 0;
-`;
+`
 
 export const CircleContent = styled.div`
   background-color: #f0f0f0;
@@ -1521,7 +1558,7 @@ export const CircleContent = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 30px;
-`;
+`
 
 export const CirclePeopleCount = styled.div`
   display: flex;
@@ -1529,17 +1566,17 @@ export const CirclePeopleCount = styled.div`
   margin-top: 13px;
   margin-bottom: 285px;
   font-size: 16px;
-`;
+`
 
 export const CircleContentPeople = styled.div`
   color: #fff;
   font-size: 20px;
-`;
+`
 
 export const CircleContentPeopleRange = styled.div`
   color: #666666;
   font-size: 14px;
-`;
+`
 
 export const MintAmount = styled.input`
   background-color: #f0f0f0;
@@ -1547,7 +1584,7 @@ export const MintAmount = styled.input`
   outline: 0;
   color: #000;
   width: 100%;
-`;
+`
 
 export const CircleTips = styled.div`
   font-size: 13px;
@@ -1559,15 +1596,15 @@ export const CircleMint = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all .3s ease;
+  transition: all 0.3s ease;
   border-radius: 4px;
   padding: 15px 0;
   cursor: pointer;
   font-size: 18px;
-  background: linear-gradient(90deg, #434B34 0%, #000 100%);
+  background: linear-gradient(90deg, #434b34 0%, #000 100%);
   border-radius: 28px;
   margin-bottom: 30px;
-`;
+`
 
 export const MintSuccessModal = styled.div`
   background: #fff;
@@ -1593,7 +1630,7 @@ const floatAnimation = keyframes`
   0% { transform: translate(0, 0); }
   50% { transform: translate(1px, -30px); }
   100% { transform: translate(0, 0); }
-`;
+`
 
 export const MintSuccessNft = styled.img`
   margin: 70px 0;
@@ -1611,8 +1648,8 @@ export const CopyMyLink = styled(Button)`
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  background: linear-gradient(90deg, #434B34 0%, #000 100%);
-  transition: all .3s ease;
+  background: linear-gradient(90deg, #434b34 0%, #000 100%);
+  transition: all 0.3s ease;
   flex: 1;
   padding: 15px 20px;
 `
@@ -1635,5 +1672,5 @@ export const Tooltip = styled.div<{
   border-radius: 16px;
   opacity: 0.7;
   width: max-content;
-  font-size: 12px
-`;
+  font-size: 12px;
+`

@@ -390,17 +390,17 @@ function Earn() {
   }, [active, fetchNftInfo])
 
   const onCurrencySelect = (currencyInput) => {
-    const isTokenExists = selectedTokens.some(token => token.address === currencyInput.address);
+    const isTokenExists = selectedTokens.some((token) => token.address === currencyInput.address)
     if (!isTokenExists) {
-      const updatedTokens = [...selectedTokens, currencyInput];
-      setSelectedTokens(updatedTokens);
-      localStorage.setItem(getStorageKey(chainId), JSON.stringify(updatedTokens));
-    } 
+      const updatedTokens = [...selectedTokens, currencyInput]
+      setSelectedTokens(updatedTokens)
+      localStorage.setItem(getStorageKey(chainId), JSON.stringify(updatedTokens))
+    }
   }
 
-  const [onPresentCurrencyModal] = useModal(<CurrencySearchModal onCurrencySelect={onCurrencySelect}/>)
+  const [onPresentCurrencyModal] = useModal(<CurrencySearchModal onCurrencySelect={onCurrencySelect} />)
 
-  const [onMintNftModal] = useModal(<MintNft/>)
+  const [onMintNftModal] = useModal(<MintNft />)
 
   const displayTooltip = () => {
     toastSuccess(t('Copyied success!'), t('You can share link with your friends and circle'))
@@ -433,7 +433,9 @@ function Earn() {
       case 1:
         // 复制 Claim 链接
         copyText(
-          `${t('Claiming the NFT will grant you the eligibility to trade to mine')}: https://coinfair.xyz/claim?address=${account}`,
+          `${t(
+            'Claiming the NFT will grant you the eligibility to trade to mine',
+          )}: https://coinfair.xyz/claim?address=${account}`,
           displayTooltip,
         )
         break
@@ -447,6 +449,17 @@ function Earn() {
 
   const [onClaimedHistoryModal] = useModal(<ClaimedHistory />)
   const [onPointsHistoryModal] = useModal(<PointsHistory myPoints={rankData?.user_info?.points.toLocaleString()} />)
+
+
+  // 空投广场的滑动跳转
+  useEffect(() => {
+    if((window as any).EarnTarget){
+      const targetElement = document.getElementById((window as any).EarnTarget);
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+      (window as any).EarnTarget = null;
+    }
+  },[])
+
 
   return (
     <EarnContainer>
@@ -521,7 +534,9 @@ function Earn() {
             onClick={() =>
               account &&
               copyText(
-                `${t('Claiming the NFT will grant you the eligibility to trade to mine')}: https://coinfair.xyz/claim?address=${account}`,
+                `${t(
+                  'Claiming the NFT will grant you the eligibility to trade to mine',
+                )}: https://coinfair.xyz/claim?address=${account}`,
                 displayTooltip,
               )
             }
@@ -664,8 +679,10 @@ function Earn() {
             <EarnClaimTop>
               <EarnTitle>{t('Claim Rewards')}</EarnTitle>
             </EarnClaimTop>
-            {account && tokenData && tokenData.tokens.length > 0 && (
-              isDesktop ? (
+            {account &&
+              tokenData &&
+              tokenData.tokens.length > 0 &&
+              (isDesktop ? (
                 <EarnClaimTHead>
                   <EarnTName>{t('Nameip')}</EarnTName>
                   <EarnTName>{t('Pending amount')}</EarnTName>
@@ -680,16 +697,13 @@ function Earn() {
                   <EarnTOpration>{t('Operation')}</EarnTOpration>
                   <EarnTSelect />
                 </EarnClaimTHead>
-              )
-            )}
+              ))}
             <EarnTBody>
               {tokenLoading ? (
                 <LoadingRing />
               ) : account ? (
                 tokenData && tokenData.tokens.length > 0 ? (
-                  tokenData.tokens.map((item) => (
-                    <EarnClaimItem key={item.address} token={item} refetch={refetch} />
-                  ))
+                  tokenData.tokens.map((item) => <EarnClaimItem key={item.address} token={item} refetch={refetch} />)
                 ) : (
                   <EarnNoData>
                     <EarnNoDataIcon>
@@ -783,113 +797,85 @@ function Earn() {
           )}
 
           {/* ========== Airdrop square：使用原生 tab§le，让列正确对齐 ========== */}
-          <EarnClaimTable style={{ marginTop: '40px' }}>
+          <EarnClaimTable style={{ marginTop: '40px' }} id="airdrop-square">
             <EarnClaimTop>
               <EarnTitle>{t('Airdrop square')}</EarnTitle>
             </EarnClaimTop>
 
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr>
-                  <th style={{ padding: '8px', textAlign: 'center' }}>{t('Token')}</th>
-                  <th style={{ padding: '8px', textAlign: 'center' }}>{t('Already')}</th>
-                  <th style={{ padding: '8px', textAlign: 'center' }}>{t('Unclaimed')}</th>
-                  <th style={{ padding: '8px', textAlign: 'center' }}>{t('Operation')}</th>
-                </tr>
-              </thead>
-              <tbody>
-              {account && chainId === 56 ? (
-  <tr>
-    {/* 第1列：Koala + Logo */}
-    <td
-      style={{
-        verticalAlign: 'middle',
-        textAlign: 'center',
-        padding: '8px',
-      }}
-    >
-      {(
-        // eslint-disable-next-line jsx-a11y/alt-text
-        <img
-          src="https://p.ipic.vip/etmipg.png"
-          style={{
-            width: isMobile ? 20 : 36,   // 手机端 20px，桌面端 36px
-            height: isMobile ? 20 : 36,
-            marginRight: 8,
-            borderRadius: '50%',
-            objectFit: 'cover',
-            verticalAlign: 'middle', // 使图片和文字在同一基线
-          }}
-        />
-      )}
-      <span style={{ verticalAlign: 'middle' }}>Koala</span>
-    </td>
+            <div className='airdrop-table-wrapper'>
+              <table className='airdrop-table'>
+                <thead>
+                  <tr>
+                    <th>{t('Token')}</th>
+                    <th>{t('Already')}</th>
+                    <th>{t('Unclaimed')}</th>
+                    <th>{t('Operation')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {account && chainId === 56 ? (
+                    <tr>
+                      {/* 第1列：Koala + Logo */}
+                      <td>
+                        {
+                          // eslint-disable-next-line jsx-a11y/alt-text
+                          <img
+                            src="/images/koala.jpg"
+                            style={{
+                              width: isMobile ? 20 : 36, // 手机端 20px，桌面端 36px
+                              height: isMobile ? 20 : 36,
+                              marginRight: 8,
+                              borderRadius: '50%',
+                              objectFit: 'cover',
+                              verticalAlign: 'middle', // 使图片和文字在同一基线
+                            }}
+                          />
+                        }
+                        <span>Koala</span>
+                      </td>
 
-    {/* 第2列：Already claimed */}
-    <td
-      style={{
-        verticalAlign: 'middle',
-        textAlign: 'center',
-        padding: '8px',
-      }}
-    >
-      {withdrawAmount !== '0' ? withdrawAmount : '0'}
-    </td>
+                      {/* 第2列：Already claimed */}
+                      <td>
+                        {withdrawAmount !== '0' ? withdrawAmount : '0'}
+                      </td>
 
-    {/* 第3列：Unclaimed */}
-    <td
-      style={{
-        verticalAlign: 'middle',
-        textAlign: 'center',
-        padding: '8px',
-      }}
-    >
-      {waitingWithdraw !== '0' ? waitingWithdraw : '0'}
-    </td>
+                      {/* 第3列：Unclaimed */}
+                      <td>
+                        {waitingWithdraw !== '0' ? waitingWithdraw : '0'}
+                      </td>
 
-    {/* 第4列：Claim 按钮 */}
-    <td
-      style={{
-        verticalAlign: 'middle',
-        textAlign: 'center',
-        padding: '8px',
-      }}
-    >
-      <button
-        type="button"
-        style={{
-          padding: '6px 12px',
-          cursor: 'pointer',
-          backgroundColor: parseFloat(waitingWithdraw) === 0 ? '#DDDDDD' : '#0DAE6F',
-          color: 'white',
-          border: 'none',
-          borderRadius: '15px',
-          opacity: parseFloat(waitingWithdraw) === 0 ? 0.6 : 1,
-        }}
-        disabled={
-          isClaiming ||
-          parseFloat(waitingWithdraw) === 0 ||
-          waitingWithdraw === '0'
-        }
-        onClick={handleClaimToken}
-      >
-        {t('Claim')}
-      </button>
-    </td>
-  </tr>
-) : (
-  <tr>
-    <td colSpan={4} style={{ textAlign: 'center', padding: '20px' }}>
-      {account
-        ? t('Switch to BSC to see Airdrop Square')
-        : t('Please connect your wallet.')}
-    </td>
-  </tr>
-)}
-
-              </tbody>
-            </table>
+                      {/* 第4列：Claim 按钮 */}
+                      <td>
+                        <button
+                          type="button"
+                          style={{
+                            padding: '6px 12px',
+                            cursor: 'pointer',
+                            backgroundColor: parseFloat(waitingWithdraw) === 0 ? '#DDDDDD' : '#0DAE6F',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '15px',
+                            opacity: parseFloat(waitingWithdraw) === 0 ? 0.6 : 1,
+                          }}
+                          disabled={isClaiming || parseFloat(waitingWithdraw) === 0 || waitingWithdraw === '0'}
+                          onClick={handleClaimToken}
+                        >
+                          {t('Claim')}
+                        </button>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className='airdrop-table-no-data'>
+                        {account ? t('Switch to BSC to see Airdrop Square') : t('Please connect your wallet.')}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </EarnClaimTable>
+
         </>
       ) : toggleIndex === 1 ? (
         <PointsContainer>

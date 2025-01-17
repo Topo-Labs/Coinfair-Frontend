@@ -77,6 +77,7 @@ export default function Pool() {
         filteredPairs.map((pairItem, i) =>
           <FullPositionCard
             pair={pairItem}
+            key={i}
             mb={i < filteredPairs.length - 1 ? '16px' : 0}
           />
         )

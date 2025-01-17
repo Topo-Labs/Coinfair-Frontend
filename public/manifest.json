@@ -1,8 +1,8 @@
 {
-  "short_name": "EquitySwap",
-  "name": "EquitySwap",
-  "description": "Farm PE with EquitySwap LP Tokens",
-  "homepage_url": "https://equityswap.club/",
+  "short_name": "Coinfair",
+  "name": "Coinfair",
+  "description": "Farm PE with Coinfair LP Tokens",
+  "homepage_url": "https://coinfair.xyz",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#1FC7D4",

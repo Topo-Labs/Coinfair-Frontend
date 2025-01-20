@@ -54,7 +54,7 @@
       "address": "0x55d398326f99059fF775485246999027B3197955",
       "chainId": 56,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x55d398326f99059fF775485246999027B3197955.png"
+      "logoURI": "https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x55d398326f99059fF775485246999027B3197955.png"
     },
     {
       "name": "USDT Token",
@@ -62,7 +62,7 @@
       "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
       "chainId": 1,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0xdAC17F958D2ee523a2206206994597C13D831ec7.png"
+      "logoURI": "https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xdAC17F958D2ee523a2206206994597C13D831ec7.png"
     },
     {
       "name": "usdc",
@@ -70,7 +70,7 @@
       "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
       "chainId": 8453,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913.png"
+      "logoURI": "https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913.png"
     },
     {
       "name": "Tether USD",
@@ -78,7 +78,23 @@
       "address": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
       "chainId": 8453,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2.png"
+      "logoURI": "https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2.png"
+    },
+    {
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "address": "0x05D032ac25d322df992303dCa074EE7392C117b9",
+      "chainId": 185,
+      "decimals": 18,
+      "logoURI": "https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2.png"
+    },
+    {
+      "name": "usdc",
+      "symbol": "USDC",
+      "address": "0xb62F35B9546A908d11c5803ecBBA735AbC3E3eaE",
+      "chainId": 185,
+      "decimals": 18,
+      "logoURI": "https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913.png"
     }
   ]
 }

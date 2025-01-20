@@ -20,6 +20,8 @@ export enum ChainId {
   ZKSYNC_TESTNET = 280,
   SCROLL_TESTNET = 534351,
   SCROLL = 534352,
+  MINT = 185,
+
 }
 
 export const BSC_BLOCK_TIME = 3
@@ -94,6 +96,23 @@ export const NETWORK_CONFIG = {
     multicall: {
       address: '0xcA11bde05977b3631167028862bE2a173976CA11',
       blockCreated: 5022,
+    },
+    testnet: false,
+  },
+  [ChainId.MINT]: {
+    name: 'Mint',
+    network: 'Mint Chain',
+    scanURL: 'https://mintscan.org',
+    rpcUrls: [
+      'https://rpc.mintchain.io'
+    ],
+    scan: 'NintScan',
+    tokenName: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+    multicall: {
+      address: '0xcA11bde05977b3631167028862bE2a173976CA11',
+      blockCreated: 3923264,
     },
     testnet: false,
   },

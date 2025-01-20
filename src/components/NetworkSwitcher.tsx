@@ -7,6 +7,15 @@ import { useWeb3React } from '@web3-react/core'
 
 const chainsIdList = Object.keys(NETWORK_CONFIG);
 
+const swapElements = (arr, elem1, elem2)=>{
+  const index1 = arr.indexOf(elem1);
+  const index2 = arr.indexOf(elem2);
+  if (index1 !== -1 && index2 !== -1) {
+      [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
+  }
+  return arr;
+}
+
 export const SUPPORTED_CHAINS = chainsIdList.filter((chain) => {
   if (process.env.NEXT_PUBLIC_SUPPORTED_CHAINID) {
     // eslint-disable-next-line no-console
@@ -14,6 +23,8 @@ export const SUPPORTED_CHAINS = chainsIdList.filter((chain) => {
   }
   return false
 })
+
+swapElements(SUPPORTED_CHAINS,"8453","185");
 
 export const NetworkSelect = () => {
   const { t } = useTranslation()

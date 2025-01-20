@@ -173,7 +173,8 @@ function combineMaps(map1: TokenAddressMap, map2: TokenAddressMap): TokenAddress
     [ChainId.BASE]: { ...map1[ChainId.BASE], ...map2[ChainId.BASE] },
     [ChainId.opBNB]: { ...map1[ChainId.opBNB], ...map2[ChainId.opBNB] },
     [ChainId.SCROLL_TESTNET]: { ...map1[ChainId.SCROLL_TESTNET], ...map2[ChainId.SCROLL_TESTNET] },
-    [ChainId.SCROLL]: { ...map1[ChainId.SCROLL], ...map2[ChainId.SCROLL] }
+    [ChainId.SCROLL]: { ...map1[ChainId.SCROLL], ...map2[ChainId.SCROLL] },
+    [ChainId.MINT]: { ...map1[ChainId.MINT], ...map2[ChainId.MINT] }
   }
 }
 

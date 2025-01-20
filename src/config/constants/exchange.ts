@@ -1,6 +1,6 @@
 import { ChainId, JSBI, Percent, Token } from '@pancakeswap/sdk'
 import { BigNumber } from '@ethersproject/bignumber'
-import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens, ethTokens } from './tokens'
+import { goerliTokens, bscTokens, bscTestnetTokens, arbTestnetTokens, opBNBTokens, scrollTestnetToken, scrollToken, baseTokens, ethTokens, mintTokens } from './tokens'
 import { ChainTokenList } from './types'
 
 export const ROUTER_ADDRESS = {
@@ -23,7 +23,11 @@ export const ROUTER_ADDRESS = {
     warm: '0xD6A8BDc4Ef9f323C0769A6A833328bbf9E78d482',
   },
   [ChainId.SCROLL_TESTNET]: '0xDC80625F25C2d78082F78610eEAC7dc28b5259F2',
-  [ChainId.SCROLL]: '0x95074bFCC3bF400E6De39cd553e3b51Bd7619925'
+  [ChainId.SCROLL]: '0x95074bFCC3bF400E6De39cd553e3b51Bd7619925',
+  [ChainId.MINT]: {
+    hot: '0x2b5970d94908664aC5023c08FCd48Bf4DBE3E034',
+    warm: '0xD6A8BDc4Ef9f323C0769A6A833328bbf9E78d482'
+  },
 }
 
 export const AIRDOP_ADDRESS = {
@@ -36,7 +40,8 @@ export const MINT_ADDRESS = {
   [ChainId.BSC_TESTNET]: '0x0FDD73F79Bcb84Ac6c81805b50A452a61Bb0B2Cc',
   [ChainId.opBNB]: '0x137384a3E059CBaa18EA2F0DDE0866aE6BD1f7F5',
   [ChainId.BASE]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE',
-  [ChainId.BSC]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE'
+  [ChainId.BSC]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE',
+  [ChainId.MINT]: '0xC1F8700cC127688430eb26634f77ED6Bd175D9dE'
 }
 
 export const HAND_NFT_ADDRESS = {
@@ -56,7 +61,8 @@ export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.ZKSYNC]: [],
   [ChainId.ZKSYNC_TESTNET]: [],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.USDT, scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
-  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
+  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT],
+  [ChainId.MINT]: [mintTokens.WETH, mintTokens.USDC, mintTokens.USDT],
 }
 
 /**
@@ -89,7 +95,8 @@ export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.BASE]: [baseTokens.WBTC, baseTokens.WETH, baseTokens.USDC, baseTokens.USDT, baseTokens['1INCH'], baseTokens.AERO, baseTokens.DAI, baseTokens.ZRX],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
-  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
+  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT],
+  [ChainId.MINT]: [mintTokens.WETH, mintTokens.USDC, mintTokens.USDT],
 }
 
 // used to construct the list of all pairs we consider by default in the frontend
@@ -105,7 +112,8 @@ export const BASES_TO_TRACK_LIQUIDITY_FOR: ChainTokenList = {
   [ChainId.BASE]: [baseTokens.WETH, baseTokens.USDC, baseTokens.USDT],
   [ChainId.opBNB]: [opBNBTokens.PV001, opBNBTokens.PV002, opBNBTokens.wbnb],
   [ChainId.SCROLL_TESTNET]: [scrollTestnetToken.p1, scrollTestnetToken.p2, scrollTestnetToken.p3],
-  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT]
+  [ChainId.SCROLL]: [scrollToken.WBTC, scrollToken.USDT],
+  [ChainId.MINT]: [mintTokens.WETH, mintTokens.USDC, mintTokens.USDT],
 }
 
 export const PINNED_PAIRS: { readonly [chainId in ChainId]?: [Token, Token][] } = {

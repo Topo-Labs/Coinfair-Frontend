@@ -291,6 +291,11 @@ export function queryParametersToSwapState(parsedQs: ParsedUrlQuery, chainId: st
       outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
       break;
 
+    case "185":
+      inputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency) || ETHER.symbol
+      outputCurrency = parseCurrencyFromURLParameter(parsedQs.inputCurrency)
+      break;
+
     default:
       break;
   }

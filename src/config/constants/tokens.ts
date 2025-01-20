@@ -234,7 +234,8 @@ export const BUSD: Record<ChainId, Token> = {
     'USDT',
     ''
   ),
-  [ChainId.BASE]: undefined
+  [ChainId.BASE]: undefined,
+  [ChainId.MINT]:undefined
 }
 
 export const bscTokens = {
@@ -2721,6 +2722,33 @@ export const scrollToken = {
     'usdt',
     ''
   ),
+}
+
+export const mintTokens = {
+  WETH: new Token(
+    ChainId.MINT,
+    '0x4200000000000000000000000000000000000006',
+    18,
+    'WETH',
+    'WETH',
+    ''
+  ),
+  USDC: new Token(
+    ChainId.MINT,
+    '0xb62F35B9546A908d11c5803ecBBA735AbC3E3eaE',
+    18,
+    'USDC',
+    'USDC',
+    ''
+  ),
+  USDT: new Token(
+    ChainId.MINT,
+    '0x05D032ac25d322df992303dCa074EE7392C117b9',
+    18,
+    'USDT',
+    'USDT',
+    ''
+  )
 }
 
 export const baseTokens = {

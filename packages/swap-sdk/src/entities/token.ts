@@ -148,6 +148,14 @@ export const WBNB = {
     'WETH',
     ''
   ),
+  [ChainId.MINT]: new Token(
+    ChainId.MINT,
+    '0x4200000000000000000000000000000000000006',
+    18,
+    'WETH',
+    'WETH',
+    ''
+  ),
 }
 
 export const WETH = {
@@ -170,6 +178,7 @@ export const WNATIVE = {
   [ChainId.ARB_TESTNET]: WBNB[ChainId.ARB_TESTNET],
   [ChainId.opBNB]: WBNB[ChainId.opBNB],
   [ChainId.SCROLL_TESTNET]: WBNB[ChainId.SCROLL_TESTNET],
-  [ChainId.SCROLL]: WBNB[ChainId.SCROLL]
+  [ChainId.SCROLL]: WBNB[ChainId.SCROLL],
+  [ChainId.MINT]: WBNB[ChainId.MINT]
 
 }

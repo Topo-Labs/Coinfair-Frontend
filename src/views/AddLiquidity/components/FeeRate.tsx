@@ -58,6 +58,7 @@ const FeeRate: React.FC<React.PropsWithChildren<Props>> = ({ feeType, setFeeType
             {
                 feeTypes.map(current => 
                     <FeeRateItem 
+                        key={current}
                         style={{ 
                             background: current.real === feeType ? 'rgb(0, 0, 0)' : '#eee',
                             color: current.real === feeType ? '#fff' : '#000',

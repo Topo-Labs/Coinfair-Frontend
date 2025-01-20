@@ -51,6 +51,7 @@ export interface TagInfo extends TagDetails {
 export const EMPTY_LIST: TokenAddressMap = {
   [ChainId.BSC]: {},
   [ChainId.BSC_TESTNET]: {},
+  [ChainId.MINT]: {},
 }
 
 export enum GAS_PRICE {

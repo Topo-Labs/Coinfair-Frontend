@@ -2,6 +2,7 @@ import { Price } from '@pancakeswap/sdk'
 import { Text, AutoRenewIcon } from '@pancakeswap/uikit'
 import styled from "styled-components";
 import { StyledBalanceMaxMini } from './styleds'
+import NumberFormat from 'components/NumberFormat';
 
 interface TradePriceProps {
   price?: Price
@@ -28,7 +29,7 @@ export default function TradePrice({ price, showInverted, setShowInverted }: Tra
     <Text style={{ justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
       {show ? (
         <>
-          <StyledFormattedPrice title={formattedPrice ?? '-'}>{formattedPrice ?? '-'}</StyledFormattedPrice> {label}
+          <StyledFormattedPrice title={formattedPrice ?? '-'}>{formattedPrice ? <NumberFormat value={formattedPrice}/> : '-'}</StyledFormattedPrice>&nbsp;{label}
           <StyledBalanceMaxMini onClick={() => setShowInverted(!showInverted)}>
             <AutoRenewIcon width="14px" />
           </StyledBalanceMaxMini>

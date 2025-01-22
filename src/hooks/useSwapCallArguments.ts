@@ -40,7 +40,7 @@ export function useSwapCallArguments(
 
     swapMethods.push(
       Router.swapCallParameters(trade, {
-        feeOnTransfer: false,
+        feeOnTransfer: trade.tradeType === TradeType.EXACT_INPUT,
         allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
         recipient,
         deadline: deadline.toNumber(),

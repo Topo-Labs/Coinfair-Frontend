@@ -327,6 +327,14 @@ export const bscTokens = {
     'Tether USD',
     'https://tether.to/',
   ),
+  usdtaaa: new Token(
+    ChainId.BSC,
+    '0x323A4b17e55E1227CD1B4FC16C2A189156F400CE',
+    18,
+    'usdtaaa',
+    'usdtaaa',
+    'https://tether.to/',
+  ),
   btcb: new Token(
     ChainId.BSC,
     '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',

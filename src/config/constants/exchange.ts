@@ -48,10 +48,11 @@ export const HAND_NFT_ADDRESS = {
   [ChainId.BSC_TESTNET]: '0xD8e6800511A23ab3B30E7175D5831894b8390529',
 }
 
+// 构建多跳路由
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc],
+  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc, bscTokens.usdtaaa],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.testToken, bscTestnetTokens.testToken1],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [ethTokens.WETH, ethTokens.USDT, ethTokens.USDC],

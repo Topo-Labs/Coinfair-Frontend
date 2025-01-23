@@ -40,23 +40,23 @@ export function useSwapCallArguments(
 
     swapMethods.push(
       Router.swapCallParameters(trade, {
-        feeOnTransfer: trade.tradeType === TradeType.EXACT_INPUT,
+        feeOnTransfer: false,
         allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
         recipient,
         deadline: deadline.toNumber(),
       }),
     )
 
-    // if (trade.tradeType === TradeType.EXACT_INPUT) {
-    //   swapMethods.push(
-    //     Router.swapCallParameters(trade, {
-    //       feeOnTransfer: true,
-    //       allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-    //       recipient,
-    //       deadline: deadline.toNumber(),
-    //     }),
-    //   )
-    // }
+    if (trade.tradeType === TradeType.EXACT_INPUT) {
+      swapMethods.push(
+        Router.swapCallParameters(trade, {
+          feeOnTransfer: true,
+          allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+          recipient,
+          deadline: deadline.toNumber(),
+        }),
+      )
+    }
 
     return swapMethods.map((parameters) => ({ parameters, contract }))
   }, [account, allowedSlippage, chainId, deadline, library, recipient, trade])

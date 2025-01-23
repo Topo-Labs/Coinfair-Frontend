@@ -329,7 +329,7 @@ export const bscTokens = {
   ),
   usdtaaa: new Token(
     ChainId.BSC,
-    '0x323A4b17e55E1227CD1B4FC16C2A189156F400CE',
+    '0xD9aB8b881BE599E000B107f442212A0E040fd96a',
     18,
     'usdtaaa',
     'usdtaaa',

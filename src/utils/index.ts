@@ -99,3 +99,44 @@ export const swapFormulaList = [
     alias: 'Traditional Dex',
   },
 ]
+
+
+function convertToSubscript(num) {
+  const numMapping = {
+      0:'₀',
+      1: '₁',
+      2: '₂',
+      3: '₃',
+      4: '₄',
+      5: '₅',
+      6: '₆',
+      7: '₇',
+      8: '₈',
+      9: '₉'
+  };
+  const numStr = num.toString();
+  
+  let subscriptStr = '';
+  for (let char of numStr) {
+      if (numMapping[char] !== undefined) {
+          subscriptStr += numMapping[char];
+      } else {
+          subscriptStr += char;
+      }
+  }
+  return subscriptStr;
+}
+
+
+export const floatFormat = (value:string|number,decimal?:number):string=>{
+  try {
+    if (value && Number(value) < 0.0001) {
+      const numArr = `${Number(value).toFixed(18)}`.split('.');
+      const index = numArr[1].split('').findIndex(v=>Number(v)>0);
+      return `0.0${convertToSubscript(index)}${numArr[1].replace(/^0+/, '')}`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return decimal ? `${Number(Number(value).toFixed(decimal))}` : `${value}`;
+}

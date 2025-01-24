@@ -7,6 +7,7 @@ import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import moment from 'moment-timezone';
 import styled, { keyframes } from 'styled-components';
 import { useChartData } from '../hooks/useChartData';
+import { floatFormat } from 'utils';
 
 moment.locale('en');
 
@@ -37,7 +38,7 @@ const formatNumber = (num: number | string | undefined | null): string => {
   if (parsedNum >= 1e3) {
     return `${(parsedNum / 1e3).toFixed(2)}K`;
   }
-  return parsedNum.toFixed(2);
+  return floatFormat(parsedNum,2);
 };
 
 const spinScale = keyframes`
@@ -150,6 +151,7 @@ const CandlestickChart = () => {
           timeFormatter: (time) => {
             return moment.unix(time).tz('UTC').local().format('MMM D, YYYY HH:mm');
           },
+          priceFormatter: v=>floatFormat(v,2),
         },
       });
 
@@ -177,7 +179,7 @@ const CandlestickChart = () => {
         const dataPointWidth = 10;
         const calculatedRightOffset =
           Math.floor(containerWidth / dataPointWidth - data.length / 2);
-        chart.timeScale().applyOptions({
+          chart.timeScale().applyOptions({
           rightOffset: calculatedRightOffset > 0 ? calculatedRightOffset : 0,
         });
       };

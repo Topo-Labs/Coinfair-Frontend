@@ -85,7 +85,7 @@ export const CUSTOM_BASES: { [chainId in ChainId]?: { [tokenAddress: string]: To
 // used for display in the default list when adding liquidity
 export const SUGGESTED_BASES: ChainTokenList = {
   [ChainId.GOERLI]: [goerliTokens.pe, goerliTokens.usdt],
-  [ChainId.BSC]: [bscTokens.wbnb, bscTokens.usdt, bscTokens.usdc, bscTokens.btcb, bscTokens.dai],
+  [ChainId.BSC]: [bscTokens.wbnb,bscTokens.hope, bscTokens.usdt, bscTokens.usdc, bscTokens.btcb, bscTokens.dai],
   [ChainId.BSC_TESTNET]: [bscTestnetTokens.wbnb, bscTestnetTokens.testToken, bscTestnetTokens.testToken1, bscTestnetTokens.testToken2, bscTestnetTokens.pe, bscTestnetTokens.usdt, bscTestnetTokens.es, bscTestnetTokens.ms, bscTestnetTokens.ew],
   [ChainId.ARB_TESTNET]: [arbTestnetTokens.pe, arbTestnetTokens.usdt],
   [ChainId.ETHEREUM]: [ethTokens.WETH, ethTokens.WBTC, ethTokens.USDT, ethTokens.USDC, ethTokens['1INCH'], ethTokens.AAVE, ethTokens.ZRX],

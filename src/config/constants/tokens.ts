@@ -327,6 +327,14 @@ export const bscTokens = {
     'Tether USD',
     'https://tether.to/',
   ),
+  hope: new Token(
+    ChainId.BSC,
+    '0x17480b68F3E6c8B25574e2db07BFEB17C8faa056',
+    9,
+    'HOPE',
+    'HOPE',
+    'https://www.hopedao.vip/',
+  ),
   btcb: new Token(
     ChainId.BSC,
     '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',

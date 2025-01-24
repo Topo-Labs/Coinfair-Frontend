@@ -24,7 +24,7 @@ export function useChartData() {
           },
           body: JSON.stringify({
             "chain_id":56,
-            "token":"0x717486cbE3962E5AF43D3D3bB323e0d742C4d704"
+            "token":"0x17480b68F3E6c8B25574e2db07BFEB17C8faa056"
           }),
         });
   

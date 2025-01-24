@@ -673,9 +673,9 @@ export default function Swap() {
         <div style={{ width: '100%', padding: '20px', paddingTop: '5px', maxHeight: '1000px', overflowY: 'auto' }}>
           <div style={{ padding: '20px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ fontSize: '24px', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
-              <img style={{ width: '40px', height: '40px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x9E5A21E6E2f2199bB40FE58bBCB53C3a11Ce6752.png?raw=true" alt="" />
-              <img style={{ width: '40px', height: '40px', marginLeft: '-12px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xd5bb98a353331014f8d7f344e44e9361a718e81d.png?raw=true" alt="" />
-              CF01/cfUSD
+              <img style={{ width: '40px', height: '40px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x17480b68F3E6c8B25574e2db07BFEB17C8faa056.png?raw=true" alt="" />
+              <img style={{ width: '40px', height: '40px', marginLeft: '-12px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png?raw=true" alt="" />
+              <span>&nbsp;&nbsp;HOPE/BNB</span>
             </div>
             <IoClose size={22} onClick={() => setOpenChart(false)} />
           </div>

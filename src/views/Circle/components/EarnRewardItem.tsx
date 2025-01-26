@@ -3,6 +3,7 @@ import { formatUnits } from '@ethersproject/units';
 import { useMatchBreakpointsContext } from '@pancakeswap/uikit';
 import moment from 'moment-timezone'
 import { EarnClaimTItem, EarnHistoryReward, EarnHistoryTime, EarnHistoryValue } from './styles';
+import { floatFormat } from 'utils';
 
 const formatAddress = (address: string) => {
   if (!address) return '';
@@ -15,7 +16,7 @@ export default function EarnRewardItem({ info, index }) {
 
   const { isDesktop } = useMatchBreakpointsContext()
 
-  const formattedParentAmount = parseFloat(formatUnits(info.parentAmount, info.decimals)).toFixed(3);
+  const formattedParentAmount = floatFormat(formatUnits(info.parentAmount, info.decimals),6)
 
   const formattedTimestamp = moment.unix(info.blockTimestamp).format('MMM DD HH:mm:ss')
 

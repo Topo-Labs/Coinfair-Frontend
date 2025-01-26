@@ -13,6 +13,7 @@ import getTokenLogoURL from 'utils/getTokenLogoURL';
 import { WrappedTokenInfo } from 'state/types';
 import Logo from 'components/Logo/Logo';
 import { EarnAmountTotal, EarnClaimAmount, EarnClaimButton, EarnClaimedAomunt, EarnClaimGroup, EarnClaimLast, EarnClaimSelect, EarnClaimTBottom, EarnClaimTItem, EarnTBottomGroup, EarnTBottomName, EarnTokenIcon, EarnTokenInfo, EarnTokenNoLogo } from './styles';
+import { floatFormat } from 'utils';
 
 const StyledLogo = styled(Logo)<{ size: string }>`
   width: ${({ size }) => size};
@@ -36,7 +37,8 @@ export default function EarnClaimItem({ token, refetch }) {
     }
   }, [account, chainId, library]);
 
-  const tokenRewards = (pending, decimals) => formatUnits(pending, decimals).slice(0, formatUnits(pending, decimals).indexOf('.') + 6)
+  // const tokenRewards = (pending, decimals) => formatUnits(pending, decimals).slice(0, formatUnits(pending, decimals).indexOf('.') + 6);
+  const tokenRewards = (pending, decimals) => floatFormat(formatUnits(pending, decimals),6);
 
   const tokenClaimed = (pending, total, decimals) => {
     if (!pending || !total || typeof decimals === 'undefined') {

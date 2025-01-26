@@ -151,7 +151,7 @@ const CandlestickChart = () => {
           timeFormatter: (time) => {
             return moment.unix(time).tz('UTC').local().format('MMM D, YYYY HH:mm');
           },
-          priceFormatter: v=>floatFormat(v,2),
+          priceFormatter: v=>floatFormat(v,4),
         },
       });
 

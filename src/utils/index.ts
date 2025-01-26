@@ -133,7 +133,8 @@ export const floatFormat = (value:string|number,decimal?:number):string=>{
     if (value && Number(value) < 0.0001) {
       const numArr = `${Number(value).toFixed(18)}`.split('.');
       const index = numArr[1].split('').findIndex(v=>Number(v)>0);
-      return `0.0${convertToSubscript(index)}${numArr[1].replace(/^0+/, '')}`;
+      const num2 = Number(numArr[1].replace(/^0+/, ''));
+      return `0.0${convertToSubscript(index)}${decimal ? `${num2}`.slice(0,decimal) : num2}`;
     }
   } catch (error) {
     console.error(error);

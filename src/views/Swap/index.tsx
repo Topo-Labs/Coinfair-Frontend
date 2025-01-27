@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { Drawer } from '@mui/material';
-import { CurrencyAmount, Token, Trade } from '@pancakeswap/sdk'
+import { CurrencyAmount, Token, Trade, WNATIVE } from '@pancakeswap/sdk'
 import { computeTradePriceBreakdown, warningSeverity } from 'utils/exchange'
 import { IoClose } from "react-icons/io5";
 import {
@@ -69,6 +69,9 @@ import ImportTokenWarningModal from '../../components/ImportTokenWarningModal'
 import { CommonBasesType } from '../../components/SearchModal/types'
 import { swapFormulaList } from '../../utils'
 import CandlestickChart from './components/ViewChart'
+import { CurrencyLogo } from 'components/Logo';
+import { NETWORK_CONFIG } from 'config';
+import getLpAddress from 'utils/getLpAddress';
 
 const SwapPage = styled(Page)`
   position: relative;
@@ -420,6 +423,21 @@ export default function Swap() {
     }
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
+  // k line hanlde
+  // const klineCurrencies = useMemo(()=>{
+  //   return currencies[Field.OUTPUT] || currencies[Field.INPUT];
+  // },[currencies]);
+
+  // const lpAddress = useMemo(()=>{
+  //   if(!currencies.INPUT || !currencies.OUTPUT || !chainId) return undefined;
+  //   [currencies.INPUT,currencies.OUTPUT].forEach(v=>{
+  //     console.log(v);
+  //     v.address =  v.symbol==='BNB' ?  WNATIVE[chainId].address : v.address;
+  //   });
+  //   console.log(currencies.INPUT.address,currencies.OUTPUT.address,chainId);
+  //   return getLpAddress(currencies.INPUT.address,currencies.OUTPUT.address,chainId);
+  // },[currencies])
+
   return (
     <SwapPage>
       <Flex width="100%" justifyContent="center" position="relative">
@@ -670,8 +688,16 @@ export default function Swap() {
         onClose={() => setOpenChart(false)}
         style={{ zIndex: 200 }}
       >
-        <div style={{ width: '100%', padding: '20px', paddingTop: '5px', maxHeight: '1000px', overflowY: 'auto' }}>
+        <div style={{ width: '100%', padding: '10px', paddingTop: '5px', maxHeight: '1000px', overflowY: 'auto' }}>
           <div style={{ padding: '20px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            {/* <div style={{ fontSize: '24px', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
+              {klineCurrencies && klineCurrencies.address ?
+              <img style={{ width: '40px', height: '40px' }} src={`https://raw.githubusercontent.com/Topo-Labs/CoinfairTokenList/refs/heads/main/${klineCurrencies.address}.png`} alt="" /> :
+              <CurrencyLogo currency={klineCurrencies}/>
+              }
+              {klineCurrencies && <span>&nbsp;&nbsp;{klineCurrencies.symbol}</span>}
+            </div> */}
+
             <div style={{ fontSize: '24px', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
               <img style={{ width: '40px', height: '40px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0x17480b68F3E6c8B25574e2db07BFEB17C8faa056.png?raw=true" alt="" />
               <img style={{ width: '40px', height: '40px', marginLeft: '-12px' }} src="https://github.com/Topo-Labs/CoinfairTokenList/blob/main/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c.png?raw=true" alt="" />
@@ -679,7 +705,18 @@ export default function Swap() {
             </div>
             <IoClose size={22} onClick={() => setOpenChart(false)} />
           </div>
-          <CandlestickChart />
+          {
+            <div style={{borderRadius:'10px',border:'none',width:'100%',height:'80vh',overflow:'hidden'}}>
+              <iframe 
+                  id="dextools-widget"
+                  title="Trading Chart"
+                  style={{width:'100%',height:'100%'}}
+                  // src={`https://www.dextools.io/widget-chart/en/${NETWORK_CONFIG[chainId].network=='bsc'?'bnb':NETWORK_CONFIG[chainId].network}/pe-light/${lpAddress}?theme=light&chartType=2&chartResolution=30&drawingToolbars=false`}
+                  src='https://www.dextools.io/widget-chart/en/bnb/pe-light/0x7465858234db8ca7bdcadd0d655368c333a42768?theme=light&chartType=2&chartResolution=30&drawingToolbars=false'
+              />
+            </div>
+          }
+          {/* <CandlestickChart /> */}
         </div>
       </Drawer>
       <BTC>

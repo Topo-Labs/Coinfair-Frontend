@@ -706,13 +706,13 @@ export default function Swap() {
             <IoClose size={22} onClick={() => setOpenChart(false)} />
           </div>
           {
-            <div style={{borderRadius:'10px',border:'none',width:'100%',height:'80vh',overflow:'hidden'}}>
+            <div style={{border:'none',width:'100%',height:'80vh'}}>
               <iframe 
                   id="dextools-widget"
                   title="Trading Chart"
                   style={{width:'100%',height:'100%'}}
                   // src={`https://www.dextools.io/widget-chart/en/${NETWORK_CONFIG[chainId].network=='bsc'?'bnb':NETWORK_CONFIG[chainId].network}/pe-light/${lpAddress}?theme=light&chartType=2&chartResolution=30&drawingToolbars=false`}
-                  src='https://www.dextools.io/widget-chart/en/bnb/pe-light/0x7465858234db8ca7bdcadd0d655368c333a42768?theme=light&chartType=2&chartResolution=30&drawingToolbars=false'
+                  src='https://www.dextools.io/widget-chart/en/bnb/pe-light/0x7465858234db8ca7bdcadd0d655368c333a42768?theme=light&chartType=1&chartResolution=30&drawingToolbars=false'
               />
             </div>
           }

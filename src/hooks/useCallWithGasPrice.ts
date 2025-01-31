@@ -5,10 +5,12 @@ import { useGasPrice } from 'state/user/hooks'
 import get from 'lodash/get'
 import * as Sentry from '@sentry/react'
 import useActiveWeb3React from './useActiveWeb3React'
+import useToast from './useToast'
+import { getErrorMessage } from 'utils'
 
 export function useCallWithGasPrice() {
   const { library } = useActiveWeb3React() // 获取 library 对象
-  
+  const { toastError } = useToast();
   /**
    * Perform a contract call with a gas price fetched dynamically from library.getGasPrice()
    * @param contract Used to perform the call
@@ -24,40 +26,47 @@ export function useCallWithGasPrice() {
       methodArgs: any[] = [],
       overrides: CallOverrides = null,
     ): Promise<TransactionResponse> => {
-      // 获取实时 gas price
-      const gasPrice = overrides?.gasPrice || (await library.getGasPrice())
 
-      Sentry.addBreadcrumb({
-        type: 'Transaction',
-        message: `Call with gas price: ${gasPrice}`,
-        data: {
-          contractAddress: contract.address,
-          methodName,
-          methodArgs,
-          overrides,
-        },
-      })
+      try {
+        // 获取实时 gas price
+        const gasPrice = overrides?.gasPrice || (await library.getGasPrice())
 
-      const contractMethod = get(contract, methodName)
-      const tx = await contractMethod(
-        ...methodArgs,
-        { ...overrides, gasPrice } // 使用获取到的实时 gas price
-      )
-
-      if (tx) {
         Sentry.addBreadcrumb({
           type: 'Transaction',
-          message: `Transaction sent: ${tx.hash}`,
+          message: `Call with gas price: ${gasPrice}`,
           data: {
-            hash: tx.hash,
-            from: tx.from,
-            gasLimit: tx.gasLimit?.toString(),
-            nonce: tx.nonce,
+            contractAddress: contract.address,
+            methodName,
+            methodArgs,
+            overrides,
           },
         })
-      }
 
-      return tx
+        const contractMethod = get(contract, methodName)
+        const tx = await contractMethod(
+          ...methodArgs,
+          { ...overrides, gasPrice } // 使用获取到的实时 gas price
+        )
+
+        if (tx) {
+          Sentry.addBreadcrumb({
+            type: 'Transaction',
+            message: `Transaction sent: ${tx.hash}`,
+            data: {
+              hash: tx.hash,
+              from: tx.from,
+              gasLimit: tx.gasLimit?.toString(),
+              nonce: tx.nonce,
+            },
+          })
+        }
+
+        return tx
+      } catch (error:any) {
+        console.dir(error);
+        getErrorMessage(error) && toastError(getErrorMessage(error));
+        throw error;
+      }
     },
     [library],
   )

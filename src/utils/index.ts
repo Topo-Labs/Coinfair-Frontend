@@ -141,3 +141,16 @@ export const floatFormat = (value:string|number,decimal?:number):string=>{
   }
   return decimal ? `${Number(Number(value).toFixed(decimal))}` : `${value}`;
 }
+
+export function getErrorMessage(error: any): string {
+  if (typeof error === 'object' && error !== null && 'reason' in error && 'code' in error) {
+      if(error.code === 'ACTION_REJECTED'){
+        return undefined;
+      }
+      return error.reason;
+  } else if (typeof error === 'string') {
+      return error;
+  } else {
+      return "Transaction failed";
+  }
+}
